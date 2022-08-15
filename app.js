@@ -8,7 +8,8 @@ var mongoose = require("mongoose");
 const port = process.env.PORT;
 const app = express();
 
-const adminRoute = require("./api/routes/admin")
+const adminRoute = require("./api/routes/admin/admin")
+const orderRoute = require("./api/routes/seller/orders")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +39,7 @@ app.set('views', './views')
 app.set('view engine', 'ejs')
 
 app.use('/admin', adminRoute)
+app.use('/seller/orders', orderRoute)
 
 const server = http.createServer(app);
 server.listen(port, () => {
