@@ -1,42 +1,20 @@
 {
-<<<<<<< HEAD
-  "name": "digon-hatim",
+  "name": "sample-commerce",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+      "start": "node app.js",
+      "watch": "nodemon app.js"
   },
-  "author": "",
+  "author": "Entwicklera",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.1",
-    "ejs": "^3.1.8",
-    "express": "^4.18.1",
-    "express-session": "^1.17.3",
-    "mongoose": "^6.5.2",
-    "nodemon": "^2.0.19"
+      "dotenv": "^16.0.1",
+      "ejs": "^3.1.8",
+      "express": "^4.18.1",
+      "express-session": "^1.17.3",
+      "mongoose": "^6.4.4",
+      "nodemon": "^2.0.19"
   }
-=======
-    "name": "sample-commerce",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "node app.js",
-        "watch": "nodemon app.js"
-    },
-    "author": "Entwicklera",
-    "license": "ISC",
-    "dependencies": {
-        "dotenv": "^16.0.1",
-        "ejs": "^3.1.8",
-        "env": "^0.0.2",
-        "express": "^4.18.1",
-        "express-session": "^1.17.3",
-        "mongoose": "^6.4.5",
-        "nodemon": "^2.0.19"
-    }
->>>>>>> eff1cfc9f7c62bfa69ee0807afe0d0cb00c0502f
 }

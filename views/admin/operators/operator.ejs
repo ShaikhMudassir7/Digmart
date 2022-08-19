@@ -1,15 +1,17 @@
 <!doctype html>
+
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Forms | Bootstrap Simple Admin Template</title>
+    <title>Users | Bootstrap Simple Admin Template</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
 </head>
 
@@ -22,23 +24,22 @@
             </div>
             <ul class="list-unstyled components text-secondary">
                 <li>
-                    <a href="dashboard.html"><i class="fas fa-home"></i>Dashboard</a>
+                    <a href="#"><i class="fas fa-home"></i>Dashboard</a>
                 </li>
                 <li>
-                    <a href="forms.html"><i class="fas fa-file-alt"></i>Forms</a>
+                    <a href="#"><i class="fas fa-file-alt"></i>Forms</a>
                 </li>
                 <li>
-                    <a href="tables.html"><i class="fas fa-table"></i>Tables</a>
+                    <a href="#"><i class="fas fa-table"></i>Tables</a>
                 </li>
                 <li>
-                    <a href="charts.html"><i class="fas fa-chart-bar"></i>Charts</a>
+                    <a href="#"><i class="fas fa-chart-bar"></i>Charts</a>
                 </li>
                 <li>
-                    <a href="icons.html"><i class="fas fa-icons"></i>Icons</a>
+                    <a href="#"><i class="fas fa-icons"></i>Icons</a>
                 </li>
                 <li>
-                    <a href="#uielementsmenu" data-bs-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i>UI Elements</a>
+                    <a href="#uielementsmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i>UI Elements</a>
                     <ul class="collapse list-unstyled" id="uielementsmenu">
                         <li>
                             <a href="ui-buttons.html"><i class="fas fa-angle-right"></i>Buttons</a>
@@ -61,8 +62,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#authmenu" data-bs-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i>Authentication</a>
+                    <a href="#authmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i>Authentication</a>
                     <ul class="collapse list-unstyled" id="authmenu">
                         <li>
                             <a href="login.html"><i class="fas fa-lock"></i>Login</a>
@@ -76,8 +76,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#pagesmenu" data-bs-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle no-caret-down"><i class="fas fa-copy"></i>Pages</a>
+                    <a href="#pagesmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-copy"></i>Pages</a>
                     <ul class="collapse list-unstyled" id="pagesmenu">
                         <li>
                             <a href="blank.html"><i class="fas fa-file"></i>Blank page</a>
@@ -147,7 +146,7 @@
                                         <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
                                         </li>
                                         <div class="dropdown-divider"></div>
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-sign-out-alt"></i>
+                                        <li><a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i>
                                                 Logout</a></li>
                                     </ul>
                                 </div>
@@ -160,61 +159,50 @@
             <div class="content">
                 <div class="container">
                     <div class="page-title">
-                        <h3>EDIT USER</h3>
+                        <h3>Operators
+                            <a href="/admin/addoperator" class="btn btn-sm btn-outline-primary float-end"><i
+                                    class="fas fa-user-shield"></i> Add User</a>
+                        </h3>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <form accept-charset="utf-8" method="post" action="/admin/edituser/<%= item._id %>">
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <table width="100%" class="table table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% details.forEach(function(item){ %>
+                                        <tr>
+                                            <td>
+                                                <%= item.name%>
+                                            </td>
+                                            <td>
+                                                <%= item.email %>
+                                            </td>
+                                            <td>
+                                                <%= item.type %>
+                                            </td>
+                                            
+                                            <td> <%= item.status %></td>
+                                          
 
-                                        <div class="mb-3">
-                                            <label for="user_name" class="form-label">Name</label>
-                                            <input type="text" name="user_name" id="user_name" placeholder="Enter Name"
-                                                value="<%= item.name %>" class="form-control" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" name="email" id="email" placeholder="Email Address"
-                                                value="<%= item.email %>" class="form-control" required>
-                                        </div>
-                                        <div class="mb-3 col-md-4">
-                                            <label for="type" class="form-label">Type</label>
-                                            <div class="col-sm-9"></div>
-                                            <select name="type" id="type" class="form-select" required>
-                                                <option value="Admin">Admin</option>
-                                                <option value="Operator">Operator</option>
-                                            </select>
-                                        </div>
+                                            <td class="text-end">
+                                                <a href="/admin/editoperator/<%= item._id %>" class="btn btn-outline-info btn-rounded"><i
+                                                        class="fas fa-pen"></i></a>
+                                                <a href="/admin/deleteoperator/<%= item._id %>" class="btn btn-outline-danger btn-rounded"><i
+                                                        class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
 
-
-                                        <div class="mb-3">
-                                            <label for="mobile" class="form-label">Mobile Number</label>
-                                            <input type="text" pattern="[789][0-9]{9}" id="mobile" name="mobile"
-                                                value="<%= item.mobile%>" placeholder="Enter Mobile Number"
-                                                class="form-control" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="pass1" class="form-label">Password</label>
-                                            <input type="password" name="pass1" id="pass1" minlength="8"
-                                                value="<%= item.pass%>" placeholder="Enter Password"
-                                                class="form-control" required>
-                                        </div>
-                                        <div class="mb-3 col-md-4">
-                                            <label for="type" class="form-label">Type</label>
-                                            <div class="col-sm-9"></div>
-                                            <select name="status" id="status" class="form-select" required>
-                                                <option value="Active">Active</option>
-                                                <option value="Deactive">Deactive</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="submit" id="edit"  value="SAVE CHANGES"
-                                                class="btn btn-primary col-md-12">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -223,15 +211,9 @@
     </div>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/form-validator.js"></script>
+    <script src="/vendor/datatables/datatables.min.js"></script>
+    <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
-    <script>
-        let type = document.getElementById('type');
-        let status = document.getElementById('status');
-        type.value = '<%= item.type %>';
-        status.value = '<%= item.status %>';
-       
-    </script>
 </body>
 
 </html>
