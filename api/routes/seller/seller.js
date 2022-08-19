@@ -3,7 +3,7 @@ const router = express.Router()
 const mongoose = require("mongoose")
 const multer = require("multer")
 
-const Seller = require("../../models/seller")
+const Seller = require("../../models/seller/seller")
 
 router.get('/login', (req, res) => {
     res.render("./seller/login")

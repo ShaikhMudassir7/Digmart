@@ -1,0 +1,351 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Add Product</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/css/master.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar navigation component -->
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <img src="/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+            </div>
+            <ul class="list-unstyled components text-secondary">
+                <li>
+                    <a href="dashboard.html"><i class="fas fa-home"></i>Dashboard</a>
+                </li>
+                <li>
+                    <a href="forms.html"><i class="fas fa-file-alt"></i>Products</a>
+                </li>
+                <li>
+                    <a href="tables.html"><i class="fas fa-table"></i>Categories</a>
+                </li>
+                <li>
+                    <a href="charts.html"><i class="fas fa-chart-bar"></i>Shipment</a>
+                </li>
+                <li>
+                    <a href="charts.html"><i class="fas fa-table"></i>New Orders</a>
+                </li>
+                <li>
+                    <a href="icons.html"><i class="fas fa-icons"></i>Orders</a>
+                </li>
+                <li>
+                    <a href="#uielementsmenu" data-bs-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i>UI Elements</a>
+                    <ul class="collapse list-unstyled" id="uielementsmenu">
+                        <li>
+                            <a href="ui-buttons.html"><i class="fas fa-angle-right"></i>Buttons</a>
+                        </li>
+                        <li>
+                            <a href="ui-badges.html"><i class="fas fa-angle-right"></i>Badges</a>
+                        </li>
+                        <li>
+                            <a href="ui-cards.html"><i class="fas fa-angle-right"></i>Cards</a>
+                        </li>
+                        <li>
+                            <a href="ui-alerts.html"><i class="fas fa-angle-right"></i>Alerts</a>
+                        </li>
+                        <li>
+                            <a href="ui-tabs.html"><i class="fas fa-angle-right"></i>Tabs</a>
+                        </li>
+                        <li>
+                            <a href="ui-date-time-picker.html"><i class="fas fa-angle-right"></i>Date & Time Picker</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#authmenu" data-bs-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i>Authentication</a>
+                    <ul class="collapse list-unstyled" id="authmenu">
+                        <li>
+                            <a href="login.html"><i class="fas fa-lock"></i>Login</a>
+                        </li>
+                        <li>
+                            <a href="signup.html"><i class="fas fa-user-plus"></i>Signup</a>
+                        </li>
+                        <li>
+                            <a href="forgot-password.html"><i class="fas fa-user-lock"></i>Forgot password</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pagesmenu" data-bs-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle no-caret-down"><i class="fas fa-copy"></i>Pages</a>
+                    <ul class="collapse list-unstyled" id="pagesmenu">
+                        <li>
+                            <a href="blank.html"><i class="fas fa-file"></i>Blank page</a>
+                        </li>
+                        <li>
+                            <a href="404.html"><i class="fas fa-info-circle"></i>404 Error page</a>
+                        </li>
+                        <li>
+                            <a href="500.html"><i class="fas fa-info-circle"></i>500 Error page</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="users.html"><i class="fas fa-user-friends"></i>Users</a>
+                </li>
+                <li>
+                    <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- end of sidebar component -->
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            <nav class="navbar navbar-expand-lg navbar-white bg-white">
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-bars"></i><span></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ms-auto">
+
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+                                <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;"
+                                        class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end nav-link-menu">
+                                    <ul class="nav-list">
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i>
+                                                Profile</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-envelope"></i>
+                                                Messages</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                                        </li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-sign-out-alt"></i>
+                                                Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- end of navbar navigation -->
+
+
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header fw-bold bg-dark text-light">ADD NEW PRODUCT</div>
+                                <div class="card-body">
+                                    
+                                    <form action="/seller/products/add-product" enctype="multipart/form-data"
+                                        method="post" class="needs-validation" novalidate accept-charset="utf-8">
+                                        <!-- <form action="/seller/products/add-product"
+                                        method="post" class="needs-validation" novalidate accept-charset="utf-8"> -->
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="images" class="form-label">Product Images</label>
+                                                <input type="file" class="form-control" name="images" multiple='multiple'  accept="image/*" required>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please Choose an Image.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="productName" class="form-label">Product Name</label>
+                                                <input type="name" class="form-control" name="productName"
+                                                    placeholder="e.g. Samsung Galaxy S22 Ultra" required>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter product name.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="category" class="form-label">Category</label>
+                                                <!-- <input type="name" class="form-control" name="category"
+                                                    placeholder="Enter Category Name" required> -->
+                                                <select name="category" class="form-select">
+                                                    <option value="Electronics">Electronics</option>
+                                                    <option value="Home Decor">Home Decor</option>
+                                                    <option value="Accessories">Accessories</option>
+                                                    <option value="Clothes">Clothes</option>
+                                                </select>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter category name.</div>
+                                            </div>
+
+                                            <div class="mb-3 col-md-6">
+                                                <label for="subcategory" class="form-label">Subcategory</label>
+                                                <select name="subcategory" class="form-select">
+                                                    <option value="Mobiles">Mobiles</option>
+                                                    <option value="Television">Television</option>
+                                                    <option value="Laptop">Laptop</option>
+                                                    <option value="Camera">Camera</option>
+                                                </select>
+                                                <!-- <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter subcategory name.</div> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="sizes" class="form-label">Sizes
+                                                    <span class="text-muted"> (Optional)</span>
+                                                </label>
+                                                <input type="name" class="form-control" name="sizes"
+                                                    placeholder="e.g. XL">
+                                                <!-- <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter size(s).</div> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="colours" class="form-label">Colours
+                                                    <span class="text-muted"> (Optional)</span>
+                                                </label>
+                                                <input type="name" class="form-control" name="colours"
+                                                    placeholder="e.g. Black, White">
+                                                <!-- <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter colour(s).</div> -->
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="brand" class="form-label">Brand
+                                                    <span class="text-muted"> (Optional)</span>
+                                                </label>
+                                                <input type="name" class="form-control" name="brand"
+                                                    placeholder="e.g. Samsung">
+                                                <!-- <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter Brand Name.</div> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-4">
+                                                <label for="actualPrice" class="form-label">Actual Price</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">&#8377;</span>
+                                                    <input type="text" class="form-control" name="actualPrice"
+                                                        id="actualPrice" min="1" pattern="[0-9]{1,9}"
+                                                        onblur="calculate('discount', this.value )"
+                                                        placeholder="Eg. 30000" required>
+
+                                                    <div class="invalid-feedback">Please enter Actual Price.</div>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 col-md-4">
+                                                <label for="discount" class="form-label">Discount
+                                                    <span class="text-muted"> (Optional)</span>
+                                                </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">%</span>
+                                                    <input type="text" class="form-control" name="discount"
+                                                        id="discount" onblur="calculate(this.value, 'actualPrice')"
+                                                        placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
+
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please enter Discount (without %
+                                                        symbol).</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 col-md-4">
+                                                <label for="finalPrice" class="form-label">Final Price</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">&#8377;</span>
+                                                    <input type="number" class="form-control" name="finalPrice"
+                                                        id="finalPrice"
+                                                        placeholder="Final Price (Auto calculated)"
+                                                        readonly>
+
+                                                    <!-- <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter Final Price.</div> -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="quantity" class="form-label">Quantity
+                                                    <span class="text-muted"> (Optional)</span>
+                                                </label>
+                                                <input type="number" class="form-control" name="quantity" min="1"
+                                                    placeholder="e.g. 50">
+                                                <!-- <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter Quantity.</div> -->
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger"><i class="fas fa-times"></i>
+                                            Cancel</button>
+                                        <button type="submit" class="btn btn-primary" id="submitData"
+                                            style="float: right"><i class="fas fa-save"></i> Add Product</button>
+                                    </form>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const toastTrigger = document.getElementById('submitData')
+        const toastLiveExample = document.getElementById('liveToast')
+        if (toastTrigger) {
+            toastTrigger.addEventListener('click', () => {
+                const toast = new bootstrap.Toast(toastLiveExample)
+
+                toast.show()
+            })
+        }
+
+        function calculate(val1, val2) {
+            var actualPrice = document.getElementById("actualPrice").value;
+            var discountPct = document.getElementById("discount").value;
+
+
+            var total = (actualPrice * discountPct) / 100;
+            finalPrice = actualPrice - total;
+
+            var finalPriceField = document.getElementById("finalPrice");
+            finalPriceField.value = finalPrice;
+
+            // if (discountPct == 0) {
+            //     finalPriceField.value = null;
+            // }
+        }
+    </script>
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/datatables/datatables.min.js"></script>
+    <script src="/js/form-validator.js"></script>
+    <script src="/js/initiate-datatables.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
