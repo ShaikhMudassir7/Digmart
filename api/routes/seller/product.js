@@ -21,16 +21,13 @@ var upload = multer({ storage: storage });
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
 
-router.get('/roles', (req, res) => {
-    res.render("./products/roles")
-})
 
 
 router.get('/', (req, res) => {
     Products.find().select("images productName category subcategory sizes colours brand actualPrice discount finalPrice quantity")
         .exec()
         .then(docs => {
-            res.render('./products/products', { productsData: docs })
+            res.render('./seller/products/products', { productsData: docs })
         })
         .catch(err => {
             console.log(err)
@@ -43,7 +40,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/add-product', (req, res) => {
-    res.render("./products/add-product")
+    res.render("./seller/products/add-product")
 })
 
 
@@ -85,7 +82,7 @@ router.get("/edit-product/(:id)", (req, res) => {
       
         (err, doc) => {
         if (!err) {
-            res.render('./products/edit-product', { productData: doc })
+            res.render('./seller/products/edit-product', { productData: doc })
         } else {
             res.send('try-again')
         }
