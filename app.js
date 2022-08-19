@@ -5,10 +5,12 @@ dotenv.config();
 const session = require('express-session');
 var mongoose = require("mongoose");
 
+
 const port = process.env.PORT;
 const app = express();
 
-const adminRoute = require("./api/routes/admin")
+const adminRoute = require("./api/routes/admin/admin")
+const sellerRoute = require("./api/routes/seller/seller")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,7 +22,8 @@ app.use(session({
 }))
 
 mongoose.connect(
-    "mongodb+srv://entwicklera:" + process.env.MONGO_PASS + "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority", {
+    "mongodb+srv://entwicklera:" + process.env.MONGO_PASS + "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority",
+    {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
@@ -38,7 +41,7 @@ app.set('views', './views')
 app.set('view engine', 'ejs')
 
 app.use('/admin', adminRoute)
-
+app.use('/seller', sellerRoute)
 const server = http.createServer(app);
 server.listen(port, () => {
     console.log("Listening on port " + port);

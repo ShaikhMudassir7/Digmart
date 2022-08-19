@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <title>SignUp | DigOn</title>
+
+  <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+  <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+  <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/master.css">
+  <link rel="stylesheet" href="/css/seller/signup.css">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div id="body" class="active">
+      <div class="content">
+        <div class="container">
+
+          <div class="page-title text-center mt-2 mb-4">
+            <button id="backbtn"><a class="fas fa-caret-left" style="transform: translateX(-10%);"></a></button>
+            <h1 style="display: inline-block; transform: translateX(-5%);">Registration Form</h1>
+          </div>
+
+          <form id="formA" method="post" action="/seller/add-seller" class="row needs-validation" novalidate
+            enctype="multipart/form-data">
+
+            <!-- PERSONAL DETAILS -->
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">Personal Details</div>
+                <div class="card-body">
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-6">
+                      <label for="pFname" class="form-label">First Name</label>
+                      <input value="Glen" id="pFname" type="text" class="form-control" name="pFname"
+                        placeholder="First Name" pattern="[A-Za-z]{1,15}" maxlength='15' required>
+                      <small class="form-text text-muted">Enter a valid Name.</small>
+                      <div class="invalid-feedback">Please enter a valid Name!</div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="pLname" class="form-label">Last Name</label>
+                      <input value="Dsouza" id="pLname" type="text" class="form-control" name="pLname"
+                        placeholder="Last Name" pattern="[A-Za-z]{1,15}" maxlength='15' required>
+                      <small class="form-text text-muted">Enter a valid Name.</small>
+                      <div class="invalid-feedback">Please enter a valid Name!</div>
+                    </div>
+                  </div>
+
+                  <label for="pMobile" class="form-label">Mobile No.</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">+91</span>
+                    <input value="9324326404" id="pMobile" type="numeric" class="form-control" name="pMobile"
+                      placeholder="Mobile No." maxlength='10' pattern="[0-9]{10,}" style="width: 80%;" required
+                      aria-describedby="basic-addon1">
+                    <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> : Entered
+                      Mobile No. will be used for verification purposes</small>
+                    <div class="invalid-feedback">Please enter a valid Mobile No.!</div>
+                  </div>
+
+                  <div class="mb-3 ">
+                    <label for="pEmail" class="form-label">Email</label>
+                    <input value="dsouzaglen30@gmail.com" id="pEmail" type="email" class="form-control" name="pEmail"
+                      placeholder="Email" autocomplete="off" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                    <small class="form-text text-muted">Enter a valid email address.</small>
+                    <div class="invalid-feedback">Please enter a valid Email-ID!</div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- BUSINESS DETAILS -->
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">Business Details</div>
+                <div class="card-body">
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-6">
+                      <label for="busName" class="form-label">Business Name</label>
+                      <input value="Entwicklera" id="busName" type="text" class="form-control" name="busName"
+                        placeholder="Business Name" maxlength="25" required>
+                      <div class="invalid-feedback">Please enter a valid Name!</div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="busMobile" class="form-label">Business's Mobile No.</label>
+                      <input value="9082524329" id="busMobile" type="numeric" class="form-control" name="busMobile"
+                        placeholder="Mobile No." maxlength='10' pattern="[0-9]{10,}" required>
+                      <div class="invalid-feedback">Please enter a valid Mobile No.!</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3 ">
+                    <label for="busEmail" class="form-label">Business Email</label>
+                    <input value="business@entwicklera.com" id="busEmail" type="email" class="form-control"
+                      name="busEmail" placeholder="Business Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                      required>
+                    <div class="invalid-feedback">Please enter a valid Email-ID!</div>
+                  </div>
+
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-9">
+                      <label for="busAddress" class="form-label">Business Address</label>
+                      <input value="Shop no. 01, Mahatma Gandhi Nagar, LBS Marg, Kurla West, Mumbai" id="busAddress"
+                        type="text" class="form-control" name="busAddress"
+                        placeholder="Example, 1234 Main St, Unit, Building, Landmark" required>
+                      <div class="invalid-feedback">Please enter a valid Address!</div>
+                    </div>
+                    <div class="mb-3 col-md-3">
+                      <label for="busZip" class="form-label">Zip Code</label>
+                      <input value="400070" id="busZip" type="numeric" class="form-control" name="busZip"
+                        placeholder="Zip Code" minlength="6" pattern="^[1-9][0-9]{5}$" required>
+                      <div class="invalid-feedback">Invalid Zip Code!</div>
+                    </div>
+                  </div>
+
+                  <hr><br>
+
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-6">
+                      <label for="busType" class="form-label">Business type</label>
+                      <select id="busType" name="busType" class="form-select" required>
+                        <option value="" selected>Choose...</option>
+                        <option value="Sole Proprietor">Sole Proprietor</option>
+                        <option value="LLP">Limited Liability Partnership (L.L.P)</option>
+                        <option value="Corp">Corporation (Corp.)</option>
+                      </select>
+                      <div class="invalid-feedback">Please select a Business Type.</div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="busLogo" class="form-label">Upload Business Logo</label>
+                      <input id="busLogo" type="file" class="form-control" name="busLogo" required>
+                      <div class="invalid-feedback">Please enter a valid document!</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="busCat" class="form-label">Product Category</label>
+                    <select id="busCat" name="busCat" class="form-select" required multiple>
+                      <option value="Men's Fashion">Men's Fashion</option>
+                      <option value="Women's Fashion">Women's Fashion</option>
+                      <option value="Fashion Accessories">Fashion Accessories</option>
+                      <option value="Kitchen Appliances">Kitchen Appliances</option>
+                      <option value="Personal Electronics">Personal Electronics</option>
+                      <option value="Consumer Electronics">Consumer Electronics</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a Product Category.</div>
+                  </div>
+
+                  <hr><br>
+
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-6">
+                      <label for="busPanNo" class="form-label">PAN No.</label>
+                      <input value="ABCDE1111X" id="busPanNo" type="numeric" class="form-control" name="busPanNo"
+                        placeholder="PAN No." maxlength='10' required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}">
+                      <div class="invalid-feedback">Please enter valid PAN No.</div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="busPanFile" class="form-label">Upload PAN Card</label>
+                      <input id="busPanFile" type="file" class="form-control" name="busPanFile" required>
+                      <div class="invalid-feedback">Please enter a valid document!</div>
+                    </div>
+                  </div>
+
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-6">
+                      <label for="busGstNo" class="form-label">GST No.</label>
+                      <input value="99ABCDE1111X1ZA" id="busGstNo" type="numeric" class="form-control" name="busGstNo"
+                        placeholder="GST No." maxlength='15'
+                        pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" required>
+                      <div class="invalid-feedback">Please enter valid GST No.</div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="busGstFile" class="form-label">Upload GST File</label>
+                      <input id="busGstFile" type="file" class="form-control" name="busGstFile" required>
+                      <div class="invalid-feedback">Please enter a valid document!</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BANK DETAILS -->
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">Bank Details</div>
+                <div class="card-body">
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-6">
+                      <label for="bankName" class="form-label">Name of the Bank</label>
+                      <input value="HDFC Bank" id="bankName" type="text" class="form-control" name="bankName"
+                        placeholder="Bank name" pattern="[A-Za-z ]{1,30}" required>
+                      <div class="invalid-feedback">Please enter a valid Name!</div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="bankIfsc" class="form-label">IFSC Code</label>
+                      <input value="SBIN0125620" id="bankIfsc" type="text" class="form-control" name="bankIfsc"
+                        placeholder="IFSC Code" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" required>
+                      <div class="invalid-feedback">Please Enter a valid IFSC Code!</div>
+                    </div>
+                  </div>
+
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-6">
+                      <label for="bankAccNo" class="form-label">Bank Account No.</label>
+                      <input value="123456789012" id="bankAccNo" type="numeric" class="form-control" name="bankAccNo"
+                        placeholder="Account No." maxlength='18' required pattern="^\d{9,18}$">
+                      <div class="invalid-feedback">Please enter a valid Account No.!</div>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="bankAccNo2" class="form-label">Re-enter Account No.</label>
+                      <input value="123456789012" id="bankAccNo2" type="numeric" name="bankAccNo2"
+                        placeholder="Account No." maxlength='18' required>
+                      <small id="reaccno_err" class="form-text text-muted" style="visibility: hidden;"><span
+                          style="color: red;">Account No. does not match!</span></small>
+                    </div>
+                  </div>
+
+                  <div class="row g-2">
+                    <div class="mb-3 col-md-8">
+                      <label for="bankChqPass" class="form-label">Upload a Cancelled Cheque / First page of Passbook</label>
+                      <input id="bankChqPass" type="file" class="form-control" name="bankChqPass" required>
+                      <div class="invalid-feedback">Please enter a valid document!</div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mt-3 mb-3">
+              <button id="getotp" type="submit" value="1" onclick="this.form.submitted=this.value;"
+                class="btn btn-primary" style="width: 25%;">Submit</button>
+            </div>
+
+            <!-- MODAL OTP DIALOG -->
+            <div class="modal fade" id="exampleModal" role="dialog" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-body text-start">
+                    <div class="d-flex justify-content-center align-items-center ">
+                      <div class="card py-5 px-3 mb-0">
+                        <h3 class="text-center mb-4">Mobile No. verification</h3>
+                        <span class="mobile-text">Enter the code we just send on your mobile phone
+                          <br>
+                          <b id="D_mobile" style="color: rgb(11, 78, 179);"></b></span>
+                        <div class="d-flex flex-row mt-4">
+                          <input id="otp1" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1"
+                            autofocus="">
+                          <input id="otp2" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1">
+                          <input id="otp3" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1">
+                          <input id="otp4" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1">
+                        </div>
+
+
+                        <div class="text-center mt-3 mb-3">
+                          <button type="submit" value="2" onclick="this.form.submitted=this.value;"
+                            class="btn btn-primary" style="width: 25%;">Submit</button>
+                        </div>
+
+
+                        <div class="text-center mt-2">
+                          <span class="d-block mobile-text">Didn't receive the code?</span>
+                          <span class="font-weight-bold cursor"
+                            style="color: rgb(11, 78, 179); text-decoration: underline;">Resend</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Scroll Back to top -->
+      <div id="scrollUp" title="Scroll to Top">
+        <a href="#backbtn"><span><i class="fas fa-chevron-up fs-4 text-white"></i></span></a>
+      </div>
+    </div>
+  </div>
+
+</body>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/form-validator.js"></script>
+<script src="/js/seller/signup.js"></script>
+
+</html>
