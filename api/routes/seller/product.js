@@ -9,7 +9,7 @@ const Products = require('../../models/seller/product');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './public/uploads')
+        cb(null, './public/uploads/productImages')
     },
     filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + file.originalname)
@@ -21,10 +21,8 @@ var upload = multer({ storage: storage });
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
 
-
-
 router.get('/', (req, res) => {
-    Products.find().select("images productName category subcategory sizes colours brand actualPrice discount finalPrice quantity")
+    Products.find().select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
         .exec()
         .then(docs => {
             res.render('./seller/products/products', { productsData: docs })
@@ -43,6 +41,11 @@ router.get('/add-product', (req, res) => {
     res.render("./seller/products/add-product")
 })
 
+//forms
+router.get('/forms', (req, res) => {
+    res.render("./seller/products/forms")
+})
+
 
 router.post('/add-product', imgUpload, (req, res, next) => {
 
@@ -56,6 +59,7 @@ router.post('/add-product', imgUpload, (req, res, next) => {
         _id: mongoose.Types.ObjectId(),
         images: imageArr,
         productName: req.body.productName,
+        description: req.body.description,
         category: req.body.category,
         subcategory: req.body.subcategory,
         sizes: req.body.sizes,
@@ -77,12 +81,12 @@ router.post('/add-product', imgUpload, (req, res, next) => {
     // console.log(req.body);
 });
 
-router.get("/edit-product/(:id)", (req, res) => {
+router.get("/editProduct/(:id)", (req, res) => {
     Products.findById(req.params.id,
       
         (err, doc) => {
         if (!err) {
-            res.render('./seller/products/edit-product', { productData: doc })
+            res.render('./seller/products/editProduct', { productData: doc })
         } else {
             res.send('try-again')
         }
@@ -90,11 +94,12 @@ router.get("/edit-product/(:id)", (req, res) => {
     })
 });
 
-router.post("/edit-product/:productID",imgUpload, (req, res) => {
+router.post("/editProduct/:productID", (req, res) => {
     const id = req.params.productID
     Products.findByIdAndUpdate({ _id: id }, { $set: {
-            images: (req.files.images[0].path).toString().substring(6),
+            
             productName: req.body.productName,
+            description: req.body.description,
             category: req.body.category,
             subcategory: req.body.subcategory,
             sizes: req.body.sizes,
@@ -124,7 +129,12 @@ router.get("/delete-product/(:id)", (req, res, next) => {
 
     Products.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-            fs.unlinkSync("\public" + doc.images); 
+             doc.images.forEach(element =>{
+                fs.unlinkSync("\public" + element.imageURL)
+            
+            }
+        ); 
+            
             res.redirect('/seller/products');
             
         } else {
@@ -132,5 +142,6 @@ router.get("/delete-product/(:id)", (req, res, next) => {
         }
     })
 });
+
 
 module.exports = router
