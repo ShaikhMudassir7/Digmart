@@ -172,18 +172,22 @@
                                 <div class="card-header fw-bold bg-dark text-light">EDIT PRODUCT</div>
                                 <div class="card-body">
 
-                                    <form method="post" action="/seller/products/edit-product/<%=productData._id %>"
-                                        enctype="multipart/form-data" class="needs-validation" novalidate
+                                    <form method="post" action="/seller/products/editProduct/<%=productData._id %>"
+                                         class="needs-validation" novalidate
                                         accept-charset="utf-8">
 
                                         <div class="row g-2">
                                             <div class="mb-3 col-md-12">
-                                                <label for="images" class="form-label">Product Images</label>
-                                                <input type="file" class="form-control" name="images" value="<%=productData.images %>" accept="image/*" required>
+                                                <label for="productName" class="form-label">Product ID</label>
+                                                <input type="name" class="form-control" name="_id"
+                                                    value="<%=productData._id %>"
+                                                     disabled>
                                                 <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please Choose an Image.</div>
+                                                <div class="invalid-feedback">Please enter product name.</div>
                                             </div>
                                         </div>
+
+                                
 
                                         <div class="row g-2">
                                             <div class="mb-3 col-md-12">
@@ -195,6 +199,16 @@
                                                 <div class="invalid-feedback">Please enter product name.</div>
                                             </div>
                                         </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="description" class="form-label">Product Description</label>
+                                                <textarea type="name" class="form-control" name="description" 
+                                                    placeholder="e.g. The first Galaxy S with embedded S Pen. Write comfortably like pen on paper, turn quick notes into legible text and use Air Actions to control your phone remotely..." required><%=productData.description %></textarea>
+                                                
+                                            </div>
+                                        </div>
+
 
                                         <div class="row g-2">
                                             <div class="mb-3 col-md-6">
@@ -320,6 +334,17 @@
                                                 <div class="invalid-feedback">Please enter Quantity.</div> -->
                                             </div>
                                         </div>
+
+                                        <div class="row g-2">
+                                            <div class="mb-3 col-md-12">
+                                                <label for="productName" class="form-label">Status</label>
+                                                <input type="name" class="form-control" name="_id"
+                                                    value="<%=productData.status %>"
+                                                     disabled>
+                                            </div>
+                                        </div>
+
+                        
 
                                         <button type="button" class="btn btn-danger"><i class="fas fa-times"></i>
                                             Cancel</button>

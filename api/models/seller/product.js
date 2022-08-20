@@ -8,7 +8,12 @@ let ImageSchema = new mongoose.Schema({
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     images: [ImageSchema],
+    sellerID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'sellers'
+    },
     productName: { type: String, required: true },
+    description: { type: String},
     category: { type: String, required: true },
     subcategory: { type: String},
     sizes: { type: String},
