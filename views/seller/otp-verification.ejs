@@ -17,7 +17,7 @@
         <div class="auth-content">
             <div class="card">
                 <div class="card-body text-center">
-                    <form action="/seller/login" method="POST" id="formA" class="needs-validation" novalidate
+                    <form action="/seller/dashboard" method="POST" id="formA" class="needs-validation" novalidate
                         accept-charset="utf-8">
                         <h3 class="text-center mb-4">Mobile No. Verification</h3>
                         <span class="mobile-text">Enter the code we just send on your Mobile No.<br>
@@ -29,6 +29,7 @@
                             <input id="otp2" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" required>
                             <input id="otp3" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" required>
                             <input id="otp4" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" required>
+                            <input type="hidden" name="hiddenMob" value="<%= pMobile %>">
                         </div>
                         <div class="text-center mt-3">
                             <button type="submit" class="btn btn-primary width-50">Submit</button>
