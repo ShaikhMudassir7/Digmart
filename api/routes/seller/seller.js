@@ -34,8 +34,8 @@ router.post('/verify-seller', (req, res) => {
                 // );
                 // req.session.loggedin = true;
                 // req.session.sellerId = seller[0]._id;
-                
-                res.status(200).redirect("/seller/otp-verification/?mob="+pMobile);
+
+                res.status(200).redirect("/seller/otp-verification/?mob=" + pMobile);
             }
         })
         .catch((error) => {
@@ -47,7 +47,7 @@ router.post('/verify-seller', (req, res) => {
 })
 
 router.get('/otp-verification', (req, res) => {
-    res.render("./seller/otp-verification", {pMobile: req.query.mob})
+    res.render("./seller/otp-verification", { pMobile: req.query.mob })
 })
 
 
@@ -141,4 +141,25 @@ router.get('/signup', (req, res) => {
     res.render("./seller/signup")
 })
 
+router.get('/dashboard', (req, res) => {
+    res.render("./seller/dashboard")
+})
+
+router.post('/dashboard', (req, res) => {
+    Seller.find({
+        pMobile: req.body.hiddenMob,
+    })
+        .exec()
+        .then((seller) => {
+            req.session.loggedin = true;
+            req.session.sellerID = seller[0]._id;
+            res.render("./seller/dashboard")
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({
+                message: error,
+            });
+        });
+})
 module.exports = router
