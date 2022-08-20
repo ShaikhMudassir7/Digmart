@@ -2,6 +2,8 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require('mongoose')
 
+const jwt = require("jsonwebtoken");
+
 const Admin = require("../../models/admin/admin")
 
 const checkAuth = require("../../middleware/admin/checkAuth")
@@ -28,20 +30,24 @@ router.post('/login', (req, res) => {
                 req.session.email = email;
                 req.session.type = user[0].type;
                 req.session.id = user[0]._id;
-                
-                    res.redirect('dashboard');
-                
+                const token = jwt.sign({
+                    "email": user[0].email
+                },process.env.JWT_KEY, {},
+                );
+                req.session.jwttoken=token;
+                res.redirect('dashboard');
+
             }
         })
         .catch((error) => {
             console.log(error);
-            res.status(500).json({
+            res.json({
                 message: error,
             });
         });
 })
 
-router.get('/dashboard',checkAuth, (req, res) => {
+router.get('/dashboard', checkAuth, (req, res) => {
     res.render("admin/dashboard")
 })
 
@@ -163,11 +169,6 @@ router.get('/logout', (req, res, next) => {
 
 
 
-
-
-router.get('/verification', (req, res) => {
-    res.render("admin/verification/verification")
-})
 
 
 module.exports = router
