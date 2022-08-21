@@ -68,12 +68,6 @@ formA.addEventListener('submit', function (event) {
   }
 }, false)
 
-
-$("#backbtn").click(function () {
-  window.open("/seller/login", "_self");
-});
-
-
 // Scroll Back To Top 
 function scrollTopBack() {
   let scrollTopButton = document.querySelector("#scrollUp");

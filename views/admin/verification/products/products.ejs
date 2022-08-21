@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Products</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <title>Admin | Products</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -20,26 +21,22 @@
 
     <div class="wrapper">
         <!-- sidebar navigation component -->
-        <%- include('../sidebar') %>
+        <%- include('../../sidebar') %>
         <!-- end of sidebar component -->
         <div id="body" class="active">
             <!-- navbar navigation component -->
-            <%- include('../navbar') %>
+            <%- include('../../navbar') %>
             <!-- end of navbar navigation -->
             <div class="content">
                 <div class="container">
-                    <div class="page-title">
-                        <h3>Products
-                            <a href="/seller/products/add-product" class="btn btn-sm btn-outline-primary float-end"><i
-                                    class="fas fa-plus-circle"></i> Add</a>
-                        </h3>
-                    </div>
+                    
 
-                    <div class="box box-primary">
+                    <div class="box box-primary mt-5">
                         <div class="box-body">
                             <table width="100%" class="table table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
+                                        <th>Seller ID</th>
                                         <th>Product ID</th>
                                         <th>Product Name</th>
                                         <th>Category</th>
@@ -52,6 +49,9 @@
                                 <tbody>
                                     <% if(productsData.length!=0) { var i=1; productsData.forEach(function(data){ %>
                                         <tr>
+                                            <td>
+                                                <%=data._id %>
+                                            </td>
                                             <td>
                                                 <%=data._id %>
                                             </td>
@@ -72,46 +72,10 @@
                                             </td>
 
                                             <td class="text-end">
-                                                
-                                                    <a href="/seller/products/editProduct/<%=data._id %>"
-                                                        class="btn btn-outline-info btn-rounded"><i
-                                                            class="fas fa-pen"></i></a>
-                                                    <button class="btn btn-outline-danger btn-rounded"
-                                                        data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
-                                                            class="fas fa-trash"></i></button>
+                                                <a  href="/admin/verification/viewProduct/<%=data._id %>" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>
                                             </td>
 
                                         </tr>
-
-
-                                        <!-- Delete Warning Modal -->
-                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">
-                                                            Delete Product!
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Are you sure you want to Delete this Product?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Cancel</button>
-
-                                                        <a href="/seller/products/delete-product/<%=data._id %>"
-                                                            class="btn btn-danger">DELETE</a>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <% i++; }) %>
                                         <% } else{ %>

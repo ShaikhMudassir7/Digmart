@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const sellerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
 
+    status: { type: String, default: "Pending"},
+
     pFname: { type: String, required: true },
     pLname: { type: String, required: true },
     pMobile: { type: Number, required: true },

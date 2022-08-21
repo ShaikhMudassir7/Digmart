@@ -12,7 +12,7 @@ const sellerProductRoute = require("./api/routes/seller/product")
 const adminRoute = require("./api/routes/admin/admin")
 const sellerRoute = require("./api/routes/seller/seller")
 const orderRoute = require("./api/routes/seller/orders")
-
+const verificationRoute = require("./api/routes/admin/verification") 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,7 +34,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set('views', './views')
 app.set('view engine', 'ejs')
-app.use('/admin', adminRoute)
 app.use(express.static('public'))
 app.use('/css', express.static(__dirname + 'public/css'))
 app.use('/js', express.static(__dirname + 'public/js'))
@@ -52,6 +51,7 @@ app.use('/seller/products', sellerProductRoute)
 app.use('/admin', adminRoute)
 app.use('/seller', sellerRoute)
 app.use('/seller/orders', orderRoute)
+app.use('/admin/verification', verificationRoute)
 const server = http.createServer(app);
 server.listen(port, () => {
     console.log("Listening on port " + port);
