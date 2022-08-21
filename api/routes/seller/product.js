@@ -6,8 +6,6 @@ const fs = require("fs");
 
 const Products = require('../../models/seller/product');
 
-const checkAuth = require("../../middleware/seller/checkAuth")
-
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -23,11 +21,11 @@ var upload = multer({ storage: storage });
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
 
-router.get('/', checkAuth , (req, res) => {
+router.get('/', (req, res) => {
     Products.find().select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
         .exec()
         .then(docs => {
-            res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+            res.render('./seller/products/products', { productsData: docs })
         })
         .catch(err => {
             console.log(err)
@@ -39,9 +37,10 @@ router.get('/', checkAuth , (req, res) => {
     // res.render("./products/products")
 })
 
-router.get('/add-product', checkAuth , (req, res) => {
-    res.render("./seller/products/add-product", {sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname})
+router.get('/add-product', (req, res) => {
+    res.render("./seller/products/add-product")
 })
+
 
 router.post('/add-product', imgUpload, (req, res, next) => {
 
@@ -54,7 +53,6 @@ router.post('/add-product', imgUpload, (req, res, next) => {
     var productData = new Products({
         _id: mongoose.Types.ObjectId(),
         images: imageArr,
-        sellerID: req.session.sellerID,
         productName: req.body.productName,
         description: req.body.description,
         category: req.body.category,
@@ -69,6 +67,7 @@ router.post('/add-product', imgUpload, (req, res, next) => {
     })
     productData.save().then(result => {
         res.redirect('./')
+
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Database");
@@ -77,12 +76,12 @@ router.post('/add-product', imgUpload, (req, res, next) => {
     // console.log(req.body);
 });
 
-router.get("/editProduct/(:id)", checkAuth ,(req, res) => {
+router.get("/editProduct/(:id)", (req, res) => {
     Products.findById(req.params.id,
       
         (err, doc) => {
         if (!err) {
-            res.render('./seller/products/editProduct', { productData: doc, sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname  })
+            res.render('./seller/products/editProduct', { productData: doc })
         } else {
             res.send('try-again')
         }
@@ -129,7 +128,8 @@ router.get("/delete-product/(:id)", (req, res, next) => {
                 fs.unlinkSync("\public" + element.imageURL)
             
             }
-        );          
+        ); 
+            
             res.redirect('/seller/products');
             
         } else {
@@ -137,5 +137,6 @@ router.get("/delete-product/(:id)", (req, res, next) => {
         }
     })
 });
+
 
 module.exports = router
