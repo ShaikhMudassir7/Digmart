@@ -9,7 +9,7 @@ const checkAuth = require("../../middleware/admin/checkAuth")
 
 
 router.get('/product',checkAuth, (req, res) => {
-    Products.find().select("images productName category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
+    Products.find().select("sellerID images productName category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
         .exec()
         .then(docs => {
             res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type })
@@ -40,7 +40,7 @@ router.get('/seller', (req, res) => {
     Seller.find().select("pFname pLname pMobile pEmail busName busEmail busAddress")
         .exec()
         .then(docs => {
-            res.render('./admin/verification/seller', { sellersData: docs })
+            res.render('./admin/verification/seller', { sellersData: docs, userType: req.session.type })
         })
         .catch(err => {
             console.log(err)
