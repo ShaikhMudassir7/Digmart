@@ -2,8 +2,13 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
 const multer = require("multer")
+const jwt = require("jsonwebtoken")
 
 const Seller = require("../../models/seller/seller")
+
+const checkAuth = require("../../middleware/seller/checkAuth")
+
+
 
 router.get('/login', (req, res) => {
     res.render("./seller/login")
@@ -26,15 +31,6 @@ router.post('/verify-seller', (req, res) => {
                     message: "Seller Not found",
                 });
             } else {
-                // const token = jwt.sign({
-                //     email: seller[0].email,
-                //     userId: seller[0]._id,
-                // },
-                //     process.env.JWT_KEY, {}
-                // );
-                // req.session.loggedin = true;
-                // req.session.sellerId = seller[0]._id;
-
                 res.status(200).redirect("/seller/otp-verification/?mob=" + pMobile);
             }
         })
@@ -141,8 +137,9 @@ router.get('/signup', (req, res) => {
     res.render("./seller/signup")
 })
 
-router.get('/dashboard', (req, res) => {
-    res.render("./seller/dashboard")
+
+router.get('/dashboard', checkAuth ,(req, res) => {
+    res.render("./seller/dashboard", {sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname})
 })
 
 router.post('/dashboard', (req, res) => {
@@ -151,9 +148,15 @@ router.post('/dashboard', (req, res) => {
     })
         .exec()
         .then((seller) => {
-            req.session.loggedin = true;
+            const token = jwt.sign({
+                "sellerID": seller[0]._id
+            }, process.env.JWT_KEY, {},
+            );
+            req.session.jwttoken = token;
             req.session.sellerID = seller[0]._id;
-            res.render("./seller/dashboard")
+            req.session.sellerpFname = seller[0].pFname;
+            req.session.sellerpLname = seller[0].pLname;
+            res.render("./seller/dashboard", { sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
         })
         .catch((error) => {
             console.log(error);
@@ -162,4 +165,11 @@ router.post('/dashboard', (req, res) => {
             });
         });
 })
+
+
+router.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect("/seller/login")
+})
+
 module.exports = router

@@ -1,8 +1,11 @@
-// module.exports = (req, res, next) =>{
-//     if(req.session.email){
-//         next();
-//     }
-//     else{
-//         res.redirect("login")
-//     }
-// }
+const jwt = require('jsonwebtoken');
+
+module.exports = (req,res,next) => {
+    try{
+        jwt.verify(req.session.jwttoken, process.env.JWT_KEY);
+        next();
+    }
+    catch(error){
+        res.redirect("/seller/login")
+    }
+};
