@@ -43,12 +43,6 @@ router.get('/add-product', checkAuth , (req, res) => {
     res.render("./seller/products/add-product", {sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname})
 })
 
-//forms
-router.get('/forms', (req, res) => {
-    res.render("./seller/products/forms")
-})
-
-
 router.post('/add-product', imgUpload, (req, res, next) => {
 
     var rawSS = req.files.images;
@@ -60,6 +54,7 @@ router.post('/add-product', imgUpload, (req, res, next) => {
     var productData = new Products({
         _id: mongoose.Types.ObjectId(),
         images: imageArr,
+        sellerID: req.session.sellerID,
         productName: req.body.productName,
         description: req.body.description,
         category: req.body.category,

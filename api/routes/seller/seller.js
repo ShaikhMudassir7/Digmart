@@ -31,7 +31,11 @@ router.post('/verify-seller', (req, res) => {
                     message: "Seller Not found",
                 });
             } else {
-                res.status(200).redirect("/seller/otp-verification/?mob=" + pMobile);
+                if(seller[0].status == "Pending"){
+                    res.send("Verification Pending, Plz contact Admin")
+                }else{
+                    res.status(200).redirect("/seller/otp-verification/?mob=" + pMobile);
+                }   
             }
         })
         .catch((error) => {
