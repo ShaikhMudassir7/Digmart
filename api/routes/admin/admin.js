@@ -32,9 +32,9 @@ router.post('/login', (req, res) => {
                 req.session.id = user[0]._id;
                 const token = jwt.sign({
                     "email": user[0].email
-                },process.env.JWT_KEY, {},
+                }, process.env.JWT_KEY, {},
                 );
-                req.session.jwttoken=token;
+                req.session.jwttoken = token;
                 res.redirect('dashboard');
 
             }
@@ -48,10 +48,12 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/dashboard', checkAuth, (req, res) => {
-    res.render("admin/dashboard")
+
+    res.render("admin/dashboard", { userType: req.session.type });
+
 })
 
-router.post('/addoperator', (req, res) => {
+router.post('/addoperator', checkAuth, (req, res) => {
     const pass1 = req.body.pass1;
     const email = req.body.email;
 
@@ -77,21 +79,21 @@ router.post('/addoperator', (req, res) => {
         })
 })
 
-router.get('/operator', function (req, res) {
+router.get('/operator', checkAuth, function (req, res) {
     // res.render("admin/users")
     Admin.find({}, function (err, docs) {
         if (err) {
             res.json(err);
         }
-        else res.render('admin/operators/operator', { details: docs });
+        else res.render('admin/operators/operator', { details: docs , userType: req.session.type  });
     });
 })
 
-router.get('/addoperator', (req, res) => {
-    res.render("admin/operators/addoperator")
+router.get('/addoperator', checkAuth, (req, res) => {
+    res.render("admin/operators/addoperator",{ userType: req.session.type })
 })
 
-router.get('/deleteoperator/(:id)', (req, res, next) => {
+router.get('/deleteoperator/(:id)', checkAuth, (req, res, next) => {
     Admin.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
             Admin.find({}, function (err, docs) {
@@ -107,13 +109,13 @@ router.get('/deleteoperator/(:id)', (req, res, next) => {
     })
 })
 
-router.get('/editoperator/(:id)', (req, res, next) => {
+router.get('/editoperator/(:id)', checkAuth, (req, res, next) => {
     Admin.find({
         _id: req.params.id
     })
         .exec()
         .then(docs => {
-            res.render('admin/operators/editoperator', { item: docs[0] });
+            res.render('admin/operators/editoperator', { item: docs[0] , userType: req.session.type });
         })
         .catch(err => {
             console.log(err);
@@ -124,7 +126,7 @@ router.get('/editoperator/(:id)', (req, res, next) => {
 
 })
 
-router.post('/editoperator/(:id)', (req, res, next) => {
+router.post('/editoperator/(:id)', checkAuth, (req, res, next) => {
     const id = req.params.id
     var newValues = {
         email: req.body.email,
@@ -162,7 +164,7 @@ router.post('/editoperator/(:id)', (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
     req.session.destroy();
-    res.redirect("login")
+    res.redirect("/admin/login")
 })
 
 
