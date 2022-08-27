@@ -88,6 +88,39 @@ router.get('/seller',checkAuth, (req, res) => {
         })
 });
 
+router.get('/verifiedSeller',checkAuth, (req, res) => {
+    Seller.find({
+        status : "Verified",
+    }).select("status pFname pLname pMobile pEmail busName busEmail busAddress")
+        .exec()
+        .then(docs => {
+            res.render('./admin/verification/seller/verifiedSeller', { verifiedSellersData: docs, userType: req.session.type })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+});
+
+
+router.get('/rejectedSeller',checkAuth, (req, res) => {
+    Seller.find({
+        status : "Rejected",
+    }).select("status pFname pLname pMobile pEmail busName busEmail busAddress")
+        .exec()
+        .then(docs => {
+            res.render('./admin/verification/seller/rejectedSeller', { rejectedSellersData: docs, userType: req.session.type })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+});
+
 router.get('/viewSeller/(:id)', checkAuth, (req, res) => {
     Seller.findById(req.params.id,
         (err, doc) => {
