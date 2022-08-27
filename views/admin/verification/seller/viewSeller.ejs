@@ -107,67 +107,47 @@
 
                                             <div class="row g-2">
                                                 <div class="mb-3 col-md-12">
-                                                    <label for="brand" class="form-label">Brand
-                                                        <span class="text-muted"> (Optional)</span>
-                                                    </label>
-                                                    <input type="name" class="form-control" name="brand"
-                                                        value="<% %>" placeholder="e.g. Samsung"
-                                                        disabled>
-
+                                                    <label for="description" class="form-label">Business PAN No</label>
+                                                    <input type="name" class="form-control" name="productEmail"
+                                                        value="<%=sellerData.busPanNo %>"
+                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
                                                 </div>
                                             </div>
 
                                             <div class="row g-2">
                                                 <div class="mb-3 col-md-4">
-                                                    <label for="actualPrice" class="form-label">Actual Price</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">&#8377;</span>
-                                                        <input type="text" class="form-control" name="actualPrice"
-                                                            value="<% %>" id="actualPrice"
-                                                            min="1" pattern="[0-9]{1,9}"
-                                                            onblur="calculate('discount', this.value )"
-                                                            placeholder="Eg. 30000" disabled>
-
-
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="description" class="form-label">Business GST No</label>
+                                                        <input type="name" class="form-control" name="productEmail"
+                                                            value="<%=sellerData.busGstNo %>"
+                                                            placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
                                                     </div>
+                                                </div>
+                                            </div>
+
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="description" class="form-label">Bank Acc No</label>
+                                                        <input type="name" class="form-control" name="productEmail"
+                                                            value="<%=sellerData.bankAccNo %>"
+                                                            placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
+                                                    
                                                 </div>
 
                                                 <div class="mb-3 col-md-4">
-                                                    <label for="discount" class="form-label">Discount
-                                                        <span class="text-muted"> (Optional)</span>
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">%</span>
-                                                        <input type="text" class="form-control" name="discount"
-                                                            value="<% %>" id="discount"
-                                                            onblur="calculate(this.value, 'actualPrice')"
-                                                            placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}" disabled>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3 col-md-4">
-                                                    <label for="finalPrice" class="form-label">Final Price</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">&#8377;</span>
-                                                        <input type="number" class="form-control" name="finalPrice"
-                                                            value="<% %>" id="finalPrice"
-                                                            placeholder="Final Price (Auto calculated)" disabled>
-
-
-                                                    </div>
-                                                </div>
+                                                    <label for="description" class="form-label">Bank Name</label>
+                                                    <input type="name" class="form-control" name="productEmail"
+                                                        value="<%=sellerData.bankName %>"
+                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
+                                                    
+                                                <!-- </div> -->
 
                                             </div>
                                             <div class="row g-2">
                                                 <div class="mb-3 col-md-12">
-                                                    <label for="quantity" class="form-label">Quantity
-                                                        <span class="text-muted"> (Optional)</span>
-                                                    </label>
-                                                    <input type="number" class="form-control" name="quantity" min="1"
-                                                        value="<% %>" placeholder="e.g. 50"
-                                                        disabled>
-
+                                                    <label for="description" class="form-label">Bank IFSC code</label>
+                                                        <input type="name" class="form-control" name="productEmail"
+                                                            value="<%=sellerData.bankIfsc %>"
+                                                            placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
                                                 </div>
                                             </div>
 

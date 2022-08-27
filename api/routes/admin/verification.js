@@ -75,7 +75,7 @@ router.post('/reject-product/(:id)', (req, res) => {
 router.get('/seller',checkAuth, (req, res) => {
     Seller.find({
         status : "Pending",
-    }).select("status pFname pLname pMobile pEmail busName busEmail busAddress")
+    }).select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
         .exec()
         .then(docs => {
             res.render('./admin/verification/seller/seller', { sellersData: docs, userType: req.session.type })
@@ -91,7 +91,7 @@ router.get('/seller',checkAuth, (req, res) => {
 router.get('/verifiedSeller',checkAuth, (req, res) => {
     Seller.find({
         status : "Verified",
-    }).select("status pFname pLname pMobile pEmail busName busEmail busAddress")
+    }).select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
         .exec()
         .then(docs => {
             res.render('./admin/verification/seller/verifiedSeller', { verifiedSellersData: docs, userType: req.session.type })
@@ -107,8 +107,8 @@ router.get('/verifiedSeller',checkAuth, (req, res) => {
 
 router.get('/rejectedSeller',checkAuth, (req, res) => {
     Seller.find({
-        status : "Rejected",
-    }).select("status pFname pLname pMobile pEmail busName busEmail busAddress")
+        status : {$nin:['Verified','Pending']},
+    }).select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
         .exec()
         .then(docs => {
             res.render('./admin/verification/seller/rejectedSeller', { rejectedSellersData: docs, userType: req.session.type })
