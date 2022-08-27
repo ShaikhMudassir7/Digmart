@@ -44,9 +44,6 @@ app.use('/components', express.static(__dirname + 'public/components'))
 app.use('/uploads', express.static(__dirname + 'public/uploads'))
 
 
-
-
-
 app.use('/seller/products', sellerProductRoute)
 app.use('/admin', adminRoute)
 app.use('/seller', sellerRoute)

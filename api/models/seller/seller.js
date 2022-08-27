@@ -4,6 +4,7 @@ const sellerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
 
     status: { type: String, default: "Pending"},
+    otp: {type: String},
 
     pFname: { type: String, required: true },
     pLname: { type: String, required: true },
