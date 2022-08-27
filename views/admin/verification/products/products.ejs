@@ -50,7 +50,7 @@
                                     <% if(productsData.length!=0) { var i=1; productsData.forEach(function(data){ %>
                                         <tr>
                                             <td>
-                                                <%=data._id %>
+                                                <%=data.sellerID %>
                                             </td>
                                             <td>
                                                 <%=data._id %>
@@ -80,7 +80,7 @@
                                         <% i++; }) %>
                                         <% } else{ %>
                                             <tr>
-                                                <td colspan="12">No Data Found</td>
+                                                <td colspan="12">No Products Found</td>
                                             </tr>
                                             <% } %>
 
