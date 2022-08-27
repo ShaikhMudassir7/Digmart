@@ -6,6 +6,7 @@ const fs = require("fs");
 
 const Products = require('../../models/seller/product');
 
+const checkAuth = require("../../middleware/seller/checkAuth")
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -151,6 +152,5 @@ router.get("/delete-product/(:id)", (req, res, next) => {
         }
     })
 });
-
 
 module.exports = router
