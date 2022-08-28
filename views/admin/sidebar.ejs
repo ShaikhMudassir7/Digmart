@@ -1,19 +1,30 @@
 <nav id="sidebar" class="active">
     <div class="sidebar-header">
-        <img src="/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+        <img src="/img/DigMart-Sidebar.png" alt="bootraper logo" class="app-logo">
     </div>
     <ul class="list-unstyled components text-secondary" id="side">
         <li>
             <a href="/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a>
         </li>
         <li>
-            <a href="#authmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i> Verification</a>
-            <ul class="collapse list-unstyled" id="authmenu">
+            <a href="#verification" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i> Verification <i class = "fas fa-caret-down float-end"></i></a>
+            <ul class="collapse list-unstyled" id="verification">
                 <li>
                     <a href="/admin/verification/seller"><i class="fas fa-users"></i> Seller</a>
                 </li>
                 <li>
                     <a href="/admin/verification/product"><i class="fas fa-shopping-cart "></i> Product</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#statusproduct" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-cart-arrow-down"></i> Products Review <i class = "fas fa-caret-down float-end"></i></a>
+            <ul class="collapse list-unstyled" id="statusproduct">
+                <li>
+                    <a href="/admin/productStatus/?status=Verified"><i class="fas fa-check-circle"></i> Verified Products</a>
+                </li>
+                <li>
+                    <a href="/admin/productStatus/?status=Rejected"><i class="fas fa-times "></i> Rejected Product</a>
                 </li>
             </ul>
         </li>

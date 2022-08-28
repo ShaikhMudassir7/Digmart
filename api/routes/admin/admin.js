@@ -4,6 +4,9 @@ const mongoose = require('mongoose')
 
 const jwt = require("jsonwebtoken");
 
+
+const Seller = require("../../models/seller/seller")
+const Products = require("../../models/seller/product")
 const Admin = require("../../models/admin/admin")
 
 const checkAuth = require("../../middleware/admin/checkAuth")
@@ -12,13 +15,11 @@ router.get('/login', (req, res) => {
     res.render("admin/login")
 })
 
-
 router.post('/login', (req, res) => {
-    const email = req.body.email;
-    const pass = req.body.pass;
+    
     Admin.find({
-        email: email,
-        pass: pass,
+        email: req.body.email,
+        pass: req.body.pass,
     })
         .exec()
         .then((user) => {
@@ -27,11 +28,11 @@ router.post('/login', (req, res) => {
                     message: "Admin Not found",
                 });
             } else {
-                req.session.email = email;
+                req.session.name = user[0].name;
                 req.session.type = user[0].type;
                 req.session.id = user[0]._id;
                 const token = jwt.sign({
-                    "email": user[0].email
+                    "id": user[0]._id
                 }, process.env.JWT_KEY, {},
                 );
                 req.session.jwttoken = token;
@@ -47,16 +48,90 @@ router.post('/login', (req, res) => {
         });
 })
 
-router.get('/dashboard', checkAuth, (req, res) => {
+router.get('/dashboard', checkAuth, async(req, res) => {
+    var count = {
+        "pendingProduct": 0,
+        "verifiedProduct": 0,
+        "rejectedProduct": 0,
+        "totalProduct": 0,
+        "pendingSeller": 0,
+        "verifiedSeller": 0,
+        "rejectedSeller": 0,
+        "totalSeller": 0,
+        "activeOperator": 0,
+        "inactiveOperator": 0,
+        "totalOperator": 0,
+    };
 
-    res.render("admin/dashboard", { userType: req.session.type });
+    await Seller.find()
+        .then(docs => {
+            count.totalSeller = docs.length
+        })
+    await Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+        .then(docs => {
+            count.rejectedSeller = docs.length
+        })
+    await Seller.find({ status: "Verified" })
+        .then(docs => {
+            count.verifiedSeller = docs.length
+             })
+    await Seller.find({ status: "Pending" })
+        .then(docs => {
+            count.pendingSeller = docs.length
+        })
+
+    await Admin.find()
+        .then(docs => {
+            count.totalOperator = docs.length
+        })
+    await Admin.find({ status: "Inactive" })
+        .then(docs => {
+            count.inactiveOperator = docs.length
+        })
+    await Admin.find({ status: "Active" })
+        .then(docs => {
+            count.activeOperator = docs.length
+        })
+
+    await Products.find()
+        .then(docs => {
+            count.totalProduct = docs.length
+        })
+    await Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+        .then(docs => {
+            count.rejectedProduct = docs.length
+        })
+    await Products.find({ status: "Verified" })
+        .then(docs => {
+            count.verifiedProduct = docs.length
+            })
+    await Products.find({ status: "Pending" })
+        .then(docs => {
+            count.pendingProduct = docs.length
+
+        })
+
+        res.render("admin/dashboard", { userType: req.session.type, userName: req.session.name, countarr: count });
+       
 
 })
 
-router.post('/addoperator', checkAuth, (req, res) => {
-    const pass1 = req.body.pass1;
-    const email = req.body.email;
 
+router.get('/operator', checkAuth, function (req, res) {
+    // res.render("admin/users")
+    Admin.find({}, function (err, docs) {
+        if (err) {
+            res.json(err);
+        }
+        else res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
+    });
+})
+
+router.get('/addoperator', checkAuth, (req, res) => {
+    res.render("admin/operators/addoperator", { userType: req.session.type, userName: req.session.name })
+})
+
+router.post('/addoperator', checkAuth, (req, res) => {
     const adminuser = new Admin({
         _id: new mongoose.Types.ObjectId(),
         email: req.body.email,
@@ -66,42 +141,39 @@ router.post('/addoperator', checkAuth, (req, res) => {
         pass: req.body.pass1,
         status: "Active"
     })
-
-    adminuser.save()
-        .then(doc => {
-            res.redirect('/admin/user')
-        })
-        .catch(err => {
+    Admin.find({ email: req.body.email }, function (err, docs) {
+        if (docs.length) {
             console.log(err);
-            res.status(500).json({
-                error: err
+            res.json({
+                error: "Email exists already"
             })
-        })
-})
-
-router.get('/operator', checkAuth, function (req, res) {
-    // res.render("admin/users")
-    Admin.find({}, function (err, docs) {
-        if (err) {
-            res.json(err);
+        } else {
+            adminuser.save()
+                .then(doc => {
+                    res.redirect('/admin/operator')
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.json({
+                        error: err
+                    })
+                })
         }
-        else res.render('admin/operators/operator', { details: docs , userType: req.session.type  });
     });
-})
 
-router.get('/addoperator', checkAuth, (req, res) => {
-    res.render("admin/operators/addoperator",{ userType: req.session.type })
+
+
 })
 
 router.get('/deleteoperator/(:id)', checkAuth, (req, res, next) => {
     Admin.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-            Admin.find({}, function (err, docs) {
-                if (err) {
-                    res.json(err);
-                }
-                else res.render('admin/operators/operator', { details: docs });
-            });
+            if (req.session.id == req.params.id) {
+                res.redirect('/admin/logout')
+            }
+            else {
+                res.redirect('/admin/operator')
+            }
         }
         else {
             res.status(500).send(err)
@@ -115,7 +187,7 @@ router.get('/editoperator/(:id)', checkAuth, (req, res, next) => {
     })
         .exec()
         .then(docs => {
-            res.render('admin/operators/editoperator', { item: docs[0] , userType: req.session.type });
+            res.render('admin/operators/editoperator', { item: docs[0], userType: req.session.type, userName: req.session.name });
         })
         .catch(err => {
             console.log(err);
@@ -139,19 +211,14 @@ router.post('/editoperator/(:id)', checkAuth, (req, res, next) => {
     Admin.updateOne({ _id: id }, { $set: newValues })
         .exec()
         .then(result => {
-            Admin.find({
-                _id: req.params.id
-            })
-                .exec()
-                .then(docs => {
-                    res.redirect('/admin/operator')
-                })
-                .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    })
-                })
+            if (req.session.id == id) {
+                req.session.name = req.body.user_name;
+                res.redirect('/admin/operator')
+            } else {
+
+                res.redirect('/admin/operator')
+            }
+
         })
         .catch(err => {
             console.log(err)
@@ -162,15 +229,84 @@ router.post('/editoperator/(:id)', checkAuth, (req, res, next) => {
 
 })
 
+router.get('/productStatus', checkAuth, (req, res) => {
+    var status = req.query.status
+    if (status == "Rejected") {
+        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+            .exec()
+            .then(docs => {
+                res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    } else {
+        if (!status) {
+            Products.find()
+                .exec()
+                .then(docs => {
+                    res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        }
+        else {
+            Products.find({ status: status, })
+                .exec()
+                .then(docs => {
+                    res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        }
+
+    }
+})
+
+router.get('/operatorStatus', checkAuth, (req, res) => {
+    var status = req.query.status
+    if (!status) {
+        Admin.find()
+            .exec()
+            .then(docs => {
+                res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    }
+    else {
+        Admin.find({ status: status, })
+            .exec()
+            .then(docs => {
+                res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    }
+})
+
 router.get('/logout', (req, res, next) => {
     req.session.destroy();
     res.redirect("/admin/login")
 })
-
-
-
-
-
-
 
 module.exports = router
