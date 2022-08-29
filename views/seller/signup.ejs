@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <title>SignUp | DigOn</title>
+  <link rel="icon" type="image/png" href="/img/DigMart.png">
+  <title>SignUp | DigMart</title>
 
   <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
   <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
@@ -26,7 +26,8 @@
         <div class="container">
 
           <div class="page-title text-center mt-2 mb-4">
-            <a href="/seller/login"><button id="backbtn"><i class="fas fa-caret-left" style="transform: translateX(-10%);"></i></button></a>
+            <a href="/seller/login"><button id="backbtn"><i class="fas fa-caret-left"
+                  style="transform: translateX(-10%);"></i></button></a>
             <h1 style="display: inline-block; transform: translateX(-5%);">Registration Form</h1>
           </div>
 
@@ -36,7 +37,7 @@
             <!-- PERSONAL DETAILS -->
             <div class="col-lg-12">
               <div class="card">
-                <div class="card-header">Personal Details</div>
+                <div class="card-header">Owner Details</div>
                 <div class="card-body">
                   <div class="row g-2">
                     <div class="mb-3 col-md-6">
@@ -61,8 +62,6 @@
                     <input value="9324326404" id="pMobile" type="numeric" class="form-control" name="pMobile"
                       placeholder="Mobile No." maxlength='10' pattern="[0-9]{10,}" style="width: 80%;" required
                       aria-describedby="basic-addon1">
-                    <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> : Entered
-                      Mobile No. will be used for verification purposes</small>
                     <div class="invalid-feedback">Please enter a valid Mobile No.!</div>
                   </div>
 
@@ -70,7 +69,6 @@
                     <label for="pEmail" class="form-label">Email</label>
                     <input value="dsouzaglen30@gmail.com" id="pEmail" type="email" class="form-control" name="pEmail"
                       placeholder="Email" autocomplete="off" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
-                    <small class="form-text text-muted">Enter a valid email address.</small>
                     <div class="invalid-feedback">Please enter a valid Email-ID!</div>
                   </div>
 
@@ -94,6 +92,8 @@
                       <label for="busMobile" class="form-label">Business's Mobile No.</label>
                       <input value="9082524329" id="busMobile" type="numeric" class="form-control" name="busMobile"
                         placeholder="Mobile No." maxlength='10' pattern="[0-9]{10,}" required>
+                      <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> :
+                        Entered Mobile No. will be used for verification purposes</small>
                       <div class="invalid-feedback">Please enter a valid Mobile No.!</div>
                     </div>
                   </div>
@@ -103,6 +103,8 @@
                     <input value="business@entwicklera.com" id="busEmail" type="email" class="form-control"
                       name="busEmail" placeholder="Business Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                       required>
+                    <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> :
+                      Entered Email will be used for verification purposes</small>
                     <div class="invalid-feedback">Please enter a valid Email-ID!</div>
                   </div>
 
@@ -227,7 +229,8 @@
 
                   <div class="row g-2">
                     <div class="mb-3 col-md-8">
-                      <label for="bankChqPass" class="form-label">Upload a Cancelled Cheque / First page of Passbook</label>
+                      <label for="bankChqPass" class="form-label">Upload a Cancelled Cheque / First page of
+                        Passbook</label>
                       <input id="bankChqPass" type="file" class="form-control" name="bankChqPass" required>
                       <div class="invalid-feedback">Please enter a valid document!</div>
                     </div>

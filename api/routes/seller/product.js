@@ -8,7 +8,6 @@ const Products = require('../../models/seller/product');
 
 const checkAuth = require("../../middleware/seller/checkAuth")
 
-
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/uploads/productImages')
@@ -22,39 +21,63 @@ var upload = multer({ storage: storage });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
-
-router.get('/', checkAuth , (req, res) => {
-    Products.find().select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
-        .exec()
-        .then(docs => {
-            res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
+router.get('/', checkAuth, (req, res) => {
+    var status = req.query.status
+    if (status == "Rejected") {
+        Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }] }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
+            .exec()
+            .then(docs => {
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
             })
-        })
-
-    // res.render("./products/products")
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    } else if (!status) {
+        Products.find({ sellerID: req.session.sellerID }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
+            .exec()
+            .then(docs => {
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    } else {
+        Products.find({ sellerID: req.session.sellerID, status: status, }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
+            .exec()
+            .then(docs => {
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    }
 })
 
-router.get('/add-product', checkAuth , (req, res) => {
-    res.render("./seller/products/add-product", {sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname})
+router.get('/add-product', checkAuth, (req, res) => {
+    res.render("./seller/products/add-product", { sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
 })
+
 
 router.post('/add-product', imgUpload, (req, res, next) => {
 
     var rawSS = req.files.images;
-        var imageArr = [];
-        rawSS.forEach((element) => {
-            imageArr.push({ imageURL: (element.path).toString().substring(6) });
-        });
+    var imageArr = [];
+    rawSS.forEach((element) => {
+        imageArr.push({ imageURL: (element.path).toString().substring(6) });
+    });
 
     var productData = new Products({
         _id: mongoose.Types.ObjectId(),
         images: imageArr,
-        sellerID: req.session.sellerID,
         productName: req.body.productName,
         description: req.body.description,
         category: req.body.category,
@@ -69,31 +92,28 @@ router.post('/add-product', imgUpload, (req, res, next) => {
     })
     productData.save().then(result => {
         res.redirect('./')
+
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Database");
         })
-
-    // console.log(req.body);
 });
 
-router.get("/editProduct/(:id)", checkAuth ,(req, res) => {
-    Products.findById(req.params.id,
-      
-        (err, doc) => {
+router.get("/editProduct/(:id)", checkAuth, (req, res) => {
+    Products.findById(req.params.id, (err, doc) => {
         if (!err) {
-            res.render('./seller/products/editProduct', { productData: doc, sellerID: req.session.sellerID , pFname: req.session.sellerpFname, pLname: req.session.sellerpLname  })
+            res.render('./seller/products/editProduct', { productData: doc, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
         } else {
             res.send('try-again')
         }
-        
     })
 });
 
 router.post("/editProduct/:productID", (req, res) => {
     const id = req.params.productID
-    Products.findByIdAndUpdate({ _id: id }, { $set: {
-            
+    Products.findByIdAndUpdate({ _id: id }, {
+        $set: {
+
             productName: req.body.productName,
             description: req.body.description,
             category: req.body.category,
@@ -104,8 +124,9 @@ router.post("/editProduct/:productID", (req, res) => {
             actualPrice: req.body.actualPrice,
             discount: req.body.discount,
             finalPrice: req.body.finalPrice,
-            quantity: req.body.quantity }
-        })
+            quantity: req.body.quantity
+        }
+    })
         .exec()
         .then(result => {
             console.log(result)
@@ -119,19 +140,13 @@ router.post("/editProduct/:productID", (req, res) => {
         })
 });
 
-
-
 router.get("/delete-product/(:id)", (req, res, next) => {
-
     Products.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-             doc.images.forEach(element =>{
+            doc.images.forEach(element => {
                 fs.unlinkSync("\public" + element.imageURL)
-            
-            }
-        );          
+            });
             res.redirect('/seller/products');
-            
         } else {
             res.send("Error Occurred. Please try again!")
         }

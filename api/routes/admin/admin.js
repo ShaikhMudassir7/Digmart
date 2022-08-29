@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require('mongoose')
-
+const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
 
@@ -16,10 +16,8 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    
     Admin.find({
         email: req.body.email,
-        pass: req.body.pass,
     })
         .exec()
         .then((user) => {
@@ -28,24 +26,26 @@ router.post('/login', (req, res) => {
                     message: "Admin Not found",
                 });
             } else {
-                req.session.name = user[0].name;
-                req.session.type = user[0].type;
-                req.session.id = user[0]._id;
-                const token = jwt.sign({
-                    "id": user[0]._id
-                }, process.env.JWT_KEY, {},
-                );
-                req.session.jwttoken = token;
-                res.redirect('dashboard');
-
+                bcrypt.compare(req.body.pass, user[0].pass, (err, result) => {
+                    if (err) {
+                        return res.status(401).json({
+                            message: "Authentication Failed",
+                        });
+                    }
+                    if (result) {
+                        req.session.name = user[0].name;
+                        req.session.type = user[0].type;
+                        req.session.id = user[0]._id;
+                        const token = jwt.sign({
+                            "id": user[0]._id
+                        }, process.env.JWT_KEY, {},
+                        );
+                        req.session.jwttoken = token;
+                        res.redirect('dashboard');
+                    }
+                });
             }
         })
-        .catch((error) => {
-            console.log(error);
-            res.json({
-                message: error,
-            });
-        });
 })
 
 router.get('/dashboard', checkAuth, async(req, res) => {
@@ -116,7 +116,6 @@ router.get('/dashboard', checkAuth, async(req, res) => {
 
 })
 
-
 router.get('/operator', checkAuth, function (req, res) {
     // res.render("admin/users")
     Admin.find({}, function (err, docs) {
@@ -132,37 +131,44 @@ router.get('/addoperator', checkAuth, (req, res) => {
 })
 
 router.post('/addoperator', checkAuth, (req, res) => {
-    const adminuser = new Admin({
-        _id: new mongoose.Types.ObjectId(),
-        email: req.body.email,
-        name: req.body.user_name,
-        type: req.body.type,
-        mobile: req.body.mobile,
-        pass: req.body.pass1,
-        status: "Active"
-    })
-    Admin.find({ email: req.body.email }, function (err, docs) {
-        if (docs.length) {
-            console.log(err);
-            res.json({
-                error: "Email exists already"
-            })
+    
+    bcrypt.hash(req.body.pass1, 10, (err, hash) => {
+        if (err) {
+            return res.status(500).json({
+                error: err,
+            });
         } else {
-            adminuser.save()
-                .then(doc => {
-                    res.redirect('/admin/operator')
-                })
-                .catch(err => {
+            const adminuser = new Admin({
+                _id: new mongoose.Types.ObjectId(),
+                email: req.body.email,
+                name: req.body.user_name,
+                type: req.body.type,
+                mobile: req.body.mobile,
+                pass: hash,
+                status: "Active"
+            })
+           
+            Admin.find({ email: req.body.email }, function (err, docs) {
+                if (docs.length) {
                     console.log(err);
                     res.json({
-                        error: err
+                        error: "Email exists already"
                     })
-                })
+                } else {
+                    adminuser.save()
+                        .then(doc => {
+                            res.redirect('/admin/operator')
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.json({
+                                error: err
+                            })
+                        })
+                }
+            });
         }
-    });
-
-
-
+    })
 })
 
 router.get('/deleteoperator/(:id)', checkAuth, (req, res, next) => {
@@ -235,7 +241,7 @@ router.get('/productStatus', checkAuth, (req, res) => {
         Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
             .exec()
             .then(docs => {
-                res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
             })
             .catch(err => {
                 console.log(err)
@@ -248,7 +254,7 @@ router.get('/productStatus', checkAuth, (req, res) => {
             Products.find()
                 .exec()
                 .then(docs => {
-                    res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
                 })
                 .catch(err => {
                     console.log(err)
@@ -258,10 +264,10 @@ router.get('/productStatus', checkAuth, (req, res) => {
                 })
         }
         else {
-            Products.find({ status: status, })
+                Products.find({ status: status, })
                 .exec()
                 .then(docs => {
-                    res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
                 })
                 .catch(err => {
                     console.log(err)
