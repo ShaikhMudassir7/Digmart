@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
 
-let ImageSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    imageURL: String,
-});
-
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    images: [ImageSchema],
+    images: [{type: String}],
     sellerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sellers'
