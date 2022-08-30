@@ -7,9 +7,7 @@ const fs = require("fs");
 const Products = require('../../models/seller/product');
 const Category = require('../../models/admin/categorySchema');
 
-
 const checkAuth = require("../../middleware/seller/checkAuth")
-
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -26,22 +24,48 @@ var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
 
 router.get('/', checkAuth, (req, res) => {
-    Products.find().select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
-        .exec()
-        .then(docs => {
-            res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
+    var status = req.query.status
+    if (status == "Rejected") {
+        Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }] }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
+            .exec()
+            .then(docs => {
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
             })
-        })
-
-    // res.render("./products/products")
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    } else if (!status) {
+        Products.find({ sellerID: req.session.sellerID }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
+            .exec()
+            .then(docs => {
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    } else {
+        Products.find({ sellerID: req.session.sellerID, status: status, }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
+            .exec()
+            .then(docs => {
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    }
 })
 
 router.get('/add-product', checkAuth, (req, res) => {
+
     Category.find().select("catName sub_category")
         .exec()
         .then(docs => {
@@ -53,8 +77,8 @@ router.get('/add-product', checkAuth, (req, res) => {
                 error: err
             })
         })
-
 })
+
 
 router.post('/add-product', imgUpload, (req, res, next) => {
 
@@ -86,9 +110,8 @@ router.post('/add-product', imgUpload, (req, res, next) => {
         .catch(err => {
             console.log("Error Occurred while adding product to Database");
         })
-
-    // console.log(req.body);
 });
+
 
 router.get("/edit-product/(:id)", checkAuth, (req, res) => {
     const allImages = Products.find().select("images")
@@ -97,23 +120,19 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
         (err, doc) => {
             if (!err) {
                 Category.find().select("catName sub_category")
-                .exec()
-                .then(docs => {
-                res.render('./seller/products/edit-product', { images: allImages,  catsData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname });
-             //   res.render("./seller/products/edit-product", { catsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
-        
-                })
-               
-                //console.log(doc.images[0].imageURL)
+                    .exec()
+                    .then(docs => {
+                        res.render('./seller/products/edit-product', { images: allImages, catsData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname });
+
+                    })
+
             } else {
                 res.send('try-again')
             }
 
         })
-
-       
-
 });
+
 
 router.post("/edit-product/:productID", imgUpload, (req, res) => {
     const id = req.params.productID
@@ -132,7 +151,7 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
             }
-            // imageArr.push(doc.images)
+            
             console.log(imageArr)
         }
 
@@ -165,11 +184,7 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
                 })
             })
     });
-
-
 });
-
-
 
 
 router.get("/delete-product/(:id)", (req, res, next) => {

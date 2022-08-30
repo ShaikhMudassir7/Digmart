@@ -28,17 +28,3 @@ otp4.addEventListener('keyup', function (event) {
     } else if (event.key == "Enter") {
     }
 });
-
-const formA = document.getElementById('formA');
-formA.addEventListener('submit', function (event) {
-    const otp = otp1.value + otp2.value + otp3.value + otp4.value;
-    if (otp == "1111") {
-        console.log("Details Submitted");
-    } else {
-        event.preventDefault()
-        event.stopPropagation()
-        alert("Invalid OTP! \n\n Please try again");
-    }
-}, false)
-
-

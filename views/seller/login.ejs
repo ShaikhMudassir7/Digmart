@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <link rel="icon" type="image/png" href="/img/favicon.png">
+
     <title>Login | DigMart</title>
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/auth.css" rel="stylesheet">
@@ -17,7 +19,7 @@
             <div class="card">
                 <div class="card-body text-center">
                     <h1 class="mb-4 text-muted">Seller Login</h1>
-                    <form action="/seller/verify-seller" method="post" class="needs-validation" novalidate accept-charset="utf-8">
+                    <form action="/seller/send-sms" method="post" class="needs-validation" novalidate accept-charset="utf-8">
                         <div class="mb-3 text-start">
                             <label for="pMobile" class="form-label">Mobile No.</label>
                             <div class="input-group mb-3">
@@ -27,9 +29,7 @@
                                 <div class="invalid-feedback">Please enter a valid Mobile No.!</div>
                             </div>
                         </div>
-
                         <button id="getOtp" type="submit" class="btn btn-primary btn1 width-50 ml-auto">Get OTP</button>
-
                     </form>
                     <p class="mb-0 text-muted">Don't have account yet? <a href="/seller/signup">Signup</a></p>
                 </div>
