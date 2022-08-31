@@ -48,24 +48,23 @@ router.get('/viewproductStatus/(:id)', checkAuth, (req, res) => {
         })
 })
 
-
 router.get('/accept-product/(:id)', checkAuth, (req, res) => {
-        const id = req.params.id
-        var newValues = {
-            status: "Verified",
-        }
-        Products.updateOne({ _id: id }, { $set: newValues })
-            .exec()
-            .then(result => {
-                res.redirect('/admin/verification/product')
+    const id = req.params.id
+    var newValues = {
+        status: "Verified",
+    }
+    Products.updateOne({ _id: id }, { $set: newValues })
+        .exec()
+        .then(result => {
+            res.redirect('/admin/verification/product')
+        })
+        .catch(err => {
+            console.log(err)
+            res.json({
+                error: err
             })
-            .catch(err => {
-                console.log(err)
-                res.json({
-                    error: err
-                })
-            })
-    })
+        })
+})
 
 router.post('/reject-product/(:id)', (req, res) => {
     const id = req.params.id
@@ -91,39 +90,7 @@ router.get('/seller', checkAuth, (req, res) => {
     }).select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
         .exec()
         .then(docs => {
-            res.render('./admin/verification/seller/seller', { sellersData: docs, userType: req.session.type ,  userName: req.session.name })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
-});
-
-router.get('/verifiedSeller', checkAuth, (req, res) => {
-    Seller.find({
-        status: "Verified",
-    }).select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
-        .exec()
-        .then(docs => {
-            res.render('./admin/verification/seller/verifiedSeller', { verifiedSellersData: docs, userType: req.session.type ,  userName: req.session.name })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
-});
-
-router.get('/rejectedSeller', checkAuth, (req, res) => {
-    Seller.find({
-        status: { $nin: ['Verified', 'Pending'] },
-    }).select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
-        .exec()
-        .then(docs => {
-            res.render('./admin/verification/seller/rejectedSeller', { rejectedSellersData: docs, userType: req.session.type ,  userName: req.session.name })
+            res.render('./admin/verification/seller/seller', { sellersData: docs, userType: req.session.type, userName: req.session.name })
         })
         .catch(err => {
             console.log(err)
@@ -137,7 +104,7 @@ router.get('/viewSeller/(:id)', checkAuth, (req, res) => {
     Seller.findById(req.params.id,
         (err, doc) => {
             if (!err) {
-                res.render('./admin/verification/seller/viewSeller', { sellerData: doc, userType: req.session.type ,  userName: req.session.name })
+                res.render('./admin/verification/seller/viewSeller', { sellerData: doc, userType: req.session.type, userName: req.session.name })
             } else {
                 res.send('try-again')
             }
@@ -171,13 +138,118 @@ router.get('/accept-seller/(:id)', (req, res) => {
     Seller.updateOne({ _id: id }, { $set: newValues })
         .exec()
         .then(result => {
-                    res.redirect('/admin/verification/seller')
+            res.redirect('/admin/verification/seller')
         })
         .catch(err => {
             console.log(err)
             res.json({
                 error: err
             })
+        })
+})
+
+router.get('/productStatus', checkAuth, (req, res) => {
+    var status = req.query.status
+    if (status == "Rejected") {
+        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+            .exec()
+            .then(docs => {
+                res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    } else {
+        if (!status) {
+            Products.find()
+                .exec()
+                .then(docs => {
+                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        }
+        else {
+            Products.find({ status: status, })
+                .exec()
+                .then(docs => {
+                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        }
+
+    }
+})
+
+router.get('/sellerStatus', checkAuth, (req, res) => {
+    var status = req.query.status
+    if (status == "Rejected") {
+        Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+            .select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
+            .exec()
+            .then(docs => {
+                res.render('./admin/verification/seller/sellerStatus', { sellersData: docs, userType: req.session.type, userName: req.session.name })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    } else {
+        if (!status) {
+            Seller.find()
+                .select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
+                .exec()
+                .then(docs => {
+                    res.render('./admin/verification/seller/sellerStatus', { sellersData: docs, userType: req.session.type, userName: req.session.name })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        }
+        else {
+            Seller.find({ status: status, })
+            .select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
+            .exec()
+            .then(docs => {
+                res.render('./admin/verification/seller/sellerStatus', { sellersData: docs, userType: req.session.type, userName: req.session.name })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+        }
+
+    }
+})
+
+router.get('/viewsellerStatus/(:id)', checkAuth, (req, res) => {
+    Seller.findById(req.params.id,
+        (err, doc) => {
+            if (!err) {
+                res.render('./admin/verification/seller/viewsellerStatus', { sellerData: doc, userType: req.session.type, userName: req.session.name })
+            } else {
+                res.send('try-again')
+            }
+
         })
 })
 

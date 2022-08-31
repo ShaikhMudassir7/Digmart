@@ -55,7 +55,7 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-                                    <a href="/admin/verification/verifiedSeller">
+                                    <a href="/admin/verification/sellerStatus/?status=Verified">
                                         <div class="card">
                                             <div class="content">
                                                 <div class="row">
@@ -72,7 +72,7 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-                                    <a href="/admin/verification/rejectedSeller">
+                                    <a href="/admin/verification/sellerStatus/?status=Rejected">
                                         <div class="card">
                                             <div class="content">
                                                 <div class="row">
@@ -90,7 +90,7 @@
                                 </div>
 
                                 <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-                                    <a href="">
+                                    <a href="/admin/verification/sellerStatus">
                                         <div class="card">
                                             <div class="content">
                                                 <div class="row">
@@ -117,7 +117,7 @@
                             </div>
                             <div class="row justify-content-around">
                                 <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-                                    <a href="/admin/productStatus/?status=Pending">
+                                    <a href="/admin/verification/product">
                                         <div class="card">
                                             <div class="content">
                                                 <div class="row">
@@ -134,7 +134,7 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-                                    <a href="/admin/productStatus/?status=Verified">
+                                    <a href="/admin/verification/productStatus/?status=Verified">
                                         <div class="card">
                                             <div class="content">
                                                 <div class="row">
@@ -151,7 +151,7 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-                                    <a href="/admin/productStatus/?status=Rejected">
+                                    <a href="/admin/verification/productStatus/?status=Rejected">
                                         <div class="card">
                                             <div class="content">
                                                 <div class="row">
@@ -168,7 +168,7 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
-                                    <a href="/admin/productStatus">
+                                    <a href="/admin/verification/productStatus">
                                         <div class="card">
                                             <div class="content">
                                                 <div class="row">
@@ -186,6 +186,7 @@
                                 </div>
                             </div>
 
+                            <% if (userType=="Admin" ) { %>
                             <div class="row">
                                 <div class="col-md-12 page-header">
                                     <div class="page-pretitle">Overview</div>
@@ -199,7 +200,7 @@
                                             <div class="content">
                                                 <div class="row">
                                                     <div class="dfd text-center">
-                                                        <i class="blue large-icon mb-2 fas fa-clipboard"></i>
+                                                        <i class="green large-icon mb-2 fas fa-clipboard-check"></i>
                                                         <h4 class="number text-center">
                                                             <%= countarr.activeOperator %>
                                                         </h4>
@@ -216,7 +217,7 @@
                                             <div class="content">
                                                 <div class="row">
                                                     <div class="dfd text-center">
-                                                        <i class="green large-icon mb-2 fas fa-clipboard-check"></i>
+                                                        <i class="red large-icon mb-2 fas fa-window-close"></i>
                                                         <h4 class="number text-center">
                                                             <%= countarr.inactiveOperator %>
                                                         </h4>
@@ -245,6 +246,7 @@
                                     </a>
                                 </div>
                             </div>
+                            <% } %>
                             <hr>
 
                         </div>

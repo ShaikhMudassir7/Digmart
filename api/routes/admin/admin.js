@@ -9,7 +9,8 @@ const Seller = require("../../models/seller/seller")
 const Products = require("../../models/seller/product")
 const Admin = require("../../models/admin/admin")
 
-const checkAuth = require("../../middleware/admin/checkAuth")
+const checkAuth = require("../../middleware/admin/checkAuth");
+const seller = require("../../models/seller/seller");
 
 router.get('/login', (req, res) => {
     res.render("admin/login")
@@ -18,6 +19,7 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
     Admin.find({
         email: req.body.email,
+        status: "Active"
     })
         .exec()
         .then((user) => {
@@ -233,51 +235,6 @@ router.post('/editoperator/(:id)', checkAuth, (req, res, next) => {
             })
         })
 
-})
-
-router.get('/productStatus', checkAuth, (req, res) => {
-    var status = req.query.status
-    if (status == "Rejected") {
-        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
-            .exec()
-            .then(docs => {
-                res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
-    } else {
-        if (!status) {
-            Products.find()
-                .exec()
-                .then(docs => {
-                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
-                })
-        }
-        else {
-                Products.find({ status: status, })
-                .exec()
-                .then(docs => {
-                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
-                })
-        }
-
-    }
 })
 
 router.get('/operatorStatus', checkAuth, (req, res) => {
