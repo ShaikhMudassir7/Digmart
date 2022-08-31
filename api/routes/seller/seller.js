@@ -112,7 +112,7 @@ router.post('/send-sms', (req, res) => {
 router.post('/test-sms', (req, res) => {
     const busMobile = req.query.busMobile
     otp = Math.floor(1000 + Math.random() * 9000)
-    fast2sms(otp, busMobile)
+    fast2sms({otp, busMobile})
 })
 
 router.post('/otp-verification', (req, res) => {

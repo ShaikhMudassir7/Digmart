@@ -79,7 +79,6 @@ router.get('/add-product', checkAuth, (req, res) => {
         })
 })
 
-
 router.post('/add-product', imgUpload, (req, res, next) => {
 
     var rawSS = req.files.images;

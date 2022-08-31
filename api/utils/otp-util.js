@@ -1,6 +1,6 @@
 var unirest = require("unirest")
 
-exports.fast2sms = async ({ otp, mobile}) => {
+exports.fast2sms = async ({ otp, mobile }) => {
     var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
     req.query({
         "authorization": process.env.FAST_API,
@@ -15,7 +15,7 @@ exports.fast2sms = async ({ otp, mobile}) => {
         "cache-control": "no-cache"
     });
 
-    await req.end(function (result) {
+    req.end(function (result) {
         if (result.error) throw new Error(result.error);
         console.log(result.body);
     });
