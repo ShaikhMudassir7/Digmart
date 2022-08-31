@@ -31,10 +31,10 @@
             <h1 style="display: inline-block; transform: translateX(-5%);">Registration Form</h1>
           </div>
 
-          <form id="formA" method="post" action="/seller/add-seller" class="row needs-validation" novalidate
+          <form id="signupForm" method="post" action="/seller/add-seller" class="row needs-validation" novalidate
             enctype="multipart/form-data">
 
-            <!-- PERSONAL DETAILS -->
+            <!-- OWNER DETAILS -->
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-header">Owner Details</div>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="mb-3 col-md-6">
                       <label for="busMobile" class="form-label">Business's Mobile No.</label>
-                      <input value="9082524329" id="busMobile" type="numeric" class="form-control" name="busMobile"
+                      <input value="9324326404" id="busMobile" type="numeric" class="form-control" name="busMobile"
                         placeholder="Mobile No." maxlength='10' pattern="[0-9]{10,}" required>
                       <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> :
                         Entered Mobile No. will be used for verification purposes</small>
@@ -100,7 +100,7 @@
 
                   <div class="mb-3 ">
                     <label for="busEmail" class="form-label">Business Email</label>
-                    <input value="business@entwicklera.com" id="busEmail" type="email" class="form-control"
+                    <input value="dsouzaglen30@gmail.com" id="busEmail" type="email" class="form-control"
                       name="busEmail" placeholder="Business Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                       required>
                     <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> :
@@ -177,9 +177,11 @@
                     <div class="mb-3 col-md-6">
                       <label for="busGstNo" class="form-label">GST No.</label>
                       <input value="99ABCDE1111X1ZA" id="busGstNo" type="numeric" class="form-control" name="busGstNo"
-                        placeholder="GST No." maxlength='15'
+                        placeholder="GST No." maxlength='15' onkeyup="checkGst(this.value)"
                         pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" required>
                       <div class="invalid-feedback">Please enter valid GST No.</div>
+                      <small id="busGstNo_err" class="form-text text-muted" style="visibility: hidden;"><span
+                          style="color: red;">GST No. already in use!</span></small>
                     </div>
                     <div class="mb-3 col-md-6">
                       <label for="busGstFile" class="form-label">Upload GST File</label>
@@ -221,7 +223,7 @@
                     <div class="mb-3 col-md-6">
                       <label for="bankAccNo2" class="form-label">Re-enter Account No.</label>
                       <input value="123456789012" id="bankAccNo2" type="numeric" name="bankAccNo2"
-                        placeholder="Account No." maxlength='18' required>
+                        placeholder="Account No." maxlength='18' required onkeyup="checkAccNo(this.value)">
                       <small id="reaccno_err" class="form-text text-muted" style="visibility: hidden;"><span
                           style="color: red;">Account No. does not match!</span></small>
                     </div>
@@ -241,12 +243,12 @@
             </div>
 
             <div class="text-center mt-3 mb-3">
-              <button id="getotp" type="submit" value="1" onclick="this.form.submitted=this.value;"
+              <button id="submit1" type="submit" value="1" onclick="this.form.submitted=this.value;"
                 class="btn btn-primary" style="width: 25%;">Submit</button>
             </div>
 
-            <!-- MODAL OTP DIALOG -->
-            <div class="modal fade" id="exampleModal" role="dialog" tabindex="-1">
+            <!-- Mobile OTP Modal -->
+            <div class="modal fade" id="mobileModal" role="dialog" tabindex="-1">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-body text-start">
@@ -257,19 +259,17 @@
                           <br>
                           <b id="D_mobile" style="color: rgb(11, 78, 179);"></b></span>
                         <div class="d-flex flex-row mt-4">
-                          <input id="otp1" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1"
+                          <input id="mobOtp1" type="text" class="p-1 m-2 text-center" style="width: 25%;" maxlength="1"
                             autofocus="">
-                          <input id="otp2" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1">
-                          <input id="otp3" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1">
-                          <input id="otp4" type="text" class="m-2 text-center" style="width: 25%;" maxlength="1">
+                          <input id="mobOtp2" type="text" class="p-1 m-2 text-center" style="width: 25%;" maxlength="1">
+                          <input id="mobOtp3" type="text" class="p-1 m-2 text-center" style="width: 25%;" maxlength="1">
+                          <input id="mobOtp4" type="text" class="p-1 m-2 text-center" style="width: 25%;" maxlength="1">
                         </div>
-
 
                         <div class="text-center mt-3 mb-3">
                           <button type="submit" value="2" onclick="this.form.submitted=this.value;"
                             class="btn btn-primary" style="width: 25%;">Submit</button>
                         </div>
-
 
                         <div class="text-center mt-2">
                           <span class="d-block mobile-text">Didn't receive the code?</span>
@@ -282,7 +282,48 @@
                 </div>
               </div>
             </div>
+
+            <!-- Email OTP Modal -->
+            <div class="modal fade" id="emailModal" role="dialog" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-body text-start">
+                    <div class="d-flex justify-content-center align-items-center ">
+                      <div class="card py-5 px-3 mb-0">
+                        <h3 class="text-center mb-4">Email verification</h3>
+                        <span class="mobile-text">Enter the code we just send on your Email
+                          <br>
+                          <b id="D_email" style="color: rgb(11, 78, 179);"></b></span>
+                        <div class="d-flex flex-row mt-4">
+                          <input id="emailOtp1" type="text" class="p-1 m-2 text-center" style="width: 25%;"
+                            maxlength="1" autofocus="">
+                          <input id="emailOtp2" type="text" class="p-1 m-2 text-center" style="width: 25%;"
+                            maxlength="1">
+                          <input id="emailOtp3" type="text" class="p-1 m-2 text-center" style="width: 25%;"
+                            maxlength="1">
+                          <input id="emailOtp4" type="text" class="p-1 m-2 text-center" style="width: 25%;"
+                            maxlength="1">
+                        </div>
+
+                        <div class="text-center mt-3 mb-3">
+                          <button type="submit" value="3" onclick="this.form.submitted=this.value;"
+                            class="btn btn-primary" style="width: 25%;">Submit</button>
+                        </div>
+
+                        <div class="text-center mt-2">
+                          <span class="d-block mobile-text">Didn't receive the code?</span>
+                          <span class="font-weight-bold cursor"
+                            style="color: rgb(11, 78, 179); text-decoration: underline;">Resend</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </form>
+
         </div>
       </div>
       <!-- Scroll Back to top -->
