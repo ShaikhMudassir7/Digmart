@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/png" href="/img/DigMart.png">
+
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+
     <title>Login | DigMart</title>
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/auth.css" rel="stylesheet">
@@ -24,12 +26,10 @@
                             <input value="9324326404" id="busMobile" type="numeric" class="form-control"
                                 name="busMobile" placeholder="Mobile No." maxlength='10' style="width: 80%;"
                                 aria-describedby="basic-addon1">
-
-                            <small id="busMobile_err" class="form-text text-muted" style="visibility: hidden;"><span
-                                    style="color: red;">Invalid Mobile No. entered!</span></small>
-                            <small id="busMobile_err1" class="form-text text-muted" style="visibility: hidden;"><span
-                                    style="color: red;">Verification Pending! Contact
-                                    Admin</span></small>
+                            <small id="busMobile_err" class="form-text text-muted" style="visibility: hidden;">
+                                <span style="color: red;">Invalid Mobile No. entered!</span></small>
+                            <small id="busMobile_err1" class="form-text text-muted" style="visibility: hidden;">
+                                <span style="color: red;">Verification Pending! Contact Admin</span></small>
                         </div>
                     </div>
                     <button id="submit1" type="button" onclick="sendOTP()"

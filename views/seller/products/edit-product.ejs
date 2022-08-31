@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Add Product</title>
+    <title>Edit Product</title>
+
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -14,6 +15,28 @@
     <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
 </head>
+
+<style>
+    .item {
+        position: relative;
+        padding: 2px;
+        display: inline-block;
+        margin: 10px;
+        border: 2px solid #555;
+    }
+
+    .notify-badge {
+        position: absolute;
+        right: -20px;
+        top: -10px;
+        background: red;
+        text-align: center;
+        border-radius: 5px 5px 5px 5px;
+        color: white;
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+</style>
 
 <body>
     <div class="wrapper">
@@ -31,30 +54,19 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="card">
-                                        <div class="card-header fw-bold bg-dark text-light">ADD NEW PRODUCT</div>
+                                        <div class="card-header fw-bold bg-dark text-light">EDIT PRODUCT</div>
                                         <div class="card-body">
 
-                                            <form action="/seller/products/add-product" enctype="multipart/form-data"
-                                                method="post" class="needs-validation" novalidate
-                                                accept-charset="utf-8">
-                                                <!-- <form action="/seller/products/add-product"
-                                        method="post" class="needs-validation" novalidate accept-charset="utf-8"> -->
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="images" class="form-label">Product Images</label>
-                                                        <input type="file" class="form-control" name="images"
-                                                            multiple='multiple' accept="image/*" required>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please Choose an Image.</div>
-                                                    </div>
-                                                </div>
+                                            <form method="post" enctype="multipart/form-data"
+                                                action="/seller/products/edit-product/<%=productData._id %>"
+                                                class="needs-validation" novalidate accept-charset="utf-8">
+
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
-                                                        <label for="productName" class="form-label">Product Name</label>
-                                                        <input type="name" class="form-control" name="productName"
-                                                            id="prodName" placeholder="e.g. Samsung Galaxy S22 Ultra"
-                                                            required>
+                                                        <label for="productName" class="form-label">Product ID</label>
+                                                        <input type="name" class="form-control" name="_id"
+                                                            value="<%=productData._id %>" disabled>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please enter product name.</div>
                                                     </div>
@@ -62,14 +74,94 @@
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
+                                                        <label for="productName" class="form-label">Product
+                                                            Images</label>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row g-2">
+                                                    <% for (let a=0; a < productData.images.length; a++){ %>
+                                                        <div class=" col-md-2">
+
+                                                            <div class="item">
+
+                                                                <img src="<%=productData.images[a]%>"
+                                                                    style="width: 100%; ">
+                                                                <% if(productData.images.length> 1){ %>
+
+                                                                    <a
+                                                                        href="/seller/products/delete-image/<%=productData._id%>/<%=a %>">
+                                                                        <span class="notify-badge">X</span>
+                                                                    </a>
+                                                                    <% } else {%>
+                                                                        <button type="button" class="notify-badge">
+                                                                            X</button>
+
+                                                                        <% } %>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <% } %>
+
+
+                                                </div>
+
+                                                <div class="row g-2">
+                                                    <% if(productData.images.length == 1){ %>
+                                                        <div class="alert alert-danger alert-dismissible fade show"
+                                                            role="alert">
+                                                            You cannot delete above image. There should be atleast one
+                                                            product image present!
+                                                        </div>
+                                                    <% } %>
+                                                            <div class="mb-3 col-md-12">
+
+                                                                <% if(productData.images.length!=0){ %>
+
+
+                                                                    <label for="productImg" class="form-label">Add More
+                                                                        Images</label>
+                                                                    <% } %>
+
+                                                                        <input type="file" class="form-control"
+                                                                            name="images" 
+                                                                            accept="image/*" id="chooseImage">
+                                                                        <div class="valid-feedback">Looks good!</div>
+                                                                        <div class="invalid-feedback">Please Choose an
+                                                                            Image.
+                                                                        </div>
+                                                            </div>
+                                                </div>
+
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="productName" class="form-label">Product
+                                                            Name</label>
+                                                        <input type="name" class="form-control" name="productName"
+                                                            value="<%=productData.productName %>"
+                                                            placeholder="e.g. Samsung Galaxy S22 Ultra" required>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please enter product
+                                                            name.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
                                                         <label for="description" class="form-label">Product
                                                             Description</label>
                                                         <textarea type="name" class="form-control" name="description"
                                                             placeholder="e.g. The first Galaxy S with embedded S Pen. Write comfortably like pen on paper, turn quick notes into legible text and use Air Actions to control your phone remotely..."
-                                                            required></textarea>
+                                                            required><%=productData.description %></textarea>
 
                                                     </div>
                                                 </div>
+
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-6">
@@ -81,11 +173,10 @@
                                                             <option value="">
                                                                 ---Choose Category---
                                                             </option>
-                                                            <% if(catData.length!=0){ var i=1;
-                                                                catData.forEach(function(data){ %>
-                                                                <option
-                                                                    value="<%=data.catName%>"
-                                                                    id="element">
+                                                            <% if(catsData.length!=0){ 
+                                                                var i=1;
+                                                                catsData.forEach(function(data){ %>
+                                                                <option value="<%=data.catName %>">
                                                                     <%=data.catName %>
                                                                 </option>
                                                                 <% i++; }) %>
@@ -101,7 +192,9 @@
                                                     <div class="mb-3 col-md-6">
                                                         <label for="subcategory" class="form-label">Subcategory</label>
                                                         <select name="subcategory" id="subcategory" class="form-select">
-
+                                                            <option value="<%=productData.sub_category %>">
+                                                                <%=productData.sub_category %>
+                                                            </option>
                                                         </select>
                                                         <!-- <div class="valid-feedback">Looks good!</div>
                                                 <div class="invalid-feedback">Please enter subcategory name.</div> -->
@@ -113,8 +206,8 @@
                                                         <label for="sizes" class="form-label">Sizes
                                                             <span class="text-muted"> (Optional)</span>
                                                         </label>
-                                                        <input type="name" class="form-control" name="sizes" value="100"
-                                                            id="sizes" placeholder="e.g. XL">
+                                                        <input type="name" class="form-control" name="sizes"
+                                                            placeholder="e.g. XL" value="<%=productData.sizes %>">
                                                         <!-- <div class="valid-feedback">Looks good!</div>
                                                 <div class="invalid-feedback">Please enter size(s).</div> -->
                                                     </div>
@@ -126,6 +219,7 @@
                                                             <span class="text-muted"> (Optional)</span>
                                                         </label>
                                                         <input type="name" class="form-control" name="colours"
+                                                            value="<%=productData.colours %>"
                                                             placeholder="e.g. Black, White">
                                                         <!-- <div class="valid-feedback">Looks good!</div>
                                                 <div class="invalid-feedback">Please enter colour(s).</div> -->
@@ -139,7 +233,7 @@
                                                             <span class="text-muted"> (Optional)</span>
                                                         </label>
                                                         <input type="name" class="form-control" name="brand"
-                                                            placeholder="e.g. Samsung">
+                                                            value="<%=productData.brand %>" placeholder="e.g. Samsung">
                                                         <!-- <div class="valid-feedback">Looks good!</div>
                                                 <div class="invalid-feedback">Please enter Brand Name.</div> -->
                                                     </div>
@@ -147,15 +241,19 @@
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-4">
-                                                        <label for="actualPrice" class="form-label">Actual Price</label>
+                                                        <label for="actualPrice" class="form-label">Actual
+                                                            Price</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">&#8377;</span>
                                                             <input type="text" class="form-control" name="actualPrice"
-                                                                id="actualPrice" min="1" pattern="[0-9]{1,9}"
+                                                                value="<%=productData.actualPrice %>" id="actualPrice"
+                                                                min="1" pattern="[0-9]{1,9}"
                                                                 onblur="calculate('discount', this.value )"
                                                                 placeholder="Eg. 30000" required>
 
-                                                            <div class="invalid-feedback">Please enter Actual Price.
+                                                            <div class="invalid-feedback">Please enter
+                                                                Actual
+                                                                Price.
                                                             </div>
                                                             <div class="valid-feedback">Looks good!</div>
                                                         </div>
@@ -168,23 +266,23 @@
                                                         <div class="input-group">
                                                             <span class="input-group-text">%</span>
                                                             <input type="text" class="form-control" name="discount"
-                                                                id="discount"
+                                                                value="<%=productData.discount %>" id="discount"
                                                                 onblur="calculate(this.value, 'actualPrice')"
                                                                 placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
 
                                                             <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">Please enter Discount (without
-                                                                %
-                                                                symbol).</div>
+                                                            <div class="invalid-feedback">Please enter
+                                                                Discount (without % symbol).</div>
                                                         </div>
                                                     </div>
 
                                                     <div class="mb-3 col-md-4">
-                                                        <label for="finalPrice" class="form-label">Final Price</label>
+                                                        <label for="finalPrice" class="form-label">Final
+                                                            Price</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">&#8377;</span>
                                                             <input type="number" class="form-control" name="finalPrice"
-                                                                id="finalPrice"
+                                                                value="<%=productData.finalPrice %>" id="finalPrice"
                                                                 placeholder="Final Price (Auto calculated)" readonly>
 
                                                             <!-- <div class="valid-feedback">Looks good!</div>
@@ -199,23 +297,72 @@
                                                             <span class="text-muted"> (Optional)</span>
                                                         </label>
                                                         <input type="number" class="form-control" name="quantity"
-                                                            min="1" placeholder="e.g. 50">
+                                                            id="quantity" min="1" value="<%=productData.quantity %>"
+                                                            placeholder="e.g. 50">
                                                         <!-- <div class="valid-feedback">Looks good!</div>
                                                 <div class="invalid-feedback">Please enter Quantity.</div> -->
                                                     </div>
                                                 </div>
 
-                                                <a href="/seller/products" class="btn btn-danger"><i
-                                                        class="fas fa-times"></i>
-                                                    Cancel</a>
-                                                <button type="submit" class="btn btn-primary" id="submitData"
-                                                    style="float: right"><i class="fas fa-save"></i> Add
-                                                    Product</button>
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="productName" class="form-label">Status</label>
+                                                        <input type="name" class="form-control" name="_id"
+                                                            value="<%=productData.status %>" disabled>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <a href="/seller/products" class="btn btn-danger"><i
+                                                                class="fas fa-times"></i>
+                                                            Cancel</a>
+
+
+                                                        <button type="button" class="btn btn-primary" id="submitData"
+                                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                            style="float:right"><i class="fas fa-save"></i>
+                                                            Save Changes</button>
+
+
+
+                                                    </div>
+                                                </div>
+
+                                                
+
+                                                <!-- Save changes Warning Modal -->
+                                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                                    data-bs-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="staticBackdropLabel">Save
+                                                                    Changes!
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to Save the Changes?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Cancel</button>
+
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    data-bs-dismiss="modal">SAVE
+
+                                                                </button>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
-
-
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -224,33 +371,34 @@
                     </div>
             </div>
     </div>
+
+    <script>
+        let element = document.getElementById('category');
+        element.value = '<%=productData.category %>';
+
+        let element1 = document.getElementById('subcategory');
+        element1.value = '<%=productData.subcategory %>';
+
+        let chooseImage = document.getElementById("chooseImage")
+        '<% if(productData.images.length==0){ %>'
+        chooseImage.setAttribute('required', '');
+        '<% } %>'
+
+    </script>
+
     <script>
 
-        //Populate subcategory dropdown 
-        function populate(category, subcategory) {
-            var cat = document.getElementById("category");
-            var subcat = document.getElementById("subcategory");
-            // document.write(subcategory);
-            var b = testing(cat);
+          //Populate subcategory dropdown 
+          function populate(category, subcategory) {
+            var cat = document.getElementById(category);
+            var subcat = document.getElementById(subcategory);
 
-            subcat.innerHTML = "";
+             subcat.innerHTML = "";
 
-           function testing(cat) {
-                '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
-                var a = '<%=data.catName%>';
-                if (cat.value == a) {
-                    return '<%=data.sub_category%>';    
-                }
-                '<% i++; }) %>'
-                '<% } %>'
-            }
-
-
-
-            var subcatValues = b;
-        
+            var subcatValues = cat.value;
             var optionsArray = subcatValues.split(",")
-             
+          
+
             for (var option in optionsArray) {
                 var pair = optionsArray[option].split(",")
                 var newoption = document.createElement("option");
@@ -259,14 +407,8 @@
                 newoption.innerHTML = pair[0];
                 subcat.options.add(newoption);
             }
-
         }
 
-
-
-
-
-        //Toast Trigger
         const toastTrigger = document.getElementById('submitData')
         const toastLiveExample = document.getElementById('liveToast')
         if (toastTrigger) {
@@ -277,6 +419,7 @@
             })
         }
 
+
         function calculate(val1, val2) {
             var actualPrice = document.getElementById("actualPrice").value;
             var discountPct = document.getElementById("discount").value;
@@ -285,6 +428,7 @@
             var total = (actualPrice * discountPct) / 100;
             finalPrice = actualPrice - total;
 
+
             var finalPriceField = document.getElementById("finalPrice");
             finalPriceField.value = finalPrice;
 
@@ -292,7 +436,11 @@
             //     finalPriceField.value = null;
             // }
         }
+
+
+
     </script>
+
 
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -300,6 +448,7 @@
     <script src="/js/form-validator.js"></script>
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
+
 </body>
 
 </html>
