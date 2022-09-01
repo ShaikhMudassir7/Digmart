@@ -14,6 +14,8 @@ const sellerRoute = require("./api/routes/seller/seller")
 const userRoute = require("./api/routes/user/user")
 const orderRoute = require("./api/routes/seller/orders")
 const verificationRoute = require("./api/routes/admin/verification") 
+const admincategoryRoute = require("./api/routes/admin/category")
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -51,6 +53,9 @@ app.use('/seller', sellerRoute)
 app.use('/user', userRoute)
 app.use('/seller/orders', orderRoute)
 app.use('/admin/verification', verificationRoute)
+app.use('/admin/category', admincategoryRoute)
+
+
 const server = http.createServer(app);
 server.listen(port, () => {
     console.log("Listening on port " + port);
