@@ -11,6 +11,7 @@ const app = express();
 const sellerProductRoute = require("./api/routes/seller/product")
 const adminRoute = require("./api/routes/admin/admin")
 const sellerRoute = require("./api/routes/seller/seller")
+const userRoute = require("./api/routes/user/user")
 const orderRoute = require("./api/routes/seller/orders")
 const verificationRoute = require("./api/routes/admin/verification") 
 
@@ -47,6 +48,7 @@ app.use('/uploads', express.static(__dirname + 'public/uploads'))
 app.use('/seller/products', sellerProductRoute)
 app.use('/admin', adminRoute)
 app.use('/seller', sellerRoute)
+app.use('/user', userRoute)
 app.use('/seller/orders', orderRoute)
 app.use('/admin/verification', verificationRoute)
 const server = http.createServer(app);
