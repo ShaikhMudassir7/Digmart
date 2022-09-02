@@ -79,7 +79,6 @@ router.get('/add-product', checkAuth, (req, res) => {
         })
 })
 
-
 router.post('/add-product', imgUpload, (req, res, next) => {
 
     var rawSS = req.files.images;
@@ -123,9 +122,7 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
                     .exec()
                     .then(docs => {
                         res.render('./seller/products/edit-product', { images: allImages, catsData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname });
-
                     })
-
             } else {
                 res.send('try-again')
             }
@@ -151,7 +148,6 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
             }
-            
             console.log(imageArr)
         }
 
@@ -188,16 +184,12 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
 
 
 router.get("/delete-product/(:id)", (req, res, next) => {
-
     Products.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
             doc.images.forEach(element => {
                 fs.unlinkSync("\public" + element.imageURL)
-
-            }
-            );
+            });
             res.redirect('/seller/products');
-
         } else {
             res.send("Error Occurred. Please try again!")
         }
