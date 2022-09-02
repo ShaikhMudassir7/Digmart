@@ -182,7 +182,7 @@ router.post('/sendOtp', (req, res) => {
                         res.send({ status: 1, busMobile: seller[0].busMobile, busEmail: seller[0].busEmail })
                     } else if (seller[0].status == "Pending") {
                         res.send({ status: 2 })
-                    } else if (busEmail == 'dsouzaglen30@gmail.com') {
+                    } else if (busEmail == 'dsouzaglen30@gmail.com' || busEmail == 'hatmsb11@gmail.com' || busEmail == 'hawaiza27@gmail.com') {
                         res.send({ status: 3 })
                     } else {
                         var id = seller[0]._id
