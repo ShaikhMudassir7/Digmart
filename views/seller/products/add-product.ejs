@@ -35,7 +35,7 @@
                                         <div class="card-body">
 
                                             <form action="/seller/products/add-product" enctype="multipart/form-data"
-                                                method="post" class="needs-validation" novalidate
+                                                id="addProductForm" method="post" class="needs-validation" novalidate
                                                 accept-charset="utf-8">
                                                 <!-- <form action="/seller/products/add-product"
                                         method="post" class="needs-validation" novalidate accept-charset="utf-8"> -->
@@ -82,17 +82,18 @@
                                                                 ---Choose Category---
                                                             </option>
                                                             <% if(catData.length!=0){ var i=1;
-                                                                catData.forEach(function(data){ %>
-                                                                <option
-                                                                    value="<%=data.catName%>"
-                                                                    id="element">
+                                                                catData.forEach(function(data){ if(data.status=="Active"
+                                                                ){ %>
+
+                                                                <option value="<%=data.catName%>" id="element">
                                                                     <%=data.catName %>
                                                                 </option>
-                                                                <% i++; }) %>
-                                                                    <% } else{ %>
-                                                                        <option value="No Category">Category Not
-                                                                            Available</option>
-                                                                        <% } %>
+                                                                <% } %>
+                                                                    <% i++; }) %>
+                                                                        <% } else{ %>
+                                                                            <option value="No Category">Category Not
+                                                                                Available</option>
+                                                                            <% } %>
                                                         </select>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please enter category name.</div>
@@ -109,16 +110,54 @@
                                                 </div>
 
                                                 <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
+                                                    <div class=" col-md-3">
                                                         <label for="sizes" class="form-label">Sizes
                                                             <span class="text-muted"> (Optional)</span>
                                                         </label>
-                                                        <input type="name" class="form-control" name="sizes" value="100"
-                                                            id="sizes" placeholder="e.g. XL">
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter size(s).</div> -->
+                                                    </div>
+                                                    <div class=" col-md-4">
+                                                        <label for="sizes" class="form-label">Colours
+                                                            <span class="text-muted"> (Optional)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class=" col-md-3">
+                                                        <label for="quantity" class="form-label">Quantity
+                                                            <span class="text-muted"> (Optional)</span>
+                                                        </label>
                                                     </div>
                                                 </div>
+
+                                                <div id="showItems">
+                                                <div class="row g-2" id="row1">
+                                                    <div class=" col-md-3">
+                                                        <input type="name" class="form-control" name="sizes" id="sizes"
+                                                            placeholder="e.g. XL">
+                                                    </div>
+
+                                                    <div class=" col-md-4">
+                                                        <input type="name" class="form-control" name="colours"
+                                                            placeholder="e.g. Black, White">
+                                                    </div>
+
+                                                    <div class=" col-md-3">
+                                                        <input type="number" class="form-control" name="quantity"
+                                                            min="1" placeholder="e.g. 50">
+                                                    </div>
+
+
+                                                    <div class="mb-3 col-md-2">
+                                                        <button class="btn btn-outline-primary addItemBtn"><i
+                                                                class="fas fa-plus-circle"></i>
+                                                            Add More</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+
+
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
@@ -147,7 +186,8 @@
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-4">
-                                                        <label for="actualPrice" class="form-label">Actual Price</label>
+                                                        <label for="actualPrice" class="form-label">Actual
+                                                            Price</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">&#8377;</span>
                                                             <input type="text" class="form-control" name="actualPrice"
@@ -173,14 +213,15 @@
                                                                 placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
 
                                                             <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">Please enter Discount (without
-                                                                %
-                                                                symbol).</div>
+                                                            <div class="invalid-feedback">Discount should be below
+                                                                100
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="mb-3 col-md-4">
-                                                        <label for="finalPrice" class="form-label">Final Price</label>
+                                                        <label for="finalPrice" class="form-label">Final
+                                                            Price</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">&#8377;</span>
                                                             <input type="number" class="form-control" name="finalPrice"
@@ -193,19 +234,9 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="quantity" class="form-label">Quantity
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                        <input type="number" class="form-control" name="quantity"
-                                                            min="1" placeholder="e.g. 50">
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter Quantity.</div> -->
-                                                    </div>
-                                                </div>
 
-                                                <a href="/seller/products" class="btn btn-danger"><i
+
+                                                <a href="/seller/products/?status=Pending" class="btn btn-danger"><i
                                                         class="fas fa-times"></i>
                                                     Cancel</a>
                                                 <button type="submit" class="btn btn-primary" id="submitData"
@@ -235,22 +266,19 @@
 
             subcat.innerHTML = "";
 
-           function testing(cat) {
+            function testing(cat) {
                 '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
                 var a = '<%=data.catName%>';
                 if (cat.value == a) {
-                    return '<%=data.sub_category%>';    
+                    return '<%=data.sub_category%>';
                 }
                 '<% i++; }) %>'
                 '<% } %>'
             }
 
-
-
             var subcatValues = b;
-        
             var optionsArray = subcatValues.split(",")
-             
+
             for (var option in optionsArray) {
                 var pair = optionsArray[option].split(",")
                 var newoption = document.createElement("option");
@@ -263,9 +291,6 @@
         }
 
 
-
-
-
         //Toast Trigger
         const toastTrigger = document.getElementById('submitData')
         const toastLiveExample = document.getElementById('liveToast')
@@ -276,6 +301,7 @@
                 toast.show()
             })
         }
+
 
         function calculate(val1, val2) {
             var actualPrice = document.getElementById("actualPrice").value;
@@ -291,10 +317,53 @@
             // if (discountPct == 0) {
             //     finalPriceField.value = null;
             // }
+
         }
+
+
+
+
+
     </script>
 
+
     <script src="/vendor/jquery/jquery.min.js"></script>
+    <script>
+        // Add more fields for size and quantity
+        $(document).ready(function () {
+            $(".addItemBtn").click(function(e){
+                e.preventDefault();
+                $("#showItems").prepend(`<div class="row g-2" id="row1">
+                                                    <div class=" col-md-3">
+                                                        <input type="name" class="form-control" name="sizes" id="sizes"
+                                                            placeholder="e.g. XL">
+                                                    </div>
+
+                                                    <div class=" col-md-4">
+                                                        <input type="name" class="form-control" name="colours"
+                                                            placeholder="e.g. Black, White">
+                                                    </div>
+
+                                                    <div class=" col-md-3">
+                                                        <input type="number" class="form-control" name="quantity"
+                                                            min="1" placeholder="e.g. 50">
+                                                    </div>
+
+
+                                                    <div class="mb-3 col-md-2">
+                                                        <button class="btn btn-outline-danger removeItemBtn"><i
+                                                                class="fas fa-plus-circle"></i>
+                                                            Remove</a>
+                                                    </div>
+
+                                                </div>`);
+            });
+        });
+        
+    </script>
+
+
+
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
     <script src="/js/form-validator.js"></script>

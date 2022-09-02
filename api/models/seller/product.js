@@ -16,7 +16,7 @@ const productSchema = mongoose.Schema({
     brand: { type: String},
     actualPrice:  { type: String, required: true },
     discount: { type: Number},
-    finalPrice:  { type: String},
+    finalPrice:  { type: String, required: true },
     quantity:  { type: Number},
     status:  { type: String, default: "Pending"},
 });

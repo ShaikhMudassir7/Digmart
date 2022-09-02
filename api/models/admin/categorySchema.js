@@ -8,4 +8,4 @@ const catSchema = mongoose.Schema({
     status : {type : String , default : "Active"},
 });
  
-module.exports = mongoose.model("Category",catSchema);
+module.exports = mongoose.model("Category", catSchema);

@@ -29,7 +29,7 @@
         position: absolute;
         right: -20px;
         top: -10px;
-        background: red;
+        opacity: 0.95;
         text-align: center;
         border-radius: 5px 5px 5px 5px;
         color: white;
@@ -92,12 +92,14 @@
 
                                                                     <a
                                                                         href="/seller/products/delete-image/<%=productData._id%>/<%=a %>">
-                                                                        <span class="notify-badge">X</span>
+                                                                        <span class="btn btn-danger notify-badge fw-bold">X</span>
                                                                     </a>
                                                                     <% } else {%>
-                                                                        <button type="button" class="notify-badge">
-                                                                            X</button>
-
+                                                                        <!-- <button type="button" class="notify-badge">
+                                                                            X</button> -->
+                                                                            <button type="button" class="btn btn-danger notify-badge fw-bold" id="dontDelete"
+                                                                            data-bs-toggle="modal" data-bs-target="#cantDelete"
+                                                                            ><i class="fas fa-cancel"></i>X</button>
                                                                         <% } %>
 
                                                             </div>
@@ -110,13 +112,7 @@
                                                 </div>
 
                                                 <div class="row g-2">
-                                                    <% if(productData.images.length == 1){ %>
-                                                        <div class="alert alert-danger alert-dismissible fade show"
-                                                            role="alert">
-                                                            You cannot delete above image. There should be atleast one
-                                                            product image present!
-                                                        </div>
-                                                    <% } %>
+                            
                                                             <div class="mb-3 col-md-12">
 
                                                                 <% if(productData.images.length!=0){ %>
@@ -126,9 +122,9 @@
                                                                         Images</label>
                                                                     <% } %>
 
-                                                                        <input type="file" class="form-control"
-                                                                            name="images" 
-                                                                            accept="image/*" id="chooseImage">
+                                                                        <input type="file" class="form-control" 
+                                                                            name="images" accept="image/*"
+                                                                            id="chooseImage" multiple>
                                                                         <div class="valid-feedback">Looks good!</div>
                                                                         <div class="invalid-feedback">Please Choose an
                                                                             Image.
@@ -170,15 +166,18 @@
                                                     placeholder="Enter Category Name" required> -->
                                                         <select name="category" class="form-select" id="category"
                                                             onchange="populate(this.id, 'subcategory')" required>
-                                                            <option value="">
+                                                            <!-- <option value="">
                                                                 ---Choose Category---
-                                                            </option>
-                                                            <% if(catsData.length!=0){ 
-                                                                var i=1;
-                                                                catsData.forEach(function(data){ %>
-                                                                <option value="<%=data.catName %>">
+                                                            </option> -->
+                                                            <% if(catData.length!=0){ var i=1;
+                                                                catData.forEach(function(data){ 
+                                                                    
+                                                                    if(data.status == "Active"){ %>
+                                                                        
+                                                                <option value="<%=data.catName %>" >
                                                                     <%=data.catName %>
                                                                 </option>
+                                                                <% } %>
                                                                 <% i++; }) %>
                                                                     <% } else{ %>
                                                                         <option value="No Category">Category Not
@@ -191,9 +190,10 @@
 
                                                     <div class="mb-3 col-md-6">
                                                         <label for="subcategory" class="form-label">Subcategory</label>
-                                                        <select name="subcategory" id="subcategory" class="form-select">
-                                                            <option value="<%=productData.sub_category %>">
-                                                                <%=productData.sub_category %>
+                                                        <select name="subcategory" id="subcategory" class="form-select" 
+                                                        onfocus="populate('category', this.id)">
+                                                            <option value="<%=productData.subcategory %>">
+                                                                <%=productData.subcategory %>
                                                             </option>
                                                         </select>
                                                         <!-- <div class="valid-feedback">Looks good!</div>
@@ -281,10 +281,10 @@
                                                             Price</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">&#8377;</span>
-                                                            <input type="number" class="form-control" name="finalPrice"
-                                                                value="<%=productData.finalPrice %>" id="finalPrice"
+                                                            <input type="text" class="form-control" name="finalPrice"
+                                                                value="<%=productData.finalPrice %>" id="finalPrice" 
                                                                 placeholder="Final Price (Auto calculated)" readonly>
-
+                                                                
                                                             <!-- <div class="valid-feedback">Looks good!</div>
                                                 <div class="invalid-feedback">Please enter Final Price.</div> -->
                                                         </div>
@@ -330,7 +330,35 @@
                                                     </div>
                                                 </div>
 
-                                                
+
+
+                                                <!-- Delete Warning Modal -->
+                                                <div class="modal fade" id="cantDelete" data-bs-backdrop="static"
+                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="cantDeleteLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="cantDeleteLabel">
+                                                            Cannot delete image
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        There should be atleast one
+                                                        product image present!
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-bs-dismiss="modal">OK</button>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
 
                                                 <!-- Save changes Warning Modal -->
                                                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
@@ -358,6 +386,8 @@
                                                                 </button>
 
 
+
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -378,6 +408,7 @@
 
         let element1 = document.getElementById('subcategory');
         element1.value = '<%=productData.subcategory %>';
+        
 
         let chooseImage = document.getElementById("chooseImage")
         '<% if(productData.images.length==0){ %>'
@@ -388,28 +419,74 @@
 
     <script>
 
-          //Populate subcategory dropdown 
-          function populate(category, subcategory) {
-            var cat = document.getElementById(category);
-            var subcat = document.getElementById(subcategory);
+        //Populate subcategory dropdown 
+        function populate(category, subcategory) {
+            var cat = document.getElementById("category");
+            var subcat = document.getElementById("subcategory");
+            // document.write(subcategory);
+            var b = testing(cat);
 
-             subcat.innerHTML = "";
+            subcat.innerHTML = '';
 
-            var subcatValues = cat.value;
-            var optionsArray = subcatValues.split(",")
-          
-
-            for (var option in optionsArray) {
-                var pair = optionsArray[option].split(",")
-                var newoption = document.createElement("option");
-
-                newoption.value = pair[0];
-                newoption.innerHTML = pair[0];
-                subcat.options.add(newoption);
+            function testing(cat) {
+                '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
+                var a = '<%=data.catName%>';
+                if (cat.value == a) {
+                    return '<%=data.sub_category%>';
+                }
+                '<% i++; }) %>'
+                '<% } %>'
             }
+
+            var subcatValues = b;
+            var optionsArray = subcatValues.split(",")
+            flag = 1;
+
+            //Searching
+            for (var i in optionsArray) {
+                if (optionsArray[i] == '<%=productData.subcategory%>') {
+
+                    ppl(flag);
+                    flag++;
+                    return
+                }
+                else {
+                    if (flag == 1) {
+                        ppl(flag);
+                        flag++
+                    }
+                    else{
+                        flag = 0;
+                    ppl(flag);}
+                }
+
+            }
+
+            function ppl(flag) {
+                if (flag == 1) {
+                    for (var option in optionsArray) {
+                        var pair = optionsArray[option].split(",")
+                        var newoption = document.createElement("option");
+
+                        newoption.value = pair[0];
+                        newoption.innerHTML = pair[0];
+                        subcat.options.add(newoption);
+                    }
+                }
+            }
+
         }
 
-        const toastTrigger = document.getElementById('submitData')
+
+        const saveDataID = document.getElementById('submitData')
+        modals(saveDataID);
+
+        const deleteImgID = document.getElementById('dontDelete')
+        modals(deleteImgID);
+        
+        function modals(id){
+
+        const toastTrigger= id;
         const toastLiveExample = document.getElementById('liveToast')
         if (toastTrigger) {
             toastTrigger.addEventListener('click', () => {
@@ -418,6 +495,7 @@
                 toast.show()
             })
         }
+    }
 
 
         function calculate(val1, val2) {
