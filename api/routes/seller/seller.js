@@ -57,10 +57,8 @@ router.post('/add-seller', middleware, async (req, res) => {
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
     var emailOtp = Math.floor(1000 + Math.random() * 9000)
     console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
-    if (busMobile != '9324326404') {
-        await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-        await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
-    }
+    await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
+    await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
     var sellerAcc = new Seller({
         _id: new mongoose.Types.ObjectId(),
         pFname: req.body.pFname,
@@ -347,7 +345,7 @@ router.post('/reauthenticate', async (req, res) => {
         busEmail: busEmail
     }, { $set: { mobileOtp: mobileOtp, emailOtp: emailOtp } }, function (err, result) {
         if (err) throw err;
-        res.redirect('/seller/authentication?busMobile='+busMobile+'&busEmail='+busEmail)
+        res.redirect('/seller/authentication?busMobile=' + busMobile + '&busEmail=' + busEmail)
     })
 
 })
