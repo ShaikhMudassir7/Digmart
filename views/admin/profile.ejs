@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="/img/DigMart.png">
+    <title>Profile | DigMart</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
+    <link href="/css/master.css" rel="stylesheet">
+    <link href="/css/seller/profile.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar navigation component -->
+        <%- include('sidebar') %>
+            <!-- end of sidebar component -->
+            <div id="body" class="active">
+                <!-- navbar navigation component -->
+                <%- include('navbar') %>
+                    <!-- end of navbar navigation -->
+                    <div class="content">
+                        <div class="container">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="col-lg-11" style="margin: auto;">
+                                        <form id="profile" method="post" action="/admin/profile/<%= adminData._id %>">
+                                            <div class="card">
+                                                <div class="card-header">PROFILE</div>
+                                                <div class="card-body">
+                                                    <div class="row g-2">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Name</label>
+                                                            <input disabled="true" id="user_name" name="user_name"
+                                                                class="form-control" type="text"
+                                                                value="<%= adminData.name %>" required>
+                                                        </div>
+                                                    </div>
+                                                    <label class="form-label">Mobile No.</label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text" id="basic-addon1">+91</span>
+                                                        <input disabled="true" id="mobile" name="mobile"
+                                                            class="form-control" type="text"
+                                                            aria-describedby="basic-addon1"
+                                                            value="<%= adminData.mobile %>" required>
+                                                    </div>
+                                                    <div class="mb-3 ">
+                                                        <label class="form-label">Email</label>
+                                                        <input disabled="true" name="email" id="email"
+                                                            class="form-control" type="text"
+                                                            value="<%= adminData.email %>">
+                                                    </div>
+                                                    <div class="mb-3 col-md-4">
+                                                        <label for="type" class="form-label">Type</label>
+                                                        <input type="text" name="type" id="type"
+                                                            value="<%= adminData.type %>" placeholder="Type"
+                                                            class="form-control" disabled="disabled">
+                                                    </div>
+                                                    <div class="mb-3" id="hide" style="display: none;">
+                                                        <label for="pass1" class="form-label">Password</label>
+                                                        <input type="password" name="pass1" id="pass1" minlength="8"
+                                                            placeholder="Enter New Password" class="form-control" required>
+                                                    </div>
+
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="button" id="edit" value="EDIT" onclick="prof_btn()"
+                                                        class="btn btn-primary col-md-12">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    </div>
+    <script>
+
+        function prof_btn() {
+            let name = document.getElementById('user_name');
+            let edit = document.getElementById('edit');
+            let pass = document.getElementById('hide');
+            if (edit.value == "EDIT") {
+                name.disabled = false;
+                pass.style.display = "inline";
+                edit.value = "SAVE"
+            }
+            else {
+                document.getElementById("profile").submit();
+            }
+        }
+    </script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/chartsjs/Chart.min.js"></script>
+    <script src="/js/dashboard-charts.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

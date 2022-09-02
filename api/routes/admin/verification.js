@@ -196,7 +196,7 @@ router.get('/productStatus', checkAuth, (req, res) => {
 router.get('/sellerStatus', checkAuth, (req, res) => {
     var status = req.query.status
     if (status == "Rejected") {
-        Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+        Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" },  { status: "Authentication" }] })
             .select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
             .exec()
             .then(docs => {

@@ -32,7 +32,7 @@
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form  method="post" action="/admin/editoperator/<%= item._id %>" autocomplete="off">
+                                    <form  method="post" action="/admin/editoperator/<%= item._id %>/<%= item.email %>">
 
                                         <div class="mb-3">
                                             <label for="user_name" class="form-label">Name</label>
@@ -63,11 +63,11 @@
                                         <div class="mb-3">
                                             <label for="pass1" class="form-label">Password</label>
                                             <input type="password" name="pass1" id="pass1" minlength="8"
-                                                value="<%= item.pass%>" placeholder="Enter Password"
-                                                class="form-control" required>
+                                                placeholder="Enter New Password If Needed"
+                                                class="form-control">
                                         </div>
                                         <div class="mb-3 col-md-4">
-                                            <label for="type" class="form-label">Type</label>
+                                            <label for="type" class="form-label">Status</label>
                                             <div class="col-sm-9"></div>
                                             <select name="status" id="status" class="form-select" required>
                                                 <option value="Active">Active</option>

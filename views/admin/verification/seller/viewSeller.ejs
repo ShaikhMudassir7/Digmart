@@ -35,173 +35,259 @@
                                         <div class="card-header fw-bold bg-dark text-light">VERIFY SELLER</div>
                                         <div class="card-body">
 
+                                            <!-- <form id="formA" method="post" action="/seller/add-seller" class="row needs-validation" novalidate
+                                            enctype="multipart/form-data"> -->
 
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="sellerID" class="form-label">Seller ID</label>
-                                                    <input type="name" class="form-control" name="sellerid"
-                                                        value="<%=sellerData._id %>" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="pFname" class="form-label">Profile Name</label>
-                                                    <input type="name" class="form-control" name="profileName"
-                                                        value="<%=sellerData.pFname + sellerData.pLname %>" disabled>
-                                                </div>
-                                            </div>
+                                            <!-- PERSONAL DETAILS -->
+                                            <div class="col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-header">Owner Details</div>
+                                                    <div class="card-body">
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="pFname" class="form-label">First
+                                                                    Name</label>
+                                                                <input id="pFname" type="text" class="form-control"
+                                                                    name="pFname" placeholder="First Name"
+                                                                    value="<%= sellerData.pFname %>" disabled>
+                                                            </div>
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="pLname" class="form-label">Last Name</label>
+                                                                <input value="<%= sellerData.pLname %>" id="pLname"
+                                                                    type="text" class="form-control" name="pLname"
+                                                                    placeholder="Last Name" disabled>
+                                                            </div>
+                                                        </div>
 
+                                                        <label for="pMobile" class="form-label">Mobile No.</label>
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text" id="basic-addon1">+91</span>
+                                                            <input value="<%= sellerData.pMobile %>" id="pMobile"
+                                                                type="numeric" class="form-control" name="pMobile"
+                                                                placeholder="Mobile No." style="width: 80%;"
+                                                                aria-describedby="basic-addon1" disabled>
+                                                        </div>
 
+                                                        <div class="mb-3 ">
+                                                            <label for="pEmail" class="form-label">Email</label>
+                                                            <input value="<%= sellerData.pEmail %>" id="pEmail"
+                                                                type="email" class="form-control" name="pEmail"
+                                                                placeholder="Email" autocomplete="off" disabled>
+                                                        </div>
 
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="pMobile" class="form-label">Profile Mobile No.</label>
-                                                    <input type="name" class="form-control" name="pMobile"
-                                                        value="<%=sellerData.pMobile %>" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="description" class="form-label">Profile Email</label>
-                                                    <input type="name" class="form-control" name="productEmail"
-                                                        value="<%=sellerData.pEmail %>" disabled>
-
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-6">
-                                                    <label for="description" class="form-label">Business Name</label>
-                                                    <input type="name" class="form-control" name="productEmail"
-                                                        value="<%=sellerData.busName %>"
-                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                </div>
-
-                                                <div class="mb-3 col-md-6">
-                                                    <label for="description" class="form-label">Business Email</label>
-                                                    <input type="name" class="form-control" name="productEmail"
-                                                        value="<%=sellerData.busEmail %>"
-                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="description" class="form-label">Business Mobile</label>
-                                                    <input type="name" class="form-control" name="productEmail"
-                                                        value="<%=sellerData.busMobile %>"
-                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="description" class="form-label">Business Address</label>
-                                                    <input type="name" class="form-control" name="productEmail"
-                                                        value="<%=sellerData.busAddress %>"
-                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="description" class="form-label">Business PAN No</label>
-                                                    <input type="name" class="form-control" name="productEmail"
-                                                        value="<%=sellerData.busPanNo %>"
-                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-4">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="description" class="form-label">Business GST No</label>
-                                                        <input type="name" class="form-control" name="productEmail"
-                                                            value="<%=sellerData.busGstNo %>"
-                                                            placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                                <div class="mb-3 col-md-4">
-                                                    <label for="description" class="form-label">Bank Acc No</label>
-                                                        <input type="name" class="form-control" name="productEmail"
-                                                            value="<%=sellerData.bankAccNo %>"
-                                                            placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                    
-                                                </div>
-
-                                                <div class="mb-3 col-md-4">
-                                                    <label for="description" class="form-label">Bank Name</label>
-                                                    <input type="name" class="form-control" name="productEmail"
-                                                        value="<%=sellerData.bankName %>"
-                                                        placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                    
-                                                <!-- </div> -->
-
-                                            </div>
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="description" class="form-label">Bank IFSC code</label>
-                                                        <input type="name" class="form-control" name="productEmail"
-                                                            value="<%=sellerData.bankIfsc %>"
-                                                            placeholder="e.g. Samsung Galaxy S22 Ultra" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="productName" class="form-label">Status</label>
-                                                    <input type="name" class="form-control" name="_id"
-                                                        value="<%= sellerData.status %>" disabled>
-                                                </div>
-                                            </div>
-
-
-
-                                            <button type="button" data-bs-target="#staticBackdrop"
-                                                data-bs-toggle="modal" class="btn btn-danger"><i
-                                                    class="fas fa-times"></i>
-                                                Reject</button>
-                                            <button type="button" class="btn btn-primary"
-                                                onclick="location.href='/admin/verification/accept-seller/<%=sellerData._id %>'"
-                                                id="submitData" style="float:right"><i class="fas fa-check"></i>
-                                                Accept</button>
-
-
-                                            <!-- Save changes Warning Modal -->
-                                            <form class="needs-validation" method="post"
-                                                action="/admin/verification/reject-seller/<%=sellerData._id %>"
-                                                novalidate accept-charset="utf-8">
-                                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                                    data-bs-keyboard="false" tabindex="-1"
-                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">REMARKS
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <!-- BUSINESS DETAILS -->
+                                            <div class="col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-header">Business Details</div>
+                                                    <div class="card-body">
+                                                        <div class="row g-2">
+                                                            <center>
+                                                                <div class="mb-3 col-md-2">
+                                                                    <label for="busLogo" class="form-label">Business
+                                                                        Logo</label>
+                                                                    <div class="item border p-2 border-dark border-3">
+                                                                        <img name="busLogo" id="busLogo"
+                                                                            src="<%= sellerData.busLogo %>"
+                                                                            style="width: 100%; ">
+                                                                    </div>
+                                                                </div>
+                                                            </center>
+                                                        </div>
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="busName" class="form-label">Business
+                                                                    Name</label>
+                                                                <input value="<%= sellerData.busName %>" id="busName"
+                                                                    type="text" class="form-control" name="busName"
+                                                                    placeholder="Business Name" disabled>
                                                             </div>
-                                                            <div class="modal-body">
-                                                                <label for="productName" class="form-label">Reason(s)
-                                                                    for Rejection</label>
-                                                                <input type="text" class="form-control"
-                                                                    name="rejectText" id="rejectText">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="busMobile" class="form-label">Business's
+                                                                    Mobile No.</label>
+                                                                <input value="<%= sellerData.busMobile %>"
+                                                                    id="busMobile" type="numeric" class="form-control"
+                                                                    name="busMobile" placeholder="Mobile No." disabled>
                                                             </div>
+                                                        </div>
 
-                                                            <div class="modal-footer">
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Reject</button>
+                                                        <div class="mb-3 ">
+                                                            <label for="busEmail" class="form-label">Business
+                                                                Email</label>
+                                                            <input value="<%= sellerData.busEmail %>" id="busEmail"
+                                                                type="email" class="form-control" name="busEmail"
+                                                                placeholder="Business Email" disabled>
+                                                        </div>
+
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-9">
+                                                                <label for="busAddress" class="form-label">Business
+                                                                    Address</label>
+                                                                <input value="<%= sellerData.busAddress %>"
+                                                                    id="busAddress" type="text" class="form-control"
+                                                                    name="busAddress"
+                                                                    placeholder="Example, 1234 Main St, Unit, Building, Landmark"
+                                                                    disabled>
+                                                            </div>
+                                                            <div class="mb-3 col-md-3">
+                                                                <label for="busZip" class="form-label">Zip Code</label>
+                                                                <input value="<%= sellerData.busZip %>" id="busZip"
+                                                                    type="numeric" class="form-control" name="busZip"
+                                                                    placeholder="Zip Code" disabled>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr><br>
+
+                                                        <div class="row g-2">
+
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="busType" class="form-label">Business
+                                                                    type</label>
+                                                                <input value="<%= sellerData.busType %>" id="busType"
+                                                                    name="busType" type="text" class="form-control"
+                                                                    placeholder="Business type" disabled>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="busCat" class="form-label">Product
+                                                                Category</label>
+                                                            <input value="<%= sellerData.busCat %>" id="busCat"
+                                                                name="busCat" type="text" class="form-control"
+                                                                placeholder="Product Category" disabled>
+                                                        </div>
+
+                                                        <hr><br>
+
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="busPanNo" class="form-label">PAN No.</label>
+                                                                <input value="<%= sellerData.busPanNo %>" id="busPanNo"
+                                                                    type="numeric" class="form-control" name="busPanNo"
+                                                                    placeholder="PAN No." disabled>
+                                                            </div>
+                                                            <div class="mb-3 col-md-6">
+                                                                <label class="form-label">PAN
+                                                                    Card</label>
+                                                                <br>
+                                                                <a href="<%= sellerData.busPanFile %>" target="_blank"><button type="button" id="pan"
+                                                                    class="col-md-12 btn  btn-outline-success"
+                                                                    name="pan">VIEW</button></a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="busGstNo" class="form-label">GST No.</label>
+                                                                <input value="<%= sellerData.busGstNo %>" id="busGstNo"
+                                                                    type="numeric" class="form-control" name="busGstNo"
+                                                                    placeholder="GST No." disabled>
+                                                            </div>
+                                                            <div class="mb-3 col-md-6">
+                                                                <label class="form-label">GST FILE
+                                                                    </label>
+                                                                <br>
+                                                                <a href="<%= sellerData.busGstFile %>" target="_blank"><button type="button" id="gst"
+                                                                    class="col-md-12 btn  btn-outline-success"
+                                                                    name="gst">VIEW</button></a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </div>
+
+                                            <!-- BANK DETAILS -->
+                                            <div class="col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-header">Bank Details</div>
+                                                    <div class="card-body">
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="bankName" class="form-label">Name of the
+                                                                    Bank</label>
+                                                                <input value="<%= sellerData.bankName %>" id="bankName"
+                                                                    type="text" class="form-control" name="bankName"
+                                                                    placeholder="Bank name" disabled>
+                                                            </div>
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="bankIfsc" class="form-label">IFSC
+                                                                    Code</label>
+                                                                <input value="<%= sellerData.bankIfsc %>" id="bankIfsc"
+                                                                    type="text" class="form-control" name="bankIfsc"
+                                                                    placeholder="IFSC Code" disabled>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-6">
+                                                                <label for="bankAccNo" class="form-label">Bank Account
+                                                                    No.</label>
+                                                                <input value="<%= sellerData.bankAccNo %>"
+                                                                    id="bankAccNo" type="numeric" class="form-control"
+                                                                    name="bankAccNo" placeholder="Account No." disabled>
+                                                            </div>
+                                                            <div class="row g-2">
+                                                                <div class="mb-3 col-md-6">
+                                                                    <label class="form-label">Cancelled Cheque / First page of
+                                                                        Passbook
+                                                                        </label>
+                                                                    <br>
+                                                                    <a href="<%= sellerData.bankChqPass %>" target="_blank"><button type="button" id="bankChqPass"
+                                                                        class="col-md-12 btn  btn-outline-success"
+                                                                        name="bankChqPass">VIEW</button></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" data-bs-target="#staticBackdrop"
+                                                    data-bs-toggle="modal" class="btn btn-danger"><i
+                                                        class="fas fa-times"></i>
+                                                    Reject</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="location.href='/admin/verification/accept-seller/<%=sellerData._id %>'"
+                                                    id="submitData" style="float:right"><i class="fas fa-check"></i>
+                                                    Accept</button>
+
+
+                                                <!-- Save changes Warning Modal -->
+                                                <form class="needs-validation" method="post"
+                                                    action="/admin/verification/reject-seller/<%=sellerData._id %>"
+                                                    novalidate accept-charset="utf-8">
+                                                    <div class="modal fade" id="staticBackdrop"
+                                                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                                                        REMARKS
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <label for="productName"
+                                                                        class="form-label">Reason(s)
+                                                                        for Rejection</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="rejectText" id="rejectText">
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Reject</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -209,48 +295,14 @@
                         </div>
                     </div>
             </div>
-    </div>
-
-    <script>
-        let element = document.getElementById('category');
-        element.value = '<% %>';
-
-        let element1 = document.getElementById('subcategory');
-        element1.value = '<% %>';
-    </script>
-
-    <script>
-        const toastTrigger = document.getElementById('submitData')
-        const toastLiveExample = document.getElementById('liveToast')
-        // if (toastTrigger) {
-        //     toastTrigger.addEventListener('click', () => {
-        //         const toast = new bootstrap.Toast(toastLiveExample)
-
-        //         toast.show()
-        //     })
-        // }
-
-        function calculate(val1, val2) {
-            var actualPrice = document.getElementById("actualPrice").value;
-            var discountPct = document.getElementById("discount").value;
 
 
-            var total = (actualPrice * discountPct) / 100;
-            finalPrice = actualPrice - total;
-
-
-            var finalPriceField = document.getElementById("finalPrice");
-            finalPriceField.value = finalPrice;
-
-        }
-    </script>
-
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/datatables/datatables.min.js"></script>
-    <script src="/js/form-validator.js"></script>
-    <script src="/js/initiate-datatables.js"></script>
-    <script src="/js/script.js"></script>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/datatables/datatables.min.js"></script>
+            <script src="/js/form-validator.js"></script>
+            <script src="/js/initiate-datatables.js"></script>
+            <script src="/js/script.js"></script>
 </body>
 
 </html>

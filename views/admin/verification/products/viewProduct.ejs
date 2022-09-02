@@ -50,8 +50,29 @@
                                                 </div>
                                             </div>
 
+                                            <div class="row g-2">
+                                                <div class="mb-3 col-md-12">
+                                                    <label for="productName" class="form-label">Product
+                                                        Images</label>
+                                                </div>
+                                            </div>
 
 
+                                            <div class="row g-2">
+                                                <% for (let a=0; a < productData.images.length; a++){ %>
+                                                    <div class=" col-md-2">
+
+                                                        <div class="item">
+
+                                                            <img src="<%=productData.images[a]%>" style="width: 100%; ">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <% } %>
+                                            </div>
+
+                                            <br>
                                             <div class="row g-2">
                                                 <div class="mb-3 col-md-12">
                                                     <label for="productName" class="form-label">Product Name</label>
@@ -76,27 +97,16 @@
                                             <div class="row g-2">
                                                 <div class="mb-3 col-md-6">
                                                     <label for="category" class="form-label">Category</label>
-                                                    <!-- <input type="name" class="form-control" name="category"
-                                                    placeholder="Enter Category Name" required> -->
-                                                    <select name="category" class="form-select" id="category"
-                                                        value="<%=productData.category %>" disabled>
-                                                        <option value="Electronics">Electronics</option>
-                                                        <option value="Home Decor">Home Decor</option>
-                                                        <option value="Accessories">Accessories</option>
-                                                        <option value="Clothes">Clothes</option>
-                                                    </select>
+                                                    <input type="name" class="form-control" name="category"
+                                                        id="category" value="<%=productData.category %>"
+                                                        placeholder="Product Category" disabled>
                                                 </div>
 
                                                 <div class="mb-3 col-md-6">
                                                     <label for="subcategory" class="form-label">Subcategory</label>
-                                                    <select name="subcategory" class="form-select" id="subcategory"
-                                                        value="<%=productData.subcategory %>" disabled>
-                                                        <option value="Mobiles">Mobiles</option>
-                                                        <option value="Television">Television</option>
-                                                        <option value="Laptop">Laptop</option>
-                                                        <option value="Camera">Camera</option>
-                                                    </select>
-
+                                                    <input type="name" class="form-control" name="subcategory"
+                                                        id="subcategory" value="<%=productData.subcategory %>"
+                                                        placeholder="Product Subcategory" disabled>
                                                 </div>
                                             </div>
 
@@ -248,41 +258,6 @@
                     </div>
             </div>
     </div>
-
-    <script>
-        let element = document.getElementById('category');
-        element.value = '<%=productData.category %>';
-
-        let element1 = document.getElementById('subcategory');
-        element1.value = '<%=productData.subcategory %>';
-    </script>
-
-    <script>
-        const toastTrigger = document.getElementById('submitData')
-        const toastLiveExample = document.getElementById('liveToast')
-        // if (toastTrigger) {
-        //     toastTrigger.addEventListener('click', () => {
-        //         const toast = new bootstrap.Toast(toastLiveExample)
-
-        //         toast.show()
-        //     })
-        // }
-
-        function calculate(val1, val2) {
-            var actualPrice = document.getElementById("actualPrice").value;
-            var discountPct = document.getElementById("discount").value;
-
-
-            var total = (actualPrice * discountPct) / 100;
-            finalPrice = actualPrice - total;
-
-
-            var finalPriceField = document.getElementById("finalPrice");
-            finalPriceField.value = finalPrice;
-
-        }
-    </script>
-
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
