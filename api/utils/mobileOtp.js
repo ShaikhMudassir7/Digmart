@@ -1,6 +1,6 @@
 var unirest = require("unirest")
 
-exports.fast2sms = async ({ otp, mobile }) => {
+exports.sendMobileOtp = async ({ mobile, otp }) => {
     var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
     req.query({
         "authorization": process.env.FAST_API,

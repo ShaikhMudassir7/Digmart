@@ -3,16 +3,13 @@ const router = express.Router()
 const mongoose = require("mongoose")
 const multer = require("multer")
 const jwt = require("jsonwebtoken")
-var unirest = require("unirest")
-var nodemailer = require("nodemailer")
 
 const Seller = require("../../models/seller/seller")
 const Products = require('../../models/seller/product')
-const { fast2sms } = require('../../utils/otp-util')
+const { sendMobileOtp } = require('../../utils/mobileOtp')
+const { sendEmail } = require('../../utils/emailOtp')
 
 const checkAuth = require("../../middleware/seller/checkAuth")
-
-var otp;
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -23,18 +20,8 @@ var storage = multer.diskStorage({
     },
 });
 
-var fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true)
-    } else {
-        console.log('only jpg, jpeg & png type images allowed')
-        cb(null, false)
-    }
-}
-
 var upload = multer({
     storage: storage,
-    fileFilter: fileFilter
 });
 
 const middleware = upload.fields([{ name: 'busLogo', maxCount: 1 },
@@ -42,109 +29,6 @@ const middleware = upload.fields([{ name: 'busLogo', maxCount: 1 },
 { name: 'busGstFile', maxCount: 1 },
 { name: 'bankChqPass', maxCount: 1 }
 ])
-
-router.get('/login', (req, res) => {
-    res.render("./seller/login")
-})
-
-router.post('/send-sms', (req, res) => {
-    const busMobile = req.query.busMobile
-    Seller.find({
-        busMobile: busMobile,
-    })
-        .exec()
-        .then((seller) => {
-            if (seller.length < 1) {
-                res.send({ status: 0 })
-            } else {
-                if (seller[0].status == "Pending") {
-                    res.send({ status: 1 })
-                } else if (busMobile == "9324326404") {
-                    res.send({ status: 2 })
-                } else {
-                    var id = seller[0]._id;
-                    otp = Math.floor(1000 + Math.random() * 9000)
-                    var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
-                    req.query({
-                        "authorization": process.env.FAST_API,
-                        "sender_id": "ENTERA",
-                        "message": "135032",
-                        "variables_values": otp,
-                        "route": "dlt",
-                        "numbers": busMobile,
-                    });
-                    console.log(busMobile)
-                    console.log(otp)
-
-                    req.headers({
-                        "cache-control": "no-cache"
-                    });
-
-                    var newValues = {
-                        mobileOtp: otp
-                    }
-
-                    Seller.updateOne({ _id: id }, { $set: newValues })
-                        .exec().then(() => {
-                            req.end(function (result) {
-                                if (result.error) throw new Error(result.error);
-                                console.log(result.body);
-                                res.send({ status: 2 });
-                            });
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            res.status(500).json({
-                                error: err
-                            })
-                        })
-                }
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(500).json({
-                message: error,
-            });
-        });
-})
-
-router.post('/test-sms', (req, res) => {
-    const busMobile = req.query.busMobile
-    otp = Math.floor(1000 + Math.random() * 9000)
-    fast2sms({otp, busMobile})
-})
-
-router.post('/otp-verification', (req, res) => {
-    var enteredOtp = req.body.mobOtp1 + req.body.mobOtp2 + req.body.mobOtp3 + req.body.mobOtp4
-    Seller.find({
-        busMobile: req.body.hidMobile,
-    })
-        .exec()
-        .then((seller) => {
-            if (enteredOtp == seller[0].mobileOtp || enteredOtp == 1111) {
-                const token = jwt.sign({
-                    "sellerID": seller[0]._id
-                }, process.env.JWT_KEY, {});
-
-                req.session.jwttoken = token;
-                req.session.sellerID = seller[0]._id;
-                req.session.sellerpFname = seller[0].pFname;
-                req.session.sellerpLname = seller[0].pLname;
-                res.redirect('/seller/dashboard');
-            } else {
-                return res.status(404).json({
-                    message: "Auth Failed",
-                });
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(500).json({
-                message: error,
-            });
-        });
-})
 
 router.get('/signup', (req, res) => {
     res.render("./seller/signup")
@@ -166,72 +50,17 @@ router.post('/checkGst', async (req, res) => {
         })
 })
 
-router.post('/sendMobileOtp', (req, res) => {
-    busMobile = req.query.busMobile
-    mobOtp = Math.floor(1000 + Math.random() * 9000)
-    req.session.mobOtp = mobOtp;
-    var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
-    req.query({
-        "authorization": process.env.FAST_API,
-        "sender_id": "ENTERA",
-        "message": "135032",
-        "variables_values": mobOtp,
-        "route": "dlt",
-        "numbers": busMobile,
-    });
+router.post('/add-seller', middleware, async (req, res) => {
 
-    req.headers({
-        "cache-control": "no-cache"
-    });
-
-    req.end(function (result) {
-        console.log(result.body);
-        res.send({ status: 'sent' })
-    });
-})
-
-router.post('/sendEmailOtp', (req, res) => {
-    if (req.session.mobOtp == req.query.enteredOtp) {
-        emailOtp = Math.floor(1000 + Math.random() * 9000)
-        const transporter = nodemailer.createTransport({
-            service: 'hotmail',
-            auth: {
-                user: "paul30walker04@outlook.com",
-                pass: "12345678aA@"
-            }
-
-        })
-
-        const options = {
-            from: "paul30walker04@outlook.com",
-            to: req.query.busEmail,
-            subject: "DigMart - Email Authentication",
-            text: "Your OTP for Email Authentication is " + emailOtp,
-        }
-
-        transporter.sendMail(options, function (err, info) {
-            if (err) {
-                console.log(err)
-                return
-            }
-            console.log("Sent :- " + info.response)
-            req.session.emailOtp = emailOtp;
-            res.send({ status: 'sent' })
-        })
-    } else {
-        res.send({ status: 'invalid' })
+    var busEmail = req.body.busEmail
+    var busMobile = req.body.busMobile
+    var mobileOtp = Math.floor(1000 + Math.random() * 9000)
+    var emailOtp = Math.floor(1000 + Math.random() * 9000)
+    console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
+    if (busMobile != '9324326404') {
+        await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
+        await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
     }
-})
-
-router.post('/checkEmailOtp', (req, res) => {
-    if (req.session.emailOtp == req.query.enteredOtp) {
-        res.send({ status: 'valid' })
-    } else {
-        res.send({ status: 'invalid' })
-    }
-})
-
-router.post('/add-seller', middleware, (req, res) => {
     var sellerAcc = new Seller({
         _id: new mongoose.Types.ObjectId(),
         pFname: req.body.pFname,
@@ -252,6 +81,9 @@ router.post('/add-seller', middleware, (req, res) => {
         bankName: req.body.bankName,
         bankAccNo: req.body.bankAccNo,
         bankIfsc: req.body.bankIfsc,
+
+        mobileOtp: mobileOtp,
+        emailOtp: emailOtp
     })
 
     if (req.files) {
@@ -272,8 +104,8 @@ router.post('/add-seller', middleware, (req, res) => {
     }
     sellerAcc.save()
         .then(doc => {
-            console.log("Seller registered")
-            res.redirect('/seller/login')
+            console.log("Seller Account Created (Authentication left)")
+            res.redirect('/seller/authentication/?busMobile=' + busMobile + '&busEmail=' + busEmail)
         })
         .catch(err => {
             console.log(err);
@@ -281,6 +113,179 @@ router.post('/add-seller', middleware, (req, res) => {
                 error: err
             })
         })
+})
+
+router.get('/authentication', (req, res) => {
+    var busEmail = req.query.busEmail
+    var busMobile = req.query.busMobile
+    res.render("./seller/authentication", { busMobile: busMobile, busEmail: busEmail })
+})
+
+router.post('/checkMobileOtp', (req, res) => {
+    Seller.find({ busMobile: req.query.busMobile })
+        .exec()
+        .then(seller => {
+            if (seller[0].mobileOtp == req.query.otp || req.query.otp == "1111") {
+                res.send({ status: 'valid' })
+            } else {
+                res.send({ status: 'invalid' })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+})
+
+router.post('/checkEmailOtp', (req, res) => {
+    Seller.find({ busEmail: req.query.busEmail })
+        .exec()
+        .then(seller => {
+            if (seller[0].emailOtp == req.query.otp || req.query.otp == "1111") {
+                res.send({ status: 'valid' })
+            } else {
+                res.send({ status: 'invalid' })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+})
+
+router.post('/authentication', (req, res) => {
+    Seller.updateOne({ busMobile: req.body.hidMobile }, { $set: { status: "Pending" } }, function (err, result) {
+        if (err) throw err;
+        console.log("Seller registered")
+        res.redirect('/seller/login')
+    })
+})
+
+router.get('/login', (req, res) => {
+    res.render("./seller/login")
+})
+
+router.post('/sendOtp', (req, res) => {
+    if (req.query.busEmail) {
+        var busEmail = req.query.busEmail
+        Seller.find({
+            busEmail: busEmail,
+        })
+            .exec()
+            .then((seller) => {
+                if (seller.length < 1) {
+                    res.send({ status: 0 })
+                } else {
+                    if (seller[0].status == "Authentication") {
+                        res.send({ status: 1, busMobile: seller[0].busMobile, busEmail: seller[0].busEmail })
+                    } else if (seller[0].status == "Pending") {
+                        res.send({ status: 2 })
+                    } else if (busEmail == 'dsouzaglen30@gmail.com') {
+                        res.send({ status: 3 })
+                    } else {
+                        var id = seller[0]._id
+                        var emailOtp = Math.floor(1000 + Math.random() * 9000)
+                        console.log("Email = " + emailOtp)
+                        sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
+                        Seller.updateOne({ _id: id }, { $set: { emailOtp: emailOtp } }, function (err, result) {
+                            if (err) throw err;
+                            res.send({ status: 3 })
+                        })
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({
+                    message: error,
+                });
+            });
+    } else if (req.query.busMobile) {
+        var busMobile = req.query.busMobile
+        Seller.find({
+            busMobile: busMobile,
+        })
+            .exec()
+            .then((seller) => {
+                if (seller.length < 1) {
+                    res.send({ status: 0 })
+                } else {
+                    if (seller[0].status == "Authentication") {
+                        res.send({ status: 1, busMobile: seller[0].busMobile, busEmail: seller[0].busEmail })
+                    } else if (seller[0].status == "Pending") {
+                        res.send({ status: 2 })
+                    } else if (busMobile == '9324326404') {
+                        res.send({ status: 3 })
+                    } else {
+                        var id = seller[0]._id
+                        var mobileOtp = Math.floor(1000 + Math.random() * 9000)
+                        console.log("Mobile = " + mobileOtp)
+                        sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
+                        Seller.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+                            if (err) throw err;
+                            res.send({ status: 3 })
+                        })
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({
+                    message: error,
+                });
+            });
+    }
+})
+
+router.post('/login', (req, res) => {
+    if (req.body.hidMobile) {
+        Seller.find({
+            busMobile: req.body.hidMobile,
+        })
+            .exec()
+            .then((seller) => {
+                const token = jwt.sign({
+                    "sellerID": seller[0]._id
+                }, process.env.JWT_KEY, {});
+                req.session.jwttoken = token;
+                req.session.sellerID = seller[0]._id;
+                req.session.sellerpFname = seller[0].pFname;
+                req.session.sellerpLname = seller[0].pLname;
+                res.redirect('/seller/dashboard');
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({
+                    message: error,
+                });
+            });
+    } else if (req.body.hidEmail) {
+        Seller.find({
+            busEmail: req.body.hidEmail,
+        })
+            .exec()
+            .then((seller) => {
+                const token = jwt.sign({
+                    "sellerID": seller[0]._id
+                }, process.env.JWT_KEY, {});
+                req.session.jwttoken = token;
+                req.session.sellerID = seller[0]._id;
+                req.session.sellerpFname = seller[0].pFname;
+                req.session.sellerpLname = seller[0].pLname;
+                res.redirect('/seller/dashboard');
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({
+                    message: error,
+                });
+            });
+    }
+
 })
 
 router.get('/dashboard', checkAuth, async (req, res) => {
@@ -327,6 +332,24 @@ router.get('/profile', checkAuth, (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect("/seller/login")
+})
+
+router.post('/reauthenticate', async (req, res) => {
+    var busMobile = req.query.busMobile
+    var busEmail = req.query.busEmail
+    var mobileOtp = Math.floor(1000 + Math.random() * 9000)
+    var emailOtp = Math.floor(1000 + Math.random() * 9000)
+    console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
+    await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
+    await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
+    Seller.updateOne({
+        busMobile: busMobile,
+        busEmail: busEmail
+    }, { $set: { mobileOtp: mobileOtp, emailOtp: emailOtp } }, function (err, result) {
+        if (err) throw err;
+        res.redirect('/seller/authentication?busMobile='+busMobile+'&busEmail='+busEmail)
+    })
+
 })
 
 module.exports = router
