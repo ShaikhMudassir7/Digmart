@@ -49,11 +49,11 @@
               </div> -->
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <img src="<%=productData.images[0].imageURL%>" class="img-fluid rounded-start" alt="...">
+                  <img src="<%=productData.images[0]%>" class="img-fluid rounded-start" alt="...">
                 </div>
                 <% for (let a=1; a < productData.images.length; a++){ %>
                 <div class="carousel-item">
-                  <img src="<%=productData.images[a].imageURL%>" class="img-fluid rounded-start" alt="...">
+                  <img src="<%=productData.images[a]%>" class="img-fluid rounded-start" alt="...">
                 </div>
                 <%}%>
               </div>
@@ -69,11 +69,11 @@
               <div class="container">
                 <div class="row">
                   <div class="col">
-                    <img src="<%=productData.images[0].imageURL%>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active img-fluid img-thumbnail" aria-current="true" aria-label="Slide 0">
+                    <img src="<%=productData.images[0]%>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active img-fluid img-thumbnail" aria-current="true" aria-label="Slide 0">
                   </div>
                   <% for (let b=1; b < productData.images.length; b++){ %>
                   <div class="col">
-                    <img src="<%= productData.images[b].imageURL %>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>" class="img-fluid img-thumbnail" aria-current="true" aria-label="Slide <%=b%>">
+                    <img src="<%= productData.images[b]%>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>" class="img-fluid img-thumbnail" aria-current="true" aria-label="Slide <%=b%>">
                   </div>
                   <%}%>
                 </div>
@@ -85,13 +85,12 @@
             <div class="card-body">
               <h1 class="card-title"><%=productData.productName %></h1>
           
-              <p class="card-text">Description: <%=productData.description.slice(0,100)
-                %>..</p>
+              <p class="card-text text-black-50"><span class="btn btn-success"><i class="fa fa-star"> 4.2</i></span> 2,47,770 Ratings & 24,853 Reviews</p>
               
               <% if(productData.discount == null){%>
-              <h3 class="card-text">Actual Price: $ <%=productData.actualPrice%></h3>
+              <p class="card-text fs-2">₹ <%=productData.actualPrice%></p>
               <%} else{%>
-              <h5 class="card-text text-primary"> $ <%=productData.finalPrice%> $ <strike><%=productData.actualPrice%></strike> Discount: <%=productData.discount%> %</h5>
+              <p class="card-text fs-2 text-dark"><strong> ₹ <%=productData.finalPrice%>  </strong><strike><span class="fs-6 text-black-50">₹ <%=productData.actualPrice%></span></strike><span class="text-success fs-6"> <%=productData.discount%>% off</span></p>
               
               <%}%>
               <p class="card-text"><small class="text-muted">include of all taxes</small></p>
@@ -143,47 +142,115 @@
           <div class="card-body">
             <div class="row">
               
-              <!-- <div class="col">
+              <div class="col">
                 
   <br><br>
                 <div class="card">
                   <div class="card-header">
-                    View available services for your pincode
+                    Review and Ratings
                   </div>
                   <div class="card-body">
-                    <h5 class="card-title">Delivery Services</h5>
-                    <div class="input-group">
-                      <span class="btn-dark input-group-text">📍</span>
-                      <input type="text" placeholder="Enter Pincode" class="form-control">
-                      <span class="btn-dark input-group-text">CHECK</span>
-                    </div>
                     
+                    <div class="input-group">
+                      <div class="row">
+                        <div class="col-12 col-md-8">
+                          <h3>Rating <span class="btn btn-success"><i class="fa fa-star"></i> 4.2</span></h3>
+                          <p class="card-text text-black-50"> 2,47,770 Ratings & 24,853 Reviews</p></div>
+                        <div class="col-6 col-md-4 text-right"><button type="button" class="btn fs-6 text-nowrap btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Rate Product</button></div>
+                      </div>
+                    </div>
+                    <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+          <label class="btn btn-outline-danger" for="btnradio1"><i class="fa fa-star"></i> 1</label>
+        
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+          <label class="btn btn-outline-danger" for="btnradio2"><i class="fa fa-star"></i> 2</label>
+        
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+          <label class="btn btn-outline-warning" for="btnradio3"><i class="fa fa-star"></i> 3</label>
+
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+          <label class="btn btn-outline-success" for="btnradio1"><i class="fa fa-star"></i> 4</label>
+        
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+          <label class="btn btn-outline-success" for="btnradio2"><i class="fa fa-star"></i> 5</label>
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Name</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="DigMart User">
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">Review & Feedback</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
       <br><br>
                     <table class="table text-muted">
+                      <div class="card-header">
+                        Reviews & Images
+                      </div><br>
+                      <div class="row">
+                          <img src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
+                          <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
+                          <img src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
+                          <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
+                        </div>
+                        <br>
+                        <hr>
                       <tbody>
                         <tr>
-                          <td><i class="fa fa-truck" style="font-size:48px;"></i></td>
-                          <td>Standard Delivery, Please enter a pincode to check availability of express delivery at your location</td>
+                          <td><span class="btn btn-success" style="font-size:10px;"><i class="fa fa-star" ></i> 5</span></td>
+                          <td>Why this is a good choice ?
+                            - The price, no other true wireless comes in this range
+                            - True wireless, if you are annoyed using these nasty wired earphones
+                            - Build Quality, Matte finish on both case and ear buds
+                            - Touch Control, yes this is very nice to have at this price point. No more uncomfortable buttons on earbuds.
+                            - And last sound is also okay, don’t expect anything high. These gets the job done. Pretty happy with its sound.
+
+                            <hr><img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
+                            <img src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
+                            <br><br>
+                            <div class="card-footer text-muted">
+                              <div class="card-text text-black-50"> <span class="text-left"> Shaikh Mudassr </span> <span class="text-right">
+                                : Verified Seller</span></div>
+                            </div>
+                            </td>
                         </tr>
                         <tr>
-                          <td><i class="fa fa-shopping-bag" style="font-size:48px;"></i></td>
-                          <td>Express Store Pickup available
-                            Please select size to see availability of this product at your nearest store</td>
-                        </tr><tr>
-                          <td><i class="fa fa-money" style="font-size:48px;"></i> </td>
-                          <td>14 days easy return and exchange applicable for this item
-                            If you are not completely satisfied with your purchase, you can return most items to us within 14 days of delivery to get a 100% refund. We offer free and easy returns through courier pickup, or you can exchange most items bought online at any of our stores across India. All items to be returned or exchanged must be unused/untampered and in their original condition with original tags and packaging intact (eg. For shoes, please return the shoes in original shoes box packaging).</td>
+                          <td><span class="btn btn-danger" style="font-size:10px;"><i class="fa fa-star" ></i> 1</span></td>
+                          <td>Worst product ever!!! Waste of money!!! Like seriously...I bought this only two months ago and suddenly the left ear airdope stopped working and right one stopped being charged like I don't understand it didn't fell or slipped from me and broke or something...it was perfectly fine but now it doesn't even work. 
+                            <div class="card-footer text-muted">
+                              <div class="card-text text-black-50"> <span class="text-left"> Digon User </span> <span class="text-right">
+                                : Verified Buyer</span></div>
+                            </div>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                     
                   </div>
                   <div class="card-footer text-muted">
-                    Read Our Return and Exchange Policy*
+                   Only Verified Buyers can rate*
                   </div>
                 </div>
               </div>
-             -->
+            
               <div class="col">
                 <div class="accordion" id="accordionExample">
                   <div class="accordion-item">
@@ -196,8 +263,8 @@
                       <div class="accordion-body">
                         <strong>Product Description: </strong><br> 
                           Product Description
-                          <%=productData.description.slice(0,100)%>...
-                        <strong><code data-bs-toggle="modal" data-bs-target="#staticBackdrop">View More</code></strong>  
+                          <%=productData.description%>
+                        <!-- <strong><code data-bs-toggle="modal" data-bs-target="#staticBackdrop">View More</code></strong>   -->
                         <br><br>
                         <table class="table table-light table-striped">
                           <!-- <thead>
@@ -237,7 +304,7 @@
                             </tr>
                           </tbody>
                         </table><strong>Product Code:</strong><br><span class="text-muted"><%=productData._id%></span><br>
-                        <br><strong>Manufacturer Details:</strong><br><span class="text-muted">
+                        <!-- <br><strong>Manufacturer Details:</strong><br><span class="text-muted">
                           <table class="table table-light table-striped">
                             <tbody>
                               <tr>
@@ -246,7 +313,7 @@
                               </tr>
                               </tbody>
                               </table>
-                        </span> <br><br></div>
+                        </span> --><br><br></div> 
                     </div>
                   </div>
                   <div class="accordion-item">
