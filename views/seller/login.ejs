@@ -10,6 +10,7 @@
 
     <title>Login | DigMart</title>
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/seller/login.css" rel="stylesheet">
     <link href="/css/auth.css" rel="stylesheet">
 </head>
 
@@ -22,7 +23,7 @@
                     <div class="mb-3 text-start">
                         <label for="busMobile" class="form-label">Enter registered Mobile No. / Email-ID</label>
                         <div class="input-group mb-2">
-                            <input type="text" id="credential" name="credential" class="form-control"       
+                            <input type="text" id="credential" name="credential" class="form-control"
                                 placeholder="Mobile No. / Email-ID" style="width: 80%;">
                             <small id="err" class="form-text text-muted" style="display: none;">
                                 <span id="errMsg" style="color: red;"></span></small>
@@ -65,12 +66,12 @@
                                     <input type="hidden" name="hidMobile" id="hidMobile" value="">
                                     <div class="text-center mt-3 mb-3">
                                         <button id="submit1" type="submit" class="btn btn-primary" disabled="true"
-                                            style="width: 25%;">Submit</button>
+                                            style="width: 35%;">Submit</button>
                                     </div>
                                     <div class="text-center mt-2">
                                         <span class="d-block mobile-text">Didn't receive the code?</span>
-                                        <span class="font-weight-bold cursor"
-                                            style="color: rgb(11, 78, 179); text-decoration: underline;">Resend</span>
+                                        <span id="mobResend" onclick="sendOTP()" class="timer-inactive">Resend</span>
+                                        <span id="mobTimer"></span>
                                     </div>
                                 </div>
                             </div>
@@ -110,13 +111,13 @@
                                     <input type="hidden" name="hidEmail" id="hidEmail" value="">
                                     <div class="text-center mt-3 mb-3">
                                         <button id="submit2" type="submit" class="btn btn-primary" disabled="true"
-                                            style="width: 25%;">Submit</button>
+                                            style="width: 35%;">Submit</button>
                                     </div>
 
                                     <div class="text-center mt-2">
                                         <span class="d-block mobile-text">Didn't receive the code?</span>
-                                        <span class="font-weight-bold cursor"
-                                            style="color: rgb(11, 78, 179); text-decoration: underline;">Resend</span>
+                                        <span id="emailResend" onclick="sendOTP()" class="timer-inactive">Resend</span>
+                                        <span id="emailTimer"></span>
                                     </div>
                                 </div>
                             </div>
