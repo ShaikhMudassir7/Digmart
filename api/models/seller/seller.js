@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const sellerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
 
-    status: { type: String, default: "Pending"},
-    otp: {type: String},
+    status: { type: String, default: "Authentication"},
 
     pFname: { type: String, required: true },
     pLname: { type: String, required: true },
@@ -28,6 +27,9 @@ const sellerSchema = mongoose.Schema({
     bankAccNo: { type: Number, required: true },
     bankIfsc: { type: String, required: true },
     bankChqPass: { type: String, required: true },
+
+    mobileOtp: {type: String},
+    emailOtp: {type: String},
 });
 
 module.exports = mongoose.model("Seller", sellerSchema, "sellers");

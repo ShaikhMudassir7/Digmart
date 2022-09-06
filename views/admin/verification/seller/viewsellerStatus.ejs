@@ -32,7 +32,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="card">
-                                        <div class="card-header fw-bold bg-dark text-light">VERIFY SELLER</div>
+                                        <div class="card-header fw-bold bg-dark text-light">VIEW SELLER</div>
                                         <div class="card-body">
 
                                             <!-- <form id="formA" method="post" action="/seller/add-seller" class="row needs-validation" novalidate
@@ -244,49 +244,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="button" data-bs-target="#staticBackdrop"
-                                                    data-bs-toggle="modal" class="btn btn-danger"><i
-                                                        class="fas fa-times"></i>
-                                                    Reject</button>
-                                                <button type="button" class="btn btn-primary"
-                                                    onclick="location.href='/admin/verification/accept-seller/<%=sellerData._id %>'"
-                                                    id="submitData" style="float:right"><i class="fas fa-check"></i>
-                                                    Accept</button>
-
-
-                                                <!-- Save changes Warning Modal -->
-                                                <form class="needs-validation" method="post"
-                                                    action="/admin/verification/reject-seller/<%=sellerData._id %>"
-                                                    novalidate accept-charset="utf-8">
-                                                    <div class="modal fade" id="staticBackdrop"
-                                                        data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="staticBackdropLabel">
-                                                                        REMARKS
-                                                                    </h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <label for="productName"
-                                                                        class="form-label">Reason(s)
-                                                                        for Rejection</label>
-                                                                    <input type="text" class="form-control"
-                                                                        name="rejectText" id="rejectText">
-                                                                </div>
-
-                                                                <div class="modal-footer">
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary">Reject</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
                                             </div>
                                         </div>
                                     </div>

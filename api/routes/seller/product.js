@@ -100,6 +100,8 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
             imageArr.push((element.path).toString().substring(6));
         });
 
+       
+
         var productData = new Products({
             _id: mongoose.Types.ObjectId(),
             images: imageArr,
@@ -108,13 +110,13 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
             description: req.body.description,
             category: req.body.category,
             subcategory: req.body.subcategory,
-            sizes: req.body.sizes,
-            colours: req.body.colours,
+
+            // colours: req.body.colours,
             brand: req.body.brand,
             actualPrice: req.body.actualPrice,
             discount: req.body.discount,
             finalPrice: req.body.finalPrice,
-            quantity: req.body.quantity,
+            
         })
 
         await productData.save();
@@ -123,6 +125,7 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
 
     } catch (err) {
         console.log("Error Occurred while adding product to Database");
+        console.log(err)
     }
 
 });
@@ -137,10 +140,10 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
                 Category.find().select("catName sub_category status")
                     .exec()
                     .then(docs => {
+
                         res.render('./seller/products/edit-product', { images: allImages, catData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname });
 
                     })
-
             } else {
                 res.send('try-again')
             }
@@ -166,7 +169,6 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
             }
-
             console.log(imageArr)
         }
 
@@ -203,17 +205,17 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
 
 
 router.get("/delete-product/(:id)", (req, res, next) => {
-
     Products.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
             
             doc.images.forEach(element => {
+
                 fs.unlinkSync("\public" + element)
                 
             }
             );
-            res.redirect('/seller/products');
 
+            res.redirect('/seller/products');
         } else {
             res.send("Error Occurred. Please try again!")
         }

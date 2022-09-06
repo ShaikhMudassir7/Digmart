@@ -4,12 +4,11 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
-
 const Seller = require("../../models/seller/seller")
 const Products = require("../../models/seller/product")
 const Admin = require("../../models/admin/admin")
 
-const checkAuth = require("../../middleware/admin/checkAuth")
+const checkAuth = require("../../middleware/admin/checkAuth");
 
 router.get('/login', (req, res) => {
     res.render("admin/login")
@@ -18,22 +17,24 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
     Admin.find({
         email: req.body.email,
+        status: "Active"
     })
         .exec()
         .then((user) => {
             if (user.length < 1) {
-                res.status(404).json({
+                res.send({
                     message: "Admin Not found",
                 });
             } else {
                 bcrypt.compare(req.body.pass, user[0].pass, (err, result) => {
                     if (err) {
-                        return res.status(401).json({
-                            message: "Authentication Failed",
+                        res.send({
+                            message: err,
                         });
                     }
                     if (result) {
                         req.session.name = user[0].name;
+                        req.session.email = user[0].email;
                         req.session.type = user[0].type;
                         req.session.id = user[0]._id;
                         const token = jwt.sign({
@@ -42,13 +43,22 @@ router.post('/login', (req, res) => {
                         );
                         req.session.jwttoken = token;
                         res.redirect('dashboard');
+                    } else {
+                        res.send({
+                            message: "Wrong Password",
+                        });
                     }
                 });
             }
+        }).catch(err => {
+            console.log(err);
+            res.send({
+                error: err
+            })
         })
 })
 
-router.get('/dashboard', checkAuth, async(req, res) => {
+router.get('/dashboard', checkAuth, async (req, res) => {
     var count = {
         "pendingProduct": 0,
         "verifiedProduct": 0,
@@ -67,14 +77,14 @@ router.get('/dashboard', checkAuth, async(req, res) => {
         .then(docs => {
             count.totalSeller = docs.length
         })
-    await Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+    await Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Authentication" }] })
         .then(docs => {
             count.rejectedSeller = docs.length
         })
     await Seller.find({ status: "Verified" })
         .then(docs => {
             count.verifiedSeller = docs.length
-             })
+        })
     await Seller.find({ status: "Pending" })
         .then(docs => {
             count.pendingSeller = docs.length
@@ -104,15 +114,89 @@ router.get('/dashboard', checkAuth, async(req, res) => {
     await Products.find({ status: "Verified" })
         .then(docs => {
             count.verifiedProduct = docs.length
-            })
+        })
     await Products.find({ status: "Pending" })
         .then(docs => {
             count.pendingProduct = docs.length
 
         })
 
-        res.render("admin/dashboard", { userType: req.session.type, userName: req.session.name, countarr: count });
-       
+    res.render("admin/dashboard", { userType: req.session.type, userName: req.session.name, countarr: count });
+
+
+})
+
+router.get('/profile', checkAuth, async (req, res) => {
+    Admin.find({
+        email: req.session.email
+    })
+        .exec()
+        .then(docs => {
+            res.render('admin/profile', { adminData: docs[0], userType: req.session.type, userName: req.session.name });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+})
+
+router.post('/profile/(:id)', checkAuth, (req, res, next) => {
+    const id = req.params.id
+    if (req.body.pass1 != "") {
+        bcrypt.hash(req.body.pass1, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).json({
+                    error: err,
+                });
+            } else {
+                const newValues = {
+                    name: req.body.user_name,
+                    pass: hash
+                }
+                Admin.updateOne({ _id: id }, { $set: newValues })
+                    .exec()
+                    .then(result => {
+                        if (req.session.id == id) {
+                            req.session.name = req.body.user_name;
+                            res.redirect('/admin/profile')
+                        } else {
+                            res.redirect('/admin/profile')
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.status(500).json({
+                            error: err
+                        })
+                    })
+
+            }
+        })
+    }
+    else {
+        const newValues = {
+            name: req.body.user_name,
+        }
+        Admin.updateOne({ _id: id }, { $set: newValues })
+            .exec()
+            .then(result => {
+                if (req.session.id == id) {
+                    req.session.name = req.body.user_name;
+                    res.redirect('/admin/profile')
+                } else {
+                    res.redirect('/admin/profile')
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    }
+
 
 })
 
@@ -131,7 +215,7 @@ router.get('/addoperator', checkAuth, (req, res) => {
 })
 
 router.post('/addoperator', checkAuth, (req, res) => {
-    
+
     bcrypt.hash(req.body.pass1, 10, (err, hash) => {
         if (err) {
             return res.status(500).json({
@@ -147,7 +231,7 @@ router.post('/addoperator', checkAuth, (req, res) => {
                 pass: hash,
                 status: "Active"
             })
-           
+
             Admin.find({ email: req.body.email }, function (err, docs) {
                 if (docs.length) {
                     console.log(err);
@@ -204,70 +288,120 @@ router.get('/editoperator/(:id)', checkAuth, (req, res, next) => {
 
 })
 
-router.post('/editoperator/(:id)', checkAuth, (req, res, next) => {
+router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
     const id = req.params.id
-    var newValues = {
-        email: req.body.email,
-        name: req.body.user_name,
-        type: req.body.type,
-        mobile: req.body.mobile,
-        pass: req.body.pass1,
-        status: req.body.status
-    }
-    Admin.updateOne({ _id: id }, { $set: newValues })
-        .exec()
-        .then(result => {
-            if (req.session.id == id) {
-                req.session.name = req.body.user_name;
-                res.redirect('/admin/operator')
+    if (req.body.pass1 != "") {
+        bcrypt.hash(req.body.pass1, 10, (err, hash) => {
+            if (err) {
+                return res.status(500).json({
+                    error: err,
+                });
             } else {
+                const newValues = {
+                    email: req.body.email,
+                    name: req.body.user_name,
+                    type: req.body.type,
+                    mobile: req.body.mobile,
+                    pass: hash,
+                    status: req.body.status
+                }
 
-                res.redirect('/admin/operator')
+                if (req.body.email != req.params.email) {
+                    Admin.find({ email: req.body.email }, function (err, docs) {
+                        if (docs.length) {
+                            console.log(err);
+                            res.json({
+                                error: "Email exists already"
+                            })
+                        } else {
+                            Admin.updateOne({ _id: id }, { $set: newValues })
+                                .exec()
+                                .then(result => {
+                                    if (req.session.id == id) {
+                                        req.session.name = req.body.user_name;
+                                        res.redirect('/admin/operator')
+                                    } else {
+                                        res.redirect('/admin/operator')
+                                    }
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                    res.status(500).json({
+                                        error: err
+                                    })
+                                })
+
+                        }
+                    });
+                }
+                else {
+                    Admin.updateOne({ _id: id }, { $set: newValues })
+                        .exec()
+                        .then(result => {
+                            if (req.session.id == id) {
+                                req.session.name = req.body.user_name;
+                                res.redirect('/admin/operator')
+                            } else {
+                                res.redirect('/admin/operator')
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            res.status(500).json({
+                                error: err
+                            })
+                        })
+                }
             }
-
         })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
+    }
+    else {
+        const newValues = {
+            email: req.body.email,
+            name: req.body.user_name,
+            type: req.body.type,
+            mobile: req.body.mobile,
+            status: req.body.status
+        }
 
-})
-
-router.get('/productStatus', checkAuth, (req, res) => {
-    var status = req.query.status
-    if (status == "Rejected") {
-        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
-            .exec()
-            .then(docs => {
-                res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
-    } else {
-        if (!status) {
-            Products.find()
-                .exec()
-                .then(docs => {
-                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
+        if (req.body.email != req.params.email) {
+            Admin.find({ email: req.body.email }, function (err, docs) {
+                if (docs.length) {
+                    console.log(err);
+                    res.json({
+                        error: "Email exists already"
                     })
-                })
+                } else {
+                    Admin.updateOne({ _id: id }, { $set: newValues })
+                        .exec()
+                        .then(result => {
+                            if (req.session.id == id) {
+                                req.session.name = req.body.user_name;
+                                res.redirect('/admin/operator')
+                            } else {
+                                res.redirect('/admin/operator')
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            res.status(500).json({
+                                error: err
+                            })
+                        })
+
+                }
+            });
         }
         else {
-                Products.find({ status: status, })
+            Admin.updateOne({ _id: id }, { $set: newValues })
                 .exec()
-                .then(docs => {
-                    res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
+                .then(result => {
+                    if (req.session.id == id) {
+                        req.session.name = req.body.user_name;
+                        res.redirect('/admin/operator')
+                    } else {
+                        res.redirect('/admin/operator')
+                    }
                 })
                 .catch(err => {
                     console.log(err)
@@ -276,7 +410,6 @@ router.get('/productStatus', checkAuth, (req, res) => {
                     })
                 })
         }
-
     }
 })
 

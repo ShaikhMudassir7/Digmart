@@ -39,15 +39,6 @@
                                                 accept-charset="utf-8">
                                                 <!-- <form action="/seller/products/add-product"
                                         method="post" class="needs-validation" novalidate accept-charset="utf-8"> -->
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="images" class="form-label">Product Images</label>
-                                                        <input type="file" class="form-control" name="images"
-                                                            multiple='multiple' accept="image/*" required>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please Choose an Image.</div>
-                                                    </div>
-                                                </div>
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
@@ -110,69 +101,6 @@
                                                 </div>
 
                                                 <div class="row g-2">
-                                                    <div class=" col-md-3">
-                                                        <label for="sizes" class="form-label">Sizes
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                    </div>
-                                                    <div class=" col-md-4">
-                                                        <label for="sizes" class="form-label">Colours
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                    </div>
-                                                    <div class=" col-md-3">
-                                                        <label for="quantity" class="form-label">Quantity
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div id="showItems">
-                                                <div class="row g-2" id="row1">
-                                                    <div class=" col-md-3">
-                                                        <input type="name" class="form-control" name="sizes" id="sizes"
-                                                            placeholder="e.g. XL">
-                                                    </div>
-
-                                                    <div class=" col-md-4">
-                                                        <input type="name" class="form-control" name="colours"
-                                                            placeholder="e.g. Black, White">
-                                                    </div>
-
-                                                    <div class=" col-md-3">
-                                                        <input type="number" class="form-control" name="quantity"
-                                                            min="1" placeholder="e.g. 50">
-                                                    </div>
-
-
-                                                    <div class="mb-3 col-md-2">
-                                                        <button class="btn btn-outline-primary addItemBtn"><i
-                                                                class="fas fa-plus-circle"></i>
-                                                            Add More</a>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-
-
-
-
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="colours" class="form-label">Colours
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                        <input type="name" class="form-control" name="colours"
-                                                            placeholder="e.g. Black, White">
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter colour(s).</div> -->
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
                                                         <label for="brand" class="form-label">Brand
                                                             <span class="text-muted"> (Optional)</span>
@@ -184,6 +112,152 @@
                                                     </div>
                                                 </div>
 
+
+                                                <div class="row g-2">
+                                                    <div class=" col-md-3">
+                                                        <label for="sizes" class="form-label">Sizes
+                                                            <span class="text-muted"> (Optional)</span>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class=" col-md-3">
+                                                        <label for="sizes" class="form-label">Colours
+                                                            <span class="text-muted"> (Optional)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class=" col-md-3">
+                                                        <label for="quantity" class="form-label">Quantity
+                                                            <!-- <span class="text-muted"> (Optional)</span> -->
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="showItem">
+                                                    <div class="row g-2" id="row1">
+                                                        <div class="mb-3 col-md-3">
+                                                            <input type="name" class="form-control" name="sizes"
+                                                                id="sizes" placeholder="e.g. XL">
+                                                        </div>
+
+
+                                                        <div class="mb-3 col-md-3 d-grid">
+
+                                                            <div class="input-group">
+                                                                <span class="input-group-text color"><input type="color"
+                                                                        id="color">
+                                                                </span>
+                                                                <div class="form-control colorCode" name="colours"
+                                                                    id="colorCode"></div>
+
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-3">
+                                                            <input type="number" class="form-control" name="quantity"
+                                                                min="1" placeholder="e.g. 50">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 col-md-2 d-grid">
+                                                    <button class="btn btn-outline-primary" id="addItemBtnMain"><i
+                                                            class="fas fa-plus-circle"></i>
+                                                        Add More</button>
+
+                                                </div>
+
+
+
+                                                <hr>
+                                                <div class="row g-2">
+                                                    <div class=" col-md-4">
+                                                        <label for="colorCode" class="form-label">Product Colour
+                                                            <span class="text-muted"> (Optional)</span>
+
+                                                        </label>
+                                                    </div>
+
+                                                    <div class=" col-md-5">
+                                                        <label for="images" class="form-label">Product
+                                                            Images:</label>
+                                                            <span class="text-muted"> (with respect to colours)</span>
+
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="addColoursImages">
+                                                    <div class="row g-2" id="coloursImages">
+                                                        <div class="mb-3 col-md-4">
+                                                            <input class="form-control colorCode" name="colours"
+                                                                placeholder="Colour (autofilled)" id="colorCodeReadOnly"
+                                                                readonly>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-8">
+
+                                                            <input type="file" class="form-control" name="images"
+                                                                multiple='multiple' accept="image/*" required>
+                                                            <div class="valid-feedback">Looks good!</div>
+                                                            <div class="invalid-feedback">Please Choose an Image.</div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <hr>
+                                                <div class="row g-2">
+                                                    <div class="mb-1 col-md-12 fw-bold">
+                                                        <label for="specName" class="form-label">ADDITIONAL
+                                                            SPECIFICATIONS
+                                                            <span class="text-muted"> (Optional)</span> :
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-2">
+                                                    <div class=" col-md-3">
+                                                        <label for="specName" class="form-label">Name:
+
+                                                        </label>
+                                                    </div>
+
+                                                    <div class=" col-md-5">
+                                                        <label for="specValue" class="form-label">Description:
+
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="showSpecifications">
+                                                    <div class="row g-2" id="specsRow">
+                                                        <div class="mb-3 col-md-3">
+                                                            <input type="name" class="form-control" name="specName"
+                                                                id="specName" placeholder="e.g. In The Box">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-5">
+                                                            <textarea type="name" class="form-control" name="specValue"
+                                                                id="specValue" style="height: 30px;"
+                                                                placeholder="e.g. Handset, Charging Cable"></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3 col-md-3 d-grid">
+                                                    <button class="btn btn-outline-primary" id="addSpecsBtnMain"><i
+                                                            class="fas fa-plus-circle"></i>
+                                                        Add More Specifications</button>
+
+                                                </div>
+
+
+                                                <hr>
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-4">
                                                         <label for="actualPrice" class="form-label">Actual
@@ -224,7 +298,7 @@
                                                             Price</label>
                                                         <div class="input-group">
                                                             <span class="input-group-text">&#8377;</span>
-                                                            <input type="number" class="form-control" name="finalPrice"
+                                                            <input type="number" class="form-control" name="finalPrice" 
                                                                 id="finalPrice"
                                                                 placeholder="Final Price (Auto calculated)" readonly>
 
@@ -234,6 +308,8 @@
                                                     </div>
 
                                                 </div>
+
+
 
 
                                                 <a href="/seller/products/?status=Pending" class="btn btn-danger"><i
@@ -255,6 +331,9 @@
                     </div>
             </div>
     </div>
+
+
+
     <script>
 
         //Populate subcategory dropdown 
@@ -321,45 +400,181 @@
         }
 
 
-
-
-
     </script>
 
 
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script>
         // Add more fields for size and quantity
+        function coloursQuan(count) {
+
+            var coloursQuantity =
+                `<div class="row g-2" id="rows` + count + `">
+                    <div class=" col-md-3">
+                    <input type="name" class="form-control" name="sizes"
+                       id="sizes" placeholder="e.g. XL">
+            </div>
+
+            <div class="mb-3 col-md-3 d-grid">
+
+            <div class="input-group">
+                <span class="input-group-text color" ><input type="color"
+                id="color` + count + `" onblur="setColorID(this.id, this.value, colorCode` + count + `)">
+                </span>
+                <div class="form-control colorCode" name="colours"
+                id="colorCode` + count + `"></div>
+
+            </div>
+            </div>
+
+            <div class=" col-md-3">
+                <input type="number" class="form-control" name="quantity"
+                    min="1" placeholder="e.g. 50">
+            </div>
+
+
+            <div class="mb-3 col-md-2 d-grid">
+                <button class="btn btn-outline-danger removeItemBtn"><i
+                        class="fas fa-minus-circle"></i>
+                Remove</a>
+            </div>
+
+        </div>`
+
+            return coloursQuantity;
+        }
+
+
+
+
+        var co = 0;
         $(document).ready(function () {
-            $(".addItemBtn").click(function(e){
+
+            $("#addItemBtnMain").click(function (e) {
                 e.preventDefault();
-                $("#showItems").prepend(`<div class="row g-2" id="row1">
-                                                    <div class=" col-md-3">
-                                                        <input type="name" class="form-control" name="sizes" id="sizes"
-                                                            placeholder="e.g. XL">
-                                                    </div>
+                var coloursQuantity = coloursQuan(co);
+                co++;
+                $("#showItem").append(coloursQuantity);
 
-                                                    <div class=" col-md-4">
-                                                        <input type="name" class="form-control" name="colours"
-                                                            placeholder="e.g. Black, White">
-                                                    </div>
-
-                                                    <div class=" col-md-3">
-                                                        <input type="number" class="form-control" name="quantity"
-                                                            min="1" placeholder="e.g. 50">
-                                                    </div>
-
-
-                                                    <div class="mb-3 col-md-2">
-                                                        <button class="btn btn-outline-danger removeItemBtn"><i
-                                                                class="fas fa-plus-circle"></i>
-                                                            Remove</a>
-                                                    </div>
-
-                                                </div>`);
+                $(document).on('click', '.removeItemBtn', function (e) {
+                    e.preventDefault();
+                    let row_item = $(this).parent().parent();
+                    $(row_item).remove();
+                     document.write(co)
+                    let productColoursImages = $("#coloursImages"+co)
+                    $(productColoursImages).remove();
+                })
+             
             });
+
         });
-        
+
+        ////////////////////////
+
+        function addColoursImages(count, color) {
+
+            var coloursImages =
+                `<div class="row g-2" id="coloursImages` + count + `">
+
+    <div class="mb-3 col-md-4">
+    <input class="form-control colorCode" name="colours" placeholder="Colour (autofilled)"
+        id="colorCodeReadOnly" value="`+color+`" readonly>
+    </div>
+
+    <div class="mb-3 col-md-8">
+    <input type="file" class="form-control" name="images"
+        multiple='multiple' accept="image/*" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please Choose an Image.</div>
+    </div>
+
+</div>`
+            return coloursImages;
+        }
+
+      
+        var color = document.getElementById("color");
+        var colorCode = document.getElementById("colorCode");
+        var colorCodeReadOnly = document.getElementById("colorCodeReadOnly");
+        // Colour Picker
+
+        setColor();
+        color.addEventListener("input", setColor);
+
+        function setColor() {
+            colorCode.innerHTML = color.value;
+            colorCodeReadOnly.value= color.value
+        }
+
+
+        ////////////////////////
+
+
+        var counting = 1;
+        function setColorID(id, val, code) {
+            var color = val;
+            var colorCode = document.getElementById(code.id);
+            var id = document.getElementById(id);
+
+            setColor();
+            id.addEventListener("blur", setColor);
+
+            function setColor() {
+                colorCode.innerHTML = color;
+
+                var coloursImages = addColoursImages(counting, color);
+                
+                $("#addColoursImages").append(coloursImages);
+            }
+        }
+
+
+
+        function moreSpecs(counter) {
+
+            var specifications =
+                `<div class="row g-2" id="specsRow` + counter + `">
+                <div class="mb-3 col-md-3">
+                    <input type="name" class="form-control" name="specName"
+                        id="specName` + counter + `" placeholder="e.g. In The Box">
+                </div>
+
+                <div class="mb-3 col-md-5">
+                    <textarea type="name" class="form-control" name="specValue" style="height: 30px;"
+                        id="specValue` + counter + `" placeholder="e.g. Handset, Charging Cable"></textarea>
+                </div>
+
+                <div class="mb-3 col-md-2">
+                    <button class="btn btn-outline-danger removeSpecsBtn"><i
+                            class="fas fa-minus-circle"></i>
+                    Remove</a>
+                </div>
+
+            </div>`
+
+            return specifications;
+        }
+
+
+        var counter = 1;
+        $(document).ready(function () {
+            // flag
+            $("#addSpecsBtnMain").click(function (e) {
+                e.preventDefault();
+
+                var specifications = moreSpecs(counter);
+                counter++;
+                $("#showSpecifications").append(specifications);
+                $(document).on('click', '.removeSpecsBtn', function (e) {
+                    e.preventDefault();
+                    let row_item = $(this).parent().parent();
+                    $(row_item).remove();
+                })
+            });
+
+        });
+
+
     </script>
 
 
@@ -370,5 +585,6 @@
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
 </body>
+
 
 </html>

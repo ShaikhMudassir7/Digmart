@@ -7,12 +7,13 @@
             <a href="/seller/dashboard"><i class="fas fa-home"></i> Dashboard</a>
         </li>
         <li>
-            <!-- <a href="/seller/products"><i class="fas fa-archive"></i> Products</a> -->
-
             <a href="#productsmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                     class="fas fa-archive"></i> Products <i class="fas fa-caret-down float-end"></i></a>
 
             <ul class="collapse list-unstyled" id="productsmenu">
+                <li>
+                    <a href="/seller/products/add-product"><i class="fas fa-plus"></i> Add Product</a>
+                </li>
                 <li>
                     <a href="/seller/products/?status=Pending"><i class="fas fa-folder"></i> Pending</a>
                 </li>
@@ -27,7 +28,6 @@
         <li>
             <a href="#ordersmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                     class="fas fa-truck"></i> Orders <i class="fas fa-caret-down float-end"></i></a>
-
             <ul class="collapse list-unstyled" id="ordersmenu">
                 <li>
                     <a href="/seller/orders/new-orders"><i class="fas fa-folder"></i> New Orders</a>

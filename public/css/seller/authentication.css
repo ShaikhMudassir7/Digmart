@@ -1,0 +1,11 @@
+.container{
+    margin-top: 8rem;
+}
+@media screen and (max-width: 767px) {
+    .container{
+        margin-top: 2rem;
+    }
+    .cardB{
+        margin-top: 2rem;
+    }
+  }
