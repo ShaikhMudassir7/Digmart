@@ -12,7 +12,7 @@
   <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
   <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <script type="text/javascript" src="/js/seller/multi-select.js"></script>
   <link rel="stylesheet" href="/css/master.css">
   <link rel="stylesheet" href="/css/seller/signup.css">
 
@@ -44,14 +44,12 @@
                       <label for="pFname" class="form-label">First Name</label>
                       <input value="" id="pFname" type="text" class="form-control" name="pFname"
                         placeholder="First Name" pattern="[A-Za-z]{1,15}" maxlength='15' required>
-                      <small class="form-text text-muted">Enter a valid Name.</small>
                       <div class="invalid-feedback">Please enter a valid Name!</div>
                     </div>
                     <div class="mb-3 col-md-6">
                       <label for="pLname" class="form-label">Last Name</label>
-                      <input value="" id="pLname" type="text" class="form-control" name="pLname"
-                        placeholder="Last Name" pattern="[A-Za-z]{1,15}" maxlength='15' required>
-                      <small class="form-text text-muted">Enter a valid Name.</small>
+                      <input value="" id="pLname" type="text" class="form-control" name="pLname" placeholder="Last Name"
+                        pattern="[A-Za-z]{1,15}" maxlength='15' required>
                       <div class="invalid-feedback">Please enter a valid Name!</div>
                     </div>
                   </div>
@@ -82,29 +80,35 @@
                 <div class="card-header">Business Details</div>
                 <div class="card-body">
                   <div class="row g-2">
-                    <div class="mb-3 col-md-6">
+                    <div class="col-md-6">
                       <label for="busName" class="form-label">Business Name</label>
                       <input value="" id="busName" type="text" class="form-control" name="busName"
                         placeholder="Business Name" maxlength="25" required>
                       <div class="invalid-feedback">Please enter a valid Name!</div>
                     </div>
-                    <div class="mb-3 col-md-6">
+                    <div class="col-md-6">
                       <label for="busMobile" class="form-label">Business's Mobile No.</label>
                       <input value="" id="busMobile" type="numeric" class="form-control" name="busMobile"
-                        placeholder="Mobile No." maxlength='10' pattern="[0-9]{10,}" required>
+                        placeholder="Mobile No." maxlength='10' onkeyup="check('busMobile',this.value, 'busMobile_err')"
+                        pattern="[0-9]{10,}" required>
                       <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> :
                         Entered Mobile No. will be used for verification purposes</small>
                       <div class="invalid-feedback">Please enter a valid Mobile No.!</div>
+                      <small id="busMobile_err" class="form-text text-muted" style="display: none;"><span
+                        style="color: red;">Mobile No. already in use!</span></small>
                     </div>
                   </div>
 
                   <div class="mb-3 ">
                     <label for="busEmail" class="form-label">Business Email</label>
                     <input value="" id="busEmail" type="email" class="form-control" name="busEmail"
-                      placeholder="Business Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                      placeholder="Business Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                      onkeyup="check('busEmail',this.value, 'busEmail_err')" required>
                     <small class="form-text text-muted"><span style="text-decoration: underline;">Note</span> :
                       Entered Email will be used for verification purposes</small>
                     <div class="invalid-feedback">Please enter a valid Email-ID!</div>
+                    <small id="busEmail_err" class="form-text text-muted" style="display: none;"><span
+                      style="color: red;">Email-ID already in use!</span></small>
                   </div>
 
                   <div class="row g-2">
@@ -123,7 +127,7 @@
                     </div>
                   </div>
 
-                  <hr><br>
+                  <hr>
 
                   <div class="row g-2">
                     <div class="mb-3 col-md-6">
@@ -143,20 +147,24 @@
                     </div>
                   </div>
 
-                  <div class="mb-3">
+                  <div class="mb-4">
                     <label for="busCat" class="form-label">Product Category</label>
-                    <select id="busCat" name="busCat" class="form-select" required multiple>
-                      <option value="Men's Fashion">Men's Fashion</option>
-                      <option value="Women's Fashion">Women's Fashion</option>
-                      <option value="Fashion Accessories">Fashion Accessories</option>
-                      <option value="Kitchen Appliances">Kitchen Appliances</option>
-                      <option value="Personal Electronics">Personal Electronics</option>
-                      <option value="Consumer Electronics">Consumer Electronics</option>
+                    <select class="form-select" name="busCat" id="busCat" multiple multiselect-search="true"
+                      multiselect-select-all="true" required>
+                      <% if(catsData.length!=0){ catsData.forEach(function(data){ %>
+                        <option value="<%=data._id %>">
+                          <%=data.catName %>
+                        </option>
+                        <% }) %>
+                          <% } else{ %>
+                            <option value="No Category">Category Not
+                              Available</option>
+                            <% } %>
                     </select>
                     <div class="invalid-feedback">Please select a Product Category.</div>
                   </div>
 
-                  <hr><br>
+                  <hr>
 
                   <div class="row g-2">
                     <div class="mb-3 col-md-6">
@@ -176,11 +184,11 @@
                   <div class="row g-2">
                     <div class="mb-3 col-md-6">
                       <label for="busGstNo" class="form-label">GST No.</label>
-                      <input value="" id="busGstNo" type="numeric" class="form-control" name="busGstNo"
-                        placeholder="GST No." maxlength='15' onkeyup="checkGst(this.value)"
+                      <input id="busGstNo" type="numeric" class="form-control" name="busGstNo" placeholder="GST No."
+                        maxlength='15' onkeyup="check('busGstNo',this.value,'busGstNo_err')"
                         pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" required>
                       <div class="invalid-feedback">Please enter valid GST No.</div>
-                      <small id="busGstNo_err" class="form-text text-muted" style="visibility: hidden;"><span
+                      <small id="busGstNo_err" class="form-text text-muted" style="display: none;"><span
                           style="color: red;">GST No. already in use!</span></small>
                     </div>
                     <div class="mb-3 col-md-6">
@@ -223,9 +231,9 @@
                     </div>
                     <div class="mb-3 col-md-6">
                       <label for="bankAccNo2" class="form-label">Re-enter Account No.</label>
-                      <input value="123456789012" id="bankAccNo2" type="numeric" name="bankAccNo2"
-                        placeholder="Account No." maxlength='18' required onkeyup="checkAccNo(this.value)">
-                      <small id="reaccno_err" class="form-text text-muted" style="visibility: hidden;"><span
+                      <input value="123456789012" id="bankAccNo2" class="form-control" placeholder="Account No."
+                        maxlength='18' required onkeyup="checkAccNo(this.value)">
+                      <small id="reaccno_err" class="form-text text-muted" style="display: none;"><span
                           style="color: red;">Account No. does not match!</span></small>
                     </div>
                   </div>
@@ -245,7 +253,7 @@
             </div>
 
             <div class="text-center mt-3 mb-3">
-              <button type="submit" class="btn btn-primary" style="width: 25%;">Submit</button>
+              <button id="submit1" type="submit" class="btn btn-primary" style="width: 25%;">Submit</button>
             </div>
 
           </form>

@@ -29,7 +29,7 @@ router.get('/', checkAuth, (req, res) => {
         Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }] }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
             .exec()
             .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
             })
             .catch(err => {
                 console.log(err)
@@ -41,7 +41,7 @@ router.get('/', checkAuth, (req, res) => {
         Products.find({ sellerID: req.session.sellerID }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
             .exec()
             .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
             })
             .catch(err => {
                 console.log(err)
@@ -53,7 +53,7 @@ router.get('/', checkAuth, (req, res) => {
         Products.find({ sellerID: req.session.sellerID, status: status, }).select("images productName description category subcategory sizes colours brand actualPrice discount finalPrice quantity status")
             .exec()
             .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
             })
             .catch(err => {
                 console.log(err)
@@ -69,7 +69,7 @@ router.get('/add-product', checkAuth, (req, res) => {
     Category.find().select("catName sub_category status")
         .exec()
         .then(docs => {
-            res.render("./seller/products/add-product", { catData: docs, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+            res.render("./seller/products/add-product", { catData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
         })
         .catch(err => {
             console.log(err)
@@ -141,7 +141,7 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
                     .exec()
                     .then(docs => {
 
-                        res.render('./seller/products/edit-product', { images: allImages, catData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname });
+                        res.render('./seller/products/edit-product', { images: allImages, catsData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
 
                     })
             } else {

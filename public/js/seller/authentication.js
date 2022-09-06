@@ -7,8 +7,17 @@ const emailOtp2 = document.getElementById('emailOtp2');
 const emailOtp3 = document.getElementById('emailOtp3');
 const emailOtp4 = document.getElementById('emailOtp4');
 const submit = document.getElementById('submit');
-const busMobile = document.getElementById('busMobile').innerHTML.trim();
+const busMobile = document.getElementById('hidMobile').value
 const busEmail = document.getElementById('busEmail').innerHTML.trim();
+const mobTimer = document.getElementById('mobTimer')
+const emailTimer = document.getElementById('emailTimer')
+const mobResend = document.getElementById('mobResend')
+const emailResend = document.getElementById('emailResend')
+
+document.addEventListener('DOMContentLoaded', function () {
+  mobTimerFunc(30);
+  emailTimerFunc(30);
+}, false);
 
 mobOtp1.addEventListener('keyup', function (event) {
   if (event.key != "Backspace" && event.key != "Enter") {
@@ -121,4 +130,79 @@ function checkEmailOtp() {
       }
     })
   }
+}
+
+function mobTimerFunc(remaining) {
+  var m = Math.floor(remaining / 60);
+  var s = remaining % 60;
+
+  m = m < 10 ? '0' + m : m;
+  s = s < 10 ? '0' + s : s;
+  mobTimer.innerHTML = '(' + m + ':' + s + ')';
+  remaining -= 1;
+
+  if (remaining >= 0) {
+    setTimeout(function () {
+      mobTimerFunc(remaining);
+    }, 1000);
+    return;
+  } else {
+    mobTimer.style.display = "none"
+    mobResend.classList.remove('timer-inactive')
+    mobResend.classList.add('timer-active')
+  }
+}
+
+function emailTimerFunc(remaining) {
+  var m = Math.floor(remaining / 60);
+  var s = remaining % 60;
+
+  m = m < 10 ? '0' + m : m;
+  s = s < 10 ? '0' + s : s;
+  emailTimer.innerHTML = '(' + m + ':' + s + ')';
+  remaining -= 1;
+
+  if (remaining >= 0) {
+    setTimeout(function () {
+      emailTimerFunc(remaining);
+    }, 1000);
+    return;
+  } else {
+    emailTimer.style.display = "none"
+    emailResend.classList.remove('timer-inactive')
+    emailResend.classList.add('timer-active')
+  }
+}
+
+function sendOTP(check, val) {
+  if (check == 1) {
+    $.ajax({
+      url: "/seller/sendMobileOtp?busMobile=" + val,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      success: function (res) {
+        if (res.status == 1) {
+          mobTimer.style.display = "inline"
+          mobResend.classList.remove('timer-active')
+          mobResend.classList.add('timer-inactive')
+          mobTimerFunc(30);
+        } 
+      }
+    })
+  } else {
+    $.ajax({
+      url: "/seller/sendEmailOtp?busEmail=" + val,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      success: function (res) {
+        if (res.status == 1) {
+          emailTimer.style.display = "inline"
+          emailResend.classList.remove('timer-active')
+          emailResend.classList.add('timer-inactive')
+          emailTimerFunc(30);
+        } 
+      }
+    })
+  }
+  
 }
