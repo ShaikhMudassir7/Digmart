@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="/img/DigMart.png">
+    <title>Coverage | DigMart</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/master.css" rel="stylesheet">
+    <link href="/css/seller/virtual-select.min.css" rel="stylesheet">
+    <style>
+        #state,
+        #district,
+        #pin {
+            padding: 0px;
+            border: 0px;
+        }
+
+        .vscomp-toggle-button {
+            padding: .525rem 2.25rem .525rem .75rem;
+            border-radius: .25rem;
+            border: 1px solid #ced4da;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar navigation component -->
+        <%- include('sidebar') %>
+            <!-- end of sidebar component -->
+            <div id="body" class="active">
+                <!-- navbar navigation component -->
+                <%- include('navbar') %>
+                    <!-- end of navbar navigation -->
+                    <div class="content">
+                        <div class="container">
+                            <div class="page-title text-center mt-2 mb-4">
+                                <h1>Area Coverage</h1>
+                            </div>
+                            <div class="card">
+                                <div class="content">
+                                    <h5>&#10059; Set the coverage area for delivery of the products to be sold</h5>
+                                    <div style="font-size: 13px;"><u>Note:</u> The coverage area will affect the
+                                        visibility of your products to the customers</div>
+                                    <form id="coverageForm" method="post" action="/seller/coverage">
+                                        <div class="row mb-4">
+                                            <div class="col-md-6 mt-4">
+                                                <label for="state" class="form-label">State</label>
+                                                <select class="form-select col-md-6" id="state" name="state"
+                                                    placeholder="Choose..." multiple>
+                                                </select>
+                                                <small id="state_err" class="form-text text-muted"
+                                                    style="display: none;"><span style="color: red;">Please select a State</span></small>
+                                            </div>
+                                            <div class="col-md-6 mt-4">
+                                                <label for="district" class="form-label">District</label>
+                                                <select class="form-select col-md-6" id="district" name="district"
+                                                    placeholder="Choose..." data-search="true" multiple
+                                                    silentInitialValueSet="true">
+                                                </select>
+                                                <small id="district_err" class="form-text text-muted"
+                                                    style="display: none;"><span style="color: red;">Please select a District</span></small>
+                                            </div>
+                                            <div class="col-md-6 mt-4">
+                                                <label for="pin" class="form-label">PIN Code</label>
+                                                <select class="form-select col-md-6" id="pin" name="pin"
+                                                    placeholder="Choose..." multiple data-search="true">
+                                                </select>
+                                                <small id="pin_err" class="form-text text-muted"
+                                                    style="display: none;"><span style="color: red;">Please select a PIN</span></small>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-primary" style="width:25%;"
+                                                type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    </div>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/seller/virtual-select.min.js"></script>
+    <script src="/js/seller/coverage.js"></script>
+
+</body>
+
+</html>

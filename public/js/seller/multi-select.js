@@ -215,5 +215,5 @@ function MultiselectDropdown(options) {
 }
 
 window.addEventListener('load', () => {
-    MultiselectDropdown(window.MultiselectDropdownOptions);
+    MultiselectDropdown(window.MultiselectDropdown);
 });

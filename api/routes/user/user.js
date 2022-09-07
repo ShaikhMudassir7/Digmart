@@ -16,8 +16,11 @@ router.get('/product/(:id)',(req, res) => {
             } else {
                 res.send('try-again')
             }
-
         })  
+})
+
+router.get('/home',(req, res) => {
+    res.render('./user/home')
 })
 
 module.exports = router
