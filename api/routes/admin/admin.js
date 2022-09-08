@@ -171,7 +171,6 @@ router.post('/profile/(:id)', checkAuth, (req, res, next) => {
                             error: err
                         })
                     })
-
             }
         })
     }
@@ -196,12 +195,9 @@ router.post('/profile/(:id)', checkAuth, (req, res, next) => {
                 })
             })
     }
-
-
 })
 
 router.get('/operator', checkAuth, function (req, res) {
-    // res.render("admin/users")
     Admin.find({}, function (err, docs) {
         if (err) {
             res.json(err);
@@ -215,7 +211,6 @@ router.get('/addoperator', checkAuth, (req, res) => {
 })
 
 router.post('/addoperator', checkAuth, (req, res) => {
-
     bcrypt.hash(req.body.pass1, 10, (err, hash) => {
         if (err) {
             return res.status(500).json({
@@ -231,7 +226,6 @@ router.post('/addoperator', checkAuth, (req, res) => {
                 pass: hash,
                 status: "Active"
             })
-
             Admin.find({ email: req.body.email }, function (err, docs) {
                 if (docs.length) {
                     console.log(err);

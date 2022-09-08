@@ -32,4 +32,4 @@ const sellerSchema = mongoose.Schema({
     emailOtp: {type: String},
 });
 
-module.exports = mongoose.model("Seller", sellerSchema, "sellers");
+module.exports = mongoose.model("sellers", sellerSchema);

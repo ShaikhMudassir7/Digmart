@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="/img/DigMart.png">
+    <title>Cart</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/master.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- sidebar navigation component -->
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <img src="assets/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+            </div>
+            <ul class="list-unstyled components text-secondary">
+                <li>
+                    <a href="dashboard.html"><i class="fas fa-home"></i>Dashboard</a>
+                </li>
+                <li>
+                    <a href="forms.html"><i class="fas fa-file-alt"></i>Forms</a>
+                </li>
+                <li>
+                    <a href="tables.html"><i class="fas fa-table"></i>Tables</a>
+                </li>
+                <li>
+                    <a href="charts.html"><i class="fas fa-chart-bar"></i>Charts</a>
+                </li>
+                <li>
+                    <a href="icons.html"><i class="fas fa-icons"></i>Icons</a>
+                </li>
+                <li>
+                    <a href="#uielementsmenu" data-bs-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i>UI Elements</a>
+                    <ul class="collapse list-unstyled" id="uielementsmenu">
+                        <li>
+                            <a href="ui-buttons.html"><i class="fas fa-angle-right"></i>Buttons</a>
+                        </li>
+                        <li>
+                            <a href="ui-badges.html"><i class="fas fa-angle-right"></i>Badges</a>
+                        </li>
+                        <li>
+                            <a href="ui-cards.html"><i class="fas fa-angle-right"></i>Cards</a>
+                        </li>
+                        <li>
+                            <a href="ui-alerts.html"><i class="fas fa-angle-right"></i>Alerts</a>
+                        </li>
+                        <li>
+                            <a href="ui-tabs.html"><i class="fas fa-angle-right"></i>Tabs</a>
+                        </li>
+                        <li>
+                            <a href="ui-date-time-picker.html"><i class="fas fa-angle-right"></i>Date & Time Picker</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#authmenu" data-bs-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i>Authentication</a>
+                    <ul class="collapse list-unstyled" id="authmenu">
+                        <li>
+                            <a href="login.html"><i class="fas fa-lock"></i>Login</a>
+                        </li>
+                        <li>
+                            <a href="signup.html"><i class="fas fa-user-plus"></i>Signup</a>
+                        </li>
+                        <li>
+                            <a href="forgot-password.html"><i class="fas fa-user-lock"></i>Forgot password</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pagesmenu" data-bs-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle no-caret-down"><i class="fas fa-copy"></i>Pages</a>
+                    <ul class="collapse list-unstyled" id="pagesmenu">
+                        <li>
+                            <a href="blank.html"><i class="fas fa-file"></i>Blank page</a>
+                        </li>
+                        <li>
+                            <a href="404.html"><i class="fas fa-info-circle"></i>404 Error page</a>
+                        </li>
+                        <li>
+                            <a href="500.html"><i class="fas fa-info-circle"></i>500 Error page</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="users.html"><i class="fas fa-user-friends"></i>Users</a>
+                </li>
+                <li>
+                    <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- end of sidebar component -->
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            <nav class="navbar navbar-expand-lg navbar-white bg-white">
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-bars"></i><span></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+                                <a href="#" id="nav1" class="nav-item nav-link dropdown-toggle text-secondary"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-link"></i> <span>Quick Links</span> <i style="font-size: .8em;"
+                                        class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end nav-link-menu" aria-labelledby="nav1">
+                                    <ul class="nav-list">
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-list"></i> Access Logs</a>
+                                        </li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-database"></i> Back
+                                                ups</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-cloud-download-alt"></i>
+                                                Updates</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-user-shield"></i>
+                                                Roles</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <div class="nav-dropdown">
+                                <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i> <span>John Doe</span> <i style="font-size: .8em;"
+                                        class="fas fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end nav-link-menu">
+                                    <ul class="nav-list">
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i>
+                                                Profile</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-envelope"></i>
+                                                Messages</a></li>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+                                        </li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item"><i class="fas fa-sign-out-alt"></i>
+                                                Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- end of navbar navigation -->
+
+            <div class="container-fluid">
+                <div class="grandparent row">
+                    <div class="container border  mt-3 col-md-9 col-sm-11 col-11" style="background-color:  #ffffff; ">
+                        <h2>
+                            <p class="modal-header border-danger">YOUR CART</p>
+                        </h2>
+
+                        <% if(cartData.length!=0) { for(var i=0; i < cartData.length; i++) {%>
+                            <div class="parent ">
+                                <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
+                                    <label style="color: black;">
+                                        <h5><b>
+                                                <%= cartData[i][1].sellerID.busName %>
+                                            </b></h5>
+                                    </label>
+                                    <hr class="mt-0" style="color: black; height: 2px;">
+                                    <% for(var j=1; j < cartData[i].length; j++) { %>
+                                        <div class="card" style="box-shadow: 2px 2px rgb(136, 136, 138);">
+                                            <div class="row">
+                                                <div class="image col-md-2">
+                                                    <img src=" <%= cartData[i][j].productID.images[0] %>"
+                                                        class="mt-2 ms-1 mb-2 border-1 border" width="185" height="150"
+                                                        class="img-fluid rounded-start ms-3">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="card-body col-md-7 ms-5">
+                                                            <div class="row">
+                                                                <h5 class="card-title">
+                                                                    <label id="productName" name="productName">
+                                                                        <%= cartData[i][j].productID.productName %>:
+                                                                            &nbsp;
+                                                                    </label>
+                                                                </h5>
+                                                                <label id="productName" name="productName">
+                                                                    <%= cartData[i][j].productID.description %>
+                                                                </label>
+                                                            </div>
+
+
+
+
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-md-4 col-sm-4 card-subtitle">
+                                                                            <b>Color:</b>
+                                                                        </div>
+                                                                        <div class="col-md-8 col-sm-8 card-subtitle">
+                                                                            <label id="colours" name="colours">
+                                                                                <%=cartData[i][j].colour %>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row mt-2">
+                                                                        <div class="col-md-4 col-sm-4 card-subtitle">
+                                                                            <b>Size:</b>
+                                                                        </div>
+                                                                        <div class="col-md-8 col-sm-8 card-subtitle">
+                                                                            <label id="colours" name="colours">
+                                                                                <%=cartData[i][j].size %>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-8 ">
+                                                                    <div class="row mt-2">
+                                                                        <div class="col-md-4 col-sm-4 card-subtitle">
+                                                                            <b>Price:</b>
+                                                                        </div>
+                                                                        <div class="col-md-8 col-sm-8 card-subtitle">
+                                                                            <%
+                                                                                if(cartData[i][j].productID.discount==null){%>
+                                                                                <p class="card-text fs-2">₹
+                                                                                    <%=cartData[i][j].productID.actualPrice%>
+                                                                                </p>
+                                                                                <%} else{%>
+                                                                                    <p class="card-text text-dark">
+                                                                                        <strong>
+                                                                                            ₹
+                                                                                            <%=cartData[i][j].productID.finalPrice%>
+                                                                                        </strong><strike><span
+                                                                                                class="text-black-20">₹
+                                                                                                <%=cartData[i][j].productID.actualPrice%>
+                                                                                            </span></strike><span
+                                                                                            class="text-success fs-6">
+                                                                                            <%=cartData[i][j].productID.discount%>
+                                                                                                % off
+                                                                                        </span>
+                                                                                    </p>
+
+                                                                                    <%}%>
+
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="row mt-2" style="max-height: 50px;">
+                                                                        <div
+                                                                            class="col-md-4 col-sm-4 col-4 card-text mt-2">
+                                                                            <b>Quantity:</b>
+                                                                        </div>
+                                                                        <div class="col-md-8 col-sm-3 col-3">
+                                                                            <input
+                                                                                class="form-control border-1 border-dark"
+                                                                                value="<%= cartData[i][j].quantity %>"
+                                                                                name="quantity" id="quantity"
+                                                                                style="max-width: 70px; text-align:center;"
+                                                                                type="number" size="2" MIN="1"
+                                                                                MAX="<%=cartData[i][j].productID.quantity%>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-1 mt-1">
+                                                            <h4><a href="/user/deleteCart/<%= cartData[i][j]._id %>"><i
+                                                                        class="fa fa-minus-square"
+                                                                        style="color: rgb(188, 21, 21); margin-left: 15px;"
+                                                                        aria-hidden="true"></i></a></h4>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                            </div>
+                            <% }} %>
+
+
+                    </div>
+
+
+                    <div class="container mt-3  col-md-2 col-sm-10 col-10 mb-3 "
+                        style="background-color:  #ffffff; max-height: 320px;">
+                        <h2>
+                            <p class="modal-header border-danger">TOTAL</p>
+                        </h2>
+                        <div id="bill">
+
+                            <div class="row mt-4">
+                                <div class="col-md-6 col-sm-8 col-8 card-subtitle">
+                                    <b>Subtotal</b>
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4 card-subtitle text-center">
+                                    <small>₹</small><label id="subtotal">
+                                        <%= subTotal %>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6 col-sm-8 col-8 card-subtitle">
+                                    <b>Delivery </b>
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4 card-subtitle text-center">
+                                    <small>₹</small><label id="dilevery">45.00</label>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row mt-4 " style="font-size: 20px; font-family:Arial, Helvetica, sans-serif;">
+                                <div class="col-md-6  col-sm-8 col-8 card-subtitle">
+                                    <b>TOTAL: </b>
+                                </div>
+                                <div class="col-md-6    col-sm-4 col-4 card-subtitle text-center">
+                                    <small>₹</small><label id="total">
+                                        <%= Total %>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-warning mt-4 mb-2 btn-lg col-md-12 col-sm-12 col-12"
+                            style=" font-family: cursive;" id="buy">BUY NOW
+                        </button>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
