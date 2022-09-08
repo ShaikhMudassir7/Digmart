@@ -8,6 +8,10 @@ const emailOtp3 = document.getElementById('emailOtp3');
 const emailOtp4 = document.getElementById('emailOtp4');
 const submit1 = document.getElementById('submit1');
 const submit2 = document.getElementById('submit2');
+const mobTimer = document.getElementById('mobTimer')
+const emailTimer = document.getElementById('emailTimer')
+const mobResend = document.getElementById('mobResend')
+const emailResend = document.getElementById('emailResend')
 var busMobile, busEmail;
 
 mobOtp1.addEventListener('keyup', function (event) {
@@ -108,6 +112,10 @@ function sendOTP() {
                     document.getElementById('hidEmail').value = credVal;
                     $("#emailModal").modal({ backdrop: "static" });
                     $('#emailModal').modal('show');
+                    emailTimer.style.display = "inline"
+                    emailResend.classList.remove('timer-active')
+                    emailResend.classList.add('timer-inactive')
+                    timer(30);
                 }
             }
         })
@@ -139,6 +147,10 @@ function sendOTP() {
                     document.getElementById('hidMobile').value = credVal;
                     $("#mobileModal").modal({ backdrop: "static" });
                     $('#mobileModal').modal('show');
+                    mobTimer.style.display = "inline"
+                    mobResend.classList.remove('timer-active')
+                    mobResend.classList.add('timer-inactive')
+                    timer(30);
                 }
             }
         })
@@ -198,5 +210,30 @@ function checkEmailOtp() {
                 }
             }
         })
+    }
+}
+
+function timer(remaining) {
+    var m = Math.floor(remaining / 60);
+    var s = remaining % 60;
+
+    m = m < 10 ? '0' + m : m;
+    s = s < 10 ? '0' + s : s;
+    mobTimer.innerHTML = '(' + m + ':' + s + ')';
+    emailTimer.innerHTML = '(' + m + ':' + s + ')';
+    remaining -= 1;
+
+    if (remaining >= 0) {
+        setTimeout(function () {
+            timer(remaining);
+        }, 1000);
+        return;
+    } else {
+        mobTimer.style.display = "none"
+        emailTimer.style.display = "none"
+        mobResend.classList.remove('timer-inactive')
+        emailResend.classList.remove('timer-inactive')
+        mobResend.classList.add('timer-active')
+        emailResend.classList.add('timer-active')
     }
 }

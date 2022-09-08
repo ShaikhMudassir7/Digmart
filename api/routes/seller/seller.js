@@ -6,9 +6,10 @@ const jwt = require("jsonwebtoken")
 
 const Seller = require("../../models/seller/seller")
 const Products = require('../../models/seller/product')
+const Category = require('../../models/admin/categorySchema');
+
 const { sendMobileOtp } = require('../../utils/mobileOtp')
 const { sendEmail } = require('../../utils/emailOtp')
-
 const checkAuth = require("../../middleware/seller/checkAuth")
 
 var storage = multer.diskStorage({
@@ -31,34 +32,74 @@ const middleware = upload.fields([{ name: 'busLogo', maxCount: 1 },
 ])
 
 router.get('/signup', (req, res) => {
-    res.render("./seller/signup")
+    Category.find().select("catName _id")
+        .exec()
+        .then(docs => {
+            res.render("./seller/signup", { catsData: docs })
+        })
 })
 
-router.post('/checkGst', async (req, res) => {
-    await Seller.find({ busGstNo: req.query.gst }).exec()
-        .then(seller => {
-            if (seller.length < 1)
-                res.send({ gst: "true" })
-            else
-                res.send({ gst: "false" })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
+router.post('/check', async (req, res) => {
+    switch (req.query.toCheck) {
+        case 'busMobile':
+            await Seller.find({ busMobile: req.query.val }).exec()
+                .then(seller => {
+                    if (seller.length < 1)
+                        res.send({ gst: "true" })
+                    else
+                        res.send({ gst: "false" })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+            break;
+        case 'busEmail':
+            await Seller.find({ busEmail: req.query.val }).exec()
+                .then(seller => {
+                    if (seller.length < 1)
+                        res.send({ gst: "true" })
+                    else
+                        res.send({ gst: "false" })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+            break;
+            break;
+        case 'busGstNo':
+            await Seller.find({ busGstNo: req.query.val }).exec()
+                .then(seller => {
+                    if (seller.length < 1)
+                        res.send({ gst: "true" })
+                    else 
+                        res.send({ gst: "false" })                         
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+            break;
+    }
 })
 
 router.post('/add-seller', middleware, async (req, res) => {
-
     var busEmail = req.body.busEmail
     var busMobile = req.body.busMobile
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
     var emailOtp = Math.floor(1000 + Math.random() * 9000)
     console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
-    await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-    await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
+    if (busMobile != "9324326404") {
+        await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
+        await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
+    }
     var sellerAcc = new Seller({
         _id: new mongoose.Types.ObjectId(),
         pFname: req.body.pFname,
@@ -251,8 +292,8 @@ router.post('/login', (req, res) => {
                 }, process.env.JWT_KEY, {});
                 req.session.jwttoken = token;
                 req.session.sellerID = seller[0]._id;
-                req.session.sellerpFname = seller[0].pFname;
-                req.session.sellerpLname = seller[0].pLname;
+                req.session.pFname = seller[0].pFname;
+                req.session.pLname = seller[0].pLname;
                 res.redirect('/seller/dashboard');
             })
             .catch((error) => {
@@ -272,8 +313,8 @@ router.post('/login', (req, res) => {
                 }, process.env.JWT_KEY, {});
                 req.session.jwttoken = token;
                 req.session.sellerID = seller[0]._id;
-                req.session.sellerpFname = seller[0].pFname;
-                req.session.sellerpLname = seller[0].pLname;
+                req.session.pFname = seller[0].pFname;
+                req.session.pLname = seller[0].pLname;
                 res.redirect('/seller/dashboard');
             })
             .catch((error) => {
@@ -309,15 +350,26 @@ router.get('/dashboard', checkAuth, async (req, res) => {
         .then(docs => {
             count.rejectedProducts = docs.length
         })
-    res.render("./seller/dashboard", { sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname, count: count })
+    res.render("./seller/dashboard", { sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname, count: count })
 })
 
 router.get('/profile', checkAuth, (req, res) => {
-
-    Seller.find({ _id: req.session.sellerID })
+    var catArr = []
+    Seller.findOne({ _id: req.session.sellerID })
         .exec()
         .then(seller => {
-            res.render("./seller/profile", { sellerData: seller[0], sellerID: req.session.sellerID, pFname: req.session.sellerpFname, pLname: req.session.sellerpLname })
+            if (seller.busCat.length != 0) {
+                seller.busCat.forEach(function (data) {
+                    Category.findOne({ _id: data }).select("catName")
+                        .exec()
+                        .then(docs => {
+                            catArr.push(docs.catName)
+                            if (seller.busCat.length == catArr.length) {
+                                res.render("./seller/profile", { catArr: catArr, sellerData: seller, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+                            }
+                        })
+                })
+            }
         })
         .catch(err => {
             console.log(err)
@@ -347,7 +399,32 @@ router.post('/reauthenticate', async (req, res) => {
         if (err) throw err;
         res.redirect('/seller/authentication?busMobile=' + busMobile + '&busEmail=' + busEmail)
     })
+})
 
+router.post('/sendMobileOtp', (req, res) => {
+    if (req.query.busMobile) {
+        var busMobile = req.query.busMobile
+        var mobileOtp = Math.floor(1000 + Math.random() * 9000)
+        console.log("Mobile = " + mobileOtp)
+        sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
+        Seller.updateOne({ busMobile: busMobile }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+            if (err) throw err;
+            res.send({ status: 1 })
+        })
+    }
+})
+
+router.post('/sendEmailOtp', (req, res) => {
+    if (req.query.busEmail) {
+        var busEmail = req.query.busEmail
+        var emailOtp = Math.floor(1000 + Math.random() * 9000)
+        console.log("Email = " + emailOtp)
+        sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
+        Seller.updateOne({ busEmail: busEmail }, { $set: { emailOtp: emailOtp } }, function (err, result) {
+            if (err) throw err;
+            res.send({ status: 1 })
+        })
+    }
 })
 
 module.exports = router

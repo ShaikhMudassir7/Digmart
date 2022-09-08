@@ -9,9 +9,7 @@
     <title>Profile | DigMart</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/vendor/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
     <link href="/css/seller/profile.css" rel="stylesheet">
 
@@ -32,8 +30,8 @@
                                 <div class="content">
 
                                     <div class="busLogo text-center">
-                                        <img id="busLogo" src="<%= sellerData.busLogo %>"
-                                            class="rounded-circle" alt="Profile Image">
+                                        <img id="busLogo" src="<%= sellerData.busLogo %>" class="rounded-circle"
+                                            alt="Profile Image">
                                     </div>
                                     <h1 class="mt-5 p-3 text-center">
                                         <%= sellerData.busName %>
@@ -106,8 +104,8 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Product Categories</label>
-                                                    <input disabled="true" class="form-control" type="text"
-                                                        value="<%= sellerData.busCat %>">
+                                                    <input id="busCat" disabled="true" class="form-control" type="text"
+                                                        value="<%= catArr %>">
                                                 </div>
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-6">
@@ -159,6 +157,9 @@
     <script src="/vendor/chartsjs/Chart.min.js"></script>
     <script src="/js/dashboard-charts.js"></script>
     <script src="/js/script.js"></script>
+    <script>
+        $('#busCat').val($('#busCat').val().replace(/,\s*/g, ', '))
+    </script>
 </body>
 
 </html>

@@ -120,10 +120,7 @@ router.get('/dashboard', checkAuth, async (req, res) => {
             count.pendingProduct = docs.length
 
         })
-
     res.render("admin/dashboard", { userType: req.session.type, userName: req.session.name, countarr: count });
-
-
 })
 
 router.get('/profile', checkAuth, async (req, res) => {
@@ -324,7 +321,6 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
                                         error: err
                                     })
                                 })
-
                         }
                     });
                 }
@@ -382,7 +378,6 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
                                 error: err
                             })
                         })
-
                 }
             });
         }

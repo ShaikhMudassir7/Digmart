@@ -13,6 +13,7 @@
     <link href="/css/auth.css" rel="stylesheet">
     <link href="/css/seller/authentication.css" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="container">
@@ -26,7 +27,7 @@
                         <div class="card-body text-center p-5">
                             <span class="mobile-text">Enter the code we just send on your Mobile No.<br>
                                 <b id="busMobile" style="color: rgb(11, 78, 179);">
-                                    <%= busMobile%>
+                                    +91 <%= busMobile%>
                                 </b></span>
                             <div class="d-flex flex-row mt-4">
                                 <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-2"
@@ -40,8 +41,8 @@
                             </div>
                             <div class="text-center mt-3">
                                 <span class="d-block mobile-text">Didn't receive the code?</span>
-                                <span class="font-weight-bold cursor"
-                                    style="color: rgb(11, 78, 179); text-decoration: underline;">Resend</span>
+                                <span id="mobResend" onclick="sendOTP(1,'<%= busMobile%>')" class="timer-inactive">Resend</span>
+                                <span id="mobTimer"></span>
                             </div>
                         </div>
                     </div>
@@ -68,8 +69,8 @@
                             </div>
                             <div class="text-center mt-3">
                                 <span class="d-block mobile-text">Didn't receive the code?</span>
-                                <span class="font-weight-bold cursor"
-                                    style="color: rgb(11, 78, 179); text-decoration: underline;">Resend</span>
+                                <span id="emailResend" onclick="sendOTP(2,'<%= busEmail%>')"  class="timer-inactive">Resend</span>
+                                <span id="emailTimer"></span>
                             </div>
                         </div>
                     </div>

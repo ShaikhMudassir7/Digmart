@@ -1,17 +1,22 @@
-function checkGst(gst) {
+const busGstNo = document.getElementById('busGstNo')
+
+function check(toCheck, val, errMsg) {
+  var btn = document.getElementById('submit1')
   $.ajax({
-    url: "/seller/checkGst?gst=" + gst,
+    url: "/seller/check?toCheck=" + toCheck + "&val=" + val,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     success: function (res) {
-      console.log(res.gst)
-      var err = document.getElementById('busGstNo_err')
-      var btn = document.getElementById('submit1')
+      var err = document.getElementById(errMsg)
       if (res.gst == 'true') {
-        err.style.visibility = "hidden"
-        btn.removeAttribute('disabled')
+        err.style.display = "none"
+        var busGstNo_err = document.getElementById('busGstNo_err').style.display
+        var busMobile_err = document.getElementById('busMobile_err').style.display
+        var busEmail_err = document.getElementById('busEmail_err').style.display
+        if (busMobile_err == 'none' && busEmail_err == 'none' && busGstNo_err == 'none')
+          btn.removeAttribute('disabled')
       } else {
-        err.style.visibility = "visible"
+        err.style.display = "block"
         btn.setAttribute('disabled', "disabled")
       }
     }
@@ -20,13 +25,16 @@ function checkGst(gst) {
 
 function checkAccNo(accno) {
   var ogAccno = document.getElementById('bankAccNo').value
+  var reAccNo = document.getElementById('bankAccNo2')
   var err = document.getElementById('reaccno_err')
   var btn = document.getElementById('submit1')
   if (ogAccno == accno) {
-    err.style.visibility = "hidden"
+    reAccNo.classList.remove('is-invalid')
+    err.style.display = "none"
     btn.removeAttribute('disabled')
   } else {
-    err.style.visibility = "visible"
+    reAccNo.classList.add('is-invalid')
+    err.style.display = "block"
     btn.setAttribute('disabled', "disabled")
   }
 }
