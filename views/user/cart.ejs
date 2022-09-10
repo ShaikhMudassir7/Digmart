@@ -12,6 +12,9 @@
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
+    <style>
+       
+    </style>
 </head>
 
 <body>
@@ -161,146 +164,154 @@
 
             <div class="container-fluid">
                 <div class="grandparent row">
-                    <div class="container border  mt-3 col-md-9 col-sm-11 col-11" style="background-color:  #ffffff; ">
-                        <h2>
-                            <p class="modal-header border-danger">YOUR CART</p>
-                        </h2>
+                    <div class="container border mt-3 col-md-9 col-sm-11 col-11" style="background-color:  #ffffff; ">
+                        <h3>
+                            <p class="modal-header border-danger">Your Shopping Cart</p>
+                        </h3>
 
-                        <% if(cartData.length!=0) { for(var i=0; i < cartData.length; i++) {%>
+                        <% if(seller.length!=0) { var i=1; seller.forEach(function(data){ %>
                             <div class="parent ">
                                 <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
                                     <label style="color: black;">
                                         <h5><b>
-                                                <%= cartData[i][1].sellerID.busName %>
+                                                <%= data %>
                                             </b></h5>
                                     </label>
                                     <hr class="mt-0" style="color: black; height: 2px;">
-                                    <% for(var j=1; j < cartData[i].length; j++) { %>
-                                        <div class="card" style="box-shadow: 2px 2px rgb(136, 136, 138);">
-                                            <div class="row">
-                                                <div class="image col-md-2">
-                                                    <img src=" <%= cartData[i][j].productID.images[0] %>"
-                                                        class="mt-2 ms-1 mb-2 border-1 border" width="185" height="150"
-                                                        class="img-fluid rounded-start ms-3">
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <div class="row">
-                                                        <div class="card-body col-md-7 ms-5">
-                                                            <div class="row">
-                                                                <h5 class="card-title">
+                                    <% var j=1; cartData.forEach(function(cartData){%>
+                                        <% if(cartData.sellerID._id.toString()==data.toString()) { %>
+                                            <div class="card" style="box-shadow: 2px 2px rgb(136, 136, 138);">
+                                                <div class="row">
+                                                    <div class="image col-md-2">
+                                                        <img src=" <%= cartData.productID.images[0] %>"
+                                                            class="mt-2 ms-1 mb-2 border-1 border" width="185"
+                                                            height="150" class="img-fluid rounded-start ms-3">
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div class="row">
+                                                            <div class="card-body col-md-7 ms-5">
+                                                                <div class="row">
+                                                                    <h5 class="card-title">
+                                                                        <label id="productName" name="productName">
+                                                                            <%= cartData.productID.productName %>:
+                                                                                &nbsp;
+                                                                        </label>
+                                                                    </h5>
                                                                     <label id="productName" name="productName">
-                                                                        <%= cartData[i][j].productID.productName %>:
-                                                                            &nbsp;
+                                                                        <%= cartData.productID.description %>
                                                                     </label>
-                                                                </h5>
-                                                                <label id="productName" name="productName">
-                                                                    <%= cartData[i][j].productID.description %>
-                                                                </label>
-                                                            </div>
-
-
-
-
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <div class="row mt-3">
-                                                                        <div class="col-md-4 col-sm-4 card-subtitle">
-                                                                            <b>Color:</b>
-                                                                        </div>
-                                                                        <div class="col-md-8 col-sm-8 card-subtitle">
-                                                                            <label id="colours" name="colours">
-                                                                                <%=cartData[i][j].colour %>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row mt-2">
-                                                                        <div class="col-md-4 col-sm-4 card-subtitle">
-                                                                            <b>Size:</b>
-                                                                        </div>
-                                                                        <div class="col-md-8 col-sm-8 card-subtitle">
-                                                                            <label id="colours" name="colours">
-                                                                                <%=cartData[i][j].size %>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-8 ">
-                                                                    <div class="row mt-2">
-                                                                        <div class="col-md-4 col-sm-4 card-subtitle">
-                                                                            <b>Price:</b>
+
+
+
+
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="row mt-3">
+                                                                            <div
+                                                                                class="col-md-4 col-sm-4 card-subtitle">
+                                                                                <b>Color:</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-md-8 col-sm-8 card-subtitle">
+                                                                                <label id="colours" name="colours">
+                                                                                    <%=cartData.colour %>
+                                                                                </label>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="col-md-8 col-sm-8 card-subtitle">
-                                                                            <%
-                                                                                if(cartData[i][j].productID.discount==null){%>
-                                                                                <p class="card-text fs-2">₹
-                                                                                    <%=cartData[i][j].productID.actualPrice%>
-                                                                                </p>
-                                                                                <%} else{%>
-                                                                                    <p class="card-text text-dark">
-                                                                                        <strong>
-                                                                                            ₹
-                                                                                            <%=cartData[i][j].productID.finalPrice%>
-                                                                                        </strong><strike><span
-                                                                                                class="text-black-20">₹
-                                                                                                <%=cartData[i][j].productID.actualPrice%>
-                                                                                            </span></strike><span
-                                                                                            class="text-success fs-6">
-                                                                                            <%=cartData[i][j].productID.discount%>
-                                                                                                % off
-                                                                                        </span>
+
+                                                                        <div class="row mt-2">
+                                                                            <div
+                                                                                class="col-md-4 col-sm-4 card-subtitle">
+                                                                                <b>Size:</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-md-8 col-sm-8 card-subtitle">
+                                                                                <label id="colours" name="colours">
+                                                                                    <%=cartData.size %>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8 ">
+                                                                        <div class="row mt-2">
+                                                                            <div
+                                                                                class="col-md-4 col-sm-4 card-subtitle">
+                                                                                <b>Price:</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-md-8 col-sm-8 card-subtitle">
+                                                                                <%
+                                                                                    if(cartData.productID.discount==null){%>
+                                                                                    <p class="card-text text-dark text-black-20 fs-6">₹
+                                                                                        <strong><%=cartData.productID.actualPrice%></strong>
                                                                                     </p>
+                                                                                    <%} else{%>
+                                                                                        <p class="card-text text-dark">
+                                                                                            <strong>
+                                                                                                ₹
+                                                                                                <%=cartData.productID.finalPrice%>
+                                                                                            </strong><strike><span
+                                                                                                    class="text-black-20">₹
+                                                                                                    <%=cartData.productID.actualPrice%>
+                                                                                                </span></strike><span
+                                                                                                class="text-success fs-6">
+                                                                                                <%=cartData.productID.discount%>
+                                                                                                    % off
+                                                                                            </span>
+                                                                                        </p>
 
-                                                                                    <%}%>
+                                                                                        <%}%>
 
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
 
 
-                                                                    <div class="row mt-2" style="max-height: 50px;">
-                                                                        <div
-                                                                            class="col-md-4 col-sm-4 col-4 card-text mt-2">
-                                                                            <b>Quantity:</b>
-                                                                        </div>
-                                                                        <div class="col-md-8 col-sm-3 col-3">
-                                                                            <input
-                                                                                class="form-control border-1 border-dark"
-                                                                                value="<%= cartData[i][j].quantity %>"
-                                                                                name="quantity" id="quantity"
-                                                                                style="max-width: 70px; text-align:center;"
-                                                                                type="number" size="2" MIN="1"
-                                                                                MAX="<%=cartData[i][j].productID.quantity%>">
+                                                                        <div class="row mt-2" style="max-height: 50px;">
+                                                                            <div
+                                                                                class="col-md-4 col-sm-4 col-4 card-text mt-2">
+                                                                                <b>Quantity:</b>
+                                                                            </div>
+                                                                            <div class="col-md-8 col-sm-3 col-3">
+                                                                                <input
+                                                                                    class="form-control border-1 border-dark"
+                                                                                    value="<%= cartData.quantity %>"
+                                                                                    name="quantity" id="quantity"
+                                                                                    style="max-width: 70px; text-align:center;"
+                                                                                    type="number" size="2" MIN="1"
+                                                                                    MAX="<%=cartData.productID.quantity%>"
+                                                                                    onchange="myFunction('<%=cartData._id%>')">
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
 
+                                                            </div>
+                                                            <div class="col-md-1 mt-1">
+                                                                <h4><a href="/cart/deleteCart/<%= cartData._id %>"><i
+                                                                            class="fa fa-minus-square"
+                                                                            style="color: rgb(188, 21, 21); margin-left: 15px;"
+                                                                            aria-hidden="true"></i></a></h4>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-1 mt-1">
-                                                            <h4><a href="/user/deleteCart/<%= cartData[i][j]._id %>"><i
-                                                                        class="fa fa-minus-square"
-                                                                        style="color: rgb(188, 21, 21); margin-left: 15px;"
-                                                                        aria-hidden="true"></i></a></h4>
-                                                        </div>
+
                                                     </div>
 
                                                 </div>
-
                                             </div>
-                                        </div>
-                                        <% } %>
+                                            <% } j++;}) %>
                                 </div>
                             </div>
-                            <% }} %>
+                            <% i++; })}%>
 
 
                     </div>
 
 
-                    <div class="container mt-3  col-md-2 col-sm-10 col-10 mb-3 "
+                    <div class="container mt-3 col-md-2 col-sm-10 col-10 mb-3"
                         style="background-color:  #ffffff; max-height: 320px;">
                         <h2>
-                            <p class="modal-header border-danger">TOTAL</p>
+                            <p class="modal-header border-danger">Total</p>
                         </h2>
                         <div id="bill">
 
@@ -320,16 +331,16 @@
                                     <b>Delivery </b>
                                 </div>
                                 <div class="col-md-6 col-sm-4 col-4 card-subtitle text-center">
-                                    <small>₹</small><label id="dilevery">45.00</label>
+                                    <label id="dilevery">FREE</label>
                                 </div>
                             </div>
                             <hr>
 
                             <div class="row mt-4 " style="font-size: 20px; font-family:Arial, Helvetica, sans-serif;">
-                                <div class="col-md-6  col-sm-8 col-8 card-subtitle">
+                                <div class="col-md-4  col-sm-8 col-8">
                                     <b>TOTAL: </b>
                                 </div>
-                                <div class="col-md-6    col-sm-4 col-4 card-subtitle text-center">
+                                <div class="col-md-8 col-sm-4 col-4  text-center">
                                     <small>₹</small><label id="total">
                                         <%= Total %>
                                     </label>
@@ -356,7 +367,12 @@
 
 
 
-
+    <script>
+        function myFunction(name) {
+            let qty = document.getElementById("quantity").value;
+            window.location.replace('/cart/editCart/' + name + '/' + qty);
+        }
+    </script>
 
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

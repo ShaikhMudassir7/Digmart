@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const cartSchema = mongoose.Schema({
+const wishlistSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     userID: {
         type: String,
@@ -16,8 +16,7 @@ const cartSchema = mongoose.Schema({
         required: true
     },
     size: { type: String,  required: true},
-    colour: { type: String,  required: true},
-    quantity: { type: String, required: true}
+    colour: { type: String,  required: true}
 })
-const Cart = new mongoose.model("cart", cartSchema)
-module.exports = Cart;
+const Wishlist = new mongoose.model("wishlist", wishlistSchema)
+module.exports = Wishlist;
