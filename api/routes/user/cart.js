@@ -4,17 +4,18 @@ const mongoose = require('mongoose')
 
 const Cart = require('../../models/user/cart');
 
-router.get('/viewCart/(:userID)',  async (req, res) => {
+router.get('/view-cart/(:userID)',  async (req, res) => {
     var subtotal = 0;
     var seller;
-    await Cart.find({ userID: req.params.userID }).distinct('sellerID').populate('sellerID').exec(function (err, doc) {
+    await Cart.find({ userID: req.params.userID }).distinct('sellerID').exec(function (err, doc) {
         if (err) {
             console.log(err)
         } else{
             seller=doc;
+            console.log(doc);
         }
     });
-     await Cart.find({ userID: req.params.userID }).populate('sellerID').populate('productID').exec(function (err, docs) {
+     await Cart.find({ userID: req.params.userID }).populate('sellerID productID').exec(function (err, docs) {
         if (err) {
             console.log(err)
         } else {
@@ -26,7 +27,7 @@ router.get('/viewCart/(:userID)',  async (req, res) => {
     });
 })
 
-router.get('/addToCart', (req, res) => {
+router.get('/add-to-cart', (req, res) => {
     // var cartdata = new Cart({
     //     _id: mongoose.Types.ObjectId(),
     //     userID: "",
@@ -46,17 +47,17 @@ router.get('/addToCart', (req, res) => {
     })
     
     cartdata.save().then(result => {
-        res.redirect('/cart/viewCart/hatim')
+        res.redirect('/cart/view-cart/hatim')
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Cart." + err);
         })
 })
 
-router.get('/deleteCart/(:cartID)', (req, res) => {
+router.get('/delete-cart/(:cartID)', (req, res) => {
     Cart.findByIdAndRemove(req.params.cartID, (err, doc) => {
         if (!err) {
-            res.redirect('/cart/viewCart/hatim')
+            res.redirect('/cart/view-cart/hatim')
         }
         else {
             res.status(500).send(err)
@@ -64,7 +65,7 @@ router.get('/deleteCart/(:cartID)', (req, res) => {
     })
 })
 
-router.get('/editCart/(:id)/(:qty)', (req, res) => {
+router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
     Cart.find({
         _id: req.params.id
     })
@@ -76,7 +77,7 @@ router.get('/editCart/(:id)/(:qty)', (req, res) => {
             Cart.updateOne({ _id: req.params.id }, { $set: cartdata })
                 .exec()
                 .then(result => {
-                    res.redirect('/cart/viewCart/hatim')
+                    res.redirect('/cart/view-cart/hatim')
                 })
                 .catch(err => {
                     console.log(err)

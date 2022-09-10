@@ -174,7 +174,7 @@
                                 <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
                                     <label style="color: black;">
                                         <h5><b>
-                                                <%= data %>
+                                                <%= data.busName %>
                                             </b></h5>
                                     </label>
                                     <hr class="mt-0" style="color: black; height: 2px;">
@@ -288,7 +288,7 @@
 
                                                             </div>
                                                             <div class="col-md-1 mt-1">
-                                                                <h4><a href="/cart/deleteCart/<%= cartData._id %>"><i
+                                                                <h4><a href="/cart/delete-cart/<%= cartData._id %>"><i
                                                                             class="fa fa-minus-square"
                                                                             style="color: rgb(188, 21, 21); margin-left: 15px;"
                                                                             aria-hidden="true"></i></a></h4>
@@ -370,7 +370,7 @@
     <script>
         function myFunction(name) {
             let qty = document.getElementById("quantity").value;
-            window.location.replace('/cart/editCart/' + name + '/' + qty);
+            window.location.replace('/cart/edit-cart/' + name + '/' + qty);
         }
     </script>
 

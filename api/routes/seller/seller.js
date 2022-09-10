@@ -71,7 +71,6 @@ router.post('/check', async (req, res) => {
                     })
                 })
             break;
-            break;
         case 'busGstNo':
             await Seller.find({ busGstNo: req.query.val }).exec()
                 .then(seller => {
