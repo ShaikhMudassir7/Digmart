@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/user/swiper-bundle.min.css">
+    <link rel="stylesheet" href="/css/user/home.css">
+
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <section id="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid ">
+                <a class="navbar-brand" href="#">
+                    <img id="BrandLogo" src="/img/DigMart-Sidebar.png" class="img-fluid">
+                </a>
+                <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="toggler-icon top-bar"></span>
+                    <span class="toggler-icon middle-bar"></span>
+                    <span class="toggler-icon bottom-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
+                    <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
+                        <li class="nav-item mx-2 text-center">
+                            <a class="nav-link" href="#deals">Products</a>
+                        </li>
+                        <li class="nav-item mx-2 text-center">
+                            <a class="nav-link" href="#Sellers">Sellers</a>
+                        </li>
+                        <li class="nav-item mx-2 text-center">
+                            <a class="nav-link" href="#footer">About</a>
+                        </li>
+                        <li class="nav-item mx-2 text-center">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarScrollingDropdown2">
+                                    <li><a class="dropdown-item" href="#">Sign in</a></li>
+                                    <li><a class="dropdown-item" href="#">My Orders</a></li>
+                                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i> View
+                                            Cart</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <!-- BANNER -->
+    <section id="banner">
+        <div class="banner">
+            <h1
+                style="font-style: italic; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: bolder; font-size: 4rem;">
+                DigMart</h1>
+            <div class="py-3">
+                <h2 class="fs-2" style="letter-spacing: 1.75px;">Discover the best in your Locality</h2>
+            </div>
+            <form class="d-flex search-control py-4" role="search">
+                <input class="form-control ms-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success2" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section id="Categories" style="margin-top: 5rem; margin-bottom: 5rem;">
+        <div class="headline text-center m-4">
+            <h2 class="pb-3 position-relative d-inline-block">Shop by Category</h2>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between">
+                <div id="prevCategoryBtn" class="fas fa-chevron-left fa-2x"></div>
+                <div class="swiper categorySwiper">
+                    <div id="category1" class="swiper-wrapper">
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/categoryImages/mens-fashion.png" alt="">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b>Men's Fashion</b></h5>
+                            </div>
+                        </div>
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/categoryImages/womens-fashion.png" alt="">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b>Women's Fashion</b></h5>
+                            </div>
+                        </div>
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/categoryImages/personal-gadgets.png" alt="">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b>Personal Gadgets</b></h5>
+                            </div>
+                        </div>
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/categoryImages/Electronics.png" alt="">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b>Electronics</b></h5>
+                            </div>
+                        </div>
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/categoryImages/kids-fashion.png" alt="">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b>Kid's Fashion</b></h5>
+                            </div>
+                        </div>
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/categoryImages/books.png" alt="">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b>Books</b></h5>
+                            </div>
+                        </div>
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/categoryImages/sports-equipments.png" alt="">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b>Sports Equipments</b></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="nextCategoryBtn" class="fas fa-chevron-right fa-2x"></div>
+            </div>
+            <div class="category-pagination" style="position: relative;"></div>
+        </div>
+    </section>
+
+    <!-- SELLERS -->
+    <section id="Sellers" style="margin-top: 5rem; margin-bottom: 5rem;">
+        <div class="headline text-center m-4">
+            <h2 class="pb-3 position-relative d-inline-block">Featured Sellers</h2>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between">
+                <div id="prevSellerBtn" class="fas fa-chevron-left fa-2x"></div>
+                <div class="swiper sellerSwiper">
+                    <div id="seller1" class="swiper-wrapper">
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="/img/DigMart.png" class="rounded-circle" alt="Seller 1">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>DigMart Ltd.</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="https://yt3.ggpht.com/ytc/AMLnZu9GlNEvcXPblRUvW11GS3buDikRNugBjnPlZ_1rew=s900-c-k-c0x00ffffff-no-rj"
+                                    class="rounded-circle" alt="Seller 2">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>Apple Inc.</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtNnqgyCKbgxHgc9-DrgAdioD3luJPyS7Da4UPlqPsml4aby-3P26mmIfaAzf9NwpzWN0&usqp=CAU"
+                                    class="rounded-circle" alt="Seller 3">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>Xiaomi</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="data:image/png;base64,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"
+                                    class="rounded-circle" alt="Seller 4">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>Vijay Sales</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="https://animationvisarts.com/wp-content/uploads/2016/10/Croma-Logo-Design.jpg"
+                                    class="rounded-circle" alt="Seller 5">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>Croma</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="https://content.jdmagicbox.com/comp/bangalore/u5/080pxx80.xx80.180602140558.j7u5/catalogue/d-mart-customer-care-bangalore-customer-care-ju2e85od51-250.jpg"
+                                    class="rounded-circle" alt="Seller 6">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>D-Mart</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="http://images.jdmagicbox.com/comp/thane/11/022p8020011/catalogue/lagu-bandhu-jewellers-thane-west-thane-jewellery-showrooms-13yqkr1.jpg"
+                                    class="rounded-circle" alt="Seller 7">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>Lagu Bandhu</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <img src="https://images.samsung.com/is/image/samsung/assets/in/about-us/brand/logo/mo/360_197_1.png?$FB_TYPE_B_PNG$"
+                                    class="rounded-circle" alt="Seller 8">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h4><b>Samsung</b></h4>
+                                <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Consectetur, ab!</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="nextSellerBtn" class="fas fa-chevron-right fa-2x"></div>
+            </div>
+            <div class="seller-pagination" style="position: relative;"></div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="deals" class="my-5">
+        <div class="headline text-center m-4">
+            <h2 class="pb-3 position-relative d-inline-block">Lightning Deals</h2>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between">
+                <div id="prevProductBtn" class="fas fa-chevron-left fa-2x"></div>
+                <div class="swiper productSwiper">
+                    <div id="product1" class="swiper-wrapper">
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <div class="discount">10%<br>off</div>
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://i.imgur.com/VY0R9aV.jpg" alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Personal Electronics</span>
+                                <h6>Colorfit Caliber Smartwatch</h6>
+                                <div class="rating"><i class="fa fa-star"> 4.2</i></div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 799</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹999</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://static.digit.in/product/thumb_222578_product_td_300.jpeg" alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Personal Electronics</span>
+                                <h6>Macbook Pro M1 Max</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.5</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 99999</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹100000</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://www.ifbappliances.com/media/catalog/product/cache/f6d60de4095a6e5204f81c04aa5b766f/0/5/05072021_tl-sdin_11.0kg1.png"
+                                    alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Electronics</span>
+                                <h6>Haier 8 Kg Automatic</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.0</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 44499</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹49999</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://images.samsung.com/is/image/samsung/in-full-hd-tv-te50fa-ua43te50fakxxl-frontblack-231881877?$650_519_PNG$"
+                                    alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Electronics</span>
+                                <h6>Samsung 108cm Smart TV</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.3</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 27999</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹29999</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/ae22e3a6-9590-401a-94f6-d8ecf42b4932_600x.png?v=1625046351"
+                                    alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Personal Electronics</span>
+                                <h6>Boat Rockerz 450</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.9</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 1499</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹1999</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://m.media-amazon.com/images/I/71AgUK2NGPL._UX569_.jpg" alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Men's Fashion</span>
+                                <h6>Half Sleeve Printed Shirt</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 3.9</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 239</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹299</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://rukminim1.flixcart.com/image/332/398/jcqjr0w0/hand-messenger-bag/w/g/x/plain-drymilk-acrylic-handle-wa12122017-hand-held-bag-esbeda-original-imaffsjnydzhkspt.jpeg?q=50"
+                                    alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Fashion Accessories</span>
+                                <h6>Esbeda Handbag</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.6</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 3499</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹4499</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://rukminim1.flixcart.com/image/416/416/kqidx8w0/book/c/6/b/the-wealth-of-nations-original-imag4gczsw6sejyk.jpeg?q=70"
+                                    alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Books & Toys</span>
+                                <h6>The Wealth of Nations Paperback</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.5</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 251</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">351</span></del>
+                                </div>
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                        <div class="pro swiper-slide">
+                            <div class="imgDiv">
+                                <!-- <div class="discount">10%<br>off</div> -->
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/15700c12-7177-4110-a8d4-74eb2315e8ac/liverpool-fc-strike-football-RZshdn.png"
+                                    alt="">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category">Sports Equipments</span>
+                                <h6>L.F.C Nike Football</h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.4</i><span class="disc">10% off</span>
+                                </div>
+                                <div>
+                                    <h5 class="prodPrice">₹ 1699</h5><del><span
+                                            class="discPrice text-muted fs-6 px-2">₹3999</span></del>
+                                </div>
+
+                            </div>
+                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="nextProductBtn" class="fas fa-chevron-right fa-2x"></div>
+            </div>
+            <div class="product-pagination" style="position: relative;"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <section id="footer">
+        <footer class="text-center text-lg-start text-white" style="background-color: #1e686dfa">
+            <div class="container p-4 pb-0">
+                <section class="">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                            <h6 class="text-uppercase mb-4">
+                                <b>DigMart</b>
+                            </h6>
+                            <p>
+                                Description, Vision, Aim, Mission -
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas cupiditate expedita
+                                ipsum dolorem a possimus?
+                            </p>
+                        </div>
+
+                        <hr class="w-100 clearfix d-md-none" />
+
+                        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                            <h6 class="text-uppercase mb-4"><b>About</b></h6>
+                            <p>
+                                <a class="text-white">About us</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Delivery Information</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Privacy Policy</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Terms & Conditions</a>
+                            </p>
+                        </div>
+
+                        <hr class="w-100 clearfix d-md-none" />
+
+                        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                            <h6 class="text-uppercase mb-4">
+                                <b>My Account</b>
+                            </h6>
+                            <p>
+                                <a class="text-white">View Cart</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Wishlist</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Orders</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Forgot Password</a>
+                            </p>
+                        </div>
+
+                        <hr class="w-100 clearfix d-md-none" />
+
+                        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 text-md-start">
+                            <h6 class="text-uppercase mb-4"><b>Contact</b></h6>
+                            <p><i class="fas fa-home mr-3"></i> Lal Qila, Chandni Chowk, Delhi - 110006</p>
+                            <p><i class="fas fa-envelope mr-3"></i> DigMart@outlook.com</p>
+                            <p><i class="fas fa-phone mr-3"></i> + 91 9346576281</p>
+                            <p><i class="fas fa-print mr-3"></i> + 91 22 1234 5678</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-3">
+
+                <section class="p-3 pt-0">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-md-7 col-lg-8 text-center text-md-start">
+                            <div class="p-3">
+                                © 2022, DigMart Pvt. ltd.
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-facebook-f"></i></a>
+
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-twitter"></i></a>
+
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-google"></i></a>
+
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </footer>
+    </section>
+
+</body>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/user/swiper-bundle.min.js"></script>
+<script src="/js/user/home.js"></script>
+
+</html>

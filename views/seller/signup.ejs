@@ -5,17 +5,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="icon" type="image/png" href="/img/favicon.png">
-
   <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
   <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-  <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <script type="text/javascript" src="/js/seller/multi-select.js"></script>
   <link rel="stylesheet" href="/css/master.css">
   <link rel="stylesheet" href="/css/seller/signup.css">
-
 </head>
 
 <body>
@@ -95,7 +91,7 @@
                         Entered Mobile No. will be used for verification purposes</small>
                       <div class="invalid-feedback">Please enter a valid Mobile No.!</div>
                       <small id="busMobile_err" class="form-text text-muted" style="display: none;"><span
-                        style="color: red;">Mobile No. already in use!</span></small>
+                          style="color: red;">Mobile No. already in use!</span></small>
                     </div>
                   </div>
 
@@ -108,7 +104,7 @@
                       Entered Email will be used for verification purposes</small>
                     <div class="invalid-feedback">Please enter a valid Email-ID!</div>
                     <small id="busEmail_err" class="form-text text-muted" style="display: none;"><span
-                      style="color: red;">Email-ID already in use!</span></small>
+                        style="color: red;">Email-ID already in use!</span></small>
                   </div>
 
                   <div class="row g-2">
@@ -120,10 +116,10 @@
                       <div class="invalid-feedback">Please enter a valid Address!</div>
                     </div>
                     <div class="mb-3 col-md-3">
-                      <label for="busZip" class="form-label">Zip Code</label>
+                      <label for="busZip" class="form-label">PIN Code</label>
                       <input value="400070" id="busZip" type="numeric" class="form-control" name="busZip"
-                        placeholder="Zip Code" minlength="6" pattern="^[1-9][0-9]{5}$" required>
-                      <div class="invalid-feedback">Invalid Zip Code!</div>
+                        placeholder="PIN Code" minlength="6" pattern="^[1-9][0-9]{5}$" required>
+                      <div class="invalid-feedback">Invalid PIN Code!</div>
                     </div>
                   </div>
 
@@ -149,8 +145,9 @@
 
                   <div class="mb-4">
                     <label for="busCat" class="form-label">Product Category</label>
-                    <select class="form-select" name="busCat" id="busCat" multiple multiselect-search="true"
-                      multiselect-select-all="true" required>
+                    <!-- <select class="form-select" name="busCat" id="busCat" multiple multiselect-search="true"
+                      multiselect-select-all="true" multiselect-max-items="10" required> -->
+                    <select class="form-select" name="busCat" id="busCat" multiple multiselect-search="true" required>
                       <% if(catsData.length!=0){ catsData.forEach(function(data){ %>
                         <option value="<%=data._id %>">
                           <%=data.catName %>
