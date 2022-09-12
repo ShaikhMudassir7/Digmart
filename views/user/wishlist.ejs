@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="/img/DigMart.png">
-    <title>Cart</title>
+    <title>Wishlist</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -166,7 +166,7 @@
                 <div class="grandparent row">
                     <div class="container border mt-3 col-md-9 col-sm-11 col-11" style="background-color:  #ffffff; ">
                         <h3>
-                            <p class="modal-header border-danger">Your Shopping Cart</p>
+                            <p class="modal-header border-danger">Your Wishlist</p>
                         </h3>
 
                         <% if(seller.length!=0) { var i=1; seller.forEach(function(data){ %>
@@ -178,12 +178,12 @@
                                             </b></h5>
                                     </label>
                                     <hr class="mt-0" style="color: black; height: 2px;">
-                                    <% var j=1; cartData.forEach(function(cartData){%>
-                                        <% if(cartData.sellerID._id.toString()==data.toString()) { %>
+                                    <% var j=1; wishlistData.forEach(function(wishlistData){%>
+                                        <% if(wishlistData.sellerID._id.toString()==data.toString()) { %>
                                             <div class="card" style="box-shadow: 2px 2px rgb(136, 136, 138);">
                                                 <div class="row">
                                                     <div class="image col-md-2">
-                                                        <img src=" <%= cartData.productID.images[0] %>"
+                                                        <img src=" <%=wishlistData.productID.images[0] %>"
                                                             class="mt-2 ms-1 mb-2 border-1 border" width="185"
                                                             height="150" class="img-fluid rounded-start ms-3">
                                                     </div>
@@ -193,12 +193,12 @@
                                                                 <div class="row">
                                                                     <h5 class="card-title">
                                                                         <label id="productName" name="productName">
-                                                                            <%= cartData.productID.productName %>:
+                                                                            <%= wishlistData.productID.productName %>:
                                                                                 &nbsp;
                                                                         </label>
                                                                     </h5>
                                                                     <label id="productName" name="productName">
-                                                                        <%= cartData.productID.description %>
+                                                                        <%= wishlistData.productID.description %>
                                                                     </label>
                                                                 </div>
 
@@ -215,7 +215,7 @@
                                                                             <div
                                                                                 class="col-md-8 col-sm-8 card-subtitle">
                                                                                 <label id="colours" name="colours">
-                                                                                    <%=cartData.colour %>
+                                                                                    <%=wishlistData.colour %>
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -228,7 +228,7 @@
                                                                             <div
                                                                                 class="col-md-8 col-sm-8 card-subtitle">
                                                                                 <label id="colours" name="colours">
-                                                                                    <%=cartData.size %>
+                                                                                    <%=wishlistData.size %>
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -242,21 +242,21 @@
                                                                             <div
                                                                                 class="col-md-8 col-sm-8 card-subtitle">
                                                                                 <%
-                                                                                    if(cartData.productID.discount==null){%>
+                                                                                    if(wishlistData.productID.discount==null){%>
                                                                                     <p class="card-text text-dark text-black-20 fs-6">₹
-                                                                                        <strong><%=cartData.productID.actualPrice%></strong>
+                                                                                        <strong><%=wishlistData.productID.actualPrice%></strong>
                                                                                     </p>
                                                                                     <%} else{%>
                                                                                         <p class="card-text text-dark">
                                                                                             <strong>
                                                                                                 ₹
-                                                                                                <%=cartData.productID.finalPrice%>
+                                                                                                <%=wishlistData.productID.finalPrice%>
                                                                                             </strong><strike><span
                                                                                                     class="text-black-20">₹
-                                                                                                    <%=cartData.productID.actualPrice%>
+                                                                                                    <%=wishlistData.productID.actualPrice%>
                                                                                                 </span></strike><span
                                                                                                 class="text-success fs-6">
-                                                                                                <%=cartData.productID.discount%>
+                                                                                                <%=wishlistData.productID.discount%>
                                                                                                     % off
                                                                                             </span>
                                                                                         </p>
@@ -268,27 +268,14 @@
 
 
                                                                         <div class="row mt-2" style="max-height: 50px;">
-                                                                            <div
-                                                                                class="col-md-4 col-sm-4 col-4 card-text mt-2">
-                                                                                <b>Quantity:</b>
-                                                                            </div>
-                                                                            <div class="col-md-8 col-sm-3 col-3">
-                                                                                <input
-                                                                                    class="form-control border-1 border-dark"
-                                                                                    value="<%= cartData.quantity %>"
-                                                                                    name="quantity" id="quantity"
-                                                                                    style="max-width: 70px; text-align:center;"
-                                                                                    type="number" size="2" MIN="1"
-                                                                                    MAX="<%=cartData.productID.quantity%>"
-                                                                                    onchange="myFunction('<%=cartData._id%>')">
-                                                                            </div>
+                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                             </div>
                                                             <div class="col-md-1 mt-1">
-                                                                <h4><a href="/cart/delete-cart/<%= cartData._id %>"><i
+                                                                <h4><a href="/wishlist/delete-wishlist/<%= wishlistData._id %>"><i
                                                                             class="fa fa-minus-square"
                                                                             style="color: rgb(188, 21, 21); margin-left: 15px;"
                                                                             aria-hidden="true"></i></a></h4>
@@ -310,50 +297,9 @@
 
                     <div class="container mt-3 col-md-2 col-sm-10 col-10 mb-3"
                         style="background-color:  #ffffff; max-height: 320px;">
-                        <h2>
-                            <p class="modal-header border-danger">Total</p>
-                        </h2>
-                        <div id="bill">
-
-                            <div class="row mt-4">
-                                <div class="col-md-6 col-sm-8 col-8 card-subtitle">
-                                    <b>Subtotal</b>
-                                </div>
-                                <div class="col-md-6 col-sm-4 col-4 card-subtitle text-center">
-                                    <small>₹</small><label id="subtotal">
-                                        <%= subTotal %>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="row mt-4">
-                                <div class="col-md-6 col-sm-8 col-8 card-subtitle">
-                                    <b>Delivery </b>
-                                </div>
-                                <div class="col-md-6 col-sm-4 col-4 card-subtitle text-center">
-                                    <label id="dilevery">FREE</label>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row mt-4 " style="font-size: 20px; font-family:Arial, Helvetica, sans-serif;">
-                                <div class="col-md-4  col-sm-8 col-8">
-                                    <b>TOTAL: </b>
-                                </div>
-                                <div class="col-md-8 col-sm-4 col-4  text-center">
-                                    <small>₹</small><label id="total">
-                                        <%= Total %>
-                                    </label>
-                                </div>
-                            </div>
-
-                        </div>
-
                         <button class="btn btn-warning mt-4 mb-2 btn-lg col-md-12 col-sm-12 col-12"
-                            style=" font-family: cursive;" id="buy">BUY NOW
+                            style=" font-family: cursive;" id="buy">ADD TO CART
                         </button>
-
-
                     </div>
                 </div>
 
