@@ -16,6 +16,9 @@ const sellerProductRoute = require("./api/routes/seller/product")
 const sellerCoverageRoute = require("./api/routes/seller/coverage")
 const orderRoute = require("./api/routes/seller/orders")
 const userRoute = require("./api/routes/user/user")
+const userCartRoute = require("./api/routes/user/cart")
+const userWishlistRoute = require("./api/routes/user/wishlist")
+const userProductRoute = require("./api/routes/user/product")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -53,7 +56,10 @@ app.use('/seller', sellerRoute)
 app.use('/seller/products', sellerProductRoute)
 app.use('/seller/coverage', sellerCoverageRoute)
 app.use('/seller/orders', orderRoute)
-app.use('/user', userRoute)
+app.use('/', userRoute)
+app.use('/product', userProductRoute)
+app.use('/cart', userCartRoute)
+app.use('/wishlist', userWishlistRoute)
 
 const server = http.createServer(app);
 server.listen(port, () => {
