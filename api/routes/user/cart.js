@@ -3,26 +3,30 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Cart = require('../../models/user/cart');
+const Seller = require("../../models/seller/seller")
 
-router.get('/view-cart/(:userID)',  async (req, res) => {
+router.get('/view-cart/(:userID)', async (req, res) => {
     var subtotal = 0;
     var seller;
-    await Cart.find({ userID: req.params.userID }).distinct('sellerID').exec(function (err, doc) {
-        if (err) {
-            console.log(err)
-        } else{
-            seller=doc;
-            console.log(doc);
-        }
+    var sellerdoc;
+    await Cart.find({ userID: req.params.userID }).distinct('sellerID').then(doc => {
+        sellerdoc = doc
+    })
+
+    console.log(sellerdoc)
+    await Seller.find({ _id: { $in: sellerdoc } }).then(rdoc => {
+        seller = rdoc;
+        console.log(seller);
     });
-     await Cart.find({ userID: req.params.userID }).populate('sellerID productID').exec(function (err, docs) {
+
+    await Cart.find({ userID: req.params.userID }).populate('sellerID productID').exec(function (err, docs) {
         if (err) {
             console.log(err)
         } else {
             for (let i = 0; i < docs.length; i++) {
                 subtotal = subtotal + (Number(docs[i].productID.finalPrice) * (Number(docs[i].quantity)));
             }
-            res.render('user/cart', {seller: seller, cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2) })
+            res.render('user/cart', { seller: seller, cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2) })
         }
     });
 })
@@ -45,7 +49,7 @@ router.get('/add-to-cart', (req, res) => {
         colour: "Red",
         quantity: "1"
     })
-    
+
     cartdata.save().then(result => {
         res.redirect('/cart/view-cart/hatim')
     })
