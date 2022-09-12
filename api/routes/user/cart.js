@@ -3,7 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Cart = require('../../models/user/cart');
-const Seller = require("../../models/seller/seller")
+const Seller = require("../../models/seller/seller");
+const { render } = require("ejs");
 
 router.get('/view-cart/(:userID)', async (req, res) => {
     var subtotal = 0;
@@ -68,6 +69,11 @@ router.get('/delete-cart/(:cartID)', (req, res) => {
         }
     })
 })
+
+router.get('/user-login', (req, res) => {
+   res.render("user/user-login")
+})
+
 
 router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
     Cart.find({

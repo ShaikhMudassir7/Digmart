@@ -3,18 +3,18 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Wishlist = require('../../models/user/wishlist');
-
+const Seller = require("../../models/seller/seller")
 
 router.get('/view-wishlist/(:userID)',  async (req, res) => {
-    var subtotal = 0;
     var seller;
-    await Wishlist.find({ userID: req.params.userID }).distinct('sellerID').exec(function (err, doc) {
-        if (err) {
-            console.log(err)
-        } else{
-            seller=doc;
-            console.log(doc);
-        }
+    var sellerdoc;
+    await Wishlist.find({ userID: req.params.userID }).distinct('sellerID').then(doc => {
+        sellerdoc = doc
+    })
+
+    await Seller.find({ _id: { $in: sellerdoc } }).then(rdoc => {
+        seller = rdoc;
+        console.log(seller);
     });
      await Wishlist.find({ userID: req.params.userID }).populate('sellerID productID').exec(function (err, docs) {
         if (err) {
