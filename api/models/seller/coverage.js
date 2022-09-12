@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 let pincodeSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    pincode: Number,
+    pincode: String,
 });
 
 const coverageSchema = mongoose.Schema({

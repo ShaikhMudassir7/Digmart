@@ -6,9 +6,7 @@ const jwt = require("jsonwebtoken")
 
 const Seller = require("../../models/seller/seller")
 const Products = require('../../models/seller/product')
-const Coverage = require('../../models/seller/coverage');
 const Category = require('../../models/admin/categorySchema');
-
 
 const { sendMobileOtp } = require('../../utils/mobileOtp')
 const { sendEmail } = require('../../utils/emailOtp')
@@ -379,33 +377,6 @@ router.get('/profile', checkAuth, (req, res) => {
                 error: err
             })
         })
-})
-
-router.get('/coverage', checkAuth, (req, res) => {
-    res.render("./seller/coverage", { sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-})
-
-router.post('/coverage', (req, res) => {8
-    console.log(req.body.pin)
-
-    // var coverage = new Coverage({
-    //     _id: new mongoose.Types.ObjectId(),
-    //     sellerID: req.session.sellerID,
-    //     state: req.body.state,
-    //     district: req.body.district,
-       
-    // })
-
-    // coverage.save()
-    //     .then(doc => {
-            
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //         res.status(500).json({
-    //             error: err
-    //         })
-    //     })
 })
 
 router.get('/logout', (req, res) => {

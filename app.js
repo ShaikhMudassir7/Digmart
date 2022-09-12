@@ -8,14 +8,14 @@ var mongoose = require("mongoose");
 const port = process.env.PORT;
 const app = express();
 
-const sellerProductRoute = require("./api/routes/seller/product")
 const adminRoute = require("./api/routes/admin/admin")
-const sellerRoute = require("./api/routes/seller/seller")
-const userRoute = require("./api/routes/user/user")
-const orderRoute = require("./api/routes/seller/orders")
 const verificationRoute = require("./api/routes/admin/verification") 
 const admincategoryRoute = require("./api/routes/admin/category")
-
+const sellerRoute = require("./api/routes/seller/seller")
+const sellerProductRoute = require("./api/routes/seller/product")
+const sellerCoverageRoute = require("./api/routes/seller/coverage")
+const orderRoute = require("./api/routes/seller/orders")
+const userRoute = require("./api/routes/user/user")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,15 +46,14 @@ app.use('/vendor', express.static(__dirname + 'public/vendor'))
 app.use('/components', express.static(__dirname + 'public/components'))
 app.use('/uploads', express.static(__dirname + 'public/uploads'))
 
-
-app.use('/seller/products', sellerProductRoute)
 app.use('/admin', adminRoute)
-app.use('/seller', sellerRoute)
-app.use('/user', userRoute)
-app.use('/seller/orders', orderRoute)
 app.use('/admin/verification', verificationRoute)
 app.use('/admin/category', admincategoryRoute)
-
+app.use('/seller', sellerRoute)
+app.use('/seller/products', sellerProductRoute)
+app.use('/seller/coverage', sellerCoverageRoute)
+app.use('/seller/orders', orderRoute)
+app.use('/user', userRoute)
 
 const server = http.createServer(app);
 server.listen(port, () => {
