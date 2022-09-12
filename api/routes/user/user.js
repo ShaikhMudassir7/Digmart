@@ -7,21 +7,6 @@ const Cart = require('../../models/user/cart');
 // const checkAuth = require("../../middleware/seller/checkAuth")
 
 
-// Route of product page
-router.get('/product/(:id)', (req, res) => {
-        Products.findById(req.params.id,
-            (err, doc) => {
-                if (!err) {
-                    // var status = req.query.status;
-                    // if (status == "Verified") {
-                        res.render('./user/product', { productData: doc});
-                    // }
-                } else {
-                    res.send('try-again')
-                }
-            })
-
-})
 
 router.get('/cart/(:userID)', (req, res) => {
     var cartarray = [];
