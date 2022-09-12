@@ -117,8 +117,8 @@
                 <button type="button" class="btn btn-dark"> </button>
               </div><br><br>
               <div>
-                  <button href="#" class="btn btn-lg" style="background: rgb(94, 45, 129);color: white;">ADD TO BAG</button>
-                  <button href="#" class="btn btn-primary btn-lg" style="background: rgb(43, 17, 78);color: white;">WISHLIST</button>
+                  <a href="/cart/add-to-cart/<%= productData._id%>/<%=productData.sellerID%>/" class="btn btn-lg" style="background: rgb(94, 45, 129);color: white;">ADD TO BAG</a>
+                  <a href="/wishlist/add-to-wishlist/<%= productData._id%>/<%=productData.sellerID%>/" class="btn btn-primary btn-lg" style="background: rgb(43, 17, 78);color: white;">WISHLIST</a>
                 </div>
               </div>
             </div>

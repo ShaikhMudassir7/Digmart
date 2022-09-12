@@ -31,7 +31,7 @@ router.get('/view-cart/(:userID)', async (req, res) => {
     });
 })
 
-router.get('/add-to-cart', (req, res) => {
+router.get('/add-to-cart/(:id)/(:sellerID)', (req, res) => {
     // var cartdata = new Cart({
     //     _id: mongoose.Types.ObjectId(),
     //     userID: "",
@@ -42,16 +42,16 @@ router.get('/add-to-cart', (req, res) => {
     // })
     var cartdata = new Cart({
         _id: mongoose.Types.ObjectId(),
-        userID: "hatim",
-        sellerID: "6312371c7b144b632d14f203",
-        productID: "631b0b2ea4ef737e420dd94f",
-        size: "200",
-        colour: "Red",
+        userID: "mudassir",
+        sellerID: req.params.sellerID,
+        productID: req.params.id,
+        colour: "red",
+        size: "10",
         quantity: "1"
     })
 
     cartdata.save().then(result => {
-        res.redirect('/cart/view-cart/hatim')
+        res.redirect('/cart/view-cart/mudassir')
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Cart." + err);
