@@ -32,7 +32,7 @@ var catUpload = upload.fields([{ name: "catImage", maxCount: 3 }])
 
 //Add 
 router.get('/', checkAuth, (req, res) => {
-    Category.find().select("catImage catName sub_category status")
+    Category.find().select("catImage catName sub_category variant")
         .exec()
         .then(docs => {
             res.render('./admin/category/category', { categoryData: docs, userType: req.session.type, userName: req.session.name })
@@ -72,7 +72,7 @@ router.post("/add-category", catUpload, async (req, res) => {
             catImage: (req.files.catImage[0].path).toString().substring(6),
             catName: req.body.catName,
             sub_category: req.body.sub_category,
-            status: req.body.status
+            variant: req.body.variant
         })
 
         await categoryData.save();
@@ -128,7 +128,7 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
             catImage: req.files.catImage[0].path.toString().substring(6),
             catName: req.body.catName,
             sub_category: req.body.sub_category,
-            status: req.body.status
+            variant: req.body.variant
         }
 
     }
@@ -137,7 +137,7 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
         {
             catName: req.body.catName,
             sub_category: req.body.sub_category,
-            status: req.body.status
+            variant: req.body.variant
         }
     }
 

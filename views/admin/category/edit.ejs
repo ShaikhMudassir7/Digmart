@@ -121,20 +121,21 @@
                                                     </div>
                                                 </div>
 
+
+
                                                 <div class="mb-3 col-md-4">
-                                                    <label for="status" class="form-label">Status</label>
-                                                    <select name="status" class="form-select" id="status" required>
-                                                       
-                                                            <option value="<%=categoryData.status %>" selected>
-                                                                <%=categoryData.status %>
+                                                    <label for="variant" class="form-label">Variant</label>
+                                                    <select name="variant" class="form-select"  id="variant" required>
+                                                            <option value="<%=categoryData.variant %>" selected>
+                                                                <%=categoryData.variant %>
                                                             </option>
-                                                            <% if(categoryData.status == "Active"){ %>
-                                                                <option value="Inactive">
-                                                                    Inactive
+                                                            <% if(categoryData.variant == "Available"){ %>
+                                                                <option value="Unavailable">
+                                                                    Unavailable
                                                                 </option>
                                                                 <% } else{ %>
-                                                                <option value="Active">
-                                                                    Active
+                                                                <option value="Available">
+                                                                    Available
                                                                 </option>
                                                                 <% } %>
                                                            

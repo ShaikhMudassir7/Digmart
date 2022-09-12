@@ -9,6 +9,7 @@ const port = process.env.PORT;
 const app = express();
 
 const sellerProductRoute = require("./api/routes/seller/product")
+const productVariantRoute = require("./api/routes/seller/variant")
 const adminRoute = require("./api/routes/admin/admin")
 const sellerRoute = require("./api/routes/seller/seller")
 const userRoute = require("./api/routes/user/user")
@@ -48,6 +49,7 @@ app.use('/uploads', express.static(__dirname + 'public/uploads'))
 
 
 app.use('/seller/products', sellerProductRoute)
+app.use('/seller/products/variant', productVariantRoute)
 app.use('/admin', adminRoute)
 app.use('/seller', sellerRoute)
 app.use('/user', userRoute)

@@ -33,27 +33,27 @@
                                             <form action="/admin/category/add-category" method="post"
                                                 enctype="multipart/form-data">
                                                 <div class="mb-3">
-                                                    <label for="text" class="form-label">Category Image</label>
+                                                    <label for="catImage" class="form-label">Category Image</label>
                                                     <input type="file" name="catImage" class="form-control"
                                                         accept="image/*" required>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="text" class="form-label">Category Name</label>
-                                                    <input type="text" name="catName" placeholder="Enter Category"
+                                                    <label for="catName" class="form-label">Category Name</label>
+                                                    <input name="catName" placeholder="Enter Category"
                                                         class="form-control" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="text" class="form-label">Sub-Category</label>
+                                                    <label for="sub_category" class="form-label">Sub-Category</label>
                                                     <input type="text" name="sub_category"
                                                         placeholder="Enter Sub-Category" class="form-control" required>
                                                 </div>
 
                                                 <div class="mb-3 col-md-4">
-                                                    <label for="status" class="form-label">Status</label>
-                                                    <select name="status" class="form-select" required>
-                                                        <option value="Active" selected>Active</option>
-                                                        <option value="Inactive">Inactive</option>
+                                                    <label for="variant" class="form-label">Variant</label>
+                                                    <select name="variant" class="form-select" required>
+                                                        <option value="Available" selected> Available</option>
+                                                        <option value="Unavailable">Unavailable</option>
                                                     </select>
 
                                                 </div>
