@@ -1,10 +1,13 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 var mongoose = require("mongoose");
-const multer = require("multer")
+const multer = require("multer");
 const fs = require("fs");
+// const path = require('path');
 
 var Category = require('../../models/admin/categorySchema')
+
+const checkAuth = require("../../middleware/admin/checkAuth")
 
 
 
@@ -28,11 +31,11 @@ var catUpload = upload.fields([{ name: "catImage", maxCount: 3 }])
 
 
 //Add 
-router.get('/', (req, res) => {
-    Category.find().select("catImage catName sub_category status")
+router.get('/', checkAuth, (req, res) => {
+    Category.find().select("catImage catName sub_category variant")
         .exec()
         .then(docs => {
-            res.render('./admin/category/category', { categoryData: docs })
+            res.render('./admin/category/category', { categoryData: docs, userType: req.session.type, userName: req.session.name })
         })
         .catch(err => {
             console.log(err)
@@ -42,39 +45,58 @@ router.get('/', (req, res) => {
         })
 })
 
-router.get('/add-category', (req, res) => {
-    res.render("./admin/category/add")
+router.get('/add-category', checkAuth, (req, res) => {
+    res.render("./admin/category/add", { userType: req.session.type, userName: req.session.name })
 })
 
 //End of Add
 
 /*********** */
 //adding data into database
-router.post("/add-category", catUpload, (req, res) => {
+router.post("/add-category", catUpload, async (req, res) => {
 
-    var categoryData = new Category({
-        _id: mongoose.Types.ObjectId(),
-        catImage: (req.files.catImage[0].path).toString().substring(6),
-        catName: req.body.catName,
-        sub_category: req.body.sub_category,
-        status: req.body.status
-    })
-    categoryData.save().then((val) => {
+    // Object destructuring
+    const {catName} = req.body;
+
+    try {
+        const categoryExists = await Category.findOne({ catName: catName })
+
+        if (categoryExists) {
+            res.send('Category Already Exists. Try editting the same category or adding a new one!')
+
+        } 
+
+        else{
+        var categoryData = new Category({
+            _id: mongoose.Types.ObjectId(),
+            catImage: (req.files.catImage[0].path).toString().substring(6),
+            catName: req.body.catName,
+            sub_category: req.body.sub_category,
+            variant: req.body.variant
+        })
+
+        await categoryData.save();
+    }
         res.redirect("/admin/category")
-    })
+    
+    } catch(err) {
+        console.log(err);
+    }
+
 })
 
 
 //Edit-Category
-router.get('/edit-category/:catID', (req, res) => {
-    const allCatImages = Category.find().select("catImage")
+router.get('/edit-category/:catID', checkAuth, (req, res) => {
     const id = req.params.catID
+
+    const allCatImages = Category.find().select("catImage")
 
     Category.findById(id,
         (err, doc) => {
             if (!err) {
 
-                res.render('./admin/category/edit', { catImage: allCatImages, categoryData: doc })
+                res.render('./admin/category/edit', { catImage: allCatImages, categoryData: doc, userType: req.session.type, userName: req.session.name })
 
             } else {
                 res.send('try-again')
@@ -106,7 +128,7 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
             catImage: req.files.catImage[0].path.toString().substring(6),
             catName: req.body.catName,
             sub_category: req.body.sub_category,
-            status: req.body.status
+            variant: req.body.variant
         }
 
     }
@@ -115,7 +137,7 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
         {
             catName: req.body.catName,
             sub_category: req.body.sub_category,
-            status: req.body.status
+            variant: req.body.variant
         }
     }
 
@@ -142,8 +164,9 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
 //     res.render('./admin/category/edit')
 // })
 
-router.get("/delete-category/(:id)", (req, res, next) => {
-    Category.findByIdAndRemove(req.params.id, (err, doc) => {
+router.get("/delete-category/:delCat", checkAuth, (req, res, next) => {
+    const id = req.params.delCat
+    Category.findByIdAndRemove(id, (err, doc) => {
         if (!err) {
             res.redirect('/admin/category')
         } else {
@@ -151,8 +174,6 @@ router.get("/delete-category/(:id)", (req, res, next) => {
         }
     })
 });
-
-
 
 
 module.exports = router

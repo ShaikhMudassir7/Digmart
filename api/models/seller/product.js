@@ -1,26 +1,29 @@
 const mongoose = require("mongoose");
 
+const specificationsSchema = new mongoose.Schema({
+    specName: { type: String },
+    specValue:  { type: String },
+});
+
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    images: [{type: String}],
     sellerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sellers'
     },
-    productName: { type: String, required: true },
-    description: { type: String},
     category: { type: String, required: true },
     subcategory: { type: String},
-    sizes: { type: String},
-    colours: { type: String},
+    images: [{type: String}],
+    productName: { type: String, required: true },
+    description: { type: String},
     brand: { type: String},
-    actualPrice:  { type: String, required: true },
+    quantity:  { type: Number},
+    specifications: [specificationsSchema],
+    actualPrice:  { type: String},
     discount: { type: Number},
     finalPrice:  { type: String},
-    quantity:  { type: Number},
-    status:  { type: String, default: "Pending"},
+    hasVariant: { type: Boolean, default: true},
+    status:  { type: String, default: "Incomplete : Variants Not Added"},
 });
-
-
 
 module.exports = mongoose.model("products", productSchema);

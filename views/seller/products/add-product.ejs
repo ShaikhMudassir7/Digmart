@@ -35,47 +35,12 @@
                                         <div class="card-body">
 
                                             <form action="/seller/products/add-product" enctype="multipart/form-data"
-                                                method="post" class="needs-validation" novalidate
+                                                id="addProductForm" method="post" class="needs-validation" novalidate
                                                 accept-charset="utf-8">
-                                                <!-- <form action="/seller/products/add-product"
-                                        method="post" class="needs-validation" novalidate accept-charset="utf-8"> -->
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="images" class="form-label">Product Images</label>
-                                                        <input type="file" class="form-control" name="images"
-                                                            multiple='multiple' accept="image/*" required>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please Choose an Image.</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="productName" class="form-label">Product Name</label>
-                                                        <input type="name" class="form-control" name="productName"
-                                                            id="prodName" placeholder="e.g. Samsung Galaxy S22 Ultra"
-                                                            required>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please enter product name.</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="description" class="form-label">Product
-                                                            Description</label>
-                                                        <textarea type="name" class="form-control" name="description"
-                                                            placeholder="e.g. The first Galaxy S with embedded S Pen. Write comfortably like pen on paper, turn quick notes into legible text and use Air Actions to control your phone remotely..."
-                                                            required></textarea>
-
-                                                    </div>
-                                                </div>
-
+                                   
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-6">
                                                         <label for="category" class="form-label">Category</label>
-                                                        <!-- <input type="name" class="form-control" name="category"
-                                                    placeholder="Enter Category Name" required> -->
                                                         <select name="category" class="form-select" id="category"
                                                             onchange="populate(this.id, 'subcategory')" required>
                                                             <option value="">
@@ -83,9 +48,8 @@
                                                             </option>
                                                             <% if(catData.length!=0){ var i=1;
                                                                 catData.forEach(function(data){ %>
-                                                                <option
-                                                                    value="<%=data.catName%>"
-                                                                    id="element">
+
+                                                                <option value="<%=data.catName%>" id="element">
                                                                     <%=data.catName %>
                                                                 </option>
                                                                 <% i++; }) %>
@@ -103,114 +67,113 @@
                                                         <select name="subcategory" id="subcategory" class="form-select">
 
                                                         </select>
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter subcategory name.</div> -->
+
                                                     </div>
                                                 </div>
 
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="sizes" class="form-label">Sizes
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                        <input type="name" class="form-control" name="sizes" value="100"
-                                                            id="sizes" placeholder="e.g. XL">
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter size(s).</div> -->
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="colours" class="form-label">Colours
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                        <input type="name" class="form-control" name="colours"
-                                                            placeholder="e.g. Black, White">
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter colour(s).</div> -->
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="brand" class="form-label">Brand
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                        <input type="name" class="form-control" name="brand"
-                                                            placeholder="e.g. Samsung">
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter Brand Name.</div> -->
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="actualPrice" class="form-label">Actual Price</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">&#8377;</span>
-                                                            <input type="text" class="form-control" name="actualPrice"
-                                                                id="actualPrice" min="1" pattern="[0-9]{1,9}"
-                                                                onblur="calculate('discount', this.value )"
-                                                                placeholder="Eg. 30000" required>
-
-                                                            <div class="invalid-feedback">Please enter Actual Price.
+                                                <div id="addImagesForNoVariant">
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="productName" class="form-label">Product
+                                                                Name</label>
+                                                            <input type="name" class="form-control" name="productName"
+                                                                id="prodName"
+                                                                placeholder="e.g. Samsung Galaxy S22 Ultra" required>
+                                                            <div class="valid-feedback">Looks good!</div>
+                                                            <div class="invalid-feedback">Please enter product name.
                                                             </div>
-                                                            <div class="valid-feedback">Looks good!</div>
                                                         </div>
                                                     </div>
-
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="discount" class="form-label">Discount
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">%</span>
-                                                            <input type="text" class="form-control" name="discount"
-                                                                id="discount"
-                                                                onblur="calculate(this.value, 'actualPrice')"
-                                                                placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
-
-                                                            <div class="valid-feedback">Looks good!</div>
-                                                            <div class="invalid-feedback">Please enter Discount (without
-                                                                %
-                                                                symbol).</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="finalPrice" class="form-label">Final Price</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">&#8377;</span>
-                                                            <input type="number" class="form-control" name="finalPrice"
-                                                                id="finalPrice"
-                                                                placeholder="Final Price (Auto calculated)" readonly>
-
-                                                            <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter Final Price.</div> -->
-                                                        </div>
-                                                    </div>
-
                                                 </div>
+
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
-                                                        <label for="quantity" class="form-label">Quantity
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-                                                        <input type="number" class="form-control" name="quantity"
-                                                            min="1" placeholder="e.g. 50">
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter Quantity.</div> -->
+                                                        <label for="description" class="form-label">Product
+                                                            Description</label>
+                                                        <textarea type="name" class="form-control" name="description"
+                                                            placeholder="e.g. The first Galaxy S with embedded S Pen. Write comfortably like pen on paper, turn quick notes into legible text and use Air Actions to control your phone remotely..."
+                                                            required></textarea>
+
                                                     </div>
                                                 </div>
 
-                                                <a href="/seller/products" class="btn btn-danger"><i
+                                                <div id="addQuantityForNoVariant">
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="brand" class="form-label">Brand
+                                                                <span class="text-muted"> (Optional)</span>
+                                                            </label>
+                                                            <input type="name" class="form-control" name="brand"
+                                                                placeholder="e.g. Samsung">
+                                                            <!-- <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please enter Brand Name.</div> -->
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                               
+
+                                                <hr>
+
+                                                <div class="row g-2">
+                                                    <div class="mb-1 col-md-12 fw-bold">
+                                                        <label for="specName" class="form-label">ADDITIONAL
+                                                            SPECIFICATIONS
+                                                            <span class="text-muted"> (Optional)</span> :
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-2">
+                                                    <div class=" col-md-3">
+                                                        <label for="specName" class="form-label">Name:
+
+                                                        </label>
+                                                    </div>
+
+                                                    <div class=" col-md-5">
+                                                        <label for="specValue" class="form-label">Description:
+
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="addPricesForNoVariant">
+                                                    <div id="showSpecifications">
+                                                        <div class="row g-2" id="specsRow">
+                                                            <div class="mb-3 col-md-3">
+                                                                <input type="name" class="form-control" name="specName[]"
+                                                                    id="specName" placeholder="e.g. In The Box">
+                                                            </div>
+
+                                                            <div class="mb-3 col-md-5">
+                                                                <textarea type="name" class="form-control"
+                                                                    name="specValue[]" id="specValue"
+                                                                    style="height: 30px;"
+                                                                    placeholder="e.g. Handset, Charging Cable"></textarea>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                        <div class="mb-3 col-md-3 d-grid">
+                                                            <button class="btn btn-outline-primary"
+                                                                id="addSpecsBtnMain"><i class="fas fa-plus-circle"></i>
+                                                                Add More Specifications</button>
+
+                                                        </div>
+                                                  
+                                                </div>
+
+
+
+                                                <a href="/seller/products/?status=Pending" class="btn btn-danger"><i
                                                         class="fas fa-times"></i>
                                                     Cancel</a>
                                                 <button type="submit" class="btn btn-primary" id="submitData"
-                                                    style="float: right"><i class="fas fa-save"></i> Add
-                                                    Product</button>
+                                                    style="float: right"><i class="fas fa-save"></i> Add Product</button>
                                             </form>
 
 
@@ -224,6 +187,10 @@
                     </div>
             </div>
     </div>
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+
+
     <script>
 
         //Populate subcategory dropdown 
@@ -231,26 +198,55 @@
             var cat = document.getElementById("category");
             var subcat = document.getElementById("subcategory");
             // document.write(subcategory);
+
             var b = testing(cat);
 
             subcat.innerHTML = "";
 
-           function testing(cat) {
+
+            function testing(cat) {
+
                 '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
                 var a = '<%=data.catName%>';
+
                 if (cat.value == a) {
-                    return '<%=data.sub_category%>';    
+                    if ('<%=data.variant%>' == "Unavailable") {
+                       
+                        $(("#Images")).remove();
+                        $(("#Quantity")).remove();
+                        $(("#Prices")).remove();
+                        $("#addImagesForNoVariant").prepend(displayFieldImage());
+                        $("#addQuantityForNoVariant").append(displayFieldQuantity());
+                        $("#addPricesForNoVariant").append(displayFieldPrices());
+                        let chooseImage = document.getElementById("addImage")
+                        let addQuantity = document.getElementById("addQuantity")
+                        let actualPrice = document.getElementById("actualPrice")
+                        let finalPrice = document.getElementById("finalPrice")
+                        chooseImage.setAttribute('required', '');
+                        addQuantity.setAttribute('required', '');
+                        actualPrice.setAttribute('required', '');
+                        finalPrice.setAttribute('required', '');
+                    }
+                   
+                    else {
+                        $(("#Images")).remove();
+                        $(("#Quantity")).remove();
+                        $(("#Prices")).remove();
+                     
+                    }
+
+                    return '<%=data.sub_category%>';
+
                 }
+
                 '<% i++; }) %>'
                 '<% } %>'
+
             }
 
-
-
             var subcatValues = b;
-        
             var optionsArray = subcatValues.split(",")
-             
+
             for (var option in optionsArray) {
                 var pair = optionsArray[option].split(",")
                 var newoption = document.createElement("option");
@@ -260,22 +256,13 @@
                 subcat.options.add(newoption);
             }
 
+
+
         }
 
 
+      
 
-
-
-        //Toast Trigger
-        const toastTrigger = document.getElementById('submitData')
-        const toastLiveExample = document.getElementById('liveToast')
-        if (toastTrigger) {
-            toastTrigger.addEventListener('click', () => {
-                const toast = new bootstrap.Toast(toastLiveExample)
-
-                toast.show()
-            })
-        }
 
         function calculate(val1, val2) {
             var actualPrice = document.getElementById("actualPrice").value;
@@ -291,15 +278,170 @@
             // if (discountPct == 0) {
             //     finalPriceField.value = null;
             // }
+
         }
+
+
     </script>
 
-    <script src="/vendor/jquery/jquery.min.js"></script>
+
+    <script>
+
+        function displayFieldImage() {
+
+            var displayFieldImage =
+                `<div class="row g-2" id="Images">
+
+        <div class="mb-3 col-md-12">
+            <label for="images" class="form-label">Product
+            Images:</label>
+            <input type="file" class="form-control" name="images" id="addImage"
+            multiple='multiple' accept="image/*">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please Choose an Image.</div>
+        </div>
+    </div>`
+
+            return displayFieldImage;
+        }
+
+
+
+        function displayFieldQuantity() {
+
+            var displayFieldQuantity =
+                `<div class="row g-2" id="Quantity">
+            
+            <div class="mb-3 col-md-4">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" name="quantity" id="addQuantity"
+                min="1" placeholder="e.g. 50">
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <input type="bool" class="form-control" name="hasVariant" id="hasVariant"
+                value=false hidden>
+            </div>
+            </div>`
+
+            return displayFieldQuantity;
+        }
+
+
+        function displayFieldPrices() {
+
+            var displayFieldPrices =
+                `<div class="row g-2" id="Prices">
+                    <hr>
+                    <div class="mb-3 col-md-4">
+                        <label for="actualPrice" class="form-label">Actual
+                            Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">&#8377;</span>
+                            <input type="text" class="form-control" name="actualPrice"
+                                id="actualPrice" min="1" pattern="[0-9]{1,9}"
+                                onblur="calculate('discount', this.value )"
+                                placeholder="Eg. 30000">
+
+                            <div class="invalid-feedback">Please enter Actual Price.
+                            </div>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-md-4">
+                        <label for="discount" class="form-label">Discount
+                            <span class="text-muted"> (Optional)</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">%</span>
+                            <input type="text" class="form-control" name="discount"
+                                id="discount"
+                                onblur="calculate(this.value, 'actualPrice')"
+                                placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
+
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Discount should be below
+                                100
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-md-4">
+                        <label for="finalPrice" class="form-label">Final
+                            Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">&#8377;</span>
+                            <input type="number" class="form-control" name="finalPrice"
+                                id="finalPrice"
+                                placeholder="Final Price (Auto calculated)" readonly>
+
+                        </div>
+                    </div>
+
+                </div>`
+
+            return displayFieldPrices;
+        }
+
+
+
+
+        function moreSpecs(counter) {
+
+            var specifications =
+                `<div class="row g-2" id="specsRow` + counter + `">
+                <div class="mb-3 col-md-3">
+                    <input type="name" class="form-control" name="specName[]"
+                        id="specName` + counter + `" placeholder="e.g. In The Box">
+                </div>
+
+                <div class="mb-3 col-md-5">
+                    <textarea type="name" class="form-control" name="specValue[]" style="height: 30px;"
+                        id="specValue` + counter + `" placeholder="e.g. Handset, Charging Cable"></textarea>
+                </div>
+
+                <div class="mb-3 col-md-2">
+                    <button class="btn btn-outline-danger removeSpecsBtn"><i
+                            class="fas fa-minus-circle"></i>
+                    Remove</a>
+                </div>
+
+            </div>`
+
+            return specifications;
+        }
+
+
+        var counter = 1;
+        $(document).ready(function () {
+            
+            $("#addSpecsBtnMain").click(function (e) {
+                e.preventDefault();
+
+                var specifications = moreSpecs(counter);
+                counter++;
+                $("#showSpecifications").append(specifications);
+                $(document).on('click', '.removeSpecsBtn', function (e) {
+                    e.preventDefault();
+                    let row_item = $(this).parent().parent();
+                    $(row_item).remove();
+                })
+            });
+
+        });
+
+
+    </script>
+
+
+
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
     <script src="/js/form-validator.js"></script>
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
 </body>
+
 
 </html>

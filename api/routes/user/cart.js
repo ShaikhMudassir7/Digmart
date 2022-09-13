@@ -70,11 +70,6 @@ router.get('/delete-cart/(:cartID)', (req, res) => {
     })
 })
 
-router.get('/user-login', (req, res) => {
-   res.render("user/user-login")
-})
-
-
 router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
     Cart.find({
         _id: req.params.id

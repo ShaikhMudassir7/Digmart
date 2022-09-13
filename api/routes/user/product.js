@@ -13,7 +13,6 @@ router.get('/viewProduct/(:id)', (req, res) => {
             } else {
                 res.send('try-again')
             }
-
         })
 })
 
