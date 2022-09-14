@@ -3,7 +3,7 @@ var swiper = new Swiper(".categorySwiper", {
     spaceBetween: 20,
     slidesPerGroup: 1,
     loop: true,
-    loopFillGroupWithBlank: true,
+    // loopFillGroupWithBlank: true,
     fade: 'true',
     keyboard: {
         enabled: true,

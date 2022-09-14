@@ -98,68 +98,22 @@
             <h2 class="pb-3 position-relative d-inline-block">Shop by Category</h2>
         </div>
         <div class="d-flex align-items-center justify-content-between">
-            <div id="prevCategoryBtn" class="fas fa-chevron-left fa-2x"></div>
+            <div id="prevCategoryBtn" class="px-2 fas fa-chevron-left fa-2x"></div>
             <div class="swiper categorySwiper">
                 <div id="category1" class="swiper-wrapper">
-                    <div class="cat swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/categoryImages/mens-fashion.png" alt="">
+                    <% if(catData.length!=0){  catData.forEach(function(data){ %>
+                        <div class="cat swiper-slide">
+                            <div class="imgDiv">
+                                <img src="<%=data.catImage%>" class="rounded-circle" alt="<%=data.catName%>">
+                            </div>
+                            <div class="des px-2 text-center">
+                                <h5><b><%=data.catName%></b></h5>
+                            </div>
                         </div>
-                        <div class="des px-2 text-center">
-                            <h5><b>Men's Fashion</b></h5>
-                        </div>
-                    </div>
-                    <div class="cat swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/categoryImages/womens-fashion.png" alt="">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h5><b>Women's Fashion</b></h5>
-                        </div>
-                    </div>
-                    <div class="cat swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/categoryImages/personal-gadgets.png" alt="">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h5><b>Personal Gadgets</b></h5>
-                        </div>
-                    </div>
-                    <div class="cat swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/categoryImages/Electronics.png" alt="">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h5><b>Electronics</b></h5>
-                        </div>
-                    </div>
-                    <div class="cat swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/categoryImages/kids-fashion.png" alt="">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h5><b>Kid's Fashion</b></h5>
-                        </div>
-                    </div>
-                    <div class="cat swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/categoryImages/books.png" alt="">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h5><b>Books</b></h5>
-                        </div>
-                    </div>
-                    <div class="cat swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/categoryImages/sports-equipments.png" alt="">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h5><b>Sports Equipments</b></h5>
-                        </div>
-                    </div>
+                        <% }) } %>
                 </div>
             </div>
-            <div id="nextCategoryBtn" class="fas fa-chevron-right fa-2x"></div>
+            <div id="nextCategoryBtn" class="px-2 fas fa-chevron-right fa-2x"></div>
         </div>
     </section>
 
@@ -169,7 +123,7 @@
             <h2 class="pb-3 position-relative d-inline-block">Featured Sellers</h2>
         </div>
         <div class="d-flex align-items-center justify-content-between">
-            <div id="prevSellerBtn" class="fas fa-chevron-left fa-2x"></div>
+            <div id="prevSellerBtn" class="px-2 fas fa-chevron-left fa-2x"></div>
             <div class="swiper sellerSwiper">
                 <div id="seller1" class="swiper-wrapper">
                     <div class="sel swiper-slide">
@@ -261,7 +215,7 @@
                     </div>
                 </div>
             </div>
-            <div id="nextSellerBtn" class="fas fa-chevron-right fa-2x"></div>
+            <div id="nextSellerBtn" class="px-2 fas fa-chevron-right fa-2x"></div>
         </div>
     </section>
 
@@ -269,173 +223,167 @@
     <section id="deals" class="my-5">
         <div class="headline text-center m-4">
             <h2 class="pb-3 position-relative d-inline-block">Lightning Deals</h2>
-        </div>    
-            <div class="swiper productSwiper">
-                <div id="product1" class="swiper-wrapper">
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://i.imgur.com/VY0R9aV.jpg" alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Personal Electronics</span>
-                            <h6>Colorfit Caliber Smartwatch</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.2</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 799</h5><del><span
-                                        class="discPrice text-muted px-2">₹999</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+        </div>
+        <div class="swiper productSwiper">
+            <div id="product1" class="swiper-wrapper">
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://i.imgur.com/VY0R9aV.jpg" alt="">
                     </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://static.digit.in/product/thumb_222578_product_td_300.jpeg" alt="">
+                    <div class="des px-2 text-start">
+                        <span class="category">Personal Electronics</span>
+                        <h6>Colorfit Caliber Smartwatch</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.2</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 799</h5><s><span class="discPrice text-muted px-2">₹999</span></s>
                         </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Personal Electronics</span>
-                            <h6>Macbook Pro M1 Max</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.5</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 99999</h5><del><span
-                                        class="discPrice text-muted px-2">₹100000</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
                     </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://www.ifbappliances.com/media/catalog/product/cache/f6d60de4095a6e5204f81c04aa5b766f/0/5/05072021_tl-sdin_11.0kg1.png"
-                                alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Electronics</span>
-                            <h6>Haier 8 Kg Automatic</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.0</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 44499</h5><del><span
-                                        class="discPrice text-muted px-2">₹49999</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                    </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://images.samsung.com/is/image/samsung/in-full-hd-tv-te50fa-ua43te50fakxxl-frontblack-231881877?$650_519_PNG$"
-                                alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Electronics</span>
-                            <h6>Samsung 108cm Smart TV</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.3</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 27999</h5><del><span
-                                        class="discPrice text-muted px-2">₹29999</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                    </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/ae22e3a6-9590-401a-94f6-d8ecf42b4932_600x.png?v=1625046351"
-                                alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Personal Electronics</span>
-                            <h6>Boat Rockerz 450</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.9</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 1499</h5><del><span
-                                        class="discPrice text-muted px-2">₹1999</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                    </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://m.media-amazon.com/images/I/71AgUK2NGPL._UX569_.jpg" alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Men's Fashion</span>
-                            <h6>Half Sleeve Printed Shirt</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 3.9</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 239</h5><del><span
-                                        class="discPrice text-muted px-2">₹299</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                    </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://rukminim1.flixcart.com/image/332/398/jcqjr0w0/hand-messenger-bag/w/g/x/plain-drymilk-acrylic-handle-wa12122017-hand-held-bag-esbeda-original-imaffsjnydzhkspt.jpeg?q=50"
-                                alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Fashion Accessories</span>
-                            <h6>Esbeda Handbag</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.6</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 3499</h5><del><span
-                                        class="discPrice text-muted px-2">₹4499</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                    </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://rukminim1.flixcart.com/image/416/416/kqidx8w0/book/c/6/b/the-wealth-of-nations-original-imag4gczsw6sejyk.jpeg?q=70"
-                                alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Books & Toys</span>
-                            <h6>The Wealth of Nations Paperback</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.5</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 251</h5><del><span
-                                        class="discPrice text-muted px-2">₹ 351</span></del>
-                            </div>
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                    </div>
-                    <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/15700c12-7177-4110-a8d4-74eb2315e8ac/liverpool-fc-strike-football-RZshdn.png"
-                                alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Sports Equipments</span>
-                            <h6>L.F.C Nike Football</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.4</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 1699</h5><del><span
-                                        class="discPrice text-muted px-2">₹3999</span></del>
-                            </div>
-
-                        </div>
-                        <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
                 </div>
-                <div id="prevProductBtn" class="swiper-button-prev fas fa-chevron-left fa-2x"></div>
-                <div id="nextProductBtn" class="swiper-button-next fas fa-chevron-right fa-2x"></div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://static.digit.in/product/thumb_222578_product_td_300.jpeg" alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Personal Electronics</span>
+                        <h6>Macbook Pro M1 Max</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.5</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 99999</h5><s><span
+                                    class="discPrice text-muted px-2">₹100000</span></s>
+                        </div>
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://www.ifbappliances.com/media/catalog/product/cache/f6d60de4095a6e5204f81c04aa5b766f/0/5/05072021_tl-sdin_11.0kg1.png"
+                            alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Electronics</span>
+                        <h6>Haier 8 Kg Automatic</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.0</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 44499</h5><s><span
+                                    class="discPrice text-muted px-2">₹49999</span></s>
+                        </div>
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://images.samsung.com/is/image/samsung/in-full-hd-tv-te50fa-ua43te50fakxxl-frontblack-231881877?$650_519_PNG$"
+                            alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Electronics</span>
+                        <h6>Samsung 108cm Smart TV</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.3</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 27999</h5><s><span
+                                    class="discPrice text-muted px-2">₹29999</span></s>
+                        </div>
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/ae22e3a6-9590-401a-94f6-d8ecf42b4932_600x.png?v=1625046351"
+                            alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Personal Electronics</span>
+                        <h6>Boat Rockerz 450</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.9</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 1499</h5><s><span class="discPrice text-muted px-2">₹1999</span></s>
+                        </div>
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://m.media-amazon.com/images/I/71AgUK2NGPL._UX569_.jpg" alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Men's Fashion</span>
+                        <h6>Half Sleeve Printed Shirt</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 3.9</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 239</h5><s><span class="discPrice text-muted px-2">₹299</span></s>
+                        </div>
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://rukminim1.flixcart.com/image/332/398/jcqjr0w0/hand-messenger-bag/w/g/x/plain-drymilk-acrylic-handle-wa12122017-hand-held-bag-esbeda-original-imaffsjnydzhkspt.jpeg?q=50"
+                            alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Fashion Accessories</span>
+                        <h6>Esbeda Handbag</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.6</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 3499</h5><s><span class="discPrice text-muted px-2">₹4499</span></s>
+                        </div>
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://rukminim1.flixcart.com/image/416/416/kqidx8w0/book/c/6/b/the-wealth-of-nations-original-imag4gczsw6sejyk.jpeg?q=70"
+                            alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Books & Toys</span>
+                        <h6>The Wealth of Nations Paperback</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.5</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 251</h5><s><span class="discPrice text-muted px-2">₹ 351</span></s>
+                        </div>
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
+                <div class="pro swiper-slide">
+                    <div class="imgDiv">
+                        <div class="discount-badge">10% off</div>
+                        <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                        <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/15700c12-7177-4110-a8d4-74eb2315e8ac/liverpool-fc-strike-football-RZshdn.png"
+                            alt="">
+                    </div>
+                    <div class="des px-2 text-start">
+                        <span class="category">Sports Equipments</span>
+                        <h6>L.F.C Nike Football</h6>
+                        <div class="rating py-1"><i class="fa fa-star"> 4.4</i></div>
+                        <div>
+                            <h5 class="prodPrice">₹ 1699</h5><s><span class="discPrice text-muted px-2">₹3999</span></s>
+                        </div>
+
+                    </div>
+                    <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                </div>
             </div>
+            <div id="prevProductBtn" class="swiper-button-prev fas fa-chevron-left fa-2x"></div>
+            <div id="nextProductBtn" class="swiper-button-next fas fa-chevron-right fa-2x"></div>
+        </div>
     </section>
 
     <!-- FOOTER -->
@@ -567,7 +515,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-start">
-                    <form action="/home" method="get">
+                    <form action="/" method="get">
                         <div class="d-flex justify-content-center align-items-center ">
                             <div class="card py-3 px-3 mb-0">
                                 <h3 class="text-center mb-4">Verification</h3>

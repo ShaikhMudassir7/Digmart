@@ -2,8 +2,19 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require('mongoose')
 
+const Category = require('../../models/admin/categorySchema');
+
 router.get('/',(req, res) => {
-    res.render('./user/home',{user: req.session.userid})
+    Category.find().exec()
+        .then(docs => {
+            res.render('./user/home',{catData: docs, user: req.session.userid})
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
 })
 
 router.get('/shop-by-category',(req, res) => {
