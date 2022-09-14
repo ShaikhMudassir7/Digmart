@@ -11,7 +11,9 @@ const submit2 = document.getElementById('submit2');
 const mobTimer = document.getElementById('mobTimer')
 const emailTimer = document.getElementById('emailTimer')
 const mobResend = document.getElementById('mobResend')
+const mobResendstr = document.getElementById('mobResendstr')
 const emailResend = document.getElementById('emailResend')
+const emailResendstr = document.getElementById('emailResendstr')
 var busMobile, busEmail;
 
 mobOtp1.addEventListener('keyup', function (event) {
@@ -177,6 +179,7 @@ function checkMobileOtp() {
                         element.setAttribute("disabled", 'true')
                     });
                     submit1.removeAttribute('disabled');
+                    mobResendstr.style.display = 'none'
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')
@@ -203,6 +206,7 @@ function checkEmailOtp() {
                         element.setAttribute("disabled", "true")
                     });
                     submit2.removeAttribute('disabled');
+                    emailResendstr.style.display = 'none'
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')

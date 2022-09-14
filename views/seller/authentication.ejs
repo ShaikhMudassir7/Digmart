@@ -39,7 +39,7 @@
                                 <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-2"
                                     pattern="[0-9]{1}" maxlength="1" required>
                             </div>
-                            <div class="text-center mt-3">
+                            <div class="text-center mt-3" id="mobResendstr">
                                 <span class="d-block mobile-text">Didn't receive the code?</span>
                                 <span id="mobResend" onclick="sendOTP(1,'<%= busMobile%>')" class="timer-inactive">Resend</span>
                                 <span id="mobTimer"></span>
@@ -67,7 +67,7 @@
                                 <input id="emailOtp4" name="emailOtp4" type="text" class="text-center form-control m-2"
                                     pattern="[0-9]{1}" maxlength="1" required>
                             </div>
-                            <div class="text-center mt-3">
+                            <div class="text-center mt-3" id="emailResendstr">
                                 <span class="d-block mobile-text">Didn't receive the code?</span>
                                 <span id="emailResend" onclick="sendOTP(2,'<%= busEmail%>')"  class="timer-inactive">Resend</span>
                                 <span id="emailTimer"></span>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <title>DigMart</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/user/shop-by-category.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <section id="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid ">
+                <a class="navbar-brand" href="">
+                    <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
+                </a>
+                <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="toggler-icon top-bar"></span>
+                    <span class="toggler-icon middle-bar"></span>
+                    <span class="toggler-icon bottom-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
+                    <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
+                        <li class="nav-item mx-2 text-center">
+                            <a class="nav-link" href="/seller/signup">Become a Seller</a>
+                        </li>
+                        <li class="nav-item mx-2 text-center">
+                            <a class="nav-link" href="#deals">Products</a>
+                        </li>
+                        <li class="nav-item mx-2 text-center">
+                            <a class="nav-link" href="#Sellers">Sellers</a>
+                        </li>
+                        <li class="nav-item mx-2 text-center">
+                            <a class="nav-link" href="#footer">About</a>
+                        </li>
+                        <li class="nav-item mx-2 text-center">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarScrollingDropdown2">
+                                    <% if (!user) { %>
+                                        <li><a class="dropdown-item" data-bs-target="#loginpopup"
+                                                data-bs-toggle="modal">Sign in</a></li>
+                                        <% } else{%>
+                                            <li><a class="dropdown-item" href="#">My Orders</a></li>
+                                            <li><a class="dropdown-item" href="#">Wishlist</a></li>
+
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i>
+                                                    View
+                                                    Cart</a></li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            <li><a class="dropdown-item" href="/login/logout"><i
+                                                        class="fas fa-sign-out-alt"></i>Logout</a></li>
+                                            <% } %>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <div class="container">
+        <div class="text-center text-muted m-3 fs-1">
+            Men's Fashion
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-pills justify-content-center">
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Filter</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="row row-cols-auto">
+                    <div class="col">
+                        
+                    </div>
+                    <div class="col">Column</div>
+                    <div class="col">Column</div>
+                    <div class="col">Column</div>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- FOOTER -->
+    <!-- <section id="footer">
+        <footer class="text-center text-lg-start text-white">
+            <div class="container p-4 pb-0">
+                <section class="">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                            <h6 class="text-uppercase mb-4">
+                                <b>DigMart</b>
+                            </h6>
+                            <p>
+                                Description, Vision, Aim, Mission -
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas cupiditate expedita
+                                ipsum dolorem a possimus?
+                            </p>
+                        </div>
+
+                        <hr class="w-100 clearfix d-md-none" />
+
+                        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                            <h6 class="text-uppercase mb-4"><b>About</b></h6>
+                            <p>
+                                <a class="text-white">About us</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Delivery Information</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Privacy Policy</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Terms & Conditions</a>
+                            </p>
+                        </div>
+
+                        <hr class="w-100 clearfix d-md-none" />
+
+                        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                            <h6 class="text-uppercase mb-4">
+                                <b>My Account</b>
+                            </h6>
+                            <p>
+                                <a class="text-white">View Cart</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Wishlist</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Orders</a>
+                            </p>
+                            <p>
+                                <a class="text-white">Forgot Password</a>
+                            </p>
+                        </div>
+
+                        <hr class="w-100 clearfix d-md-none" />
+
+                        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 text-md-start">
+                            <h6 class="text-uppercase mb-4"><b>Contact</b></h6>
+                            <p><i class="fas fa-home mr-3"></i> Lal Qila, Chandni Chowk, Delhi - 110006</p>
+                            <p><i class="fas fa-envelope mr-3"></i> DigMart@outlook.com</p>
+                            <p><i class="fas fa-phone mr-3"></i> + 91 9346576281</p>
+                            <p><i class="fas fa-print mr-3"></i> + 91 22 1234 5678</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-3">
+
+                <section class="p-3 pt-0">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-md-7 col-lg-8 text-center text-md-start">
+                            <div class="p-3">
+                                © 2022, DigMart Pvt. ltd.
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-facebook-f"></i></a>
+
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-twitter"></i></a>
+
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-google"></i></a>
+
+                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </footer>
+    </section> -->
+
+    <!-- Main Modal -->
+    <div class="modal fade" id="loginpopup" data-bs-backdrop="login" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 400px;">
+            <div class="modal-content">
+                <div class="modal-header p-2">
+                    <img src="/img/favicon.png" class="ms-1" width=40px height="40px" />
+                    <h2 class="modal-title" style="font-family: sans serif; margin-left: 15px;"
+                        id="staticBackdropLabel"> Login
+                    </h2>
+                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
+                        <input value="" id="mobile" type="numeric" class="form-control" name="mobile"
+                            placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$" style="width: 80%;" required
+                            aria-describedby="basic-addon1">
+                        <small id="err" class="form-text text-muted" style="display: none;">
+                            <span id="errMsg" style="color: red;"></span></small>
+                    </div>
+                    <button type="button" onclick="sendOTP()" style="background-color: #2a9fa8fa;"
+                        class=" col-md-12 btn">Send
+                        One
+                        Time Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile OTP Modal -->
+    <div class="modal fade" id="mobileotp" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-start">
+                    <form action="/home" method="get">
+                        <div class="d-flex justify-content-center align-items-center ">
+                            <div class="card py-3 px-3 mb-0">
+                                <h3 class="text-center mb-4">Verification</h3>
+                                <span class="mobile-text">Enter the code we just send on your Mobile No.<br>
+                                    <b id="usermobile" style="color: rgb(11, 78, 179);">
+
+                                    </b></span>
+                                <div class="d-flex flex-row mt-3">
+                                    <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-2"
+                                        pattern="[0-9]{1}" maxlength="1" autofocus="" required>
+                                    <input id="mobOtp2" name="mobOtp2" type="text" class="text-center form-control m-2"
+                                        pattern="[0-9]{1}" maxlength="1" required>
+                                    <input id="mobOtp3" name="mobOtp3" type="text" class="text-center form-control m-2"
+                                        pattern="[0-9]{1}" maxlength="1" required>
+                                    <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-2"
+                                        pattern="[0-9]{1}" maxlength="1" required>
+                                </div>
+                                <input type="hidden" name="hidMobile" id="hidMobile" value="">
+                                <div class="text-center mt-3 mb-3">
+                                    <button id="submit" type="submit" class="btn btn-primary" disabled="true"
+                                        style="width: 35%;">Submit</button>
+                                </div>
+                                <div class="text-center mt-2" id="mobResendstr">
+                                    <span class="d-block mobile-text">Didn't receive the code?</span>
+                                    <span id="mobResend" onclick="sendOTP()" class="timer-inactive">Resend</span>
+                                    <span id="mobTimer"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/user/login.js"></script>
+
+</html>

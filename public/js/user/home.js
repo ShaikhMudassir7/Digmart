@@ -8,11 +8,6 @@ var swiper = new Swiper(".categorySwiper", {
     keyboard: {
         enabled: true,
     },
-    pagination: {
-        el: ".category-pagination",
-        clickable: true,
-        dynamicBullets: true,
-    },
     navigation: {
         nextEl: "#nextCategoryBtn",
         prevEl: "#prevCategoryBtn",
@@ -23,7 +18,7 @@ var swiper = new Swiper(".categorySwiper", {
             slidesPerView: 1,
             spaceBetween: 10,
         },
-        370: {
+        360: {
             slidesPerView: 2,
             spaceBetween: 10,
         },
@@ -52,11 +47,6 @@ var swiper = new Swiper(".sellerSwiper", {
     fade: 'true',
     keyboard: {
         enabled: true,
-    },
-    pagination: {
-        el: ".seller-pagination",
-        clickable: true,
-        dynamicBullets: true,
     },
     navigation: {
         nextEl: "#nextSellerBtn",
@@ -93,11 +83,10 @@ var swiper = new Swiper(".productSwiper", {
     keyboard: {
         enabled: true,
     },
-    pagination: {
-        el: ".product-pagination",
-        clickable: true,
-        dynamicBullets: true,
-    },
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
     navigation: {
         nextEl: "#nextProductBtn",
         prevEl: "#prevProductBtn",
