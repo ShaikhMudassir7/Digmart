@@ -18,6 +18,7 @@ const sellerProductRoute = require("./api/routes/seller/product")
 const productVariantRoute = require("./api/routes/seller/variant")
 const sellerCoverageRoute = require("./api/routes/seller/coverage")
 const orderRoute = require("./api/routes/seller/orders")
+const userLoginRoute = require("./api/routes/user/user-login")
 const userRoute = require("./api/routes/user/user")
 const userCartRoute = require("./api/routes/user/cart")
 const userWishlistRoute = require("./api/routes/user/wishlist")
@@ -66,6 +67,8 @@ app.use('/', userRoute)
 app.use('/product', userProductRoute)
 app.use('/cart', userCartRoute)
 app.use('/wishlist', userWishlistRoute)
+app.use('/login', userLoginRoute)
+
 
 const server = http.createServer(app);
 server.listen(port, () => {

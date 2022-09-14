@@ -3,7 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 router.get('/home',(req, res) => {
-    res.render('./user/home')
+    console.log(req.session.userid)
+    res.render('./user/home',{user: req.session.userid})
 })
 
 module.exports = router

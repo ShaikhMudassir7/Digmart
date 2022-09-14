@@ -169,7 +169,7 @@
                             <p class="modal-header border-danger">Your Shopping Cart</p>
                         </h3>
 
-                        <% if(seller.length!=0) { var i=1; seller.forEach(function(data){ %>
+                        <% if(seller.length!=0) {seller.forEach(function(data){ %>
                             <div class="parent ">
                                 <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
                                     <label style="color: black;">
@@ -178,8 +178,8 @@
                                             </b></h5>
                                     </label>
                                     <hr class="mt-0" style="color: black; height: 2px;">
-                                    <% var j=1; cartData.forEach(function(cartData){%>
-                                        <% if(cartData.sellerID._id.toString()==data.toString()) { %>
+                                    <% cartData.forEach(function(cartData){%>
+                                        <% if(cartData.sellerID._id.toString()==data._id.toString()) { %>
                                             <div class="card" style="box-shadow: 2px 2px rgb(136, 136, 138);">
                                                 <div class="row">
                                                     <div class="image col-md-2">
@@ -299,10 +299,10 @@
 
                                                 </div>
                                             </div>
-                                            <% } j++;}) %>
+                                            <% } }) %>
                                 </div>
                             </div>
-                            <% i++; })}%>
+                            <%  })}%>
 
 
                     </div>
