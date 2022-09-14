@@ -25,8 +25,9 @@ var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
 router.get('/', checkAuth, (req, res) => {
     var status = req.query.status
+    console.log(status)
     if (status == "Rejected") {
-        Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }] }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
+        Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Incomplete" }, { status: "Verified" }] }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
             .exec()
             .then(docs => {
                 res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
@@ -49,10 +50,25 @@ router.get('/', checkAuth, (req, res) => {
                     error: err
                 })
             })
-    } else {
-        Products.find({ sellerID: req.session.sellerID, status: status, }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
+    } else if (status == "Pending") {
+        Products.find({ sellerID: req.session.sellerID, $or: [{ status: "Pending" }, { status: "Incomplete" }] }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
             .exec()
             .then(docs => {
+
+                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    }
+    else {
+        Products.find({ sellerID: req.session.sellerID, status: status }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
+            .exec()
+            .then(docs => {
+
                 res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
             })
             .catch(err => {
@@ -69,18 +85,18 @@ router.get('/', checkAuth, (req, res) => {
 
 router.get('/add-product', checkAuth, (req, res) => {
 
-                Category.find().select("catName sub_category variant")
-                    .exec()
-                    .then(docs => {
-                        res.render("./seller/products/add-product", { catData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        res.status(500).json({
-                            error: err
-                        })
-                    })
-            
+    Category.find().select("catName sub_category variant")
+        .exec()
+        .then(docs => {
+            res.render("./seller/products/add-product", { catData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+
 });
 
 
@@ -92,7 +108,7 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
         {
             "specName": req.body.specName,
             "specValue": req.body.specValue,
-         
+
         },
     ];
 
@@ -125,12 +141,17 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
                 specificationsArr.push({
                     specName: specsArr[0]["specName"][i],
                     specValue: specsArr[0]["specValue"][i],
-                   
+
                 })
             }
             console.log(specificationsArr)
-            
-
+            var prodStatus;
+            if (req.body.hasVariant) {
+                prodStatus = "Pending"
+            }
+            else {
+                prodStatus = "Incomplete"
+            }
 
             var productData = new Products({
                 _id: mongoose.Types.ObjectId(),
@@ -146,10 +167,11 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
                 discount: req.body.discount,
                 finalPrice: req.body.finalPrice,
                 quantity: req.body.quantity,
-                hasVariant:  req.body.hasVariant,
-                status: "Pending",
+                hasVariant: req.body.hasVariant,
+                status: prodStatus,
 
             })
+
 
             await productData.save();
         }
@@ -189,6 +211,14 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
 router.post("/edit-product/:productID", imgUpload, (req, res) => {
     const id = req.params.productID
 
+    var specsArr = [
+        {
+            "specName": req.body.specName,
+            "specValue": req.body.specValue,
+
+        },
+    ];
+
     Products.findById(id, (err, doc) => {
         if (!err) {
 
@@ -206,6 +236,29 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
             console.log(imageArr)
         }
 
+        var specificationsArr = [];
+        var a = specsArr[0]["specName"].length
+
+        console.log(a);
+
+        for (var i = 0; i < a; i++) {
+            specificationsArr.push({
+                specName: specsArr[0]["specName"][i],
+                specValue: specsArr[0]["specValue"][i],
+
+            })
+        }
+
+        var prodStatus;
+  
+        if (req.body.status == "Pending") {
+            console.log("status pending")
+            prodStatus = "Pending";
+        } else if(req.body.status == "Incomplete") {
+            console.log("Incomplete")
+            prodStatus = "Incomplete";
+        }
+      
         Products.findByIdAndUpdate({ _id: id }, {
             $set: {
                 images: imageArr,
@@ -214,17 +267,19 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
                 category: req.body.category,
                 subcategory: req.body.subcategory,
                 brand: req.body.brand,
+                specifications: specificationsArr,
                 actualPrice: req.body.actualPrice,
                 discount: req.body.discount,
                 finalPrice: req.body.finalPrice,
                 quantity: req.body.quantity,
-                status: "Pending"
+                hasVariant: req.body.hasVariant,
+                status: prodStatus
             }
         })
             .exec()
             .then(result => {
                 console.log(result)
-                res.redirect("/seller/products")
+                res.redirect("/seller/products/?status=Pending")
             })
             .catch(err => {
                 console.log(err)
@@ -239,11 +294,8 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
 router.get("/delete-product/(:id)", (req, res, next) => {
     Products.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-
             doc.images.forEach(element => {
-
                 fs.unlinkSync("\public" + element)
-
             }
             );
 
