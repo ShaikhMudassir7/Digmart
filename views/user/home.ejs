@@ -63,7 +63,8 @@
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>
-                                            <li><a class="dropdown-item" href="/login/logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                                            <li><a class="dropdown-item" href="/login/logout"><i
+                                                        class="fas fa-sign-out-alt"></i>Logout</a></li>
                                             <% } %>
                                 </ul>
                             </div>
@@ -552,28 +553,54 @@
 
     <!-- Main Modal -->
     <div class="modal fade" id="loginpopup" data-bs-backdrop="login" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 400px;">
+        <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 700px;">
             <div class="modal-content">
-                <div class="modal-header p-2">
-                    <img src="/img/favicon.png" class="ms-1" width=40px height="40px" />
-                    <h2 class="modal-title" style="font-family: sans serif; margin-left: 15px;"
-                        id="staticBackdropLabel"> Login
-                    </h2>
-                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
-                        <input value="" id="mobile" type="numeric" class="form-control" name="mobile"
-                            placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$" style="width: 80%;" required
-                            aria-describedby="basic-addon1">
-                        <small id="err" class="form-text text-muted" style="display: none;">
-                            <span id="errMsg" style="color: red;"></span></small>
+                <div class="modal-body p-0">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-4" style="background-color: #21838afa">
+                                <div class="ms-1">
+                                    <h2 class="mt-3" style="font-family: sans serif; color: white;"
+                                        id="staticBackdropLabel">
+                                        Login
+                                    </h2>
+                                    <div class="me-1"
+                                        style=" font-family: 'Courier New', Courier, monospace; color: white;">
+                                        Get personalized recommendation, wishlist products and track orders!
+                                    </div>
+                                </div>
+                                <img class="mb-3 img-responsive center-block d-block mx-auto col-md-9 col-sm-9 col-9"
+                                    style="margin-top: 200px;" src="/img/user_login_image.webp" />
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-8">
+                                <div class="row mt-1">
+                                    <div class="border border-dark col-md-offset-5 col-md-11 center-block col-sm-11 col-10 p-0"
+                                        style="min-height: 470px;">
+                                        <div class="input-group" style="margin-top: 200px;">
+                                            <span class="input-group-text"
+                                                id="basic-addon1"><b>+91</b></span>
+                                            <input value="" id="mobile" type="numeric"
+                                                class="form-control" name="mobile"
+                                                placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$"
+                                                style="max-width: 150px; width: 80%;" required
+                                                aria-describedby="basic-addon1">
+                                            <small id="err" class="form-text text-muted" style="display: none;">
+                                                <span id="errMsg" style="color: red;"></span></small>
+                                        </div>
+                                        <button type="button" onclick="sendOTP()"
+                                            style=" max-width: 308px; color: white;  background-color: #2a9fa8fa;"
+                                            class="mt-2 btn center-block d-block mx-auto">Send
+                                            One
+                                            Time Password</button>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-1">
+                                        <button type="button" class="btn-close me-1" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button type="button" onclick="sendOTP()" style="background-color: #2a9fa8fa;"
-                        class=" col-md-12 btn">Send
-                        One
-                        Time Password</button>
                 </div>
             </div>
         </div>
