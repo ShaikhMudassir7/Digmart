@@ -21,7 +21,7 @@
     <section id="header">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid ">
-                <a class="navbar-brand" href="">
+                <a class="navbar-brand" href="/">
                     <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
                 </a>
                 <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around"
@@ -35,12 +35,6 @@
                     <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
                         <li class="nav-item mx-2 text-center">
                             <a class="nav-link" href="/seller/signup">Become a Seller</a>
-                        </li>
-                        <li class="nav-item mx-2 text-center">
-                            <a class="nav-link" href="#deals">Products</a>
-                        </li>
-                        <li class="nav-item mx-2 text-center">
-                            <a class="nav-link" href="#Sellers">Sellers</a>
                         </li>
                         <li class="nav-item mx-2 text-center">
                             <a class="nav-link" href="#footer">About</a>
@@ -75,35 +69,100 @@
         </nav>
     </section>
 
-    <div class="container">
-        <div class="text-center text-muted m-3 fs-1">
-            Men's Fashion
-        </div>
-        <div class="card">
-            <div class="card-header">
-                <ul class="nav nav-pills justify-content-center">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Filter</a>
-                    </li>
-                </ul>
+    <div class="text-center text-muted m-3 fs-1">
+        <%=catData.catName%>
+    </div>
+    <div class="card">
+        <nav>
+            <div class="nav nav-tabs ms-3 me-3" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-products-tab" data-bs-toggle="tab"
+                    data-bs-target="#nav-products" type="button" role="tab" aria-controls="nav-products"
+                    aria-selected="true">Products</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Sub-categories</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                    type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Filter</button>
             </div>
-            <div class="card-body">
-                <div class="row row-cols-auto">
-                    <div class="col">
-                        Column
+        </nav>
+        <div class="card-body tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-products" role="tabpanel" aria-labelledby="nav-products-tab"
+                tabindex="0">
+                <div class="row justify-content-evenly ps-auto pe-auto">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
+                        <div id="searchDiv" class="form-control p-0 d-flex align-items-center">
+                            <i class="fas fa-search px-2"></i>
+                            <input class="flex-fill" type="search" placeholder="Search" aria-label="Search">
+                        </div>
                     </div>
-                    <div class="col">Column</div>
-                    <div class="col">Column</div>
-                    <div class="col">Column</div>
+                    <div
+                        class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
+                        <select name="subCat" class="form-select" onchange="catChange(this.value)" required>
+                            <option value="All" selected>Sub-category - All</option>
+                            <% var catArr=catData.sub_category.split(', ') 
+                            catArr.forEach(element => { %>
+                                <option value="<%=element %>">Sub-category - <%=element %></option>
+                            <%});  %>
+                          </select>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
+                        <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#filterModal">
+                           <i class="fas fa-filter"></i> Filters
+                          </button>
+                    </div>
                 </div>
+                <div class="row justify-content-evenly ps-auto pe-auto">
+                    <%for (let index=0; index < 16; index++) {%>
+                        <div class="flex-fill col-5 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">
+                            <div class="pro ms-auto me-auto">
+                                <div class="imgDiv">
+                                    <div class="discount-badge">10% off</div>
+                                    <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                    <img src="https://i.imgur.com/VY0R9aV.jpg" alt="">
+                                </div>
+                                <div class="des px-2 text-start">
+                                    <span class="prodCat d-block">Personal Electronics</span>
+                                    <span class="prodName d-block">Colorfit Caliber Smartwatch</span>
+                                    <div class="rating my-1"><i class="fa fa-star"> 4.2</i></div>
+                                    <div>
+                                        <span class="prodPrice">₹ 799</span>
+                                        <span class="discPrice text-muted px-2">₹999</span>
+                                    </div>
+                                </div>
+                                <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                            </div>
+                        </div>
+                        <%}%>
+                </div>
+                <nav class="my-3" aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link px-3" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link px-3" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link px-3" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link px-3" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link px-3" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores qui, voluptate dolor porro soluta illo
+                earum vitae quae vero, inventore asperiores odit unde ipsam saepe consequatur rerum sint ad corrupti
+                quasi atque? Temporibus modi quibusdam atque soluta unde praesentium quia aliquid nisi natus autem, sunt
+                sapiente corporis sed! Aperiam rem magnam sapiente cupiditate nemo dolores animi inventore mollitia
+                dolore iste nam assumenda, vel dicta maiores possimus veritatis. Praesentium dolorum eligendi
+                consequuntur, est, fuga voluptates sequi iure recusandae nostrum ullam necessitatibus. Sed mollitia ad
+                provident ea distinctio laudantium laborum et consequatur cum, facilis consequuntur accusamus dolore
+                iure eligendi quod! Fugit, tempore.</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, fugit?</div>
+
         </div>
     </div>
 
@@ -114,7 +173,7 @@
 
 
     <!-- FOOTER -->
-    <!-- <section id="footer">
+    <section id="footer">
         <footer class="text-center text-lg-start text-white">
             <div class="container p-4 pb-0">
                 <section class="">
@@ -206,7 +265,7 @@
                 </section>
             </div>
         </footer>
-    </section> -->
+    </section>
 
     <!-- Main Modal -->
     <div class="modal fade" id="loginpopup" data-bs-backdrop="login" aria-hidden="true">
@@ -223,10 +282,10 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
                         <input value="" id="mobile" type="numeric" class="form-control" name="mobile"
-                            placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$" style="width: 80%;" required
-                            aria-describedby="basic-addon1">
-                        <small id="err" class="form-text text-muted" style="display: none;">
-                            <span id="errMsg" style="color: red;"></span></small>
+                            placeholder="Mobile No." maxlength=' 10' pattern="^[0-9]{10}$" style="width: 80%;" required
+                                aria-describedby="basic-addon1">
+                                <small id="err" class="form-text text-muted" style="display: none;">
+                                    <span id="errMsg" style="color: red;"></span></small>
                     </div>
                     <button type="button" onclick="sendOTP()" style="background-color: #2a9fa8fa;"
                         class=" col-md-12 btn">Send
@@ -278,9 +337,78 @@
         </div>
     </div>
 
+    <!-- FilterModal -->
+    <div class="modal fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
+            <div class="modal-content" style="height: 90vh;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Filters</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    Price
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                    aria-controls="flush-collapseTwo">
+                                    Accordion Item #2
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">Placeholder content for this accordion, which is intended to
+                                    demonstrate the <code>.accordion-flush</code> class. This is the second item's
+                                    accordion body. Let's imagine this being filled with some actual content.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                    aria-controls="flush-collapseThree">
+                                    Accordion Item #3
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">Placeholder content for this accordion, which is intended to
+                                    demonstrate the <code>.accordion-flush</code> class. This is the third item's
+                                    accordion body. Nothing more exciting happening here in terms of content, but just
+                                    filling up the space to make it look, at least at first glance, a bit more
+                                    representative of how this would look in a real-world application.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/user/shop-by-category.js"></script>
 <script src="/js/user/login.js"></script>
 
 </html>
