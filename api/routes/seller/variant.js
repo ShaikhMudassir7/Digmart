@@ -55,41 +55,41 @@ router.get('/:id', checkAuth, (req, res) => {
 
                         res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
                         console.log(docs)
-                        if (docs.length>0) {
-                            Products.findByIdAndUpdate({ _id: id }, {
-                                $set: {
-                                    status: "Pending"
-                                }
-                            })
-                                .exec()
-                                .then(result => {
-                                    console.log(result)
-                                    res.redirect("/seller/products/?status=Pending")
-                                })
-                                .catch(err => {
-                                    console.log(err)
-                                    res.status(500).json({
-                                        error: err
-                                    })
-                                })
-                        }else{
-                            Products.findByIdAndUpdate({ _id: id }, {
-                                $set: {
-                                    status: "Incomplete"
-                                }
-                            })
-                                .exec()
-                                .then(result => {
-                                    console.log(result)
-                                    res.redirect("/seller/products/?status=Pending")
-                                })
-                                .catch(err => {
-                                    console.log(err)
-                                    res.status(500).json({
-                                        error: err
-                                    })
-                                })
-                        }
+                        // if (docs.length>0) {
+                        //     Products.findByIdAndUpdate({ _id: id }, {
+                        //         $set: {
+                        //             status: "Pending"
+                        //         }
+                        //     })
+                        //         .exec()
+                        //         .then(result => {
+                        //             console.log(result)
+                        //             res.redirect("/seller/products/?status=Pending")
+                        //         })
+                        //         .catch(err => {
+                        //             console.log(err)
+                        //             res.status(500).json({
+                        //                 error: err
+                        //             })
+                        //         })
+                        // }else{
+                        //     Products.findByIdAndUpdate({ _id: id }, {
+                        //         $set: {
+                        //             status: "Incomplete"
+                        //         }
+                        //     })
+                        //         .exec()
+                        //         .then(result => {
+                        //             console.log(result)
+                        //             res.redirect("/seller/products/?status=Pending")
+                        //         })
+                        //         .catch(err => {
+                        //             console.log(err)
+                        //             res.status(500).json({
+                        //                 error: err
+                        //             })
+                        //         })
+                        // }
                     })
 
                     .catch(err => {

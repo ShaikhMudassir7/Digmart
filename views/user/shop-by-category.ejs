@@ -267,75 +267,8 @@
         </footer>
     </section>
 
-    <!-- Main Modal -->
-    <div class="modal fade" id="loginpopup" data-bs-backdrop="login" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 400px;">
-            <div class="modal-content">
-                <div class="modal-header p-2">
-                    <img src="/img/favicon.png" class="ms-1" width=40px height="40px" />
-                    <h2 class="modal-title" style="font-family: sans serif; margin-left: 15px;"
-                        id="staticBackdropLabel"> Login
-                    </h2>
-                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
-                        <input value="" id="mobile" type="numeric" class="form-control" name="mobile"
-                            placeholder="Mobile No." maxlength=' 10' pattern="^[0-9]{10}$" style="width: 80%;" required
-                                aria-describedby="basic-addon1">
-                                <small id="err" class="form-text text-muted" style="display: none;">
-                                    <span id="errMsg" style="color: red;"></span></small>
-                    </div>
-                    <button type="button" onclick="sendOTP()" style="background-color: #2a9fa8fa;"
-                        class=" col-md-12 btn">Send
-                        One
-                        Time Password</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile OTP Modal -->
-    <div class="modal fade" id="mobileotp" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-start">
-                    <form action="/home" method="get">
-                        <div class="d-flex justify-content-center align-items-center ">
-                            <div class="card py-3 px-3 mb-0">
-                                <h3 class="text-center mb-4">Verification</h3>
-                                <span class="mobile-text">Enter the code we just send on your Mobile No.<br>
-                                    <b id="usermobile" style="color: rgb(11, 78, 179);">
-
-                                    </b></span>
-                                <div class="d-flex flex-row mt-3">
-                                    <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" autofocus="" required>
-                                    <input id="mobOtp2" name="mobOtp2" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp3" name="mobOtp3" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                </div>
-                                <input type="hidden" name="hidMobile" id="hidMobile" value="">
-                                <div class="text-center mt-3 mb-3">
-                                    <button id="submit" type="submit" class="btn btn-primary" disabled="true"
-                                        style="width: 35%;">Submit</button>
-                                </div>
-                                <div class="text-center mt-2" id="mobResendstr">
-                                    <span class="d-block mobile-text">Didn't receive the code?</span>
-                                    <span id="mobResend" onclick="sendOTP()" class="timer-inactive">Resend</span>
-                                    <span id="mobTimer"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Login Modal -->
+    <%- include('login') %>  
 
     <!-- FilterModal -->
     <div class="modal fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -359,7 +292,7 @@
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -368,14 +301,14 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseTwo" aria-expanded="false"
                                     aria-controls="flush-collapseTwo">
-                                    Accordion Item #2
+                                    Ratings
                                 </button>
                             </h2>
                             <div id="flush-collapseTwo" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">Placeholder content for this accordion, which is intended to
-                                    demonstrate the <code>.accordion-flush</code> class. This is the second item's
-                                    accordion body. Let's imagine this being filled with some actual content.</div>
+                                <div class="accordion-body">
+
+                                </div>
                             </div>
                         </div>
                         <div class="accordion-item">
@@ -383,16 +316,15 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseThree" aria-expanded="false"
                                     aria-controls="flush-collapseThree">
-                                    Accordion Item #3
+                                    Availability
                                 </button>
                             </h2>
                             <div id="flush-collapseThree" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">Placeholder content for this accordion, which is intended to
-                                    demonstrate the <code>.accordion-flush</code> class. This is the third item's
-                                    accordion body. Nothing more exciting happening here in terms of content, but just
-                                    filling up the space to make it look, at least at first glance, a bit more
-                                    representative of how this would look in a real-world application.</div>
+                                <div class="accordion-body">
+                                    <input type="checkbox" name="availability" id="availability">
+                                    <label class="form-check-label" for="availability">Include Out of Stock</label>
+                                </div>
                             </div>
                         </div>
                     </div>

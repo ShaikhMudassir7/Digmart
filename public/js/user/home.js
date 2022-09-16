@@ -14,7 +14,7 @@ var swiper = new Swiper(".categorySwiper", {
     },
 
     breakpoints: {
-        0 :{
+        0: {
             slidesPerView: 1,
             spaceBetween: 10,
         },
@@ -86,7 +86,7 @@ var swiper = new Swiper(".productSwiper", {
     autoplay: {
         delay: 2500,
         disableOnInteraction: false,
-      },
+    },
     navigation: {
         nextEl: "#nextProductBtn",
         prevEl: "#prevProductBtn",
@@ -113,6 +113,11 @@ var swiper = new Swiper(".productSwiper", {
 });
 
 function wishlist(element) {
-    element.classList.toggle('i-red');
+    if (!user) {
+        console.log('Display loginpopup modal')
+        $('#loginpopup').modal('show');
+    } else {
+        element.classList.toggle('i-red');
+    }
 }
 

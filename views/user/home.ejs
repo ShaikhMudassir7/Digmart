@@ -14,6 +14,7 @@
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/user/swiper-bundle.min.css">
     <link rel="stylesheet" href="/css/user/home.css">
+    <link href="/css/user/login.css" rel="stylesheet">
 
 
 </head>
@@ -490,81 +491,15 @@
         </footer>
     </section>
 
-    <!-- Main Modal -->
-    <div class="modal fade" id="loginpopup" data-bs-backdrop="login" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 400px;">
-            <div class="modal-content">
-                <div class="modal-header p-2">
-                    <img src="/img/favicon.png" class="ms-1" width=40px height="40px" />
-                    <h2 class="modal-title" style="font-family: sans serif; margin-left: 15px;"
-                        id="staticBackdropLabel"> Login
-                    </h2>
-                    <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
-                        <input value="" id="mobile" type="numeric" class="form-control" name="mobile"
-                            placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$" style="width: 80%;" required
-                            aria-describedby="basic-addon1">
-                        <small id="err" class="form-text text-muted" style="display: none;">
-                            <span id="errMsg" style="color: red;"></span></small>
-                    </div>
-                    <button type="button" onclick="sendOTP()" style="background-color: #2a9fa8fa;"
-                        class=" col-md-12 btn">Send
-                        One
-                        Time Password</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile OTP Modal -->
-    <div class="modal fade" id="mobileotp" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-start">
-                    <form action="/" method="get">
-                        <div class="d-flex justify-content-center align-items-center ">
-                            <div class="card py-3 px-3 mb-0">
-                                <h3 class="text-center mb-4">Verification</h3>
-                                <span class="mobile-text">Enter the code we just send on your Mobile No.<br>
-                                    <b id="usermobile" style="color: rgb(11, 78, 179);">
-
-                                    </b></span>
-                                <div class="d-flex flex-row mt-3">
-                                    <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" autofocus="" required>
-                                    <input id="mobOtp2" name="mobOtp2" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp3" name="mobOtp3" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                </div>
-                                <input type="hidden" name="hidMobile" id="hidMobile" value="">
-                                <div class="text-center mt-3 mb-3">
-                                    <button id="submit" type="submit" class="btn btn-primary" disabled="true"
-                                        style="width: 35%;">Submit</button>
-                                </div>
-                                <div class="text-center mt-2" id="mobResendstr">
-                                    <span class="d-block mobile-text">Didn't receive the code?</span>
-                                    <span id="mobResend" onclick="sendOTP()" class="timer-inactive">Resend</span>
-                                    <span id="mobTimer"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Login Modal -->
+    <%- include('login') %>    
+    
 
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/js/user/swiper-bundle.min.js"></script>
-<script src="/js/user/home.js"></script>
 <script src="/js/user/login.js"></script>
+<script src="/js/user/home.js"></script>
 
 </html>
