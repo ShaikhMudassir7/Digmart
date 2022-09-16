@@ -14,6 +14,7 @@
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/user/swiper-bundle.min.css">
     <link rel="stylesheet" href="/css/user/home.css">
+    <link href="/css/user/login.css" rel="stylesheet">
 
 
 </head>
@@ -101,13 +102,15 @@
             <div id="prevCategoryBtn" class="px-2 fas fa-chevron-left fa-2x"></div>
             <div class="swiper categorySwiper">
                 <div id="category1" class="swiper-wrapper">
-                    <% if(catData.length!=0){  catData.forEach(function(data){ %>
+                    <% if(catData.length!=0){ catData.forEach(function(data){ %>
                         <div class="cat swiper-slide">
                             <div class="imgDiv">
                                 <img src="<%=data.catImage%>" class="rounded-circle" alt="<%=data.catName%>">
                             </div>
                             <div class="des px-2 text-center">
-                                <h5><b><%=data.catName%></b></h5>
+                                <h5><b>
+                                        <%=data.catName%>
+                                    </b></h5>
                             </div>
                         </div>
                         <% }) } %>
@@ -490,31 +493,27 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-4 col-4" style="background-color: #21838afa">
                                 <div class="ms-1">
-                                    <h2 class="mt-3" style="font-family: sans serif; color: white;"
-                                        id="staticBackdropLabel">
+                                    <h2 class="mt-3" style="color: white;" id="staticBackdropLabel">
                                         Login
                                     </h2>
-                                    <div class="me-1"
-                                        style=" font-family: 'Courier New', Courier, monospace; color: white;">
+                                    <div class="me-1" style=" color: white;">
                                         Get personalized recommendation, wishlist products and track orders!
                                     </div>
                                 </div>
                                 <img class="mb-3 img-responsive center-block d-block mx-auto col-md-9 col-sm-9 col-9"
                                     style="margin-top: 200px;" src="/img/user_login_image.webp" />
                             </div>
-                            <div class="col-md-8 col-sm-8 col-8">
+                            <div class="col-md-8 col-sm-8 col-8" id="loginotp">
                                 <div class="row mt-1">
-                                    <div class=" col-md-offset-5 col-md-11 center-block col-sm-11 col-10 p-0"
-                                        style="min-height: 470px;">
-                                        <div class="input-group" style="margin-top: 200px; margin-left: 110px;">
-                                            <span class="input-group-text"
-                                                id="basic-addon1"><b>+91</b></span>
-                                            <input value="" id="mobile" type="numeric"
-                                                class="form-control" name="mobile"
-                                                placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$"
-                                                style="max-width: 157px; width: 80%;" required
+                                    <div class="col-md-11 center-block col-sm-11 col-10 p-0" style="min-height: 470px;">
+                                        <div class="input-group mb-2" style="margin-top: 180px; margin-left: 110px;">
+                                            <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
+                                            <input value="" id="mobile" type="numeric" class="form-control "
+                                                name="mobile" placeholder="Mobile No." maxlength='10'
+                                                pattern="^[0-9]{10}$" style="max-width: 157px; width: 80%;" required
                                                 aria-describedby="basic-addon1">
-                                            <small id="err" class="form-text text-muted" style="display: none;">
+                                            <small id="err" class="form-text text-muted col-md-12"
+                                                style="display: none;">
                                                 <span id="errMsg" style="color: red;"></span></small>
                                         </div>
                                         <button type="button" onclick="sendOTP()"
@@ -529,53 +528,60 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-8 col-sm-8 col-8" id="mobileotp" style="display: none;">
+                                <div class="row mt-1">
+                                    <div class="text-start col-md-11 col-sm-11 col-10 p-0" style="margin-top: 98px;">
+                                        <form action="/" method="get">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <div class="card py-3 px-3 mb-0 border-0">
+                                                    <span class=" ms-4">Enter the code we just send on your Mobile
+                                                        No.<br>
+                                                        <b id="usermobile" style="color: rgb(11, 78, 179);">
+
+                                                        </b></span>
+                                                    <div class="d-flex flex-row mt-3">
+                                                        <input id="mobOtp1" name="mobOtp1" type="text"
+                                                            class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                            maxlength="1" autofocus="" required>
+                                                        <input id="mobOtp2" name="mobOtp2" type="text"
+                                                            class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                            maxlength="1" required>
+                                                        <input id="mobOtp3" name="mobOtp3" type="text"
+                                                            class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                            maxlength="1" required>
+                                                        <input id="mobOtp4" name="mobOtp4" type="text"
+                                                            class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                            maxlength="1" required>
+                                                    </div>
+                                                    <input type="hidden" name="hidMobile" id="hidMobile" value="">
+                                                    <div class="text-center mt-3 mb-3">
+                                                        <button id="submit" type="submit" class="btn btn-primary"
+                                                            disabled="true"
+                                                            style="width: 35%; color: white;  background-color: #2a9fa8fa;">Submit</button>
+                                                    </div>
+                                                    <div class="text-center mt-2" id="mobResendstr">
+                                                        <span class="d-block mobile-text">Didn't receive the
+                                                            code?</span>
+                                                        <span id="mobResend" onclick="sendOTP()"
+                                                            class="timer-inactive">Resend</span>
+                                                        <span id="mobTimer"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-1">
+                                        <button type="button" class="btn-close me-1" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Mobile OTP Modal -->
-    <div class="modal fade" id="mobileotp" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-start">
-                    <form action="/" method="get">
-                        <div class="d-flex justify-content-center align-items-center ">
-                            <div class="card py-3 px-3 mb-0">
-                                <h3 class="text-center mb-4">Verification</h3>
-                                <span class="mobile-text">Enter the code we just send on your Mobile No.<br>
-                                    <b id="usermobile" style="color: rgb(11, 78, 179);">
-
-                                    </b></span>
-                                <div class="d-flex flex-row mt-3">
-                                    <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" autofocus="" required>
-                                    <input id="mobOtp2" name="mobOtp2" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp3" name="mobOtp3" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-2"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                </div>
-                                <input type="hidden" name="hidMobile" id="hidMobile" value="">
-                                <div class="text-center mt-3 mb-3">
-                                    <button id="submit" type="submit" class="btn btn-primary" disabled="true"
-                                        style="width: 35%;">Submit</button>
-                                </div>
-                                <div class="text-center mt-2" id="mobResendstr">
-                                    <span class="d-block mobile-text">Didn't receive the code?</span>
-                                    <span id="mobResend" onclick="sendOTP()" class="timer-inactive">Resend</span>
-                                    <span id="mobTimer"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
