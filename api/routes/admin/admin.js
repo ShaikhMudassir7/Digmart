@@ -103,11 +103,11 @@ router.get('/dashboard', checkAuth, async (req, res) => {
             count.activeOperator = docs.length
         })
 
-    await Products.find()
+    await Products.find({$nor: [{ status: "Incomplete" }]})
         .then(docs => {
             count.totalProduct = docs.length
         })
-    await Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+    await Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
         .then(docs => {
             count.rejectedProduct = docs.length
         })

@@ -83,22 +83,24 @@
                                                                     class="btn btn-outline-info btn-rounded"><i
                                                                         class="fas fa-pen"></i></a>
 
-                                                                <button type="button"
+
+
+                                                                <!-- <button type="button"
                                                                     class="btn btn-outline-danger btn-rounded"
                                                                     id="submitData" data-bs-toggle="modal"
                                                                     data-bs-target="#staticBackdrop"><i
                                                                         class="fas fa-trash"></i>
-                                                                </button>
+                                                                </button> -->
 
-                                                                <!-- <a href="/seller/products/delete-product/<%=data._id %>"
+                                                                <a href="/seller/products/delete-product/<%=data._id %>"
                                                             class="btn btn-outline-danger btn-rounded"><i
-                                                                class="fas fa-trash"></i></a> -->
+                                                                class="fas fa-trash"></i></a>
                                                     </td>
 
                                                 </tr>
 
-
-                                                <!-- Delete Warning Modal -->
+                                                <!-- 
+                                                Delete Warning Modal 
                                                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
                                                     data-bs-keyboard="false" tabindex="-1"
                                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -125,10 +127,11 @@
 
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <% i++; }) %>
                                                     <% } else{ %>
                                                         <tr>
+                                                          
                                                             <td colspan="12">No Data Found</td>
                                                         </tr>
                                                         <% } %>
@@ -144,6 +147,7 @@
             </div>
     </div>
     <script>
+
         const toastTrigger = document.getElementById('staticBackdrop');
         const toastLiveExample = document.getElementById('liveToast')
         if (toastTrigger) {
@@ -153,6 +157,8 @@
                 toast.show()
             })
         }
+
+
 
     </script>
     <script src="/vendor/jquery/jquery.min.js"></script>

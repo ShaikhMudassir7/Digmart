@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
 
-                                        
+
                                         <div class="row g-2">
                                             <div class="col-md-2">
                                                 <label for="sizes" class="form-label">Sizes
@@ -108,11 +108,11 @@
                                             </div>
                                         </div>
 
-                                    
+
                                         <div id="appendItems">
                                             <div class="row g-2">
                                                 <div class="mb-3 col-md-2">
-                                                    
+
                                                     <select name="sizes[]" class="form-select" id="sizes" required>
                                                         <option value="">
                                                             ---Choose Size---
@@ -182,7 +182,7 @@
 
 
 
-                                        <a href="/seller/products/?status=Pending" class="btn btn-danger"><i
+                                        <a href="/seller/products/variant/<%=productData._id %>" class="btn btn-danger"><i
                                                 class="fas fa-times"></i>
                                             Cancel</a>
                                         <button type="submit" class="btn btn-primary" id="submitVariantData"
@@ -302,17 +302,15 @@
 
 
         function calculateMoreFields(val1, val2, counter) {
-          
-            var actualPrice = document.getElementById("actualPrice"+ counter).value;
-         
-            var discountPct = document.getElementById("discount"+ counter).value;
-           
 
-            
+            var actualPrice = document.getElementById("actualPrice" + counter).value;
+            var discountPct = document.getElementById("discount" + counter).value;
+
+
             var total = (actualPrice * discountPct) / 100;
             finalPrice = actualPrice - total;
 
-            var finalPriceField = document.getElementById("finalPrice"+ counter);
+            var finalPriceField = document.getElementById("finalPrice" + counter);
             finalPriceField.value = finalPrice;
 
             // if (discountPct == 0) {
@@ -325,7 +323,7 @@
             var actualPrice = document.getElementById("actualPrice").value;
             var discountPct = document.getElementById("discount").value;
 
-            
+
             var total = (actualPrice * discountPct) / 100;
             finalPrice = actualPrice - total;
 
@@ -338,12 +336,9 @@
 
         }
 
-        
-
 
     </script>
-
-
+  
 
 
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -79,7 +79,7 @@ router.post('/checkMobileOtp', (req, res) => {
 
 router.get('/logout', (req, res, next) => {
     req.session.destroy();
-    res.redirect("/home")
+    res.redirect("/")
 })
 
 module.exports = router

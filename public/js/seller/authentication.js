@@ -12,7 +12,9 @@ const busEmail = document.getElementById('busEmail').innerHTML.trim();
 const mobTimer = document.getElementById('mobTimer')
 const emailTimer = document.getElementById('emailTimer')
 const mobResend = document.getElementById('mobResend')
+const mobResendstr = document.getElementById('mobResendstr')
 const emailResend = document.getElementById('emailResend')
+const emailResendstr = document.getElementById('emailResendstr')
 
 document.addEventListener('DOMContentLoaded', function () {
   mobTimerFunc(30);
@@ -93,6 +95,7 @@ function checkMobileOtp() {
             element.classList.add('is-valid')
             element.setAttribute("disabled", 'true')
           });
+          mobResendstr.style.display = 'none'
           if (emailOtp4.disabled)
             submit.removeAttribute('disabled');
         } else {
@@ -120,6 +123,7 @@ function checkEmailOtp() {
             element.classList.add('is-valid')
             element.setAttribute("disabled", "true")
           });
+          emailResendstr.style.display = 'none'
           if (mobOtp4.disabled)
             submit.removeAttribute('disabled');
         } else {
