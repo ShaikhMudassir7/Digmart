@@ -252,10 +252,10 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
         var prodStatus;
   
         if (req.body.status == "Pending") {
-            console.log("status pending")
+           // console.log("status pending")
             prodStatus = "Pending";
         } else if(req.body.status == "Incomplete") {
-            console.log("Incomplete")
+           // console.log("Incomplete")
             prodStatus = "Incomplete";
         }
       

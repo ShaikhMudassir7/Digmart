@@ -51,8 +51,7 @@
                                 <div class="card-header fw-bold bg-dark text-light">EDIT VARIANT</div>
                                 <div class="card-body">
 
-                                    <form 
-                                    enctype="multipart/form-data" id="editVariantForm" method="post"
+                                    <form enctype="multipart/form-data" id="editVariantForm" method="post"
                                         class="needs-validation" novalidate accept-charset="utf-8">
 
                                         <div class="row g-2">
@@ -123,7 +122,8 @@
 
 
                                                     <label for="productImg" class="form-label">Add More
-                                                        Images</label>
+                                                        Images
+                                                        <span class="text-muted">(Optional)</span></label>
                                                     <% } %>
 
                                                         <input type="file" class="form-control" name="images"
@@ -146,7 +146,10 @@
 
                                                 </label>
                                                 <select name="colours" class="form-select" id="colours" required>
-                                                    <option value="<%=variantData.colours%>" id="element">
+                                                    <option value="<%=variantData.colours%>">
+                                                        <%=variantData.colours%>
+                                                    </option>
+                                                    <option value="<%=variantData.colours%>">
                                                         <%=variantData.colours%>
                                                     </option>
                                                     <option value="Black">Black</option>
@@ -199,12 +202,12 @@
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-2">
 
-                                                        <select name="sizes[]" class="form-select" id="sizes" required>
+                                                        <select name="sizes[]" class="form-select" id="sizes0" required>
 
-                                                            <option value="<%=variantData.sizes[i].sizes %>"
-                                                                id="element">
+                                                            <option value="<%=variantData.sizes[i].sizes %>">
                                                                 <%=variantData.sizes[i].sizes %>
                                                             </option>
+
                                                             <option value="XS">XS</option>
                                                             <option value="S">S</option>
                                                             <option value="M">M</option>
@@ -285,8 +288,8 @@
 
 
 
-                                        <a href="/seller/products/variant/<%=productData._id %>" class="btn btn-danger"><i
-                                                class="fas fa-times"></i>
+                                        <a href="/seller/products/variant/<%=productData._id %>"
+                                            class="btn btn-danger"><i class="fas fa-times"></i>
                                             Cancel</a>
                                         <button type="submit" class="btn btn-primary" id="submitVariantData"
                                             style="float: right"><i class="fas fa-save"></i> Save Changes
@@ -320,6 +323,56 @@
         chooseImage.setAttribute('required', '');
         '<% } %>'
 
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            coloursDropdown();
+        });
+
+        function coloursDropdown() {
+            var selectobject = document.getElementById("colours");
+
+            '<% if(coloursData.length!=0){ var j=1; coloursData.forEach(function(data){ %>'
+            for (var i = 0; i < selectobject.length; i++) {
+                if (selectobject.options[i].value == '<%= data.colours %>')
+                    selectobject.remove(i);
+            }
+
+            '<% j++; }) } %>'
+        }
+
+
+        var sizesOptions = ["XS", "S", "M", "L", "XL", "XXL"];
+
+        var valueToRemove = [];
+
+        function populateSizes(counter) {
+
+            var select = document.getElementById("sizes" + counter);
+
+            for (var i = 0; i < sizesOptions.length; i++) {
+                var opt = sizesOptions[i];
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = opt;
+                select.appendChild(el);
+            }
+
+            for (var k = 0; k < valueToRemove.length; k++) {
+
+                for (var j = 0; j < select.length; j++) {
+                    if (select.options[j].value == (valueToRemove[k])) {
+                        select.remove(j);
+                        break;
+                    }
+
+                }
+            }
+        }
+
     </script>
 
     <script>
@@ -328,16 +381,11 @@
             var moreItems =
                 `<div class="row g-2" id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
-                        <select name="sizes[]" class="form-select" id="sizes" required>
+                        <select name="sizes[]" class="form-select" id="sizes` + counter + `" required>
                             <option value="">
                                 ---Choose Size---
                             </option>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
+                            
                         </select>
                     </div>
 
@@ -384,7 +432,7 @@
                     </div>
 
                     <div class="mb-3 col-md-2 d-grid divremoveItemsBtnMain">
-                        <button class="btn btn-outline-danger removeItemsBtn"><i
+                        <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn` + counter + `"><i
                             class="fas fa-minus-circle"></i>
                         Remove</a>
                     </div>
@@ -395,30 +443,55 @@
         }
 
 
+        var abc;
         var counter = 1;
         $(document).ready(function () {
 
             $("#addMoreBtnMain").click(function (e) {
                 e.preventDefault();
+               abc = document.getElementById("sizes" + (counter-1))   //sizes2  is 3rd field
+        
+                if(abc){
 
-                var appendMoreItems = moreItems(counter);
-                counter++;
-                $("#appendItems").append(appendMoreItems);
-               
-            });
-          
+                    if (abc.value != "") {
 
-                $(document).on('click', '.removeItemsBtn', function (e) {
-                e.preventDefault();
-                if ($(".divremoveItemsBtnMain")[1]) {
-                    let row_item = $(this).parent().parent();
-                    $(row_item).remove();
+                        abc.setAttribute('disabled', '');
+                        valueToRemove.push(abc.value);
 
+                        var appendMoreItems = moreItems(counter);
+                        $("#appendItems").append(appendMoreItems);
+                 
+                    }
+                }
+                else{
+            
+                    var appendMoreItems = moreItems(counter);
+                    $("#appendItems").append(appendMoreItems);
+                
                 }
 
-            })
-        });
+                populateSizes(counter);
+                counter++
+              
+                $(document).on('click', '.removeItemsBtn', function (e) {
+                    e.preventDefault();
+                    let row_item = $(this).parent().parent();
 
+                    let eleID = (this.id).toString()
+                    eleID = eleID.replace("removeItemsBtn", "");
+
+                    var removedElementSizeValue = document.getElementById("sizes" + eleID).value;
+                 
+                   if(removedElementSizeValue!=""){
+                    sizesOptions.push(removedElementSizeValue);
+                   }
+                  
+                    $(row_item).remove();
+
+                })
+
+            });
+        });
 
     </script>
 
@@ -429,9 +502,7 @@
         function calculateMoreFields(val1, val2, counter) {
 
             var actualPrice = document.getElementById("actualPrice" + counter).value;
-
             var discountPct = document.getElementById("discount" + counter).value;
-
 
 
             var total = (actualPrice * discountPct) / 100;

@@ -111,9 +111,9 @@
 
                                         <div id="appendItems">
                                             <div class="row g-2">
-                                                <div class="mb-3 col-md-2">
+                                                <div class="mb-3 col-md-2" id="sizesID0">
 
-                                                    <select name="sizes[]" class="form-select" id="sizes" required>
+                                                    <select name="sizes[]" class="form-select sizes0" required>
                                                         <option value="">
                                                             ---Choose Size---
                                                         </option>
@@ -182,15 +182,13 @@
 
 
 
-                                        <a href="/seller/products/variant/<%=productData._id %>" class="btn btn-danger"><i
-                                                class="fas fa-times"></i>
+                                        <a href="/seller/products/variant/<%=productData._id %>"
+                                            class="btn btn-danger"><i class="fas fa-times"></i>
                                             Cancel</a>
                                         <button type="submit" class="btn btn-primary" id="submitVariantData"
                                             style="float: right"><i class="fas fa-save"></i> Add
                                             Variant</button>
                                     </form>
-
-
 
 
                                 </div>
@@ -205,12 +203,60 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+            coloursDropdown();
+        });
+
+        function coloursDropdown() {
+            var selectobject = document.getElementById("colours");
+            '<% if(variantData.length!=0){ var j=1; variantData.forEach(function(data){ %>'
+            for (var i = 0; i < selectobject.length; i++) {
+                if (selectobject.options[i].value == '<%= data.colours %>')
+                    selectobject.remove(i);
+            }
+
+            '<% j++; }) } %>'
+        }
+
+
+        var sizesOptions = []
+        // var sizesOptions = ["XS", "S", "M", "L", "XL", "XXL"];
+
+        var valueToRemove = [];
+
+        function populateSizes(counter) {
+
+            var select = document.getElementsByClassName("sizes" + counter);
+
+            for (var i = 0; i < sizesOptions.length; i++) {
+                var opt = sizesOptions[i];
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = opt;
+                select[0].appendChild(el);
+            }
+            
+            for (var k = 0; k < valueToRemove.length; k++) {
+
+                for (var j = 0; j < select[0].length; j++) {
+                    if (select[0].options[j].value == (valueToRemove[k])) {
+                        select[0].remove(j);
+                        break;
+                    }
+
+                }
+            }
+        }
+
+    </script>
+
+    <script>
         function moreItems(counter) {
 
             var moreItems =
-                `<div class="row g-2" id="itemsRow` + counter + `">
+                `<div class="row g-2 id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
-                        <select name="sizes[]" class="form-select" id="sizes` + counter + `" required>
+                        <select name="sizes[]" class="form-select sizes` + counter + `"  required>
                             <option value="">
                                 ---Choose Size---
                             </option>
@@ -220,6 +266,7 @@
                             <option value="L">L</option>
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
+                            
                         </select>
                     </div>
 
@@ -266,7 +313,7 @@
                     </div>
 
                     <div class="mb-3 col-md-2 d-grid">
-                        <button class="btn btn-outline-danger removeItemsBtn"><i
+                        <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn` + counter + `"><i
                             class="fas fa-minus-circle"></i>
                         Remove</a>
                     </div>
@@ -277,20 +324,55 @@
         }
 
 
+
+        var abc;
         var counter = 1;
         $(document).ready(function () {
 
             $("#addMoreBtnMain").click(function (e) {
                 e.preventDefault();
 
-                var appendMoreItems = moreItems(counter);
-                counter++;
-                $("#appendItems").append(appendMoreItems);
+                abc = document.getElementsByClassName("sizes" + (counter - 1))   
+             
+                if (abc.length > 0) 
+                 {
+               
+                    if(abc[0].value != "") {
+
+                        abc[0].setAttribute('disabled', '');
+                        valueToRemove.push(abc[0].value);
+                        var appendMoreItems = moreItems(counter);
+                        $("#appendItems").append(appendMoreItems);
+                       
+                    }
+                }
+                else {
+                    var appendMoreItems = moreItems(counter);
+                    $("#appendItems").append(appendMoreItems);
+
+                }
+               
+                populateSizes(counter);
+                counter++
+
+
                 $(document).on('click', '.removeItemsBtn', function (e) {
                     e.preventDefault();
                     let row_item = $(this).parent().parent();
+
+                    let eleID = (this.id).toString()
+                    eleID = eleID.replace("removeItemsBtn", "");
+                   
+                    var removedElementSizeValue = document.getElementsByClassName("sizes" + eleID);
+                    
+                    if (removedElementSizeValue[0].value != "") {
+                        sizesOptions.push(removedElementSizeValue[0].value);
+                    }
+
                     $(row_item).remove();
+
                 })
+
             });
         });
 
@@ -338,7 +420,7 @@
 
 
     </script>
-  
+
 
 
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

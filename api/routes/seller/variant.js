@@ -47,51 +47,33 @@ router.get('/:id', checkAuth, (req, res) => {
 
                                 )
                             }
-
                             sizeArr.push(arr)
 
                         })
-                        console.log(sizeArr)
+                       // console.log(sizeArr)
 
                         res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-                        console.log(docs)
-                        if (docs.length>0) {
-                            Products.findByIdAndUpdate({ _id: id }, {
-                                $set: {
-                                    status: "Pending"
-                                }
-                            })
-                                .exec()
-                                .then(result => {
-                                    console.log(result)
-                                    res.redirect("/seller/products/?status=Pending")
-                                })
-                                .catch(err => {
-                                    console.log(err)
-                                    res.status(500).json({
-                                        error: err
-                                    })
-                                })
-                        }else{
-                            Products.findByIdAndUpdate({ _id: id }, {
-                                $set: {
-                                    status: "Incomplete"
-                                }
-                            })
-                                .exec()
-                                .then(result => {
-                                    console.log(result)
-                                    res.redirect("/seller/products/?status=Pending")
-                                })
-                                .catch(err => {
-                                    console.log(err)
-                                    res.status(500).json({
-                                        error: err
-                                    })
-                                })
-                        }
-                    })
+                    //    console.log(docs.length)
 
+
+
+                        var setStatus;
+
+                        if (docs.length > 0) {
+                            setStatus = "Pending"
+                        }
+                        else {
+                            setStatus = "Incomplete"
+                        }
+                        Products.findByIdAndUpdate({ _id: id }, {
+                            $set: {
+                                status: setStatus
+                            }
+                        })
+                            .exec()
+
+
+                    })
                     .catch(err => {
                         console.log(err)
                         res.status(500).json({
@@ -104,15 +86,19 @@ router.get('/:id', checkAuth, (req, res) => {
         })
 });
 
+
+
 router.get('/add-variant/:id', checkAuth, (req, res) => {
     var prodID = req.params.id;
 
     Products.findById(req.params.id,
         (err, doc) => {
             if (!err) {
-
-                res.render("./seller/variants/add-variant", { productData: doc, id: prodID, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-
+                Variants.find({ 'prodID': prodID }).select()
+                    .exec()
+                    .then(docs => {
+                        res.render("./seller/variants/add-variant", { productData: doc, id: prodID, variantData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+                    })
             } else {
                 res.send('try-again')
             }
@@ -124,18 +110,6 @@ router.get('/add-variant/:id', checkAuth, (req, res) => {
 router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
     var prodID = req.params.id;
 
-    var checkSizes = req.body.sizes;
-
-    function hasDuplicates(checkSizes) {
-        if (checkSizes.length != new Set(checkSizes).size) {
-            return true;
-        }
-        return false;
-    }
-
-    var hasDuplicateSizes = hasDuplicates(checkSizes);
-
-    if (!hasDuplicateSizes) {
         var sizesArr = [
             {
                 "sizes": req.body.sizes,
@@ -157,7 +131,7 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
             }
 
             var sizeArr = [];
-            var a = sizesArr[0]["sizes"].length
+            var a = sizesArr[0]["quantity"].length
 
             console.log(a);
 
@@ -172,15 +146,15 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
             }
             console.log(sizeArr)
 
-            var variantData = new Variants({
-                _id: mongoose.Types.ObjectId(),
-                prodID: prodID,
-                images: imageArr,
-                colours: req.body.colours,
-                sizes: sizeArr,
-                status: "Pending"
-            })
-            await variantData.save();
+            // var variantData = new Variants({
+            //     _id: mongoose.Types.ObjectId(),
+            //     prodID: prodID,
+            //     images: imageArr,
+            //     colours: req.body.colours,
+            //     sizes: sizeArr,
+            //     status: "Pending"
+            // })
+            // await variantData.save();
 
             res.redirect('/seller/products/variant/' + prodID);
 
@@ -189,10 +163,10 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
             console.log(err)
         }
 
-    }
-    else {
-        res.send('You cannot insert duplicate sizes.')
-    }
+//    }
+    // else {
+    //     res.send('You cannot insert duplicate sizes.')
+    // }
 
 });
 
@@ -209,8 +183,12 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
                 Variants.findById(variantID,
                     (err, doc) => {
                         if (!err) {
-
-                            res.render('./seller/variants/edit-variant', { images: allImages, variantData: doc, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+                            Variants.find({ 'prodID': id }).select()
+                            .exec()
+                            .then(docs => {
+                            res.render('./seller/variants/edit-variant', { images: allImages, variantData: doc, coloursData: docs, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+                    })
+                        
                         }
                     })
             } else {
@@ -248,6 +226,7 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
             },
         ];
 
+        console.log(req.body.sizes)
         try {
             var rawSS = req.files.images;
             var imageArr = [];
