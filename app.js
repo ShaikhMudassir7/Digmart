@@ -8,10 +8,8 @@ var mongoose = require("mongoose");
 const port = process.env.PORT;
 const app = express();
 
-
-
 const adminRoute = require("./api/routes/admin/admin")
-const verificationRoute = require("./api/routes/admin/verification") 
+const verificationRoute = require("./api/routes/admin/verification")
 const admincategoryRoute = require("./api/routes/admin/category")
 const sellerRoute = require("./api/routes/seller/seller")
 const sellerProductRoute = require("./api/routes/seller/product")
@@ -34,8 +32,7 @@ app.use(session({
 }))
 
 mongoose.connect(
-    "mongodb+srv://entwicklera:" + process.env.MONGO_PASS + "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority",
-    {
+    "mongodb+srv://entwicklera:" + process.env.MONGO_PASS + "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });

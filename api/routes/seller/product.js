@@ -10,10 +10,10 @@ const Category = require('../../models/admin/categorySchema');
 const checkAuth = require("../../middleware/seller/checkAuth")
 
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function(req, file, cb) {
         cb(null, './public/uploads/productImages')
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + file.originalname)
     }
 })
@@ -21,7 +21,6 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
-
 
 router.get('/', checkAuth, (req, res) => {
     var status = req.query.status
@@ -63,8 +62,7 @@ router.get('/', checkAuth, (req, res) => {
                     error: err
                 })
             })
-    }
-    else {
+    } else {
         Products.find({ sellerID: req.session.sellerID, status: status }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
             .exec()
             .then(docs => {
@@ -79,9 +77,6 @@ router.get('/', checkAuth, (req, res) => {
             })
     }
 })
-
-
-
 
 router.get('/add-product', checkAuth, (req, res) => {
 
@@ -100,27 +95,22 @@ router.get('/add-product', checkAuth, (req, res) => {
 });
 
 
-router.post('/add-product', imgUpload, async (req, res, next) => {
+router.post('/add-product', imgUpload, async(req, res, next) => {
     // Object destructuring
     const { productName } = req.body;
 
-    var specsArr = [
-        {
-            "specName": req.body.specName,
-            "specValue": req.body.specValue,
+    var specsArr = [{
+        "specName": req.body.specName,
+        "specValue": req.body.specValue,
 
-        },
-    ];
+    }, ];
 
     try {
         const productExists = await Products.findOne({ productName: productName })
 
         if (productExists) {
             res.send('A Product with the same name Already Exists. Try editting the same product or adding a new one!')
-            // res.render('./admin/category/add', { catImage: allCatImages, categoryData: doc, userType: req.session.type, userName: req.session.name })
-
-        }
-        else {
+        } else {
 
             var rawSS = req.files.images;
             var imageArr = [];
@@ -141,15 +131,13 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
                 specificationsArr.push({
                     specName: specsArr[0]["specName"][i],
                     specValue: specsArr[0]["specValue"][i],
-
                 })
             }
             console.log(specificationsArr)
             var prodStatus;
             if (req.body.hasVariant) {
                 prodStatus = "Pending"
-            }
-            else {
+            } else {
                 prodStatus = "Incomplete"
             }
 
@@ -176,7 +164,7 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
             await productData.save();
         }
         res.redirect('/seller/products/?status=Pending')
-        // res.redirect('/seller/products/variant/add-variant');
+            // res.redirect('/seller/products/variant/add-variant');
 
     } catch (err) {
         console.log("Error Occurred while adding product to Database");
@@ -211,13 +199,11 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
 router.post("/edit-product/:productID", imgUpload, (req, res) => {
     const id = req.params.productID
 
-    var specsArr = [
-        {
-            "specName": req.body.specName,
-            "specValue": req.body.specValue,
+    var specsArr = [{
+        "specName": req.body.specName,
+        "specValue": req.body.specValue,
 
-        },
-    ];
+    }, ];
 
     Products.findById(id, (err, doc) => {
         if (!err) {
@@ -228,7 +214,7 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
             });
 
             var rawSS = req.files.images;
-            if (rawSS) {            //Check if image is selected in choose image field and push it in array
+            if (rawSS) { //Check if image is selected in choose image field and push it in array
                 rawSS.forEach((element) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
@@ -250,32 +236,32 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
         }
 
         var prodStatus;
-  
+
         if (req.body.status == "Pending") {
             console.log("status pending")
             prodStatus = "Pending";
-        } else if(req.body.status == "Incomplete") {
+        } else if (req.body.status == "Incomplete") {
             console.log("Incomplete")
             prodStatus = "Incomplete";
         }
-      
+
         Products.findByIdAndUpdate({ _id: id }, {
-            $set: {
-                images: imageArr,
-                productName: req.body.productName,
-                description: req.body.description,
-                category: req.body.category,
-                subcategory: req.body.subcategory,
-                brand: req.body.brand,
-                specifications: specificationsArr,
-                actualPrice: req.body.actualPrice,
-                discount: req.body.discount,
-                finalPrice: req.body.finalPrice,
-                quantity: req.body.quantity,
-                hasVariant: req.body.hasVariant,
-                status: prodStatus
-            }
-        })
+                $set: {
+                    images: imageArr,
+                    productName: req.body.productName,
+                    description: req.body.description,
+                    category: req.body.category,
+                    subcategory: req.body.subcategory,
+                    brand: req.body.brand,
+                    specifications: specificationsArr,
+                    actualPrice: req.body.actualPrice,
+                    discount: req.body.discount,
+                    finalPrice: req.body.finalPrice,
+                    quantity: req.body.quantity,
+                    hasVariant: req.body.hasVariant,
+                    status: prodStatus
+                }
+            })
             .exec()
             .then(result => {
                 console.log(result)
@@ -296,8 +282,7 @@ router.get("/delete-product/(:id)", (req, res, next) => {
         if (!err) {
             doc.images.forEach(element => {
                 fs.unlinkSync("\public" + element)
-            }
-            );
+            });
 
             res.redirect('/seller/products');
         } else {
@@ -319,10 +304,10 @@ router.get("/delete-image/(:id)/(:a)", (req, res, next) => {
             console.log(doc.images)
 
             Products.findByIdAndUpdate({ _id: req.params.id }, {
-                $set: {
-                    images: doc.images
-                }
-            })
+                    $set: {
+                        images: doc.images
+                    }
+                })
                 .exec()
                 .then(result => {
                     console.log(result)
