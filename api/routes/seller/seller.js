@@ -26,9 +26,9 @@ var upload = multer({
 });
 
 const middleware = upload.fields([{ name: 'busLogo', maxCount: 1 },
-{ name: 'busPanFile', maxCount: 1 },
-{ name: 'busGstFile', maxCount: 1 },
-{ name: 'bankChqPass', maxCount: 1 }
+    { name: 'busPanFile', maxCount: 1 },
+    { name: 'busGstFile', maxCount: 1 },
+    { name: 'bankChqPass', maxCount: 1 }
 ])
 
 router.get('/signup', (req, res) => {
@@ -39,7 +39,7 @@ router.get('/signup', (req, res) => {
         })
 })
 
-router.post('/check', async (req, res) => {
+router.post('/check', async(req, res) => {
     switch (req.query.toCheck) {
         case 'busMobile':
             await Seller.find({ busMobile: req.query.val }).exec()
@@ -76,8 +76,8 @@ router.post('/check', async (req, res) => {
                 .then(seller => {
                     if (seller.length < 1)
                         res.send({ gst: "true" })
-                    else 
-                        res.send({ gst: "false" })                         
+                    else
+                        res.send({ gst: "false" })
                 })
                 .catch(err => {
                     console.log(err)
@@ -89,7 +89,7 @@ router.post('/check', async (req, res) => {
     }
 })
 
-router.post('/add-seller', middleware, async (req, res) => {
+router.post('/add-seller', middleware, async(req, res) => {
     var busEmail = req.body.busEmail
     var busMobile = req.body.busMobile
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
@@ -196,7 +196,7 @@ router.post('/checkEmailOtp', (req, res) => {
 })
 
 router.post('/authentication', (req, res) => {
-    Seller.updateOne({ busMobile: req.body.hidMobile }, { $set: { status: "Pending" } }, function (err, result) {
+    Seller.updateOne({ busMobile: req.body.hidMobile }, { $set: { status: "Pending" } }, function(err, result) {
         if (err) throw err;
         console.log("Seller registered")
         res.redirect('/seller/login')
@@ -211,8 +211,8 @@ router.post('/sendOtp', (req, res) => {
     if (req.query.busEmail) {
         var busEmail = req.query.busEmail
         Seller.find({
-            busEmail: busEmail,
-        })
+                busEmail: busEmail,
+            })
             .exec()
             .then((seller) => {
                 if (seller.length < 1) {
@@ -229,7 +229,7 @@ router.post('/sendOtp', (req, res) => {
                         var emailOtp = Math.floor(1000 + Math.random() * 9000)
                         console.log("Email = " + emailOtp)
                         sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
-                        Seller.updateOne({ _id: id }, { $set: { emailOtp: emailOtp } }, function (err, result) {
+                        Seller.updateOne({ _id: id }, { $set: { emailOtp: emailOtp } }, function(err, result) {
                             if (err) throw err;
                             res.send({ status: 3 })
                         })
@@ -245,8 +245,8 @@ router.post('/sendOtp', (req, res) => {
     } else if (req.query.busMobile) {
         var busMobile = req.query.busMobile
         Seller.find({
-            busMobile: busMobile,
-        })
+                busMobile: busMobile,
+            })
             .exec()
             .then((seller) => {
                 if (seller.length < 1) {
@@ -263,7 +263,7 @@ router.post('/sendOtp', (req, res) => {
                         var mobileOtp = Math.floor(1000 + Math.random() * 9000)
                         console.log("Mobile = " + mobileOtp)
                         sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-                        Seller.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+                        Seller.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
                             if (err) throw err;
                             res.send({ status: 3 })
                         })
@@ -282,8 +282,8 @@ router.post('/sendOtp', (req, res) => {
 router.post('/login', (req, res) => {
     if (req.body.hidMobile) {
         Seller.find({
-            busMobile: req.body.hidMobile,
-        })
+                busMobile: req.body.hidMobile,
+            })
             .exec()
             .then((seller) => {
                 const token = jwt.sign({
@@ -303,8 +303,8 @@ router.post('/login', (req, res) => {
             });
     } else if (req.body.hidEmail) {
         Seller.find({
-            busEmail: req.body.hidEmail,
-        })
+                busEmail: req.body.hidEmail,
+            })
             .exec()
             .then((seller) => {
                 const token = jwt.sign({
@@ -326,7 +326,7 @@ router.post('/login', (req, res) => {
 
 })
 
-router.get('/dashboard', checkAuth, async (req, res) => {
+router.get('/dashboard', checkAuth, async(req, res) => {
     var count = {
         "totalProducts": 0,
         "pendingProducts": 0,
@@ -358,7 +358,7 @@ router.get('/profile', checkAuth, (req, res) => {
         .exec()
         .then(seller => {
             if (seller.busCat.length != 0) {
-                seller.busCat.forEach(function (data) {
+                seller.busCat.forEach(function(data) {
                     Category.findOne({ _id: data }).select("catName")
                         .exec()
                         .then(docs => {
@@ -383,7 +383,7 @@ router.get('/logout', (req, res) => {
     res.redirect("/seller/login")
 })
 
-router.post('/reauthenticate', async (req, res) => {
+router.post('/reauthenticate', async(req, res) => {
     var busMobile = req.query.busMobile
     var busEmail = req.query.busEmail
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
@@ -394,7 +394,7 @@ router.post('/reauthenticate', async (req, res) => {
     Seller.updateOne({
         busMobile: busMobile,
         busEmail: busEmail
-    }, { $set: { mobileOtp: mobileOtp, emailOtp: emailOtp } }, function (err, result) {
+    }, { $set: { mobileOtp: mobileOtp, emailOtp: emailOtp } }, function(err, result) {
         if (err) throw err;
         res.redirect('/seller/authentication?busMobile=' + busMobile + '&busEmail=' + busEmail)
     })
@@ -406,7 +406,7 @@ router.post('/sendMobileOtp', (req, res) => {
         var mobileOtp = Math.floor(1000 + Math.random() * 9000)
         console.log("Mobile = " + mobileOtp)
         sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-        Seller.updateOne({ busMobile: busMobile }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+        Seller.updateOne({ busMobile: busMobile }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
             if (err) throw err;
             res.send({ status: 1 })
         })
@@ -419,7 +419,7 @@ router.post('/sendEmailOtp', (req, res) => {
         var emailOtp = Math.floor(1000 + Math.random() * 9000)
         console.log("Email = " + emailOtp)
         sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
-        Seller.updateOne({ busEmail: busEmail }, { $set: { emailOtp: emailOtp } }, function (err, result) {
+        Seller.updateOne({ busEmail: busEmail }, { $set: { emailOtp: emailOtp } }, function(err, result) {
             if (err) throw err;
             res.send({ status: 1 })
         })
