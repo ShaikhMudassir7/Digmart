@@ -94,7 +94,6 @@ function checkMobileOtp() {
                     });
                     mobResendstr.style.display = "none"
                     submit1.removeAttribute('disabled');
-                   
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')
