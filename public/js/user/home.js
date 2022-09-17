@@ -121,3 +121,47 @@ function wishlist(element) {
     }
 }
 
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        alert("Geolocation is not supported by this browser.")
+    }
+}
+getLocation();
+
+function showPosition(position) {
+
+    $.ajax({
+        url: "/api/pincode",
+        type: "POST",
+        data: {
+            lat: position.coords.latitude,
+            long: position.coords.longitude,
+        },
+        dataType: 'json',
+        success: function (result) {
+           if(result.pincode != 'error'){
+            console.log(result.pincode)
+           }
+        }
+    });
+}
+
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.")
+            // window.location.reload()
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.")
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.")
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.")
+            break;
+    }
+}
