@@ -16,7 +16,6 @@ var upload = multer({ storage: store })
 
 var catUpload = upload.fields([{ name: "catImage", maxCount: 1 }])
 
-//Add 
 router.get('/', checkAuth, (req, res) => {
     Category.find().select("catImage catName sub_category variant")
         .exec()
@@ -35,7 +34,6 @@ router.get('/add-category', checkAuth, (req, res) => {
     res.render("./admin/category/add", { userType: req.session.type, userName: req.session.name })
 })
 
-//adding data into database
 router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
     const { catName } = req.body;
 
@@ -91,7 +89,6 @@ router.get('/edit-category/:catID', checkAuth, (req, res) => {
         })
 });
 
-
 router.post("/edit-category/:catID", catUpload, (req, res) => {
     const id = req.params.catID
 
@@ -142,7 +139,6 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
 
 
 });
-
 
 router.get("/delete-category/:delCat", checkAuth, async(req, res, next) => {
     const id = req.params.delCat;

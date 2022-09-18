@@ -6,23 +6,16 @@ const fs = require("fs");
 
 const Variants = require('../../models/seller/variants');
 const Products = require('../../models/seller/product');
-const Category = require('../../models/admin/categorySchema');
 
 const checkAuth = require("../../middleware/seller/checkAuth")
 
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/uploads/productImages')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + file.originalname)
-    }
-})
+const firebase = require('../../utils/firebase')
+const storage = firebase.storage().ref();
 
-var upload = multer({ storage: storage });
+const store = multer.memoryStorage();
+var upload = multer({ storage: store });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
-
 
 
 router.get('/:id', checkAuth, (req, res) => {
@@ -41,9 +34,9 @@ router.get('/:id', checkAuth, (req, res) => {
                             for (var i = 0; i < element["sizes"].length; i++) {
 
                                 arr.push(
-                                    element.sizes[i]["sizes"] + " : "
-                                    + element.sizes[i]["quantity"] + " : Rs "
-                                    + element.sizes[i]["finalPrice"]
+                                    element.sizes[i]["sizes"] + " : " +
+                                    element.sizes[i]["quantity"] + " : Rs " +
+                                    element.sizes[i]["finalPrice"]
 
                                 )
                             }
@@ -51,53 +44,17 @@ router.get('/:id', checkAuth, (req, res) => {
                             sizeArr.push(arr)
 
                         })
-                        console.log(sizeArr)
 
                         res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-                        console.log(docs)
-                        // if (docs.length>0) {
-                        //     Products.findByIdAndUpdate({ _id: id }, {
-                        //         $set: {
-                        //             status: "Pending"
-                        //         }
-                        //     })
-                        //         .exec()
-                        //         .then(result => {
-                        //             console.log(result)
-                        //             res.redirect("/seller/products/?status=Pending")
-                        //         })
-                        //         .catch(err => {
-                        //             console.log(err)
-                        //             res.status(500).json({
-                        //                 error: err
-                        //             })
-                        //         })
-                        // }else{
-                        //     Products.findByIdAndUpdate({ _id: id }, {
-                        //         $set: {
-                        //             status: "Incomplete"
-                        //         }
-                        //     })
-                        //         .exec()
-                        //         .then(result => {
-                        //             console.log(result)
-                        //             res.redirect("/seller/products/?status=Pending")
-                        //         })
-                        //         .catch(err => {
-                        //             console.log(err)
-                        //             res.status(500).json({
-                        //                 error: err
-                        //             })
-                        //         })
-                        // }
+
                     })
 
-                    .catch(err => {
-                        console.log(err)
-                        res.status(500).json({
-                            error: err
-                        })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
                     })
+                })
             } else {
                 res.send('try-again')
             }
@@ -120,8 +77,7 @@ router.get('/add-variant/:id', checkAuth, (req, res) => {
 
 });
 
-
-router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
+router.post('/add-variant/:id', imgUpload, async(req, res, next) => {
     var prodID = req.params.id;
 
     var checkSizes = req.body.sizes;
@@ -136,30 +92,31 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
     var hasDuplicateSizes = hasDuplicates(checkSizes);
 
     if (!hasDuplicateSizes) {
-        var sizesArr = [
-            {
-                "sizes": req.body.sizes,
-                "quantity": req.body.quantity,
-                "actualPrice": req.body.actualPrice,
-                "discount": req.body.discount,
-                "finalPrice": req.body.finalPrice
-            },
-        ];
+        var sizesArr = [{
+            "sizes": req.body.sizes,
+            "quantity": req.body.quantity,
+            "actualPrice": req.body.actualPrice,
+            "discount": req.body.discount,
+            "finalPrice": req.body.finalPrice
+        }, ];
 
         try {
             var rawSS = req.files.images;
             var imageArr = [];
-            if (rawSS) {
 
-                rawSS.forEach((element) => {
-                    imageArr.push((element.path).toString().substring(6));
-                });
+            if (rawSS) {
+                for (let i = 0; i < rawSS.length; i++) {
+                    const imageRef = storage.child("/variants/" + rawSS[i].originalname);
+                    await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+                    var url = await imageRef.getDownloadURL()
+                    imageArr.push(url)
+                }
             }
+
+            console.log(imageArr)
 
             var sizeArr = [];
             var a = sizesArr[0]["sizes"].length
-
-            console.log(a);
 
             for (var i = 0; i < a; i++) {
                 sizeArr.push({
@@ -170,7 +127,6 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
                     finalPrice: sizesArr[0]["finalPrice"][i],
                 })
             }
-            console.log(sizeArr)
 
             var variantData = new Variants({
                 _id: mongoose.Types.ObjectId(),
@@ -185,18 +141,14 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
             res.redirect('/seller/products/variant/' + prodID);
 
         } catch (err) {
-            console.log("Error Occurred while adding variant to Database");
-            console.log(err)
+            console.log(err);
         }
 
-    }
-    else {
+    } else {
         res.send('You cannot insert duplicate sizes.')
     }
 
 });
-
-
 
 router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
     const allImages = Variants.find().select("images")
@@ -209,7 +161,6 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
                 Variants.findById(variantID,
                     (err, doc) => {
                         if (!err) {
-
                             res.render('./seller/variants/edit-variant', { images: allImages, variantData: doc, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
                         }
                     })
@@ -221,8 +172,7 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
 
 });
 
-
-router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
+router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async(req, res) => {
     var prodID = req.params.id;
     var variantID = req.params.variantID;
 
@@ -238,15 +188,13 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
     var hasDuplicateSizes = hasDuplicates(checkSizes);
 
     if (!hasDuplicateSizes) {
-        var sizesArr = [
-            {
-                "sizes": req.body.sizes,
-                "quantity": req.body.quantity,
-                "actualPrice": req.body.actualPrice,
-                "discount": req.body.discount,
-                "finalPrice": req.body.finalPrice
-            },
-        ];
+        var sizesArr = [{
+            "sizes": req.body.sizes,
+            "quantity": req.body.quantity,
+            "actualPrice": req.body.actualPrice,
+            "discount": req.body.discount,
+            "finalPrice": req.body.finalPrice
+        }, ];
 
         try {
             var rawSS = req.files.images;
@@ -261,8 +209,6 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
             var sizeArr = [];
             var a = sizesArr[0]["sizes"].length
 
-            console.log(a);
-
             for (var i = 0; i < a; i++) {
                 sizeArr.push({
                     sizes: sizesArr[0]["sizes"][i],
@@ -272,8 +218,6 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
                     finalPrice: sizesArr[0]["finalPrice"][i],
                 })
             }
-            console.log(sizeArr)
-
 
             Variants.findById(variantID, (err, doc) => {
                 if (!err) {
@@ -283,12 +227,11 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
                     });
 
                     var rawSS = req.files.images;
-                    if (rawSS) {            //Check if image is selected in choose image field and push it in array
+                    if (rawSS) { //Check if image is selected in choose image field and push it in array
                         rawSS.forEach((element) => {
                             imageArr.push((element.path).toString().substring(6));
                         });
                     }
-                    console.log(imageArr)
                 }
 
                 Variants.findByIdAndUpdate({ _id: variantID }, {
@@ -303,18 +246,14 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
 
                 res.redirect('/seller/products/variant/' + prodID);
             })
-        }
-        catch (err) {
+        } catch (err) {
             console.log("Error Occurred while Editting variant");
-            console.log(err)
         }
 
-    }
-    else {
+    } else {
         res.send('You cannot insert duplicate sizes.')
     }
 });
-
 
 router.get("/delete-variant/(:id)/(:variantID)", (req, res, next) => {
     var prodID = req.params.id;
@@ -327,8 +266,7 @@ router.get("/delete-variant/(:id)/(:variantID)", (req, res, next) => {
 
                 fs.unlinkSync("\public" + element)
 
-            }
-            );
+            });
 
             res.redirect('/seller/products/variant/' + prodID);
         } else {
@@ -337,9 +275,7 @@ router.get("/delete-variant/(:id)/(:variantID)", (req, res, next) => {
     })
 });
 
-
 router.get("/delete-image/(:id)/(:variantID)/(:a)", (req, res, next) => {
-    console.log('Delete')
     const index = req.params.a
 
     Variants.findById(req.params.variantID, (err, doc) => {
@@ -347,24 +283,18 @@ router.get("/delete-image/(:id)/(:variantID)/(:a)", (req, res, next) => {
             fs.unlinkSync("\public" + doc.images[index])
 
             doc.images.splice(index, 1)
-            console.log(doc.images)
 
             Variants.findByIdAndUpdate({ _id: req.params.variantID }, {
-                $set: {
-                    images: doc.images
-                }
-            })
+                    $set: {
+                        images: doc.images
+                    }
+                })
                 .exec()
                 .then(result => {
-                    console.log(result)
                     res.redirect("/seller/products/variant/edit-variant/" + req.params.id + "/" + req.params.variantID);
                 })
         }
     });
 });
-
-
-
-
 
 module.exports = router

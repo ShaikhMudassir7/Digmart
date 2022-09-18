@@ -24,7 +24,6 @@ var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
 router.get('/', checkAuth, (req, res) => {
     var status = req.query.status
-    console.log(status)
     if (status == "Rejected") {
         Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Incomplete" }, { status: "Verified" }] }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
             .exec()
@@ -96,13 +95,11 @@ router.get('/add-product', checkAuth, (req, res) => {
 
 
 router.post('/add-product', imgUpload, async(req, res, next) => {
-    // Object destructuring
     const { productName } = req.body;
 
     var specsArr = [{
         "specName": req.body.specName,
         "specValue": req.body.specValue,
-
     }, ];
 
     try {
@@ -172,8 +169,6 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
     }
 
 });
-
-
 
 router.get("/edit-product/(:id)", checkAuth, (req, res) => {
     const allImages = Products.find().select("images")
