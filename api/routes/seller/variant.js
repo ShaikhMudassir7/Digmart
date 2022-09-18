@@ -3,6 +3,7 @@ const router = express.Router()
 var mongoose = require("mongoose");
 const multer = require("multer")
 const fs = require("fs");
+require("firebase/storage");
 
 const Variants = require('../../models/seller/variants');
 const Products = require('../../models/seller/product');
@@ -24,15 +25,13 @@ router.get('/:id', checkAuth, (req, res) => {
     Products.findById(req.params.id,
         (err, doc) => {
             if (!err) {
-
                 Variants.find({ 'prodID': id }).select("sizes colours quantity finalPrice")
                     .exec()
                     .then(docs => {
                         docs.forEach((element) => {
-
                             var arr = [];
-                            for (var i = 0; i < element["sizes"].length; i++) {
 
+                            for (var i = 0; i < element["sizes"].length; i++) {
                                 arr.push(
                                     element.sizes[i]["sizes"] + " : " +
                                     element.sizes[i]["quantity"] + " : Rs " +
@@ -40,9 +39,7 @@ router.get('/:id', checkAuth, (req, res) => {
 
                                 )
                             }
-
                             sizeArr.push(arr)
-
                         })
 
                         res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
@@ -67,14 +64,15 @@ router.get('/add-variant/:id', checkAuth, (req, res) => {
     Products.findById(req.params.id,
         (err, doc) => {
             if (!err) {
-
-                res.render("./seller/variants/add-variant", { productData: doc, id: prodID, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-
+                Variants.find({ 'prodID': prodID }).select()
+                    .exec()
+                    .then(docs => {
+                        res.render("./seller/variants/add-variant", { productData: doc, id: prodID, variantData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+                    })
             } else {
                 res.send('try-again')
             }
         })
-
 });
 
 router.post('/add-variant/:id', imgUpload, async(req, res, next) => {
@@ -167,9 +165,7 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
             } else {
                 res.send('try-again')
             }
-
         })
-
 });
 
 router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async(req, res) => {
@@ -196,11 +192,11 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async(req, res) => {
             "finalPrice": req.body.finalPrice
         }, ];
 
+        console.log(req.body.sizes)
         try {
             var rawSS = req.files.images;
             var imageArr = [];
             if (rawSS) {
-
                 rawSS.forEach((element) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
@@ -225,7 +221,6 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async(req, res) => {
                     doc.images.forEach((element) => {
                         imageArr.push(element).toString();
                     });
-
                     var rawSS = req.files.images;
                     if (rawSS) { //Check if image is selected in choose image field and push it in array
                         rawSS.forEach((element) => {
@@ -243,7 +238,6 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async(req, res) => {
                         status: "Pending"
                     }
                 }).exec()
-
                 res.redirect('/seller/products/variant/' + prodID);
             })
         } catch (err) {
@@ -261,9 +255,7 @@ router.get("/delete-variant/(:id)/(:variantID)", (req, res, next) => {
 
     Variants.findByIdAndRemove(variantID, (err, doc) => {
         if (!err) {
-
             doc.images.forEach(element => {
-
                 fs.unlinkSync("\public" + element)
 
             });

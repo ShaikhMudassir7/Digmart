@@ -70,8 +70,7 @@ router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
     }
 })
 
-//Edit-Category
-router.get('/edit-category/:catID', checkAuth, (req, res) => {
+router.get('/edit-category/:catID', [checkAuth, catUpload], (req, res) => {
     const id = req.params.catID
 
     const allCatImages = Category.find().select("catImage")
@@ -92,21 +91,15 @@ router.get('/edit-category/:catID', checkAuth, (req, res) => {
 router.post("/edit-category/:catID", catUpload, (req, res) => {
     const id = req.params.catID
 
-    console.log("Delete")
-        //  console.log(doc.catImage)
-
-
     var updatedValue = {}
 
     if (req.files.catImage && req.files.catImage[0].path) {
         Category.findById(id, (err, doc) => {
-
             if (!err) {
                 console.log(doc.catImage)
                 fs.unlinkSync("\public" + doc.catImage)
 
             }
-
         })
         updatedValue = {
             catImage: req.files.catImage[0].path.toString().substring(6),
@@ -136,8 +129,6 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
                 error: err
             })
         })
-
-
 });
 
 router.get("/delete-category/:delCat", checkAuth, async(req, res, next) => {

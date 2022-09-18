@@ -90,7 +90,6 @@ router.get('/add-product', checkAuth, (req, res) => {
                 error: err
             })
         })
-
 });
 
 
@@ -118,11 +117,8 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
                 });
             }
 
-
             var specificationsArr = [];
             var a = specsArr[0]["specName"].length
-
-            console.log(a);
 
             for (var i = 0; i < a; i++) {
                 specificationsArr.push({
@@ -190,7 +186,6 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
         })
 });
 
-
 router.post("/edit-product/:productID", imgUpload, (req, res) => {
     const id = req.params.productID
 
@@ -219,8 +214,6 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
 
         var specificationsArr = [];
         var a = specsArr[0]["specName"].length
-
-        console.log(a);
 
         for (var i = 0; i < a; i++) {
             specificationsArr.push({
@@ -271,7 +264,6 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
     });
 });
 
-
 router.get("/delete-product/(:id)", (req, res, next) => {
     Products.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
@@ -285,7 +277,6 @@ router.get("/delete-product/(:id)", (req, res, next) => {
         }
     })
 });
-
 
 router.get("/delete-image/(:id)/(:a)", (req, res, next) => {
     console.log('Delete')
