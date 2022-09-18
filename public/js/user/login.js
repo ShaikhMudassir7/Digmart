@@ -5,6 +5,8 @@ const mobOtp4 = document.getElementById('mobOtp4');
 
 const submit1 = document.getElementById('submit');
 const mobTimer = document.getElementById('mobTimer')
+const mobileotp = document.getElementById('mobileotp')
+const loginotp = document.getElementById('loginotp')
 const mobResend = document.getElementById('mobResend')
 const mobResendstr = document.getElementById('mobResendstr')
 var mobile;
@@ -38,6 +40,8 @@ mobOtp4.addEventListener('keyup', function (event) {
     checkMobileOtp()
 });
 
+
+
 function sendOTP() {
     console.log("calling");
     var cred = document.getElementById('mobile');
@@ -58,9 +62,8 @@ function sendOTP() {
                     err.style.display = "block"
                     document.getElementById('usermobile').innerHTML = "+91 " + credVal;
                     document.getElementById('hidMobile').value = credVal;
-                    $("#mobileotp").modal({ backdrop: "static" });
-                    $('#mobileotp').modal('show');
-                    $('#loginpopup').modal('hide');
+                    mobileotp.style.display = "inline"
+                    loginotp.style.display = "none"
                     mobTimer.style.display = "inline"
                     mobResend.classList.remove('timer-active')
                     mobResend.classList.add('timer-inactive')
@@ -91,7 +94,6 @@ function checkMobileOtp() {
                     });
                     mobResendstr.style.display = "none"
                     submit1.removeAttribute('disabled');
-                   
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')

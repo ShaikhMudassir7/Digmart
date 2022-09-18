@@ -18,7 +18,16 @@ router.get('/',(req, res) => {
 })
 
 router.get('/shop-by-category',(req, res) => {
-    res.render('./user/shop-by-category',{user: req.session.userid})
+    Category.findOne({_id: req.query.id}).exec()
+    .then(docs => {
+        res.render('./user/shop-by-category',{catData: docs, user: req.session.userid})
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
 })
 
 module.exports = router

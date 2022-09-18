@@ -36,7 +36,7 @@ router.post('/login', (req, res) => {
                         req.session.name = user[0].name;
                         req.session.email = user[0].email;
                         req.session.type = user[0].type;
-                        req.session.id = user[0]._id;
+                        req.session.admin_id = user[0]._id;
                         const token = jwt.sign({
                             "id": user[0]._id
                         }, process.env.JWT_KEY, {},
@@ -103,11 +103,11 @@ router.get('/dashboard', checkAuth, async (req, res) => {
             count.activeOperator = docs.length
         })
 
-    await Products.find()
+    await Products.find({$nor: [{ status: "Incomplete" }]})
         .then(docs => {
             count.totalProduct = docs.length
         })
-    await Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+    await Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
         .then(docs => {
             count.rejectedProduct = docs.length
         })
@@ -155,7 +155,7 @@ router.post('/profile/(:id)', checkAuth, (req, res, next) => {
                 Admin.updateOne({ _id: id }, { $set: newValues })
                     .exec()
                     .then(result => {
-                        if (req.session.id == id) {
+                        if (req.session.admin_id == id) {
                             req.session.name = req.body.user_name;
                             res.redirect('/admin/profile')
                         } else {
@@ -178,7 +178,7 @@ router.post('/profile/(:id)', checkAuth, (req, res, next) => {
         Admin.updateOne({ _id: id }, { $set: newValues })
             .exec()
             .then(result => {
-                if (req.session.id == id) {
+                if (req.session.admin_id == id) {
                     req.session.name = req.body.user_name;
                     res.redirect('/admin/profile')
                 } else {
@@ -249,7 +249,7 @@ router.post('/addoperator', checkAuth, (req, res) => {
 router.get('/deleteoperator/(:id)', checkAuth, (req, res, next) => {
     Admin.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-            if (req.session.id == req.params.id) {
+            if (req.session.admin_id == req.params.id) {
                 res.redirect('/admin/logout')
             }
             else {
@@ -308,7 +308,7 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
                             Admin.updateOne({ _id: id }, { $set: newValues })
                                 .exec()
                                 .then(result => {
-                                    if (req.session.id == id) {
+                                    if (req.session.admin_id == id) {
                                         req.session.name = req.body.user_name;
                                         res.redirect('/admin/operator')
                                     } else {
@@ -328,7 +328,7 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
                     Admin.updateOne({ _id: id }, { $set: newValues })
                         .exec()
                         .then(result => {
-                            if (req.session.id == id) {
+                            if (req.session.admin_id == id) {
                                 req.session.name = req.body.user_name;
                                 res.redirect('/admin/operator')
                             } else {
@@ -365,7 +365,7 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
                     Admin.updateOne({ _id: id }, { $set: newValues })
                         .exec()
                         .then(result => {
-                            if (req.session.id == id) {
+                            if (req.session.admin_id == id) {
                                 req.session.name = req.body.user_name;
                                 res.redirect('/admin/operator')
                             } else {
@@ -385,7 +385,7 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
             Admin.updateOne({ _id: id }, { $set: newValues })
                 .exec()
                 .then(result => {
-                    if (req.session.id == id) {
+                    if (req.session.admin_id == id) {
                         req.session.name = req.body.user_name;
                         res.redirect('/admin/operator')
                     } else {

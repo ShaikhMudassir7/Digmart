@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 const Products = require("../../models/seller/product")
 const Seller = require('../../models/seller/seller');
-
+const Variants = require('../../models/seller/variants');
 const checkAuth = require("../../middleware/admin/checkAuth")
 
 
@@ -24,11 +24,18 @@ router.get('/product', checkAuth, (req, res) => {
         })
 })
 
-router.get('/viewProduct/(:id)', checkAuth, (req, res) => {
-    Products.findById(req.params.id,
-        (err, doc) => {
+router.get('/viewProduct/(:id)/', checkAuth, (req, res) => {
+    const allImages = Variants.find().select("images")
+    var id = req.params.id;
+    Products.findById(id,
+        (err, element) => {
             if (!err) {
-                res.render('./admin/verification/products/viewProduct', { productData: doc, userType: req.session.type, userName: req.session.name })
+                Variants.find({ 'prodID': id }).exec()
+                .then(docs => {
+                        if (!err) {
+                            res.render('./admin/verification/products/viewProduct', { images: allImages, variantsData: docs, productData: element,  userType: req.session.type, userName: req.session.name});
+                        }
+                    })
             } else {
                 res.send('try-again')
             }
@@ -37,10 +44,17 @@ router.get('/viewProduct/(:id)', checkAuth, (req, res) => {
 })
 
 router.get('/viewproductStatus/(:id)', checkAuth, (req, res) => {
-    Products.findById(req.params.id,
-        (err, doc) => {
+    const allImages = Variants.find().select("images")
+    var id = req.params.id;
+    Products.findById(id,
+        (err, element) => {
             if (!err) {
-                res.render('./admin/verification/products/viewproductStatus', { productData: doc, userType: req.session.type, userName: req.session.name })
+                Variants.find({ 'prodID': id }).exec()
+                .then(docs => {
+                        if (!err) {
+                            res.render('./admin/verification/products/viewproductStatus', { images: allImages, variantsData: docs, productData: element,  userType: req.session.type, userName: req.session.name});
+                        }
+                    })
             } else {
                 res.send('try-again')
             }
@@ -151,7 +165,7 @@ router.get('/accept-seller/(:id)', (req, res) => {
 router.get('/productStatus', checkAuth, (req, res) => {
     var status = req.query.status
     if (status == "Rejected") {
-        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }] })
+        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" } , { status: "Incomplete" }] })
             .exec()
             .then(docs => {
                 res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
@@ -164,7 +178,7 @@ router.get('/productStatus', checkAuth, (req, res) => {
             })
     } else {
         if (!status) {
-            Products.find()
+            Products.find({$nor: [{ status: "Incomplete" }]})
                 .exec()
                 .then(docs => {
                     res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })

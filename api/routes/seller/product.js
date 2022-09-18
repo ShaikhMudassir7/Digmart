@@ -22,7 +22,6 @@ var upload = multer({ storage: storage });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
-
 router.get('/', checkAuth, (req, res) => {
     var status = req.query.status
     console.log(status)
@@ -63,8 +62,7 @@ router.get('/', checkAuth, (req, res) => {
                     error: err
                 })
             })
-    }
-    else {
+    } else {
         Products.find({ sellerID: req.session.sellerID, status: status }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
             .exec()
             .then(docs => {
@@ -80,9 +78,6 @@ router.get('/', checkAuth, (req, res) => {
     }
 })
 
-
-
-
 router.get('/add-product', checkAuth, (req, res) => {
 
     Category.find().select("catName sub_category variant")
@@ -96,31 +91,24 @@ router.get('/add-product', checkAuth, (req, res) => {
                 error: err
             })
         })
-
 });
 
-
 router.post('/add-product', imgUpload, async (req, res, next) => {
-    // Object destructuring
+
     const { productName } = req.body;
 
-    var specsArr = [
-        {
-            "specName": req.body.specName,
-            "specValue": req.body.specValue,
+    var specsArr = [{
+        "specName": req.body.specName,
+        "specValue": req.body.specValue,
 
-        },
-    ];
+    },];
 
     try {
         const productExists = await Products.findOne({ productName: productName })
 
         if (productExists) {
             res.send('A Product with the same name Already Exists. Try editting the same product or adding a new one!')
-            // res.render('./admin/category/add', { catImage: allCatImages, categoryData: doc, userType: req.session.type, userName: req.session.name })
-
-        }
-        else {
+        } else {
 
             var rawSS = req.files.images;
             var imageArr = [];
@@ -131,25 +119,22 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
                 });
             }
 
-
             var specificationsArr = [];
             var a = specsArr[0]["specName"].length
-
-            console.log(a);
 
             for (var i = 0; i < a; i++) {
                 specificationsArr.push({
                     specName: specsArr[0]["specName"][i],
                     specValue: specsArr[0]["specValue"][i],
-
                 })
             }
             console.log(specificationsArr)
+
             var prodStatus;
+
             if (req.body.hasVariant) {
                 prodStatus = "Pending"
-            }
-            else {
+            } else {
                 prodStatus = "Incomplete"
             }
 
@@ -169,23 +154,15 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
                 quantity: req.body.quantity,
                 hasVariant: req.body.hasVariant,
                 status: prodStatus,
-
             })
-
-
             await productData.save();
         }
         res.redirect('/seller/products/?status=Pending')
-        // res.redirect('/seller/products/variant/add-variant');
-
     } catch (err) {
         console.log("Error Occurred while adding product to Database");
         console.log(err)
     }
-
 });
-
-
 
 router.get("/edit-product/(:id)", checkAuth, (req, res) => {
     const allImages = Products.find().select("images")
@@ -196,39 +173,31 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
                 Category.find().select("catName sub_category variant")
                     .exec()
                     .then(docs => {
-
                         res.render('./seller/products/edit-product', { images: allImages, catData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
-
                     })
             } else {
                 res.send('try-again')
             }
-
         })
 });
-
 
 router.post("/edit-product/:productID", imgUpload, (req, res) => {
     const id = req.params.productID
 
-    var specsArr = [
-        {
-            "specName": req.body.specName,
-            "specValue": req.body.specValue,
+    var specsArr = [{
+        "specName": req.body.specName,
+        "specValue": req.body.specValue,
 
-        },
-    ];
+    },];
 
     Products.findById(id, (err, doc) => {
         if (!err) {
-
             var imageArr = [];
             doc.images.forEach((element) => {
                 imageArr.push(element).toString();
             });
-
             var rawSS = req.files.images;
-            if (rawSS) {            //Check if image is selected in choose image field and push it in array
+            if (rawSS) {
                 rawSS.forEach((element) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
@@ -239,26 +208,21 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
         var specificationsArr = [];
         var a = specsArr[0]["specName"].length
 
-        console.log(a);
-
         for (var i = 0; i < a; i++) {
             specificationsArr.push({
                 specName: specsArr[0]["specName"][i],
                 specValue: specsArr[0]["specValue"][i],
-
             })
         }
 
         var prodStatus;
-  
+
         if (req.body.status == "Pending") {
-           // console.log("status pending")
             prodStatus = "Pending";
-        } else if(req.body.status == "Incomplete") {
-           // console.log("Incomplete")
+        } else if (req.body.status == "Incomplete") {
             prodStatus = "Incomplete";
         }
-      
+
         Products.findByIdAndUpdate({ _id: id }, {
             $set: {
                 images: imageArr,
@@ -290,22 +254,18 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
     });
 });
 
-
 router.get("/delete-product/(:id)", (req, res, next) => {
     Products.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
             doc.images.forEach(element => {
                 fs.unlinkSync("\public" + element)
-            }
-            );
-
+            });
             res.redirect('/seller/products');
         } else {
             res.send("Error Occurred. Please try again!")
         }
     })
 });
-
 
 router.get("/delete-image/(:id)/(:a)", (req, res, next) => {
     console.log('Delete')

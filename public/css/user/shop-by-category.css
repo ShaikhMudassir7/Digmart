@@ -1,5 +1,14 @@
 :root {
     --bg-dark: #1e686dfa;
+
+    --fs-025: .25rem;
+    --fs-050: .5rem;
+    --fs-075: .75rem;
+    --fs-085: .85rem;
+    --fs-100: 1rem;
+    --fs-110: 1.1rem;
+    --fs-125: 1.25rem;
+    --fs-150: 1.5rem;
 }
 
 body {
@@ -8,6 +17,13 @@ body {
     padding: 0;
     min-height: 100vh;
     transition: all 0.3s;
+}
+
+.form-select,
+.form-select:focus {
+    color: dimgray;
+    border-color: #ced4da;
+    box-shadow: none
 }
 
 /* NAVBAR */
@@ -113,54 +129,77 @@ body {
     transform: scale(1.1);
 }
 
-.search-control {
-    align-items: center;
-    justify-content: center;
+
+
+
+
+
+
+
+
+
+.card {
+    border: none;
 }
-
-.search-control .form-control {
-    width: 35vw;
-    border-radius: 10px 0px 0px 10px;
-    min-width: 200px;
-}
-
-.search-control .btn {
-    border-radius: 0px 10px 10px 0px;
-}
-
-
-
-
-
-
-
-
-
 
 /* PRODUCTS CARD NAV */
-.navbar-collapse.collapsing,
-.navbar-collapse.show {
-    padding-top: 1rem;
+.nav-tabs {
+    border-bottom: 3px solid #dee2e6;
 }
 
-.nav-pills .nav-link {
-    background: 0 0;
-    border: 0;
-    border-radius: .25rem;
+.nav-tabs .nav-link {
+    margin-bottom: -3px;
+    border: none;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    background-color: #fff;
+    border: 3px solid;
+    border-color: transparent transparent var(--bg-dark);
+    
+}
+
+#nav-tab .nav-link {
     color: var(--bg-dark);
 }
 
-.nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
-    color: #fff;
-    background-color: var(--bg-dark)
+/* PRODUCT */
+#searchDiv i{
+    color: dimgray;
+}
+#searchDiv input{
+    color: dimgray;
+    border: none;
+    padding: .375rem .75rem .375rem 0;
 }
 
+#searchDiv input:focus{
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
 
-/* PRODUCT */
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #ced4da
+}
+
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #ced4da;
+    border-color: #ced4da
+}
+
+.btn-check:focus+.btn-outline-secondary,
+.btn-outline-secondary:focus {
+    box-shadow: none
+}
+
 .pro {
-    min-width: 150px;
-    min-height: 350px;
+    min-width: 175px;
+    max-width: 300px;
+    height: 350px;
     padding-bottom: 0.75rem;
     border: 1px solid #c7e6cb;
     background-color: rgb(245, 245, 245);
@@ -193,23 +232,11 @@ body {
     line-height: 1.1;
 }
 
-.disc {
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #0b8f46;
-    padding-left: 0.7rem;
-}
-
-.pro .imgDiv:hover .fa-heart {
-    position: absolute;
-    top: 10px;
-}
-
 .pro .imgDiv .fa-heart {
     position: absolute;
-    top: -50px;
+    top: 10px;
     right: 0.7rem;
-    font-size: 25px;
+    font-size: 1.5rem;
     color: rgb(212, 209, 209);
     transition: all 0.5s;
 }
@@ -229,35 +256,35 @@ body {
     object-fit: contain;
 }
 
-.pro .des .rating {
-    font-size: 0.8rem;
-    color: #808719;
+.pro .des .prodCat {
+    font-size: var(--fs-075);
+    color: dimgray;
 }
 
-.pro .des h6 {
+.pro .des .prodName {
     font-weight: bold;
+    font-size: var(--fs-100);
     margin-bottom: 0.2rem;
 }
 
-.pro .des .category {
-    font-size: 0.8rem;
-    color: dimgray;
+.pro .des .rating {
+    font-size: var(--fs-085);
+    color: #808719;
 }
 
 .prodPrice {
     font-family: sans-serif;
-    margin-top: 0.25rem;
     color: rgb(39, 168, 168);
-    font-size: 1.15rem;
+    font-size: var(--fs-110);
     font-weight: bold;
     display: inline;
 }
 
 .discPrice {
     font-family: sans-serif;
-    font-size: 0.78rem;
-    margin-top: 0.25rem;
+    font-size: .75rem;
     display: inline;
+    text-decoration: line-through;
 }
 
 .pro .cart,
@@ -284,6 +311,17 @@ body {
     transition: ease 0.4s;
 }
 
+.page-item.active .page-link {
+    z-index: 3;
+    color: var(--bg-dark);
+    background-color:  #1e686d60;
+    border-color: var(--bg-dark)
+}
+
+.page-item .page-link {
+    color: var(--bg-dark);
+}
+
 
 
 
@@ -300,4 +338,23 @@ body {
 
 #footer a:hover {
     text-decoration: underline;
+}
+
+
+
+@media screen and (max-width: 431px) {
+    :root {
+        --fs-025: .2rem;
+        --fs-050: .4rem;
+        --fs-075: .7rem;
+        --fs-085: .75rem;
+        --fs-100: 0.9rem;
+        --fs-110: 1rem;
+        --fs-125: 1.1rem;
+        --fs-150: 1.35rem;
+    }
+
+    .card-body {
+        padding: 0.1rem;
+    }
 }
