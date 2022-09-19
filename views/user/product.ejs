@@ -1,290 +1,335 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-    <!-- for responsivness  -->
-      <meta charset="UTF-8">
-      <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
-      <!--Bootstrap css-->
-      <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
-    <link href="/css/master.css" rel="stylesheet">
-      <!--fontawesome css-->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      
-      <!--for product slide on small section-->
-      <style>
-        /* Extra small devices (phones, 600px and down) */
-  @media only screen and (max-width: 600px) {
-  .small-device {display: none;}
-  }
-    </style>
-      <!-- title of the page -->
-      <title>Product Page</title>
-  </head>
-  <body>
-    <!-- header part for product image and price  -->
-    <header class="container">
-      <!--visible for large screen-->
-      <div class="large-screen">
+<html lang="en">
+
+<head>
+  <!-- for responsivness  -->
+  <meta charset="UTF-8">
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
+  <!--Bootstrap css-->
+  <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+  <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+  <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
+  <link href="/css/master.css" rel="stylesheet">
+  <!--fontawesome css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!--for product slide on small section-->
+  <style>
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: 600px) {
+      .small-device {
+        display: none;
+      }
+    }
+  </style>
+  <!-- title of the page -->
+  <title>Product Page</title>
+</head>
+
+<body>
+  <!-- header part for product image and price  -->
+  <header class="container">
+    <!--visible for large screen-->
+    <div class="large-screen">
       <div class="container large-screen">
         <div class="row g-4">
 
           <!--Carousel Slide-->
           <div class="col-md-6">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-              <!-- <div class="carousel-indicators">
-                <img src="assets/Product/images/red.jpg" data-bs-target="#carouselExampleIndicators" style="width: 200px;height: 200px;" data-bs-slide-to="0" class="active" style="width: 200px;" aria-current="true" aria-label="Slide 1"></button>
-                <img type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <img type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              </div> -->
               <div class="carousel-inner">
                 <div class="carousel-item active">
                   <img src="<%=productData.images[0]%>" class="img-fluid rounded-start" alt="...">
                 </div>
                 <% for (let a=1; a < productData.images.length; a++){ %>
-                <div class="carousel-item">
-                  <img src="<%=productData.images[a]%>" class="img-fluid rounded-start" alt="...">
-                </div>
-                <%}%>
+                  <div class="carousel-item">
+                    <img src="<%=productData.images[a]%>" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <%}%>
               </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <h3><span style="background: rgb(250, 204, 0); color:indigo" class="carousel-control-prev-icon" aria-hidden="true">«</span></h3>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <h3><span style="background: rgb(250, 204, 0); color:indigo" class="carousel-control-prev-icon"
+                    aria-hidden="true">«</span></h3>
                 <span class="visually-hidden">Previous</span>
               </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span style="background: rgb(250, 204, 0); color:indigo" class="carousel-control-next-icon" aria-hidden="true"><h3>»</h3></span>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span style="background: rgb(250, 204, 0); color:indigo" class="carousel-control-next-icon"
+                  aria-hidden="true">
+                  <h3>»</h3>
+                </span>
                 <span class="visually-hidden">Next</span>
               </button>
             </div>
-              <div class="container">
-                <div class="row">
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <img src="<%=variantData.images[0]%>" width="100%" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide-to="0" class="active img-fluid img-thumbnail" aria-current="true"
+                    aria-label="Slide 0">
+                </div>
+                <% for (let b=1; b < variantData.images.length; b++){ %>
                   <div class="col">
-                    <img src="<%=productData.images[0]%>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active img-fluid img-thumbnail" aria-current="true" aria-label="Slide 0">
-                  </div>
-                  <% for (let b=1; b < productData.images.length; b++){ %>
-                  <div class="col">
-                    <img src="<%= productData.images[b]%>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>" class="img-fluid img-thumbnail" aria-current="true" aria-label="Slide <%=b%>">
+                    <img src="<%= variantData.images[b]%>" width="100%" data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide-to="<%=b%>" class="img-fluid img-thumbnail" aria-current="true"
+                      aria-label="Slide <%=b%>">
                   </div>
                   <%}%>
-                </div>
               </div>
+            </div>
           </div>
           <!-- Info Text -->
           <div class="col-md-6">
             <div class="card-body">
-              <h1 class="card-title"><%=productData.productName %></h1>
-          
-              <p class="card-text text-black-50"><span class="btn btn-success"><i class="fa fa-star"> 4.2</i></span> 2,47,770 Ratings & 24,853 Reviews</p>
-              
-              <% if(productData.discount == null){%>
-              <p class="card-text fs-2">₹ <%=productData.actualPrice%></p>
-              <%} else{%>
-              <p class="card-text fs-2 text-dark"><strong> ₹ <%=productData.finalPrice%>  </strong><strike><span class="fs-6 text-black-50">₹ <%=productData.actualPrice%></span></strike><span class="text-success fs-6"> <%=productData.discount%>% off</span></p>
-              
-              <%}%>
-              <p class="card-text"><small class="text-muted">include of all taxes</small></p>
-  
-              <!--size chart-->
-              <strong>Size Chart</strong><br><br>
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="">
-                <label class="btn btn-outline-warning" for="btnradio1">Size 9</label>
-              
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                <label class="btn btn-outline-warning" for="btnradio2">Size 10</label>
-              
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                <label class="btn btn-outline-warning" for="btnradio3">Size 11</label>
-              </div><br><br>
-  
-              <!--color chart-->
-              <strong>Color</strong><br>
-              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                <% if(variantsData.length!=0) { var i=0;
-                  variantsData.forEach(function(data){ %>
-                <button type="button" class="btn btn-warning"> </button>
-                <% })} %>
-              </div><br><br>
-              <div>
-                  <a href="/cart/add-ato-cart/<%= productData._id%>/<%=productData.sellerID%>/" class="btn btn-lg" style="background: rgb(94, 45, 129);color: white;">ADD TO BAG</a>
-                  <a href="/wishlist/add-to-wishlist/<%= productData._id%>/<%=productData.sellerID%>/" class="btn btn-primary btn-lg" style="background: rgb(43, 17, 78);color: white;">WISHLIST</a>
-                </div>
-              </div>
+              <h1 class="card-title">
+                <%=productData.productName %>
+              </h1>
+
+              <p class="card-text text-black-50"><span class="btn btn-success"><i class="fa fa-star"> 4.2</i></span>
+                2,47,770 Ratings & 24,853 Reviews</p>
+                
+              <% if(variantData.sizes[0].discount==null){%>
+                <p class="card-text fs-2">₹ <%=variantData.sizes[0].actualPrice%>
+                </p>
+                <%} else{%>
+                  <p class="card-text fs-2 text-dark mb-0"><strong> ₹ <%=variantData.sizes[0].finalPrice%> </strong><span
+                        class="fs-6 text-black-20"><strike>₹ <%=variantData.sizes[0].actualPrice%></span></strike><span
+                      class="text-success fs-5">
+                      <%=variantData.sizes[0].discount%>% off
+                    </span></p>
+                  <%}%>
+                    <p class="card-text "><small class="text-muted">include of all taxes</small></p>
+
+                     <!--color chart-->
+                     <strong>Color</strong><br>
+                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                       <% if(variantsData.length!=0) { variantsData.forEach(function(data){ %>
+                         <button type="button" id="<%=data.colours %>"
+                           onclick="window.location.href='/product/variant/<%=data.prodID %>/<%=data.colours %>'"
+                           name="<%=data.colours %>"
+                           style="padding-left: 20px; padding-top: 15px; padding-right: 20px; padding-bottom: 15px; background-color: <%=data.colours %> ;"
+                           class="btn border border-dark active"></button>
+                         <% })} %>
+                     </div><br>
+
+                    <!--size chart-->
+                    <strong>Size Chart</strong><br>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                      <% for (let i in variantData.sizes){ %>
+                        <input type="radio" class="btn-check" name="btnradio" id="<%=variantData.sizes[i].sizes%>" autocomplete="off">
+                        <label class="btn btn-outline-warning" for="btnradio1">
+                          <%=variantData.sizes[i].sizes %>
+                        </label>
+                        <% }%>
+                    </div><br><br>
+
+
+                   
+                    <div>
+                      <a href="/cart/add-ato-cart/<%= productData._id%>/<%=productData.sellerID%>/" class="btn btn-lg"
+                        style="background: rgb(94, 45, 129);color: white;">ADD TO BAG</a>
+                      <a href="/wishlist/add-to-wishlist/<%= productData._id%>/<%=productData.sellerID%>/"
+                        class="btn btn-primary btn-lg" style="background: rgb(43, 17, 78);color: white;">WISHLIST</a>
+                    </div>
             </div>
           </div>
         </div>
       </div>
-  
-  
-  
-      <div class="small-screen">
-  
-      </div>
-  
-  <!--
-    description & Rating section 
-    * date: 6/7/22 
-    * component: Accordion 
-  --> 
-      <section>
-        <div class="container text-center">
-          <div class="card-body">
-            <div class="row">
-              
-              <div class="col">
-                
-  <br><br>
-                <div class="card">
-                  <div class="card-header">
-                    Review and Ratings
+    </div>
+
+    <div class="small-screen">
+    </div>
+    <section>
+      <div class="container text-center">
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col">
+
+              <br><br>
+              <div class="card">
+                <div class="card-header">
+                  Review and Ratings
+                </div>
+                <div class="card-body">
+
+                  <div class="input-group">
+                    <div class="row">
+                      <div class="col-12 col-md-8">
+                        <h3>Rating <span class="btn btn-success"><i class="fa fa-star"></i> 4.2</span></h3>
+                        <p class="card-text text-black-50"> 2,47,770 Ratings & 24,853 Reviews</p>
+                      </div>
+                      <div class="col-6 col-md-4 text-right"><button type="button"
+                          class="btn fs-6 text-nowrap btn-outline-success" data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop">Rate Product</button></div>
+                    </div>
                   </div>
-                  <div class="card-body">
-                    
-                    <div class="input-group">
-                      <div class="row">
-                        <div class="col-12 col-md-8">
-                          <h3>Rating <span class="btn btn-success"><i class="fa fa-star"></i> 4.2</span></h3>
-                          <p class="card-text text-black-50"> 2,47,770 Ratings & 24,853 Reviews</p></div>
-                        <div class="col-6 col-md-4 text-right"><button type="button" class="btn fs-6 text-nowrap btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Rate Product</button></div>
+                  <!-- Modal -->
+                  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="btnradio1"><i class="fa fa-star"></i> 1</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="btnradio2"><i class="fa fa-star"></i> 2</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                            <label class="btn btn-outline-warning" for="btnradio3"><i class="fa fa-star"></i> 3</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="btnradio1"><i class="fa fa-star"></i> 4</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                            <label class="btn btn-outline-success" for="btnradio2"><i class="fa fa-star"></i> 5</label>
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1"
+                              placeholder="DigMart User">
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Review & Feedback</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Understood</button>
+                        </div>
                       </div>
                     </div>
-                    <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-          <label class="btn btn-outline-danger" for="btnradio1"><i class="fa fa-star"></i> 1</label>
-        
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-          <label class="btn btn-outline-danger" for="btnradio2"><i class="fa fa-star"></i> 2</label>
-        
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-          <label class="btn btn-outline-warning" for="btnradio3"><i class="fa fa-star"></i> 3</label>
+                  </div>
+                  <br><br>
+                  <table class="table text-muted">
+                    <div class="card-header">
+                      Reviews & Images
+                    </div><br>
+                    <div class="row">
+                      <img
+                        src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg"
+                        style="width: 100px;" class="img-fluid img-thumbnail">
+                      <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg"
+                        style="width: 100px;" class="img-fluid img-thumbnail">
+                      <img
+                        src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg"
+                        style="width: 100px;" class="img-fluid img-thumbnail">
+                      <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg"
+                        style="width: 100px;" class="img-fluid img-thumbnail">
+                    </div>
+                    <br>
+                    <hr>
+                    <tbody>
+                      <tr>
+                        <td><span class="btn btn-success" style="font-size:10px;"><i class="fa fa-star"></i> 5</span>
+                        </td>
+                        <td>Why this is a good choice ?
+                          - The price, no other true wireless comes in this range
+                          - True wireless, if you are annoyed using these nasty wired earphones
+                          - Build Quality, Matte finish on both case and ear buds
+                          - Touch Control, yes this is very nice to have at this price point. No more uncomfortable
+                          buttons on earbuds.
+                          - And last sound is also okay, don’t expect anything high. These gets the job done. Pretty
+                          happy with its sound.
 
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-          <label class="btn btn-outline-success" for="btnradio1"><i class="fa fa-star"></i> 4</label>
-        
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-          <label class="btn btn-outline-success" for="btnradio2"><i class="fa fa-star"></i> 5</label>
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Name</label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="DigMart User">
-        </div>
-        <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label">Review & Feedback</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
-      </div>
-    </div>
-  </div>
-</div>
-      <br><br>
-                    <table class="table text-muted">
-                      <div class="card-header">
-                        Reviews & Images
-                      </div><br>
-                      <div class="row">
-                          <img src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
-                          <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
-                          <img src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
-                          <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
-                        </div>
-                        <br>
-                        <hr>
-                      <tbody>
-                        <tr>
-                          <td><span class="btn btn-success" style="font-size:10px;"><i class="fa fa-star" ></i> 5</span></td>
-                          <td>Why this is a good choice ?
-                            - The price, no other true wireless comes in this range
-                            - True wireless, if you are annoyed using these nasty wired earphones
-                            - Build Quality, Matte finish on both case and ear buds
-                            - Touch Control, yes this is very nice to have at this price point. No more uncomfortable buttons on earbuds.
-                            - And last sound is also okay, don’t expect anything high. These gets the job done. Pretty happy with its sound.
-
-                            <hr><img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
-                            <img src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg" style="width: 100px;" class="img-fluid img-thumbnail">
-                            <br><br>
-                            <div class="card-footer text-muted">
-                              <div class="card-text text-black-50"> <span class="text-left"> Shaikh Mudassr </span> <span class="text-right">
+                          <hr><img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg"
+                            style="width: 100px;" class="img-fluid img-thumbnail">
+                          <img
+                            src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg"
+                            style="width: 100px;" class="img-fluid img-thumbnail">
+                          <br><br>
+                          <div class="card-footer text-muted">
+                            <div class="card-text text-black-50"> <span class="text-left"> Shaikh Mudassr </span> <span
+                                class="text-right">
                                 : Verified Seller</span></div>
-                            </div>
-                            </td>
-                        </tr>
-                        <tr>
-                          <td><span class="btn btn-danger" style="font-size:10px;"><i class="fa fa-star" ></i> 1</span></td>
-                          <td>Worst product ever!!! Waste of money!!! Like seriously...I bought this only two months ago and suddenly the left ear airdope stopped working and right one stopped being charged like I don't understand it didn't fell or slipped from me and broke or something...it was perfectly fine but now it doesn't even work. 
-                            <div class="card-footer text-muted">
-                              <div class="card-text text-black-50"> <span class="text-left"> Digon User </span> <span class="text-right">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><span class="btn btn-danger" style="font-size:10px;"><i class="fa fa-star"></i> 1</span>
+                        </td>
+                        <td>Worst product ever!!! Waste of money!!! Like seriously...I bought this only two months ago
+                          and suddenly the left ear airdope stopped working and right one stopped being charged like I
+                          don't understand it didn't fell or slipped from me and broke or something...it was perfectly
+                          fine but now it doesn't even work.
+                          <div class="card-footer text-muted">
+                            <div class="card-text text-black-50"> <span class="text-left"> Digon User </span> <span
+                                class="text-right">
                                 : Verified Buyer</span></div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    
-                  </div>
-                  <div class="card-footer text-muted">
-                   Only Verified Buyers can rate*
-                  </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="card-footer text-muted">
+                  Only Verified Buyers can rate*
                 </div>
               </div>
-            
-              <div class="col">
-                <div class="accordion" id="accordionExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                       <b><h5> Product Details</h5> </b>
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>Product Description: </strong><br> 
-                          Product Description
-                          <%=productData.description%>
-                        <!-- <strong><code data-bs-toggle="modal" data-bs-target="#staticBackdrop">View More</code></strong>   -->
-                        <br><br>
+            </div>
+
+            <div class="col">
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <b>
+                        <h5> Product Details</h5>
+                      </b>
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <strong>Product Description: </strong><br>
+                      Product Description
+                      <%=productData.description%><br><br>
                         <table class="table table-light table-striped">
-                          <!-- <thead>
-                            <tr>
-                              <th scope="col">Name</th>
-                              <th scope="col">Description</th>
-                            </tr>
-                          </thead> -->
+
                           <tbody>
                             <tr>
                               <th scope="row">Product Type</th>
-                              <td class="text-muted"><%= productData.category %></td>                            
+                              <td class="text-muted">
+                                <%= productData.category %>
+                              </td>
                             </tr>
                             <tr>
                               <th scope="row">Sizes</th>
-                              <td class="text-muted"><%=productData.sizes%></td>                        
+                              <td class="text-muted">
+                                <%=productData.sizes%>
+                              </td>
                             </tr>
                             <tr>
                               <th scope="row">Colours</th>
-                              <td class="text-muted"><%=productData.colours%></td>
+                              <td class="text-muted">
+                                <%=productData.colours%>
+                              </td>
                             </tr>
                             <tr>
                               <th scope="row">Stock</th>
-                              <td class="text-muted"><%=productData.quantity%></td>                            
+                              <td class="text-muted">
+                                <%=productData.quantity%>
+                              </td>
                             </tr>
                             <tr>
                               <th scope="row">Brand</th>
-                              <td class="text-muted"><%=productData.brand%></td>                        
+                              <td class="text-muted">
+                                <%=productData.brand%>
+                              </td>
                             </tr>
                             <tr>
                               <th scope="row">Return</th>
@@ -292,266 +337,205 @@
                             </tr>
                             <tr>
                               <th scope="row">Country of Origin</th>
-                              <td class="text-muted">India</td>                        
+                              <td class="text-muted">India</td>
                             </tr>
                           </tbody>
-                        </table><strong>Product Code:</strong><br><span class="text-muted"><%=productData._id%></span><br>
-                        <!-- <br><strong>Manufacturer Details:</strong><br><span class="text-muted">
-                          <table class="table table-light table-striped">
-                            <tbody>
-                              <tr>
-                                <th scope="row">Manufacturer and Packer details </th>
-                                <td class="text-muted">Adidas India Marketing Private Ltd. Office no.6, 2nd Floor, Sector-B, Pocket-7, Plot no-11, Vasant Kunj, New Delhi-110070</td>                            
-                              </tr>
-                              </tbody>
-                              </table>
-                        </span> --><br><br></div> 
+                        </table><strong>Product Code:</strong><br><span class="text-muted">
+                          <%=productData._id%>
+                        </span><br>
+                        <br><br>
                     </div>
                   </div>
-                  <!-- <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <b><h5>From Manufacturer</h5></b>
-                      </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" >
-                      <div class="accordion-body">
-                        <img src="assets/Product/images/banner/3.jpg" class="img-fluid img-thumbnail">
-                        <img src="assets/Product/images/banner/2.jpg" class="img-fluid img-thumbnail">
-                        <img src="assets/Product/images/banner/1.jpg" class="img-fluid img-thumbnail">
-                      </div>
-                    </div>
-                  </div> -->
-                  <!-- <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        <b><h5>About Brand</h5> </b>
-                      </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" >
-                      <div class="accordion-body">
-                        <strong><%=productData.brand%>:</strong> <br>Adidas is a German multinational corporation that designs &amp; manufactures sports clothing &amp; accessories based in Herzogenaurach, Germany. It was founded in 1948 by Adolf Dassler. Adidas manufactures products for several sports activity like football, Golf, Tennis, Cricket, Basketball, Rugby, Gymnastics, Skateboarding, Baseball, Hockey etc. Besides catering other sports accessories like Slide-style sandals, watches, eyewear, bags, baseball caps &amp; socks. As well as branded range of male &amp; female deodrants, perfumes, aftershave &amp; lotions. You can reach out to Brand at: 1-800-419-0671 or consumerfeedback@cavinkare.com. Marketed By / Distributed By - Adidas India Marketing Pvt Ltd, Address - Office No. 6, 2nd Floor, Sec-b, Pocket No. 7, Plot no.11, Vasant Kunj, Delhi -110070, Email:Care@adidas.com                    </div>
-                    </div>
-                  </div> -->
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-  
-      <!--Product Section-->
-      <section>
-        <b><h5>People Also Viewed</h5> </b>
-        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-          <!-- <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-           </div> --> <!--commented indicator to not being displayed-->
-  
-          <!--First slide of carousel-->
-          <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="10000">
-              <div class="row row-cols- row-cols-md- g-">
-               
-                <div class="col">
-                  <div class="card h-100">
-                    <img src="assets/Product/images/slide/1.jpeg" class="card-img-top h-50" alt="...">
-                    <div class="card-body ">
-                      <h6 class="card-title">data.productName</h6>
-                      <h6 class="card-title">data.finalPrice</h6>
-                      <p class="card-text">This is a wider card with supporting ...</p>
-                    </div>
-                    <div class="card-footer">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
+      </div>
+    </section>
+
+    <!--Product Section-->
+    <section>
+      <b>
+        <h5>People Also Viewed</h5>
+      </b>
+      <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+        <!--First slide of carousel-->
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="10000">
+            <div class="row row-cols- row-cols-md- g-">
+
+              <div class="col">
+                <div class="card h-100">
+                  <img src="" class="card-img-top h-50" alt="...">
+                  <div class="card-body ">
+                    <h6 class="card-title">data.productName</h6>
+                    <h6 class="card-title">data.finalPrice</h6>
+                    <p class="card-text">This is a wider card with supporting ...</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
                   </div>
                 </div>
-               
-                <div class="col">
-                  <div class="card h-100">
-                    <img src="assets/Product/images/slide/2.jpg" class="card-img-top h-50" alt="...">
-                    <div class="card-body">
-                      <h6 class="card-title">Card title</h6>
-                      <p class="card-text">This card has supporting text below ...</p>
-                    </div>
-                    <div class="card-footer">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
+              </div>
+
+              <div class="col">
+                <div class="card h-100">
+                  <img src="assets/Product/images/slide/2.jpg" class="card-img-top h-50" alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This card has supporting text below ...</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
                   </div>
                 </div>
-                <div class="col small-device">
-                  <div class="card h-100  ">
-                    <img src="assets/Product/images/slide/3.jfif" class="card-img-top " alt="...">
-                    <div class="card-body">
-                      <h6 class="card-title">Card title</h6>
-                      <p class="card-text">This is a wider card with supporting ...</p>
-                    </div>
-                    <div class="card-footer">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
+              </div>
+              <div class="col small-device">
+                <div class="card h-100  ">
+                  <img src="assets/Product/images/slide/3.jfif" class="card-img-top " alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This is a wider card with supporting ...</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
                   </div>
                 </div>
               </div>
             </div>
-  
-  <!--second slide of carousel-->
-            <div class="carousel-item" data-bs-interval="2000">
-              <div class="row row-cols- row-cols-md- g-">
-    <div class="col">
-      <div class="card h-100">
-        <img src="assets/Product/images/slide/4.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h6 class="card-title">Card title</h6>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additi...</p>
+          </div>
+
+          <!--second slide of carousel-->
+          <div class="carousel-item" data-bs-interval="2000">
+            <div class="row row-cols- row-cols-md- g-">
+              <div class="col">
+                <div class="card h-100">
+                  <img src="assets/Product/images/slide/4.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                      additi...</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                  <img src="assets/Product/images/slide/5.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col small-device">
+                <div class="card h-100 ">
+                  <img src="assets/Product/images/slide/6.jfif" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                      additio...</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- third slide of items -->
+          <div class="carousel-item">
+            <div class="row row-cols- row-cols-md- g-">
+              <div class="col">
+                <div class="card h-100">
+                  <img src="assets/Product/images/slide/7.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in ...</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                  <img src="assets/Product/images/slide/8.jfif" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col small-device">
+                <div class="card h-100 ">
+                  <img src="assets/Product/images/slide/9.webp" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h6 class="card-title">Card title</h6>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                      addit...</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="assets/Product/images/slide/5.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h6 class="card-title">Card title</h6>
-          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+    </section>
+  </header>
+  <br><br>
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="staticBackdropLabel">Product Description</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
+        <div class="modal-body text-muted">
+          <h5>
+            <%=productData.description%>
+          </h5>
         </div>
-      </div>
-    </div>
-    <div class="col small-device">
-      <div class="card h-100 ">
-        <img src="assets/Product/images/slide/6.jfif" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h6 class="card-title">Card title</h6>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additio...</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Okay</button>
         </div>
       </div>
     </div>
   </div>
-            </div>
-  
-            <!-- third slide of items -->
-            <div class="carousel-item">
-              <div class="row row-cols- row-cols-md- g-">
-                <div class="col">
-                  <div class="card h-100">
-                    <img src="assets/Product/images/slide/7.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h6 class="card-title">Card title</h6>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in ...</p>
-                    </div>
-                    <div class="card-footer">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card h-100">
-                    <img src="assets/Product/images/slide/8.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h6 class="card-title">Card title</h6>
-                      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                    <div class="card-footer">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="col small-device">
-                  <div class="card h-100 ">
-                    <img src="assets/Product/images/slide/9.webp" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h6 class="card-title">Card title</h6>
-                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to addit...</p>
-                    </div>
-                    <div class="card-footer">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </section>
-  
-    </header>
-  
-    <!-- <main class="container">
-  
-      <session>
-        <nav id="navbar-example2" class="navbar bg-light px-3">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <ul class="nav nav-pills">
-            <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading1">First</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading2">Second</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#scrollspyHeading3">Third</a></li>
-                <li><a class="dropdown-item" href="#scrollspyHeading4">Fourth</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#scrollspyHeading5">Fifth</a></li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-        <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-          <h4 id="scrollspyHeading1">First heading</h4>
-          <p>...</p>
-          <h4 id="scrollspyHeading2">Second heading</h4>
-          <p>...</p>
-          <h4 id="scrollspyHeading3">Third heading</h4>
-          <p>...</p>
-          <h4 id="scrollspyHeading4">Fourth heading</h4>
-          <p>...</p>
-          <h4 id="scrollspyHeading5">Fifth heading</h4>
-          <p>...</p>
-        </div>
-      </session>
-  
-    </main> -->
-    <br><br>
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="staticBackdropLabel">Product Description</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-muted">
-            <h5><%=productData.description%>
-          </h5></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Okay</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/datatables/datatables.min.js"></script>
-    <script src="/js/initiate-datatables.js"></script>
-    <script src="/js/script.js"></script>
-  </body></html>
+
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/datatables/datatables.min.js"></script>
+  <script src="/js/initiate-datatables.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/user/product/product.js"></script>
+</body>
+
+</html>
