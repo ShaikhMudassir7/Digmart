@@ -124,3 +124,4 @@ function timer(remaining) {
         mobResend.classList.add('timer-active')
     }
 }
+
