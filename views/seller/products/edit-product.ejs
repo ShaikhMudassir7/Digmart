@@ -76,7 +76,8 @@
                                                     <div class="mb-3 col-md-6">
                                                         <label for="category" class="form-label">Category</label>
                                                         <select name="category" class="form-select" id="category"
-                                                            onchange="populate(this.id, 'subcategory')" required>
+                                                            onchange="populate(this.id, 'subcategory')" required
+                                                            disabled>
                                                             <option value="">
                                                                 ---Choose Category---
                                                             </option>
@@ -129,10 +130,6 @@
                                                     </div>
                                                 </div>
 
-
-
-
-
                                                 <% if(!productData.hasVariant){%>
 
                                                     <div class="row g-2">
@@ -145,46 +142,33 @@
                                                     <div class="row g-2">
                                                         <% for (let a=0; a < productData.images.length; a++){ %>
                                                             <div class=" col-md-2">
-
                                                                 <div class="item">
-
                                                                     <img src="<%=productData.images[a]%>"
                                                                         style="width: 100%; ">
                                                                     <% if(productData.images.length> 1){ %>
-
                                                                         <a
                                                                             href="/seller/products/delete-image/<%=productData._id%>/<%=a %>">
                                                                             <span
                                                                                 class="btn btn-danger notify-badge fw-bold">X</span>
                                                                         </a>
                                                                         <% } else {%>
-                                                                            <!-- <button type="button" class="notify-badge">
-                                                                            X</button> -->
                                                                             <button type="button"
                                                                                 class="btn btn-danger notify-badge fw-bold"
                                                                                 id="dontDelete" data-bs-toggle="modal"
                                                                                 data-bs-target="#cantDelete"><i
                                                                                     class="fas fa-cancel"></i>X</button>
                                                                             <% } %>
-
                                                                 </div>
-
                                                             </div>
-
                                                             <% } %>
                                                     </div>
 
                                                     <div class="row g-2">
-
                                                         <div class="mb-3 col-md-12">
-
                                                             <% if(productData.images.length!=0){ %>
-
-
                                                                 <label for="productImg" class="form-label">Add More
                                                                     Images</label>
                                                                 <% } %>
-
                                                                     <input type="file" class="form-control"
                                                                         name="images" accept="image/*" id="chooseImage"
                                                                         multiple>
@@ -196,7 +180,6 @@
                                                     </div>
                                                     <% } %>
 
-
                                                         <div class="row g-2">
                                                             <div class="mb-3 col-md-12">
                                                                 <label for="description" class="form-label">Product
@@ -205,7 +188,6 @@
                                                                     name="description"
                                                                     placeholder="e.g. The first Galaxy S with embedded S Pen. Write comfortably like pen on paper, turn quick notes into legible text and use Air Actions to control your phone remotely..."
                                                                     required><%=productData.description %></textarea>
-
                                                             </div>
                                                         </div>
 
@@ -218,8 +200,6 @@
                                                                     <input type="name" class="form-control" name="brand"
                                                                         value="<%=productData.brand %>"
                                                                         placeholder="e.g. Samsung">
-                                                                    <!-- <div class="valid-feedback">Looks good!</div>
-                                                                    <div class="invalid-feedback">Please enter Brand Name.</div> -->
                                                                 </div>
                                                             </div>
 
@@ -237,11 +217,8 @@
                                                                         name="quantity" id="quantity" min="1"
                                                                         value="<%=productData.quantity %>"
                                                                         placeholder="e.g. 50">
-                                                                    <!-- <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please enter Quantity.</div> -->
                                                                 </div>
                                                             </div>
-
                                                             <% } %>
 
                                                                 <hr>
@@ -249,11 +226,8 @@
                                                                 <div class="row g-2">
                                                                     <div class="mb-1 col-md-12 fw-bold">
                                                                         <label for="specName"
-                                                                            class="form-label">ADDITIONAL
-                                                                            SPECIFICATIONS
-                                                                            <span class="text-muted">
-                                                                                (Optional)</span>
-                                                                            :
+                                                                            class="form-label">ADDITIONAL SPECIFICATIONS
+                                                                            <span class="text-muted">(Optional)</span>:
                                                                         </label>
 
                                                                     </div>
@@ -390,9 +364,6 @@
                                                                                     id="finalPrice"
                                                                                     placeholder="Final Price (Auto calculated)"
                                                                                     readonly>
-
-                                                                                <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter Final Price.</div> -->
                                                                             </div>
                                                                         </div>
 
@@ -422,21 +393,13 @@
                                                                                     Cancel</a>
 
 
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary"
-                                                                                    id="submitData"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#staticBackdrop"
-                                                                                    style="float:right"><i
-                                                                                        class="fas fa-save"></i>
-                                                                                    Save Changes</button>
-
-
-
+                                                                                <button type="button" class="btn btn-primary" id="submitData"
+                                                                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                                                    style="float:right"><i class="fas fa-save"></i>
+                                                                                    Save Changes
+                                                                                </button>
                                                                             </div>
                                                                         </div>
-
-
 
                                                                         <!-- Delete Warning Modal -->
                                                                         <div class="modal fade" id="cantDelete"
@@ -471,20 +434,15 @@
                                                                             </div>
                                                                         </div>
 
-
                                                                         <!-- Save changes Warning Modal -->
-                                                                        <div class="modal fade" id="staticBackdrop"
-                                                                            data-bs-backdrop="static"
-                                                                            data-bs-keyboard="false" tabindex="-1"
-                                                                            aria-labelledby="staticBackdropLabel"
+                                                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                                                                             aria-hidden="true">
                                                                             <div class="modal-dialog">
                                                                                 <div class="modal-content">
                                                                                     <div class="modal-header">
-                                                                                        <h5 class="modal-title"
-                                                                                            id="staticBackdropLabel">
-                                                                                            Save
-                                                                                            Changes!
+                                                                                        <h5 class="modal-title" id="staticBackdropLabel">
+                                                                                            Save Changes!
                                                                                         </h5>
                                                                                         <button type="button"
                                                                                             class="btn-close"
@@ -493,13 +451,10 @@
                                                                                     </div>
                                                                                     <div class="modal-body">
                                                                                         Are you sure you want to
-                                                                                        Save
-                                                                                        the
-                                                                                        Changes?
+                                                                                        Save the Changes?
                                                                                     </div>
                                                                                     <div class="modal-footer">
-                                                                                        <button type="button"
-                                                                                            class="btn btn-secondary"
+                                                                                        <button type="button" class="btn btn-secondary"
                                                                                             data-bs-dismiss="modal">Cancel</button>
 
                                                                                         <button type="submit"
@@ -507,10 +462,6 @@
                                                                                             data-bs-dismiss="modal">SAVE
 
                                                                                         </button>
-
-
-
-
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
