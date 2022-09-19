@@ -34,7 +34,7 @@ router.get('/add-category', checkAuth, (req, res) => {
     res.render("./admin/category/add", { userType: req.session.type, userName: req.session.name })
 })
 
-router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
+router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
     const { catName } = req.body;
 
     try {
@@ -46,11 +46,11 @@ router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
         } else {
             var catFile = req.files.catImage[0]
 
-            const imageRef = storage.child("/categories/" + catFile.originalname);
+            const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
 
             imageRef.put(catFile.buffer, { contentType: catFile.mimetype }).then(snapshot => {
 
-                imageRef.getDownloadURL().then(function(url) {
+                imageRef.getDownloadURL().then(function (url) {
                     var categoryData = new Category({
                         _id: mongoose.Types.ObjectId(),
                         catImage: url,
@@ -88,21 +88,32 @@ router.get('/edit-category/:catID', [checkAuth, catUpload], (req, res) => {
         })
 });
 
-router.post("/edit-category/:catID", catUpload, (req, res) => {
+router.post("/edit-category/:catID", [checkAuth, catUpload], async (req, res) => {
     const id = req.params.catID
+
+    var rawSS = req.files.catImage;
+
+    if (rawSS) {
+
+        var category = await Category.findById(id).exec()
+        var imagePath = category.catImage.split("?")
+        var fileRef = firebase.storage().refFromURL(imagePath[0]);
+        var del = await fileRef.delete()
+
+    }
 
     var updatedValue = {}
 
-    if (req.files.catImage && req.files.catImage[0].path) {
-        Category.findById(id, (err, doc) => {
-            if (!err) {
-                console.log(doc.catImage)
-                fs.unlinkSync("\public" + doc.catImage)
+    if (req.files.catImage) {
+        var catFile = req.files.catImage[0]
 
-            }
-        })
+        const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
+
+        var snapshot = await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
+        var url = await imageRef.getDownloadURL()
+
         updatedValue = {
-            catImage: req.files.catImage[0].path.toString().substring(6),
+            catImage: url,
             catName: req.body.catName,
             sub_category: req.body.sub_category,
             variant: req.body.variant
@@ -115,9 +126,9 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
             variant: req.body.variant
         }
     }
-
+    
     Category.findByIdAndUpdate({ _id: id },
-            updatedValue)
+        updatedValue)
         .exec()
         .then(result => {
             console.log(result)
@@ -131,7 +142,7 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
         })
 });
 
-router.get("/delete-category/:delCat", checkAuth, async(req, res, next) => {
+router.get("/delete-category/:delCat", checkAuth, async (req, res, next) => {
     const id = req.params.delCat;
 
     var category = await Category.findByIdAndRemove(id).exec()
@@ -139,7 +150,7 @@ router.get("/delete-category/:delCat", checkAuth, async(req, res, next) => {
     var imagePath = category.catImage.split("?")
     var fileRef = firebase.storage().refFromURL(imagePath[0]);
 
-    fileRef.delete().then(function() {
+    fileRef.delete().then(function () {
         res.redirect('/admin/category')
     })
 });

@@ -206,9 +206,9 @@
                                                                         id="actualPrice" min="1" pattern="[0-9]{1,9}"
                                                                         onblur="calculate('discount', this.value )"
                                                                         placeholder="Eg. 30000" required>
-                                                                    <div class="valid-feedback">Looks good!</div> -->
+                                                                    <div class="invalid-feedback">Invalid Discount
+                                                                    </div>
                                                                 </div>
-
                                                             </div>
 
                                                             <div class="mb-3 col-md-2">
@@ -256,58 +256,114 @@
                                                 <a href="/seller/products/variant/<%=productData._id %>"
                                                     class="btn btn-danger"><i class="fas fa-times"></i>
                                                     Cancel</a>
-                                                <button type="submit" class="btn btn-primary" id="submitVariantData"
-                                                    style="float: right"><i class="fas fa-save"></i> Save Changes
-                                                </button>
-                                            </form>
 
+                                                <button type="button" class="btn btn-primary" id="submitData"
+                                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                    style="float:right"><i class="fas fa-save"></i>
+                                                    Save Changes</button>
+
+                                                <!-- Delete Image Warning Modal -->
+                                                <div class="modal fade" id="cantDelete" data-bs-backdrop="static"
+                                                    data-bs-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="cantDeleteLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="cantDeleteLabel">
+                                                                    Cannot delete image
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                There should be atleast one
+                                                                product image present!
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger"
+                                                                    data-bs-dismiss="modal">OK</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Save changes Warning Modal -->
+                                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                                    data-bs-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="staticBackdropLabel">
+                                                                    Save
+                                                                    Changes!
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to
+                                                                Save
+                                                                the
+                                                                Changes?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Cancel</button>
+
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    data-bs-dismiss="modal">SAVE
+
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-            </div>
-    </div>
 
-    <script src="/vendor/jquery/jquery.min.js"></script>
+                            <script src="/vendor/jquery/jquery.min.js"></script>
 
-    <script>
-        let element = document.getElementById('colours');
-        element.value = '<%=variantData.colours %>';
+                            <script>
+                                let element = document.getElementById('colours');
+                                element.value = '<%=variantData.colours %>';
 
-        let element1 = document.getElementById('sizes');
-        element1.value = '<%=variantData.sizes %>';
+                                let element1 = document.getElementById('sizes');
+                                element1.value = '<%=variantData.sizes %>';
 
-        let chooseImage = document.getElementById("chooseImage")
-        '<% if(variantData.images.length==0){ %>'
-        chooseImage.setAttribute('required', '');
-        '<% } %>'
+                                let chooseImage = document.getElementById("chooseImage")
+                                '<% if(variantData.images.length==0){ %>'
+                                chooseImage.setAttribute('required', '');
+                                '<% } %>'
 
-    </script>
+                            </script>
 
-    <script>
-        $(document).ready(function () {
-            coloursDropdown();
-        });
+                            <script>
+                                $(document).ready(function () {
+                                    coloursDropdown();
+                                });
 
-        function coloursDropdown() {
-            var selectobject = document.getElementById("colours");
-            '<% if(coloursData.length!=0){ var j=1; coloursData.forEach(function(data){ %>'
-            for (var i = 0; i < selectobject.length; i++) {
-                if (selectobject.options[i].value == '<%= data.colours %>')
-                    selectobject.remove(i);
-            }
-            '<% j++; }) } %>'
-        }
+                                function coloursDropdown() {
+                                    var selectobject = document.getElementById("colours");
+                                    '<% if(coloursData.length!=0){ var j=1; coloursData.forEach(function(data){ %>'
+                                    for (var i = 0; i < selectobject.length; i++) {
+                                        if (selectobject.options[i].value == '<%= data.colours %>')
+                                            selectobject.remove(i);
+                                    }
+                                    '<% j++; }) } %>'
+                                }
 
-    </script>
+                            </script>
 
-    <script>
-        function moreItems(counter) {
+                            <script>
+                                function moreItems(counter) {
 
-            var moreItems =
-                `<div class="row g-2" id="itemsRow` + counter + `">
+                                    var moreItems =
+                                        `<div class="row g-2" id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
                         <select name="sizes[]" class="form-select" id="sizes` + counter + `" required>
                             <option value="">
@@ -350,6 +406,7 @@
                             <span class="input-group-text">&#8377;</span>
                             <input type="number" class="form-control" name="finalPrice[]"
                                 id="finalPrice` + counter + `"  placeholder="Final Price" readonly required>
+                        
                         </div>
                     </div>
 
@@ -360,58 +417,58 @@
                     </div>
 
                 </div>`
-            return moreItems;
-        }
+                                    return moreItems;
+                                }
 
-        var counter = 1;
-        $(document).ready(function () {
+                                var counter = 1;
+                                $(document).ready(function () {
 
-            $("#addMoreBtnMain").click(function (e) {
-                e.preventDefault();
-                var appendMoreItems = moreItems(counter);
-                $("#appendItems").append(appendMoreItems);
-                counter++
+                                    $("#addMoreBtnMain").click(function (e) {
+                                        e.preventDefault();
+                                        var appendMoreItems = moreItems(counter);
+                                        $("#appendItems").append(appendMoreItems);
+                                        counter++
 
-                $(document).on('click', '.removeItemsBtn', function (e) {
-                    e.preventDefault();
-                    let row_item = $(this).parent().parent();
-                    $(row_item).remove();
-                })
-            });
-        });
+                                        $(document).on('click', '.removeItemsBtn', function (e) {
+                                            e.preventDefault();
+                                            let row_item = $(this).parent().parent();
+                                            $(row_item).remove();
+                                        })
+                                    });
+                                });
 
-    </script>
+                            </script>
 
-    <script>
-        function calculateMoreFields(val1, val2, counter) {
-            var actualPrice = document.getElementById("actualPrice" + counter).value;
-            var discountPct = document.getElementById("discount" + counter).value;
+                            <script>
+                                function calculateMoreFields(val1, val2, counter) {
+                                    var actualPrice = document.getElementById("actualPrice" + counter).value;
+                                    var discountPct = document.getElementById("discount" + counter).value;
 
-            var total = (actualPrice * discountPct) / 100;
-            finalPrice = actualPrice - total;
+                                    var total = (actualPrice * discountPct) / 100;
+                                    finalPrice = actualPrice - total;
 
-            var finalPriceField = document.getElementById("finalPrice" + counter);
-            finalPriceField.value = finalPrice;
-        }
+                                    var finalPriceField = document.getElementById("finalPrice" + counter);
+                                    finalPriceField.value = finalPrice;
+                                }
 
-        function calculate(val1, val2) {
-            var actualPrice = document.getElementById("actualPrice").value;
-            var discountPct = document.getElementById("discount").value;
+                                function calculate(val1, val2) {
+                                    var actualPrice = document.getElementById("actualPrice").value;
+                                    var discountPct = document.getElementById("discount").value;
 
-            var total = (actualPrice * discountPct) / 100;
-            finalPrice = actualPrice - total;
+                                    var total = (actualPrice * discountPct) / 100;
+                                    finalPrice = actualPrice - total;
 
-            var finalPriceField = document.getElementById("finalPrice");
-            finalPriceField.value = finalPrice;
-        }
+                                    var finalPriceField = document.getElementById("finalPrice");
+                                    finalPriceField.value = finalPrice;
+                                }
 
-    </script>
+                            </script>
 
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/datatables/datatables.min.js"></script>
-    <script src="/js/form-validator.js"></script>
-    <script src="/js/initiate-datatables.js"></script>
-    <script src="/js/script.js"></script>
+                            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                            <script src="/vendor/datatables/datatables.min.js"></script>
+                            <script src="/js/form-validator.js"></script>
+                            <script src="/js/initiate-datatables.js"></script>
+                            <script src="/js/script.js"></script>
 </body>
 
 </html>
