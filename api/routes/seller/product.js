@@ -3,22 +3,18 @@ const router = express.Router()
 var mongoose = require("mongoose");
 const multer = require("multer")
 const fs = require("fs");
+require("firebase/storage");
 
 const Products = require('../../models/seller/product');
 const Category = require('../../models/admin/categorySchema');
 
 const checkAuth = require("../../middleware/seller/checkAuth")
 
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/uploads/productImages')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + file.originalname)
-    }
-})
+const firebase = require('../../utils/firebase')
+const storage = firebase.storage().ref();
 
-var upload = multer({ storage: storage });
+const store = multer.memoryStorage();
+var upload = multer({ storage: store });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
@@ -110,9 +106,12 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
             var rawSS = req.files.images;
             var imageArr = [];
             if (rawSS) {
-                rawSS.forEach((element) => {
-                    imageArr.push((element.path).toString().substring(6));
-                });
+                for (let i = 0; i < rawSS.length; i++) {
+                    const imageRef = storage.child("/products/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
+                    await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+                    var url = await imageRef.getDownloadURL()
+                    imageArr.push(url)
+                }
             }
 
             var specificationsArr = [];
@@ -178,7 +177,7 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
         })
 });
 
-router.post("/edit-product/:productID", imgUpload, (req, res) => {
+router.post("/edit-product/:productID", imgUpload, async (req, res) => {
     const id = req.params.productID
 
     var specsArr = [{
@@ -186,108 +185,101 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
         "specValue": req.body.specValue,
     },];
 
-    Products.findById(id, (err, doc) => {
-        if (!err) {
-            var imageArr = [];
-            doc.images.forEach((element) => {
-                imageArr.push(element).toString();
-            });
+    var imageArr = [];
+    var products = await Products.findById(id).exec()
+    for (let i = 0; i < products.images.length; i++) {
+        imageArr.push(products.images[i])
+    }
 
-            var rawSS = req.files.images;
-            if (rawSS) {
-                rawSS.forEach((element) => {
-                    imageArr.push((element.path).toString().substring(6));
-                });
-            }
-            console.log(imageArr)
+    var rawSS = req.files.images;
+    if (rawSS) {
+        for (let i = 0; i < rawSS.length; i++) {
+            const imageRef = storage.child("/products/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
+            await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+            var url = await imageRef.getDownloadURL()
+            imageArr.push(url)
         }
+    }
 
-        var specificationsArr = [];
-        var a = specsArr[0]["specName"].length
+    var specificationsArr = [];
+    var a = specsArr[0]["specName"].length
 
-        for (var i = 0; i < a; i++) {
-            specificationsArr.push({
-                specName: specsArr[0]["specName"][i],
-                specValue: specsArr[0]["specValue"][i],
+    for (var i = 0; i < a; i++) {
+        specificationsArr.push({
+            specName: specsArr[0]["specName"][i],
+            specValue: specsArr[0]["specValue"][i],
 
-            })
-        }
-
-        var prodStatus;
-        if (req.body.status == "Pending") {
-            prodStatus = "Pending";
-        } else if (req.body.status == "Incomplete") {
-            prodStatus = "Incomplete";
-        }
-
-        Products.findByIdAndUpdate({ _id: id }, {
-            $set: {
-                images: imageArr,
-                productName: req.body.productName,
-                description: req.body.description,
-                category: req.body.category,
-                subcategory: req.body.subcategory,
-                brand: req.body.brand,
-                specifications: specificationsArr,
-                actualPrice: req.body.actualPrice,
-                discount: req.body.discount,
-                finalPrice: req.body.finalPrice,
-                quantity: req.body.quantity,
-                hasVariant: req.body.hasVariant,
-                status: prodStatus
-            }
         })
-            .exec()
-            .then(result => {
-                console.log(result)
-                res.redirect("/seller/products/?status=Pending")
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
-    })
-});
+    }
 
-router.get("/delete-product/(:id)", (req, res, next) => {
-    Products.findByIdAndRemove(req.params.id, (err, doc) => {
-        if (!err) {
-            doc.images.forEach(element => {
-                fs.unlinkSync("\public" + element)
-            });
+    var prodStatus;
+    if (req.body.status == "Pending") {
+        prodStatus = "Pending";
+    } else if (req.body.status == "Incomplete") {
+        prodStatus = "Incomplete";
+    }
 
-            res.redirect('/seller/products');
-        } else {
-            res.send("Error Occurred. Please try again!")
+    Products.findByIdAndUpdate({ _id: id }, {
+        $set: {
+            images: imageArr,
+            productName: req.body.productName,
+            description: req.body.description,
+            category: req.body.category,
+            subcategory: req.body.subcategory,
+            brand: req.body.brand,
+            specifications: specificationsArr,
+            actualPrice: req.body.actualPrice,
+            discount: req.body.discount,
+            finalPrice: req.body.finalPrice,
+            quantity: req.body.quantity,
+            hasVariant: req.body.hasVariant,
+            status: prodStatus
         }
     })
+        .exec()
+        .then(result => {
+            console.log(result)
+            res.redirect("/seller/products/?status=Pending")
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
 });
 
-router.get("/delete-image/(:id)/(:a)", (req, res, next) => {
-    console.log('Delete')
+router.get("/delete-product/(:id)", async (req, res, next) => {
+    const id = req.params.id;
+    var products = await Products.findByIdAndRemove(id).exec()
+
+    for (let i = 0; i < products.images.length; i++) {
+        var imagePath = products.images[i].split("?")
+        var fileRef = firebase.storage().refFromURL(imagePath[0]);
+        var del = await fileRef.delete()
+    }
+    res.redirect('/seller/products');
+});
+
+router.get("/delete-image/(:id)/(:a)", async (req, res, next) => {
     const index = req.params.a
+    var products = await Products.findById(req.params.id).exec()
 
-    Products.findById(req.params.id, (err, doc) => {
-        if (!err) {
-            fs.unlinkSync("\public" + doc.images[index])
+    var imagePath = products.images[index].split("?")
+    var fileRef = firebase.storage().refFromURL(imagePath[0]);
+    var del = fileRef.delete();
 
-            doc.images.splice(index, 1)
-            console.log(doc.images)
+    products.images.splice(index, 1)
 
-            Products.findByIdAndUpdate({ _id: req.params.id }, {
-                $set: {
-                    images: doc.images
-                }
-            })
-                .exec()
-                .then(result => {
-                    console.log(result)
-                    res.redirect("/seller/products/edit-product/" + req.params.id);
-                })
+    Products.findByIdAndUpdate({ _id: req.params.id }, {
+        $set: {
+            images: products.images
         }
-    });
+    })
+        .exec()
+        .then(result => {
+            res.redirect("/seller/products/edit-product/" + req.params.id);
+        })
 });
 
 module.exports = router
