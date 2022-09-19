@@ -17,200 +17,202 @@
 
 <body>
     <div class="wrapper">
-        <div id="body" class="active">
+        <!-- sidebar navigation component -->
+        <%- include('../sidebar') %>
+            <!-- end of sidebar component -->
+            <div id="body" class="active">
+                <!-- navbar navigation component -->
+                <%- include('../navbar') %>
+                    <!-- end of navbar navigation -->
+                    <div class="content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-header fw-bold bg-dark text-light">ADD NEW VARIANT</div>
+                                        <div class="card-body">
 
+                                            <form action="/seller/products/variant/add-variant/<%=id %>"
+                                                enctype="multipart/form-data" id="addVariantForm" method="post"
+                                                class="needs-validation" novalidate accept-charset="utf-8">
 
-
-            <div class="content">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header fw-bold bg-dark text-light">ADD NEW VARIANT</div>
-                                <div class="card-body">
-
-                                    <form action="/seller/products/variant/add-variant/<%=id %>"
-                                        enctype="multipart/form-data" id="addVariantForm" method="post"
-                                        class="needs-validation" novalidate accept-charset="utf-8">
-
-                                        <div class="row g-2">
-                                            <div class="mb-3 col-md-12">
-                                                <label for="productName" class="form-label">Product
-                                                    Name</label>
-                                                <input type="name" class="form-control" name="productName"
-                                                    id="productName" value="<%=productData.productName %>" readonly>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row g-2">
-                                            <div class="mb-3 col-md-12">
-                                                <label for="images" class="form-label">Product
-                                                    Images:</label>
-                                                <input type="file" class="form-control" name="images"
-                                                    multiple='multiple' accept="image/*" required>
-                                                <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please Choose an Image.</div>
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="row g-2">
-                                            <div class="mb-3 col-md-4 d-grid">
-                                                <label for="colours" class="form-label">Colour
-
-                                                </label>
-                                                <select name="colours" class="form-select" id="colours" required>
-                                                    <option value="">
-                                                        ---Choose Colour---
-                                                    </option>
-                                                    <option value="Black">Black</option>
-                                                    <option value="White">White</option>
-                                                    <option value="Blue">Blue</option>
-                                                    <option value="Green">Green</option>
-                                                    <option value="Brown">Brown</option>
-                                                    <option value="Red">Red</option>
-                                                </select>
-                                                <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please Choose a Colour.</div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row g-2">
-                                            <div class="col-md-2">
-                                                <label for="sizes" class="form-label">Sizes
-                                                </label>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label for="quantity" class="form-label">Quantity
-                                                </label>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label for="actualPrice" class="form-label">Actual
-                                                    Price</label>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label for="discount" class="form-label">Discount
-                                                    <span class="text-muted"> (Optional)</span>
-                                                </label>
-
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <label for="finalPrice" class="form-label">Final
-                                                    Price</label>
-
-                                            </div>
-                                        </div>
-
-
-                                        <div id="appendItems">
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-2">
-
-                                                    <select name="sizes[]" class="form-select" id="sizes" required>
-                                                        <option value="">
-                                                            ---Choose Size---
-                                                        </option>
-                                                        <option value="XS">XS</option>
-                                                        <option value="S">S</option>
-                                                        <option value="M">M</option>
-                                                        <option value="L">L</option>
-                                                        <option value="XL">XL</option>
-                                                        <option value="XXL">XXL</option>
-                                                    </select>
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="productName" class="form-label">Product
+                                                            Name</label>
+                                                        <input type="name" class="form-control" name="productName"
+                                                            id="productName" value="<%=productData.productName %>"
+                                                            readonly>
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-3 col-md-2">
-                                                    <input type="number" class="form-control" name="quantity[]" min="1"
-                                                        placeholder="e.g. 50" required>
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="images" class="form-label">Product
+                                                            Images:</label>
+                                                        <input type="file" class="form-control" name="images"
+                                                            multiple='multiple' accept="image/*" required>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please Choose an Image.</div>
+                                                    </div>
                                                 </div>
 
-                                                <div class="mb-3 col-md-2">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">&#8377;</span>
-                                                        <input type="text" class="form-control" name="actualPrice[]"
-                                                            id="actualPrice" min="1" pattern="[0-9]{1,9}"
-                                                            onblur="calculate('discount', this.value )"
-                                                            placeholder="Eg. 30000" required>
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-4 d-grid">
+                                                        <label for="colours" class="form-label">Colour
+                                                        </label>
+                                                        <select name="colours" class="form-select" id="colours"
+                                                            required>
+                                                            <option value="">
+                                                                ---Choose Colour---
+                                                            </option>
+                                                            <option value="Black">Black</option>
+                                                            <option value="White">White</option>
+                                                            <option value="Blue">Blue</option>
+                                                            <option value="Green">Green</option>
+                                                            <option value="Brown">Brown</option>
+                                                            <option value="Red">Red</option>
+                                                        </select>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please Choose a Colour.</div>
+                                                    </div>
+                                                </div>
 
-                                                        <!-- <div class="invalid-feedback">Please enter Actual Price.
+                                                <div class="row g-2">
+                                                    <div class="col-md-2">
+                                                        <label for="sizes" class="form-label">Sizes
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="quantity" class="form-label">Quantity
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="actualPrice" class="form-label">Actual
+                                                            Price</label>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="discount" class="form-label">Discount
+                                                            <span class="text-muted"> (Optional)</span>
+                                                        </label>
+
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="finalPrice" class="form-label">Final
+                                                            Price</label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="appendItems">
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-2" id="sizesID0">
+
+                                                            <select name="sizes[]" class="form-select sizes0" required>
+                                                                <option value="">
+                                                                    ---Choose Size---
+                                                                </option>
+                                                                <option value="XS">XS</option>
+                                                                <option value="S">S</option>
+                                                                <option value="M">M</option>
+                                                                <option value="L">L</option>
+                                                                <option value="XL">XL</option>
+                                                                <option value="XXL">XXL</option>
+                                                            </select>
                                                         </div>
-                                                        <div class="valid-feedback">Looks good!</div> -->
-                                                    </div>
 
-                                                </div>
+                                                        <div class="mb-3 col-md-2">
+                                                            <input type="number" class="form-control" name="quantity[]"
+                                                                min="1" placeholder="e.g. 50" required>
+                                                        </div>
 
-                                                <div class="mb-3 col-md-2">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">%</span>
-                                                        <input type="text" class="form-control" name="discount[]"
-                                                            id="discount" onblur="calculate(this.value, 'actualPrice')"
-                                                            placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
+                                                        <div class="mb-3 col-md-2">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">&#8377;</span>
+                                                                <input type="text" class="form-control"
+                                                                    name="actualPrice[]" id="actualPrice" min="1"
+                                                                    pattern="[0-9]{1,9}"
+                                                                    onblur="calculate('discount', this.value )"
+                                                                    placeholder="Eg. 30000" required>
+                                                            </div>
 
-                                                        <!-- <div class="valid-feedback">Looks good!</div> -->
-                                                        <div class="invalid-feedback">Invalid Discount
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-2">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">%</span>
+                                                                <input type="text" class="form-control"
+                                                                    name="discount[]" id="discount"
+                                                                    onblur="calculate(this.value, 'actualPrice')"
+                                                                    placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
+
+                                                                <div class="invalid-feedback">Invalid Discount
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-2">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">&#8377;</span>
+                                                                <input type="number" class="form-control"
+                                                                    name="finalPrice[]" id="finalPrice"
+                                                                    placeholder="Final Price" readonly>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-2 d-grid">
+                                                            <button class="btn btn-outline-primary"
+                                                                id="addMoreBtnMain"><i class="fas fa-plus-circle"></i>
+                                                                Add More</button>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="mb-3 col-md-2">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text">&#8377;</span>
-                                                        <input type="number" class="form-control" name="finalPrice[]"
-                                                            id="finalPrice" placeholder="Final Price" readonly>
-
-                                                        <!-- <div class="valid-feedback">Looks good!</div>
-                                                    <div class="invalid-feedback">Please enter Final Price.</div> -->
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3 col-md-2 d-grid">
-                                                    <button class="btn btn-outline-primary" id="addMoreBtnMain"><i
-                                                            class="fas fa-plus-circle"></i>
-                                                        Add More</button>
-
-                                                </div>
-
-                                            </div>
+                                                <a href="/seller/products/variant/<%=productData._id %>"
+                                                    class="btn btn-danger"><i class="fas fa-times"></i>
+                                                    Cancel</a>
+                                                <button type="submit" class="btn btn-primary" id="submitVariantData"
+                                                    style="float: right"><i class="fas fa-save"></i> Add
+                                                    Variant</button>
+                                            </form>
                                         </div>
-
-
-
-                                        <a href="/seller/products/variant/<%=productData._id %>" class="btn btn-danger"><i
-                                                class="fas fa-times"></i>
-                                            Cancel</a>
-                                        <button type="submit" class="btn btn-primary" id="submitVariantData"
-                                            style="float: right"><i class="fas fa-save"></i> Add
-                                            Variant</button>
-                                    </form>
-
-
-
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-        </div>
     </div>
 
     <script src="/vendor/jquery/jquery.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+            coloursDropdown();
+        });
+
+        function coloursDropdown() {
+            var selectobject = document.getElementById("colours");
+            '<% if(variantData.length!=0){ var j=1; variantData.forEach(function(data){ %>'
+            for (var i = 0; i < selectobject.length; i++) {
+                if (selectobject.options[i].value == '<%= data.colours %>')
+                    selectobject.remove(i);
+            }
+            '<% j++; }) } %>'
+        }
+
+    </script>
+
+    <script>
         function moreItems(counter) {
 
             var moreItems =
-                `<div class="row g-2" id="itemsRow` + counter + `">
+                `<div class="row g-2 id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
-                        <select name="sizes[]" class="form-select" id="sizes` + counter + `" required>
+                        <select name="sizes[]" class="form-select"  required>
                             <option value="">
                                 ---Choose Size---
                             </option>
@@ -220,6 +222,7 @@
                             <option value="L">L</option>
                             <option value="XL">XL</option>
                             <option value="XXL">XXL</option>
+                            
                         </select>
                     </div>
 
@@ -235,10 +238,7 @@
                                 id="actualPrice` + counter + `" min="1" pattern="[0-9]{1,9}"
                                 onblur="calculateMoreFields('discount` + counter + `', this.value, ` + counter + ` )"
                                 placeholder="Eg. 30000" required>
-
-                          
                         </div>
-
                     </div>
 
                     <div class="mb-3 col-md-2">
@@ -247,8 +247,6 @@
                             <input type="text" class="form-control" name="discount[]"
                                 id="discount` + counter + `" onblur="calculateMoreFields(this.value, 'actualPrice` + counter + `', ` + counter + `)"
                                 placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
-
-                            <div class="valid-feedback">Looks good!</div>
                             <div class="invalid-feedback">Invalid Discount
                             </div>
                         </div>
@@ -259,87 +257,60 @@
                             <span class="input-group-text">&#8377;</span>
                             <input type="number" class="form-control" name="finalPrice[]"
                                 id="finalPrice` + counter + `"  placeholder="Final Price" readonly required>
-
-                            <!-- <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please enter Final Price.</div> -->
                         </div>
                     </div>
 
                     <div class="mb-3 col-md-2 d-grid">
-                        <button class="btn btn-outline-danger removeItemsBtn"><i
+                        <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn` + counter + `"><i
                             class="fas fa-minus-circle"></i>
                         Remove</a>
                     </div>
-
                 </div>`
-
             return moreItems;
         }
 
-
         var counter = 1;
         $(document).ready(function () {
-
             $("#addMoreBtnMain").click(function (e) {
                 e.preventDefault();
-
                 var appendMoreItems = moreItems(counter);
-                counter++;
                 $("#appendItems").append(appendMoreItems);
+                counter++
+
                 $(document).on('click', '.removeItemsBtn', function (e) {
                     e.preventDefault();
                     let row_item = $(this).parent().parent();
                     $(row_item).remove();
                 })
-            });
+            })
         });
-
 
     </script>
 
     <script>
-
-
-
         function calculateMoreFields(val1, val2, counter) {
 
             var actualPrice = document.getElementById("actualPrice" + counter).value;
             var discountPct = document.getElementById("discount" + counter).value;
-
 
             var total = (actualPrice * discountPct) / 100;
             finalPrice = actualPrice - total;
 
             var finalPriceField = document.getElementById("finalPrice" + counter);
             finalPriceField.value = finalPrice;
-
-            // if (discountPct == 0) {
-            //     finalPriceField.value = null;
-            // }
-
         }
 
         function calculate(val1, val2) {
             var actualPrice = document.getElementById("actualPrice").value;
             var discountPct = document.getElementById("discount").value;
 
-
             var total = (actualPrice * discountPct) / 100;
             finalPrice = actualPrice - total;
 
             var finalPriceField = document.getElementById("finalPrice");
             finalPriceField.value = finalPrice;
-
-            // if (discountPct == 0) {
-            //     finalPriceField.value = null;
-            // }
-
         }
-
-
     </script>
-  
-
 
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
@@ -347,6 +318,5 @@
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
 </body>
-
 
 </html>

@@ -16,7 +16,6 @@ var upload = multer({ storage: store })
 
 var catUpload = upload.fields([{ name: "catImage", maxCount: 1 }])
 
-//Add 
 router.get('/', checkAuth, (req, res) => {
     Category.find().select("catImage catName sub_category variant")
         .exec()
@@ -35,7 +34,6 @@ router.get('/add-category', checkAuth, (req, res) => {
     res.render("./admin/category/add", { userType: req.session.type, userName: req.session.name })
 })
 
-//adding data into database
 router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
     const { catName } = req.body;
 
@@ -72,8 +70,7 @@ router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
     }
 })
 
-//Edit-Category
-router.get('/edit-category/:catID', checkAuth, (req, res) => {
+router.get('/edit-category/:catID', [checkAuth, catUpload], (req, res) => {
     const id = req.params.catID
 
     const allCatImages = Category.find().select("catImage")
@@ -91,25 +88,18 @@ router.get('/edit-category/:catID', checkAuth, (req, res) => {
         })
 });
 
-
 router.post("/edit-category/:catID", catUpload, (req, res) => {
     const id = req.params.catID
-
-    console.log("Delete")
-        //  console.log(doc.catImage)
-
 
     var updatedValue = {}
 
     if (req.files.catImage && req.files.catImage[0].path) {
         Category.findById(id, (err, doc) => {
-
             if (!err) {
                 console.log(doc.catImage)
                 fs.unlinkSync("\public" + doc.catImage)
 
             }
-
         })
         updatedValue = {
             catImage: req.files.catImage[0].path.toString().substring(6),
@@ -139,10 +129,7 @@ router.post("/edit-category/:catID", catUpload, (req, res) => {
                 error: err
             })
         })
-
-
 });
-
 
 router.get("/delete-category/:delCat", checkAuth, async(req, res, next) => {
     const id = req.params.delCat;
