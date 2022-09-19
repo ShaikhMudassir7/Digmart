@@ -121,7 +121,6 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
                 });
             }
 
-
             var specificationsArr = [];
             var a = specsArr[0]["specName"].length
 
@@ -157,10 +156,7 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
                 quantity: req.body.quantity,
                 hasVariant: req.body.hasVariant,
                 status: prodStatus,
-
             })
-
-
             await productData.save();
         }
         res.redirect('/seller/products/?status=Pending')
@@ -173,8 +169,6 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
 
 });
 
-
-
 router.get("/edit-product/(:id)", checkAuth, (req, res) => {
     const allImages = Products.find().select("images")
 
@@ -184,9 +178,7 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
                 Category.find().select("catName sub_category variant")
                     .exec()
                     .then(docs => {
-
                         res.render('./seller/products/edit-product', { images: allImages, catData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
-
                     })
             } else {
                 res.send('try-again')

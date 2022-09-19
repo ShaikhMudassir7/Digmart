@@ -268,8 +268,17 @@ body {
     height: 100%;
     /* object-fit: contain; */
     aspect-ratio: 1 / 1;
-    box-shadow: 3px 3px 3px #353636;
+    box-shadow: 1px 1px 1px #35363636;
     cursor: pointer;
+}
+
+#seller1 .sel .des .selCat {
+    font-size: .9rem;
+}
+
+#seller1 .sel .des a {
+    color: inherit;
+    text-decoration: none;
 }
 
 /* END OF SELLER SWIPER */

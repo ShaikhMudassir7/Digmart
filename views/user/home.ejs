@@ -111,7 +111,9 @@
                             </div>
                             <div class="des px-2 text-center">
                                 <a href="\shop-by-category?id=<%=data._id%>">
-                                    <p><%=data.catName%></p>
+                                    <p>
+                                        <%=data.catName%>
+                                    </p>
                                 </a>
                             </div>
                         </div>
@@ -131,93 +133,27 @@
             <div id="prevSellerBtn" class="px-2 fas fa-chevron-left fa-2x"></div>
             <div class="swiper sellerSwiper">
                 <div id="seller1" class="swiper-wrapper">
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="/img/DigMart.png" class="rounded-circle" alt="Seller 1">
+                    <% if(selData.length!=0){ selData.forEach(function(data){ %>
+                        <div class="sel swiper-slide">
+                            <div class="imgDiv">
+                                <a href="">
+                                    <img src="<%=data.busLogo%>" class="rounded-circle" alt="<%=data.busName%>">
+                                </a>
+                            </div>
+                            <div class="des px-2 text-center">
+                                <a href="">
+                                    <span class="selName fs-5 d-block"><b>
+                                            <%=data.busName%>
+                                        </b></span>
+                                    <span class="selCat text-muted d-block">
+                                        <%data.busCat.forEach(function(cat){%>
+                                            <%=cat.catName%>,
+                                        <% })%>
+                                    </span>
+                                </a>
+                            </div>
                         </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>DigMart Ltd.</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="https://yt3.ggpht.com/ytc/AMLnZu9GlNEvcXPblRUvW11GS3buDikRNugBjnPlZ_1rew=s900-c-k-c0x00ffffff-no-rj"
-                                class="rounded-circle" alt="Seller 2">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>Apple Inc.</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtNnqgyCKbgxHgc9-DrgAdioD3luJPyS7Da4UPlqPsml4aby-3P26mmIfaAzf9NwpzWN0&usqp=CAU"
-                                class="rounded-circle" alt="Seller 3">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>Xiaomi</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="data:image/png;base64,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"
-                                class="rounded-circle" alt="Seller 4">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>Vijay Sales</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="https://animationvisarts.com/wp-content/uploads/2016/10/Croma-Logo-Design.jpg"
-                                class="rounded-circle" alt="Seller 5">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>Croma</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="https://content.jdmagicbox.com/comp/bangalore/u5/080pxx80.xx80.180602140558.j7u5/catalogue/d-mart-customer-care-bangalore-customer-care-ju2e85od51-250.jpg"
-                                class="rounded-circle" alt="Seller 6">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>D-Mart</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="http://images.jdmagicbox.com/comp/thane/11/022p8020011/catalogue/lagu-bandhu-jewellers-thane-west-thane-jewellery-showrooms-13yqkr1.jpg"
-                                class="rounded-circle" alt="Seller 7">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>Lagu Bandhu</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
-                    <div class="sel swiper-slide">
-                        <div class="imgDiv">
-                            <img src="https://images.samsung.com/is/image/samsung/assets/in/about-us/brand/logo/mo/360_197_1.png?$FB_TYPE_B_PNG$"
-                                class="rounded-circle" alt="Seller 8">
-                        </div>
-                        <div class="des px-2 text-center">
-                            <h4><b>Samsung</b></h4>
-                            <h6 class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                Consectetur, ab!</h6>
-                        </div>
-                    </div>
+                        <% }) } %>
                 </div>
             </div>
             <div id="nextSellerBtn" class="px-2 fas fa-chevron-right fa-2x"></div>
@@ -492,8 +428,8 @@
     </section>
 
     <!-- Login Modal -->
-    <%- include('login') %>    
-    
+    <%- include('login') %>
+
 
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>

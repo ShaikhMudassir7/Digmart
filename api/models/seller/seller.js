@@ -18,7 +18,7 @@ const sellerSchema = mongoose.Schema({
     busType: { type: String, required: true },
     busCat: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'categories'
+        ref: 'Category'
     }],
     busLogo: { type: String, required: true },
     busPanNo: { type: String, required: true },

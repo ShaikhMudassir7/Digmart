@@ -78,10 +78,12 @@
                 <button class="nav-link active" id="nav-products-tab" data-bs-toggle="tab"
                     data-bs-target="#nav-products" type="button" role="tab" aria-controls="nav-products"
                     aria-selected="true">Products</button>
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Sub-categories</button>
-                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
-                    type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Filter</button>
+
+                <% var catArr=catData.sub_category.split(', ') 
+                    catArr.forEach(element => { %>
+                    <button class="nav-link" id="nav-<%=element%>" data-bs-toggle="tab" data-bs-target="#tab-<%=element%>"
+                    type="button" role="tab" aria-controls="tab-<%=element%>" aria-selected="false"><%=element%></button>
+                <%}) %>   
             </div>
         </nav>
         <div class="card-body tab-content" id="nav-tabContent">
@@ -98,7 +100,7 @@
                         class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
                         <select name="subCat" class="form-select" onchange="catChange(this.value)" required>
                             <option value="All" selected>Sub-category - All</option>
-                            <% var catArr=catData.sub_category.split(', ') 
+                            <% var catArr=catData.sub_category.split(' , ') 
                             catArr.forEach(element => { %>
                                 <option value="<%=element %>">Sub-category - <%=element %></option>
                             <%});  %>
@@ -151,17 +153,11 @@
                     </ul>
                 </nav>
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores qui, voluptate dolor porro soluta illo
-                earum vitae quae vero, inventore asperiores odit unde ipsam saepe consequatur rerum sint ad corrupti
-                quasi atque? Temporibus modi quibusdam atque soluta unde praesentium quia aliquid nisi natus autem, sunt
-                sapiente corporis sed! Aperiam rem magnam sapiente cupiditate nemo dolores animi inventore mollitia
-                dolore iste nam assumenda, vel dicta maiores possimus veritatis. Praesentium dolorum eligendi
-                consequuntur, est, fuga voluptates sequi iure recusandae nostrum ullam necessitatibus. Sed mollitia ad
-                provident ea distinctio laudantium laborum et consequatur cum, facilis consequuntur accusamus dolore
-                iure eligendi quod! Fugit, tempore.</div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, fugit?</div>
+            
+            <% var catArr=catData.sub_category.split(', ') 
+                    catArr.forEach(element => { %>
+                        <div class="tab-pane fade" id="tab-<%=element%>" role="tabpanel" aria-labelledby="nav-<%=element%>" tabindex="0"><%=element%></div>
+            <%}) %> 
 
         </div>
     </div>
@@ -268,73 +264,79 @@
     </section>
 
     <!-- Login Modal -->
-    <%- include('login') %>  
+    <%- include('login') %>
 
-    <!-- FilterModal -->
-    <div class="modal fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
-            <div class="modal-content" style="height: 90vh;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Filters</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
-                                    aria-controls="flush-collapseOne">
-                                    Price
-                                </button>
-                            </h2>
-                            <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-
+                    <!-- FilterModal -->
+                    <div class="modal fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
+                            <div class="modal-content" style="height: 90vh;">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Filters</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
-                                    aria-controls="flush-collapseTwo">
-                                    Ratings
-                                </button>
-                            </h2>
-                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                                aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
+                                <div class="modal-body">
+                                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingOne">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                                    aria-expanded="false" aria-controls="flush-collapseOne">
+                                                    Price
+                                                </button>
+                                            </h2>
+                                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                                aria-labelledby="flush-headingOne"
+                                                data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingTwo">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                                    aria-expanded="false" aria-controls="flush-collapseTwo">
+                                                    Ratings
+                                                </button>
+                                            </h2>
+                                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                                aria-labelledby="flush-headingTwo"
+                                                data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingThree">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
+                                                    aria-expanded="false" aria-controls="flush-collapseThree">
+                                                    Availability
+                                                </button>
+                                            </h2>
+                                            <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                                aria-labelledby="flush-headingThree"
+                                                data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">
+                                                    <input type="checkbox" name="availability" id="availability">
+                                                    <label class="form-check-label" for="availability">Include Out of
+                                                        Stock</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseThree" aria-expanded="false"
-                                    aria-controls="flush-collapseThree">
-                                    Availability
-                                </button>
-                            </h2>
-                            <div id="flush-collapseThree" class="accordion-collapse collapse"
-                                aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <input type="checkbox" name="availability" id="availability">
-                                    <label class="form-check-label" for="availability">Include Out of Stock</label>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        data-bs-dismiss="modal">Apply</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Apply</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 </body>
