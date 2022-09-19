@@ -4,8 +4,6 @@
       <meta charset="UTF-8">
       <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
-  
-  
       <!--Bootstrap css-->
       <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
@@ -105,10 +103,10 @@
               <!--color chart-->
               <strong>Color</strong><br>
               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <% if(variantsData.length!=0) { var i=0;
+                  variantsData.forEach(function(data){ %>
                 <button type="button" class="btn btn-warning"> </button>
-                <button type="button" class="btn btn-danger"> </button>
-                <button type="button" class="btn btn-success"> </button>
-                <button type="button" class="btn btn-dark"> </button>
+                <% })} %>
               </div><br><br>
               <div>
                   <a href="/cart/add-ato-cart/<%= productData._id%>/<%=productData.sellerID%>/" class="btn btn-lg" style="background: rgb(94, 45, 129);color: white;">ADD TO BAG</a>

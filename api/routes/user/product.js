@@ -2,18 +2,28 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require('mongoose')
 
+const Variants = require('../../models/seller/variants');
 const Products = require("../../models/seller/product");
 
 // Route of product page
-router.get('/viewProduct/(:id)', (req, res) => {
-    Products.findById(req.params.id,
-        (err, doc) => {
+router.get('/view-product/(:id)', (req, res) => {
+    const allImages = Variants.find().select("images")
+    var id = req.params.id;
+    Products.findById(id,
+        (err, element) => {
             if (!err) {
-                res.render('./user/product', { productData: doc })
+                Variants.find({ 'prodID': id }).exec()
+                .then(docs => {
+                        if (!err) {
+                            res.render('./user/product', { images: allImages, variantsData: docs, productData: element});
+                        }
+                    })
             } else {
                 res.send('try-again')
             }
+
         })
 })
+
 
 module.exports = router
