@@ -41,17 +41,26 @@ router.get('/:id', checkAuth, (req, res) => {
                             }
                             sizeArr.push(arr)
                         })
-
                         res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
 
+                        var setStatus;
+                        if (docs.length > 0) {
+                            setStatus = "Pending"
+                        } else {
+                            setStatus = "Incomplete"
+                        }
+                        Products.findByIdAndUpdate({ _id: id }, {
+                            $set: {
+                                status: setStatus
+                            }
+                        }).exec()
                     })
-
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
+                    .catch(err => {
+                        console.log(err)
+                        res.status(500).json({
+                            error: err
+                        })
                     })
-                })
             } else {
                 res.send('try-again')
             }
@@ -75,77 +84,60 @@ router.get('/add-variant/:id', checkAuth, (req, res) => {
         })
 });
 
-router.post('/add-variant/:id', imgUpload, async(req, res, next) => {
+router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
     var prodID = req.params.id;
 
-    var checkSizes = req.body.sizes;
+    var sizesArr = [{
+        "sizes": req.body.sizes,
+        "quantity": req.body.quantity,
+        "actualPrice": req.body.actualPrice,
+        "discount": req.body.discount,
+        "finalPrice": req.body.finalPrice
+    },];
 
-    function hasDuplicates(checkSizes) {
-        if (checkSizes.length != new Set(checkSizes).size) {
-            return true;
+    try {
+        var rawSS = req.files.images;
+        var imageArr = [];
+
+        if (rawSS) {
+            for (let i = 0; i < rawSS.length; i++) {
+                const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
+                await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+                var url = await imageRef.getDownloadURL()
+                imageArr.push(url)
+            }
         }
-        return false;
-    }
 
-    var hasDuplicateSizes = hasDuplicates(checkSizes);
+        console.log(imageArr)
 
-    if (!hasDuplicateSizes) {
-        var sizesArr = [{
-            "sizes": req.body.sizes,
-            "quantity": req.body.quantity,
-            "actualPrice": req.body.actualPrice,
-            "discount": req.body.discount,
-            "finalPrice": req.body.finalPrice
-        }, ];
+        var sizeArr = [];
+        var a = sizesArr[0]["sizes"].length
 
-        try {
-            var rawSS = req.files.images;
-            var imageArr = [];
-
-            if (rawSS) {
-                for (let i = 0; i < rawSS.length; i++) {
-                    const imageRef = storage.child("/variants/" + rawSS[i].originalname);
-                    await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
-                    var url = await imageRef.getDownloadURL()
-                    imageArr.push(url)
-                }
-            }
-
-            console.log(imageArr)
-
-            var sizeArr = [];
-            var a = sizesArr[0]["sizes"].length
-
-            for (var i = 0; i < a; i++) {
-                sizeArr.push({
-                    sizes: sizesArr[0]["sizes"][i],
-                    quantity: sizesArr[0]["quantity"][i],
-                    actualPrice: sizesArr[0]["actualPrice"][i],
-                    discount: sizesArr[0]["discount"][i],
-                    finalPrice: sizesArr[0]["finalPrice"][i],
-                })
-            }
-
-            var variantData = new Variants({
-                _id: mongoose.Types.ObjectId(),
-                prodID: prodID,
-                images: imageArr,
-                colours: req.body.colours,
-                sizes: sizeArr,
-                status: "Pending"
+        for (var i = 0; i < a; i++) {
+            sizeArr.push({
+                sizes: sizesArr[0]["sizes"][i],
+                quantity: sizesArr[0]["quantity"][i],
+                actualPrice: sizesArr[0]["actualPrice"][i],
+                discount: sizesArr[0]["discount"][i],
+                finalPrice: sizesArr[0]["finalPrice"][i],
             })
-            await variantData.save();
-
-            res.redirect('/seller/products/variant/' + prodID);
-
-        } catch (err) {
-            console.log(err);
         }
 
-    } else {
-        res.send('You cannot insert duplicate sizes.')
-    }
+        var variantData = new Variants({
+            _id: mongoose.Types.ObjectId(),
+            prodID: prodID,
+            images: imageArr,
+            colours: req.body.colours,
+            sizes: sizeArr,
+            status: "Pending"
+        })
+        await variantData.save();
 
+        res.redirect('/seller/products/variant/' + prodID);
+
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
@@ -159,7 +151,11 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
                 Variants.findById(variantID,
                     (err, doc) => {
                         if (!err) {
-                            res.render('./seller/variants/edit-variant', { images: allImages, variantData: doc, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+                            Variants.find({ 'prodID': id }).select()
+                                .exec()
+                                .then(docs => {
+                                    res.render('./seller/variants/edit-variant', { images: allImages, variantData: doc, coloursData: docs, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+                                })
                         }
                     })
             } else {
@@ -168,103 +164,91 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, (req, res) => {
         })
 });
 
-router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async(req, res) => {
+router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
     var prodID = req.params.id;
     var variantID = req.params.variantID;
 
-    var checkSizes = req.body.sizes;
+    var sizesArr = [{
+        "sizes": req.body.sizes,
+        "quantity": req.body.quantity,
+        "actualPrice": req.body.actualPrice,
+        "discount": req.body.discount,
+        "finalPrice": req.body.finalPrice
+    },];
 
-    function hasDuplicates(checkSizes) {
-        if (checkSizes.length != new Set(checkSizes).size) {
-            return true;
-        }
-        return false;
-    }
+    console.log(req.body.sizes)
+    try {
+        var sizeArr = [];
+        var a = sizesArr[0]["sizes"].length
 
-    var hasDuplicateSizes = hasDuplicates(checkSizes);
-
-    if (!hasDuplicateSizes) {
-        var sizesArr = [{
-            "sizes": req.body.sizes,
-            "quantity": req.body.quantity,
-            "actualPrice": req.body.actualPrice,
-            "discount": req.body.discount,
-            "finalPrice": req.body.finalPrice
-        }, ];
-
-        console.log(req.body.sizes)
-        try {
-            var rawSS = req.files.images;
-            var imageArr = [];
-            if (rawSS) {
-                rawSS.forEach((element) => {
-                    imageArr.push((element.path).toString().substring(6));
-                });
-            }
-
-            var sizeArr = [];
-            var a = sizesArr[0]["sizes"].length
-
-            for (var i = 0; i < a; i++) {
-                sizeArr.push({
-                    sizes: sizesArr[0]["sizes"][i],
-                    quantity: sizesArr[0]["quantity"][i],
-                    actualPrice: sizesArr[0]["actualPrice"][i],
-                    discount: sizesArr[0]["discount"][i],
-                    finalPrice: sizesArr[0]["finalPrice"][i],
-                })
-            }
-
-            Variants.findById(variantID, (err, doc) => {
-                if (!err) {
-                    var imageArr = [];
-                    doc.images.forEach((element) => {
-                        imageArr.push(element).toString();
-                    });
-                    var rawSS = req.files.images;
-                    if (rawSS) { //Check if image is selected in choose image field and push it in array
-                        rawSS.forEach((element) => {
-                            imageArr.push((element.path).toString().substring(6));
-                        });
-                    }
-                }
-
-                Variants.findByIdAndUpdate({ _id: variantID }, {
-                    $set: {
-                        prodID: prodID,
-                        images: imageArr,
-                        colours: req.body.colours,
-                        sizes: sizeArr,
-                        status: "Pending"
-                    }
-                }).exec()
-                res.redirect('/seller/products/variant/' + prodID);
+        for (var i = 0; i < a; i++) {
+            sizeArr.push({
+                sizes: sizesArr[0]["sizes"][i],
+                quantity: sizesArr[0]["quantity"][i],
+                actualPrice: sizesArr[0]["actualPrice"][i],
+                discount: sizesArr[0]["discount"][i],
+                finalPrice: sizesArr[0]["finalPrice"][i],
             })
-        } catch (err) {
-            console.log("Error Occurred while Editting variant");
         }
 
-    } else {
-        res.send('You cannot insert duplicate sizes.')
+        Variants.findById(variantID, (err, doc) => {
+            if (!err) {
+                var imageArr = [];
+                doc.images.forEach((element) => {
+                    imageArr.push(element).toString();
+                });
+                var rawSS = req.files.images;
+                if (rawSS) { 
+                    rawSS.forEach((element) => {
+                        imageArr.push((element.path).toString().substring(6));
+                    });
+                }
+            }
+            console.log(imageArr)
+
+            Variants.findByIdAndUpdate({ _id: variantID }, {
+                $set: {
+                    prodID: prodID,
+                    images: imageArr,
+                    colours: req.body.colours,
+                    sizes: sizeArr,
+                    status: "Pending"
+                }
+            })
+                .exec()
+                .then(result => {
+                    console.log(result)
+                    res.redirect('/seller/products/variant/' + prodID);
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+            })
+    } catch (err) {
+        console.log("Error Occurred while Editting variant");
     }
 });
 
-router.get("/delete-variant/(:id)/(:variantID)", (req, res, next) => {
+router.get("/delete-variant/(:id)/(:variantID)", async (req, res, next) => {
     var prodID = req.params.id;
     var variantID = req.params.variantID;
 
-    Variants.findByIdAndRemove(variantID, (err, doc) => {
-        if (!err) {
-            doc.images.forEach(element => {
-                fs.unlinkSync("\public" + element)
+    const id = req.params.variantID;
 
-            });
+    var variant = await Variants.findByIdAndRemove(id).exec()
 
-            res.redirect('/seller/products/variant/' + prodID);
-        } else {
-            res.send("Error Occurred. Please try again!")
-        }
-    })
+    for (let i = 0; i < variant.images.length; i++) {
+
+        var imagePath = variant.images[i].split("?")
+        var fileRef = firebase.storage().refFromURL(imagePath[0]);
+        var del = await fileRef.delete()
+
+    }
+    res.redirect('/seller/products/variant/' + prodID);
+
 });
 
 router.get("/delete-image/(:id)/(:variantID)/(:a)", (req, res, next) => {
@@ -277,10 +261,10 @@ router.get("/delete-image/(:id)/(:variantID)/(:a)", (req, res, next) => {
             doc.images.splice(index, 1)
 
             Variants.findByIdAndUpdate({ _id: req.params.variantID }, {
-                    $set: {
-                        images: doc.images
-                    }
-                })
+                $set: {
+                    images: doc.images
+                }
+            })
                 .exec()
                 .then(result => {
                     res.redirect("/seller/products/variant/edit-variant/" + req.params.id + "/" + req.params.variantID);

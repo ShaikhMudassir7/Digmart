@@ -10,10 +10,10 @@ const Category = require('../../models/admin/categorySchema');
 const checkAuth = require("../../middleware/seller/checkAuth")
 
 var storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+    destination: function (req, file, cb) {
         cb(null, './public/uploads/productImages')
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + file.originalname)
     }
 })
@@ -93,13 +93,13 @@ router.get('/add-product', checkAuth, (req, res) => {
 });
 
 
-router.post('/add-product', imgUpload, async(req, res, next) => {
+router.post('/add-product', imgUpload, async (req, res, next) => {
     const { productName } = req.body;
 
     var specsArr = [{
         "specName": req.body.specName,
         "specValue": req.body.specValue,
-    }, ];
+    },];
 
     try {
         const productExists = await Products.findOne({ productName: productName })
@@ -107,11 +107,9 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
         if (productExists) {
             res.send('A Product with the same name Already Exists. Try editting the same product or adding a new one!')
         } else {
-
             var rawSS = req.files.images;
             var imageArr = [];
             if (rawSS) {
-
                 rawSS.forEach((element) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
@@ -127,7 +125,9 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
                 })
             }
             console.log(specificationsArr)
+
             var prodStatus;
+
             if (req.body.hasVariant) {
                 prodStatus = "Pending"
             } else {
@@ -150,20 +150,15 @@ router.post('/add-product', imgUpload, async(req, res, next) => {
                 quantity: req.body.quantity,
                 hasVariant: req.body.hasVariant,
                 status: prodStatus,
-
             })
-
-
             await productData.save();
         }
         res.redirect('/seller/products/?status=Pending')
-            // res.redirect('/seller/products/variant/add-variant');
 
     } catch (err) {
         console.log("Error Occurred while adding product to Database");
         console.log(err)
     }
-
 });
 
 router.get("/edit-product/(:id)", checkAuth, (req, res) => {
@@ -175,14 +170,11 @@ router.get("/edit-product/(:id)", checkAuth, (req, res) => {
                 Category.find().select("catName sub_category variant")
                     .exec()
                     .then(docs => {
-
                         res.render('./seller/products/edit-product', { images: allImages, catData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
-
                     })
             } else {
                 res.send('try-again')
             }
-
         })
 });
 
@@ -192,19 +184,17 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
     var specsArr = [{
         "specName": req.body.specName,
         "specValue": req.body.specValue,
-
-    }, ];
+    },];
 
     Products.findById(id, (err, doc) => {
         if (!err) {
-
             var imageArr = [];
             doc.images.forEach((element) => {
                 imageArr.push(element).toString();
             });
 
             var rawSS = req.files.images;
-            if (rawSS) { //Check if image is selected in choose image field and push it in array
+            if (rawSS) {
                 rawSS.forEach((element) => {
                     imageArr.push((element.path).toString().substring(6));
                 });
@@ -224,32 +214,29 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
         }
 
         var prodStatus;
-
         if (req.body.status == "Pending") {
-            console.log("status pending")
             prodStatus = "Pending";
         } else if (req.body.status == "Incomplete") {
-            console.log("Incomplete")
             prodStatus = "Incomplete";
         }
 
         Products.findByIdAndUpdate({ _id: id }, {
-                $set: {
-                    images: imageArr,
-                    productName: req.body.productName,
-                    description: req.body.description,
-                    category: req.body.category,
-                    subcategory: req.body.subcategory,
-                    brand: req.body.brand,
-                    specifications: specificationsArr,
-                    actualPrice: req.body.actualPrice,
-                    discount: req.body.discount,
-                    finalPrice: req.body.finalPrice,
-                    quantity: req.body.quantity,
-                    hasVariant: req.body.hasVariant,
-                    status: prodStatus
-                }
-            })
+            $set: {
+                images: imageArr,
+                productName: req.body.productName,
+                description: req.body.description,
+                category: req.body.category,
+                subcategory: req.body.subcategory,
+                brand: req.body.brand,
+                specifications: specificationsArr,
+                actualPrice: req.body.actualPrice,
+                discount: req.body.discount,
+                finalPrice: req.body.finalPrice,
+                quantity: req.body.quantity,
+                hasVariant: req.body.hasVariant,
+                status: prodStatus
+            }
+        })
             .exec()
             .then(result => {
                 console.log(result)
@@ -261,7 +248,7 @@ router.post("/edit-product/:productID", imgUpload, (req, res) => {
                     error: err
                 })
             })
-    });
+    })
 });
 
 router.get("/delete-product/(:id)", (req, res, next) => {
@@ -290,10 +277,10 @@ router.get("/delete-image/(:id)/(:a)", (req, res, next) => {
             console.log(doc.images)
 
             Products.findByIdAndUpdate({ _id: req.params.id }, {
-                    $set: {
-                        images: doc.images
-                    }
-                })
+                $set: {
+                    images: doc.images
+                }
+            })
                 .exec()
                 .then(result => {
                     console.log(result)
