@@ -18,7 +18,6 @@ var upload = multer({ storage: store });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
-
 router.get('/:id', checkAuth, (req, res) => {
     var id = req.params.id;
     var sizeArr = [];
@@ -98,7 +97,6 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
     try {
         var rawSS = req.files.images;
         var imageArr = [];
-
         if (rawSS) {
             for (let i = 0; i < rawSS.length; i++) {
                 const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
@@ -107,9 +105,6 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
                 imageArr.push(url)
             }
         }
-
-        console.log(imageArr)
-
         var sizeArr = [];
         var a = sizesArr[0]["sizes"].length
 
@@ -132,9 +127,7 @@ router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
             status: "Pending"
         })
         await variantData.save();
-
         res.redirect('/seller/products/variant/' + prodID);
-
     } catch (err) {
         console.log(err);
     }
@@ -176,7 +169,6 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
         "finalPrice": req.body.finalPrice
     },];
 
-    console.log(req.body.sizes)
     try {
         var sizeArr = [];
         var a = sizesArr[0]["sizes"].length
@@ -191,51 +183,50 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
             })
         }
 
-        Variants.findById(variantID, (err, doc) => {
-            if (!err) {
-                var imageArr = [];
-                doc.images.forEach((element) => {
-                    imageArr.push(element).toString();
-                });
-                var rawSS = req.files.images;
-                if (rawSS) { 
-                    rawSS.forEach((element) => {
-                        imageArr.push((element.path).toString().substring(6));
-                    });
-                }
-            }
-            console.log(imageArr)
+        var imageArr = [];
+        var variant = await Variants.findById(variantID).exec()
+        for (let i = 0; i < variant.images.length; i++) {
+            imageArr.push(variant.images[i])
+        }
 
-            Variants.findByIdAndUpdate({ _id: variantID }, {
-                $set: {
-                    prodID: prodID,
-                    images: imageArr,
-                    colours: req.body.colours,
-                    sizes: sizeArr,
-                    status: "Pending"
-                }
+        var rawSS = req.files.images;
+        if (rawSS) {
+            for (let i = 0; i < rawSS.length; i++) {
+                const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
+                await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+                var url = await imageRef.getDownloadURL()
+                imageArr.push(url)
+            }
+        }
+
+        Variants.findByIdAndUpdate({ _id: variantID }, {
+            $set: {
+                prodID: prodID,
+                images: imageArr,
+                colours: req.body.colours,
+                sizes: sizeArr,
+                status: "Pending"
+            }
+        })
+            .exec()
+            .then(result => {
+                console.log(result)
+                res.redirect('/seller/products/variant/' + prodID);
             })
-                .exec()
-                .then(result => {
-                    console.log(result)
-                    res.redirect('/seller/products/variant/' + prodID);
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
                 })
             })
+
     } catch (err) {
-        console.log("Error Occurred while Editting variant");
+        console.log("Error Occurred while Editting variant" + err);
     }
 });
 
 router.get("/delete-variant/(:id)/(:variantID)", async (req, res, next) => {
     var prodID = req.params.id;
-    var variantID = req.params.variantID;
-
     const id = req.params.variantID;
 
     var variant = await Variants.findByIdAndRemove(id).exec()
@@ -251,26 +242,26 @@ router.get("/delete-variant/(:id)/(:variantID)", async (req, res, next) => {
 
 });
 
-router.get("/delete-image/(:id)/(:variantID)/(:a)", (req, res, next) => {
+router.get("/delete-image/(:id)/(:variantID)/(:a)", async (req, res, next) => {
     const index = req.params.a
 
-    Variants.findById(req.params.variantID, (err, doc) => {
-        if (!err) {
-            fs.unlinkSync("\public" + doc.images[index])
+    var variant = await Variants.findById(req.params.variantID).exec()
 
-            doc.images.splice(index, 1)
+    var imagePath = variant.images[index].split("?")
+    var fileRef = firebase.storage().refFromURL(imagePath[0]);
+    var del = fileRef.delete();
 
-            Variants.findByIdAndUpdate({ _id: req.params.variantID }, {
-                $set: {
-                    images: doc.images
-                }
-            })
-                .exec()
-                .then(result => {
-                    res.redirect("/seller/products/variant/edit-variant/" + req.params.id + "/" + req.params.variantID);
-                })
+    variant.images.splice(index, 1)
+
+    Variants.findByIdAndUpdate({ _id: req.params.variantID }, {
+        $set: {
+            images: variant.images
         }
-    });
+    })
+        .exec()
+        .then(result => {
+            res.redirect("/seller/products/variant/edit-variant/" + req.params.id + "/" + req.params.variantID);
+        })
 });
 
 module.exports = router
