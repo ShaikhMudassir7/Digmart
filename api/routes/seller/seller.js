@@ -207,6 +207,10 @@ router.get('/login', (req, res) => {
     res.render("./seller/login")
 })
 
+router.get('/add-gallery', (req, res) => {
+    res.render("./seller/add-gallery")
+})
+
 router.post('/sendOtp', (req, res) => {
     if (req.query.busEmail) {
         var busEmail = req.query.busEmail
