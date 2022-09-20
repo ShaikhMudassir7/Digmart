@@ -113,11 +113,18 @@ var swiper = new Swiper(".productSwiper", {
 });
 
 function wishlist(element) {
-    if (!user) {
-        console.log('Display loginpopup modal')
-        $('#loginpopup').modal('show');
-    } else {
+    if ($("#hidLogin").val()) {
         element.classList.toggle('i-red');
+    } else {
+        $('#loginpopup').modal('show');
+    }
+}
+
+function cart() {
+    if ($("#hidLogin").val()) {
+        console.log("Added to Cart")
+    } else {
+        $('#loginpopup').modal('show');
     }
 }
 
