@@ -47,7 +47,7 @@ router.get('/add-gallery/:id', checkAuth, (req, res) => {
     Seller.findById(req.params.id,
         (err, doc) => {
             if (!err) {
-                Variants.find({ 'sellerID': sellerID }).select()
+                SellerGall.find({ 'sellerID': sellerID }).select()
                     .exec()
                     .then(docs => {
                         res.render("./seller/gallery/add-gallery", { sellerData: doc, id: sellerID, galleryData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
@@ -80,7 +80,7 @@ router.post('/add-gallery/:id', imgUpload, async (req, res, next) => {
         await galleryData.save();
         res.redirect('/seller/gallery/' + sellerID);
     } catch (err) {
-        console.log(err);
+        console.log('error'+err);
     }
 });
 
@@ -89,16 +89,16 @@ router.get("/edit-gallery/(:id)/(:galleryID)", checkAuth, (req, res) => {
     var id = req.params.id;
     var galleryID = req.params.galleryID;
 
-    Products.findById(id,
+    Seller.findById(id,
         (err, element) => {
             if (!err) {
-                Variants.findById(galleryID,
+                SellerGall.findById(galleryID,
                     (err, doc) => {
                         if (!err) {
                             Gallery.find({ 'sellerID': id }).select()
                                 .exec()
                                 .then(docs => {
-                                    res.render('./seller/variants/edit-variant', { images: allImages, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+                                    res.render('./seller/gallery/edit-gallery', { images: allImages, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
                                 })
                         }
                     })
@@ -108,13 +108,12 @@ router.get("/edit-gallery/(:id)/(:galleryID)", checkAuth, (req, res) => {
         })
 });
 
-router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
+router.post("/edit-gallery/(:id)/(:galleryID)", imgUpload, async (req, res) => {
     var sellerID = req.params.id;
     var galleryID = req.params.galleryID;
 
 
     try {
-        var imageArr = [];
         var gallery = await SellerGall.findById(galleryID).exec()
         for (let i = 0; i < gallery.images.length; i++) {
             imageArr.push(gallery.images[i])
@@ -138,7 +137,7 @@ router.post("/edit-variant/(:id)/(:variantID)", imgUpload, async (req, res) => {
             .exec()
             .then(result => {
                 console.log(result)
-                res.redirect('/seller/gallery/' + galleryID);
+                res.redirect('/seller/gallery/' + sellerID);
             })
             .catch(err => {
                 console.log(err)
@@ -165,29 +164,29 @@ router.get("/delete-gallery/(:id)/(:galleryID)", async (req, res, next) => {
         var del = await fileRef.delete()
 
     }
-    res.redirect('/seller/products/variant/' + sellerID);
+    res.redirect('/seller/gallery/' + sellerID);
 
 });
 
 router.get("/delete-image/(:id)/(:galleryID)/(:a)", async (req, res, next) => {
     const index = req.params.a
 
-    var variant = await Variants.findById(req.params.galleryID).exec()
+    var gallery = await SellerGall.findById(req.params.galleryID).exec()
 
-    var imagePath = variant.images[index].split("?")
+    var imagePath = gallery.images[index].split("?")
     var fileRef = firebase.storage().refFromURL(imagePath[0]);
     var del = fileRef.delete();
 
-    variant.images.splice(index, 1)
+    gallery.images.splice(index, 1)
 
-    Variants.findByIdAndUpdate({ _id: req.params.variantID }, {
+    SellerGall.findByIdAndUpdate({ _id: req.params.galleryID }, {
         $set: {
-            images: variant.images
+            images: gallery.images
         }
     })
         .exec()
         .then(result => {
-            res.redirect("/seller/products/variant/edit-variant/" + req.params.id + "/" + req.params.variantID);
+            res.redirect("/seller/gallery/edit-gallery/" + req.params.id + "/" + req.params.galleryID);
         })
 });
 

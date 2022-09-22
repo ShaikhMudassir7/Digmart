@@ -41,19 +41,21 @@
                                     <table width="100%" class="table table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th class="col-md-4">Colours</th>
-                                                <th>Size : Quantity : Final Price</th>
+                                                <th class="col-md-4">Seller Id</th>
+                                                <th>Photos</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                           
+                                            <% if(galleryData.length!=0) { var i=0;
+                                                galleryData.forEach(function(data){ %>
                                                 <tr>
                                                     <td>
-                                                        
+                                                        <%-data.sellerID%>
                                                     </td>
                                                     <td>
-                                                        
+                                                        <%-images[i].join('</br>')%>
 
                                                     </td>
 
@@ -61,7 +63,7 @@
                                                     <td class="text-end">
 
 
-                                                        <a href=""
+                                                        <a href="/seller/gallery/edit-gallery/<%=sellerData._id%>/<%=data._id%>"
                                                             class="btn btn-outline-info btn-rounded"><i
                                                                 class="fas fa-pen"></i></a>
 
@@ -71,43 +73,19 @@
                                                                 class="fas fa-trash"></i>
                                                         </button> -->
 
-                                                        <a href=""
+                                                        <a href="/seller/gallery/delete-gallery/<%=sellerData._id%>/<%=data._id %>"
                                                             class="btn btn-outline-danger btn-rounded"><i
                                                                 class="fas fa-trash"></i></a>
                                                     </td>
 
                                                 </tr>
 
-
-                                                <!-- Delete Warning Modal -->
-                                                <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                                    data-bs-keyboard="false" tabindex="-1"
-                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">
-                                                                    Delete Product!
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to Delete this Product?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-
-                                                                <a href=""
-                                                                    class="btn btn-danger">DELETE</a>
-
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                                
+                                                <% i++; }) %>
+                                                <% } else{ %>
+                                                    <tr>
+                                                        <td colspan="12">No Data Found</td>
+                                                    </tr>
+                                                    <% } %>
 
                                         </tbody>
                                     </table>

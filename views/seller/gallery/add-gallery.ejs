@@ -6,18 +6,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Variants</title>
+    <title>Add Variant</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/vendor/Datatables/datatables.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
 </head>
 
 <body>
-
-
     <div class="wrapper">
         <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
@@ -28,116 +26,93 @@
                     <!-- end of navbar navigation -->
                     <div class="content">
                         <div class="container">
-                            <div class="page-title">
-                                <h3>Variants of <%=productData.productName %>
-                                        <a href="/seller/gallery/add-gallery/<%=id%>" class="btn btn-sm btn-outline-primary float-end"><i class="fas fa-plus-circle"></i> Add</a>
-                                </h3>
-                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-header fw-bold bg-dark text-light">ADD NEW GALLERY</div>
+                                        <div class="card-body">
 
-                            <div class="box box-primary">
-                                <div class="box-body">
-                                    <table width="100%" class="table table-hover" id="dataTables-example">
-                                        <thead>
-                                            <tr>
-                                                <th class="col-md-4">Colours</th>
-                                                <th>Size : Quantity : Final Price</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% if(variantsData.length!=0) { var i=0;
-                                                variantsData.forEach(function(data){ %>
-                                                <tr>
-                                                    <td>
-                                                        <%=data.colours %>
-                                                    </td>
-                                                    <td>
-                                                        <%-sizeArr[i].join('</br>')%>
+                                            <form action="/seller/gallery/add-gallery/<%=id%>"
+                                                enctype="multipart/form-data" id="addVariantForm" method="post"
+                                                class="needs-validation" novalidate accept-charset="utf-8">
 
-                                                    </td>
-
-
-                                                    <td class="text-end">
-
-
-                                                        <a href="/seller/gallery/edit-gallery/<%=sellerData._id%>/<%=data._id%>"
-                                                            class="btn btn-outline-info btn-rounded"><i
-                                                                class="fas fa-pen"></i></a>
-
-                                                        <!-- <button type="button" class="btn btn-outline-danger btn-rounded"
-                                                            id="submitData" data-bs-toggle="modal"
-                                                            data-bs-target="#staticBackdrop"><i
-                                                                class="fas fa-trash"></i>
-                                                        </button> -->
-
-                                                        <a href="/seller/gallery/delete-gallery/<%=sellerData._id%>/<%=data._id %>"
-                                                            class="btn btn-outline-danger btn-rounded"><i
-                                                                class="fas fa-trash"></i></a>
-                                                    </td>
-
-                                                </tr>
-
-
-                                                <!-- Delete Warning Modal -->
-                                                <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                                    data-bs-keyboard="false" tabindex="-1"
-                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">
-                                                                    Delete Product!
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to Delete this Product?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-
-                                                                <a href="/seller/products/delete-product/<%=data._id %>"
-                                                                    class="btn btn-danger">DELETE</a>
-
-                                                            </div>
-
-                                                        </div>
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="productName" class="form-label">Seller
+                                                            Name</label>
+                                                        <input type="name" class="form-control" name="productName"
+                                                            id="sellerName" value="<%=sellerData.pFname %>"
+                                                            readonly>
                                                     </div>
-                                                </div> -->
-                                                <% i++; }) %>
-                                                    <% } else{ %>
-                                                        <tr>
-                                                            <td colspan="12">No Data Found</td>
-                                                        </tr>
-                                                        <% } %>
+                                                </div>
 
-                                        </tbody>
-                                    </table>
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="images" class="form-label">Gallery
+                                                            Images:</label>
+                                                        <input type="file" class="form-control" name="images"
+                                                            multiple='multiple' accept="image/*" required>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please Choose an Image.</div>
+                                                    </div>
+                                                </div>
 
-
+                                                <a href="/seller/gallery/<%=sellerData._id %>"
+                                                    class="btn btn-danger"><i class="fas fa-times"></i>
+                                                    Cancel</a>
+                                                <button type="submit" class="btn btn-primary" id="submitVariantData"
+                                                    style="float: right"><i class="fas fa-save"></i> Add
+                                                    Gallery</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
             </div>
     </div>
-    <script>
-        const toastTrigger = document.getElementById('staticBackdrop');
-        const toastLiveExample = document.getElementById('liveToast')
-        if (toastTrigger) {
-            toastTrigger.addEventListener('click', () => {
-                const toast = new bootstrap.Toast(toastLiveExample)
 
-                toast.show()
-            })
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script>
+        $(function(){
+           $("input[type = 'submit']").click(function(){
+              var $fileUpload = $("input[type='file']");
+              if (parseInt($fileUpload.get(0).files.length) > 4){
+                 alert("You are only allowed to upload a maximum of 4 files");
+              }
+           });
+        });
+     </script>
+
+    <script>
+        function calculateMoreFields(val1, val2, counter) {
+
+            var actualPrice = document.getElementById("actualPrice" + counter).value;
+            var discountPct = document.getElementById("discount" + counter).value;
+
+            var total = (actualPrice * discountPct) / 100;
+            finalPrice = actualPrice - total;
+
+            var finalPriceField = document.getElementById("finalPrice" + counter);
+            finalPriceField.value = finalPrice;
         }
 
+        function calculate(val1, val2) {
+            var actualPrice = document.getElementById("actualPrice").value;
+            var discountPct = document.getElementById("discount").value;
+
+            var total = (actualPrice * discountPct) / 100;
+            finalPrice = actualPrice - total;
+
+            var finalPriceField = document.getElementById("finalPrice");
+            finalPriceField.value = finalPrice;
+        }
     </script>
-    <script src="/vendor/jquery/jquery.min.js"></script>
+
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
+    <script src="/js/form-validator.js"></script>
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
 </body>
