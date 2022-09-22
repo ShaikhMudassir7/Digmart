@@ -130,15 +130,15 @@ function cart() {
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
+        if (!sessionStorage.pincode)
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else
         alert("Geolocation is not supported by this browser.")
-    }
+
 }
 getLocation();
 
 function showPosition(position) {
-
     $.ajax({
         url: "/api/pincode",
         type: "POST",
@@ -148,9 +148,8 @@ function showPosition(position) {
         },
         dataType: 'json',
         success: function (result) {
-           if(result.pincode != 'error'){
-            console.log(result.pincode)
-           }
+            if (result.pincode != 'error')
+                sessionStorage.setItem("pincode", result.pincode);
         }
     });
 }
@@ -158,17 +157,17 @@ function showPosition(position) {
 function showError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.")
+            console.log("User denied the request for Geolocation.")
             // window.location.reload()
             break;
         case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.")
+            console.log("Location information is unavailable.")
             break;
         case error.TIMEOUT:
-            alert("The request to get user location timed out.")
+            console.log("The request to get user location timed out.")
             break;
         case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.")
+            console.log("An unknown error occurred.")
             break;
     }
 }

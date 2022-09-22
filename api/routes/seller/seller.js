@@ -209,6 +209,10 @@ router.get('/login', (req, res) => {
     res.render("./seller/login")
 })
 
+router.get('/add-gallery', (req, res) => {
+    res.render("./seller/add-gallery")
+})
+
 router.post('/sendOtp', (req, res) => {
     if (req.query.busEmail) {
         var excepArr = ['dsouzaglen30@gmail.com', 'hatimsb11@gmail.com', 'hawaiza27@gmail.com', 'send2mudassir@gmail.com', '4444444444@gmail.com', '5555555555@gmail.com', '6666666666@gmail.com', '7777777777@gmail.com']
