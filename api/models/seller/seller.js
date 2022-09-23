@@ -31,6 +31,8 @@ const sellerSchema = mongoose.Schema({
     bankIfsc: { type: String, required: true },
     bankChqPass: { type: String, required: true },
 
+    featured: { type: Boolean, default: false},
+
     mobileOtp: { type: String },
     emailOtp: { type: String },
 });

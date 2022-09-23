@@ -104,12 +104,12 @@
                     <% if(catData.length!=0){ catData.forEach(function(data){ %>
                         <div class="cat swiper-slide">
                             <div class="imgDiv">
-                                <a href="\shop-by-category?id=<%=data._id%>">
+                                <a href="\shop-by-category?cat=<%=data.catName%>">
                                     <img src="<%=data.catImage%>" class="rounded-circle" alt="<%=data.catName%>">
                                 </a>
                             </div>
                             <div class="des px-2 text-center">
-                                <a href="\shop-by-category?id=<%=data._id%>">
+                                <a href="\shop-by-category?cat=<%=data.catName%>">
                                     <p>
                                         <%=data.catName%>
                                     </p>
@@ -166,26 +166,44 @@
         </div>
         <div class="swiper productSwiper">
             <div id="product1" class="swiper-wrapper">
-
-                <%for (let index=0; index < 16; index++) {%>
+                <% proDocs.forEach(function(product){%>
                     <div class="pro swiper-slide">
-                        <div class="imgDiv">
-                            <div class="discount-badge">10% off</div>
-                            <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                            <img src="https://i.imgur.com/VY0R9aV.jpg" alt="">
-                        </div>
-                        <div class="des px-2 text-start">
-                            <span class="category">Personal Electronics</span>
-                            <h6>Colorfit Caliber Smartwatch</h6>
-                            <div class="rating py-1"><i class="fa fa-star"> 4.2</i></div>
-                            <div>
-                                <h5 class="prodPrice">₹ 799</h5>
-                                <span class="discPrice text-muted px-2">₹999</span>
+                        <%if(product.hasVariant){ 
+                            for(j = 0; j < varDocs.length; j++){
+                                if(varDocs[j].prodID.equals(product._id)){ %>
+                            <div class="imgDiv">
+                                <div class="discount-badge"><%=varDocs[j].sizes[0].discount%>% off</div>
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                             </div>
-                        </div>
+                            <div class="des px-2 text-start">
+                                <span class="category"><%=product.category%></span>
+                                <h6><%=product.productName%></h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.2</i></div>
+                                <div>
+                                    <h5 class="prodPrice">₹ <%=varDocs[j].sizes[0].finalPrice%></h5>
+                                    <span class="discPrice text-muted px-2">₹ <%=varDocs[j].sizes[0].actualPrice%></span>
+                                </div>
+                            </div>
+                        <%}}} else {%>
+                            <div class="imgDiv">
+                                <div class="discount-badge"><%=product.discount%>% off</div>
+                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                <img src="<%=product.images%>" alt="<%=product.productName%>">
+                            </div>
+                            <div class="des px-2 text-start">
+                                <span class="category"><%=product.category%></span>
+                                <h6><%=product.productName%></h6>
+                                <div class="rating py-1"><i class="fa fa-star"> 4.2</i></div>
+                                <div>
+                                    <h5 class="prodPrice">₹ <%=product.finalPrice%></h5>
+                                    <span class="discPrice text-muted px-2">₹ <%=product.actualPrice%></span>
+                                </div>
+                            </div>
+                        <%}%>
                         <i class="fas fa-shopping-cart cart" onclick="cart()"></i>
                     </div>
-                    <%}%>
+                    <%})%>
             </div>
             <div id="prevProductBtn" class="swiper-button-prev fas fa-chevron-left fa-2x"></div>
             <div id="nextProductBtn" class="swiper-button-next fas fa-chevron-right fa-2x"></div>

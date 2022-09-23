@@ -70,89 +70,103 @@
     </section>
 
     <div class="text-center text-muted m-3 fs-1">
-        <%=catData.catName%>
+        <%=catDocs.catName%>
     </div>
     <div class="card">
         <nav class="position-relative">
             <button id="navLeft" class="btn"><i class="fas fa-angle-left"></i></button>
             <div class="nav nav-tabs ms-3 me-3 flex-nowrap pb-1" id="nav-tab" role="tablist">
-                <% var catArr=catData.sub_category.split(', ')
-                for (i = 0; i < catArr.length; i++) 
-                    catArr[i] = catArr[i].replaceAll(' ', '_') %>
-                    <input type="hidden" id="firstnav" value="#nav-<%=catArr[0]%>">
-                    <%catArr.forEach(element1=> {
-                        element = element1.replaceAll('_', ' ')
-                        element1 = element1.replaceAll('&', '_') %>
-                        <button class="nav-link flex-fill" id="nav-<%=element1%>" data-bs-toggle="tab"
-                            data-bs-target="#tab-<%=element1%>" type="button" role="tab"
-                            aria-controls="tab-<%=element1%>" aria-selected="false">
-                            <%=element%>
-                        </button>
-                        <%}) %>
+                <% var catArr=catDocs.sub_category.split(', ')
+                var catArr2 = []
+                for (i = 0; i < catArr.length; i++){ 
+                    catArr2[i] = catArr[i].replaceAll(' ', '_').replaceAll('&', '_' ) %>
+                    <button class="nav-link flex-fill" id="nav-<%=catArr2[i]%>" data-bs-toggle="tab"
+                        data-bs-target="#tab-<%=catArr2[i]%>" type="button" role="tab"
+                        aria-controls="tab-<%=catArr2[i]%>" aria-selected="false">
+                        <%=catArr[i]%>
+                    </button>
+                    <%} %>
+                        <input type="hidden" id="firstnav" value="#nav-<%=catArr2[0]%>">
             </div>
             <button id="navRight" class="btn"><i class="fas fa-angle-right"></i></button>
         </nav>
         <div class="card-body tab-content" id="nav-tabContent">
-
-            <% var catArr=catData.sub_category.split(', ')
-            for (i = 0; i < catArr.length; i++) 
-                    catArr[i] = catArr[i].replaceAll(' ', '_') %>
-                <input type="hidden" id="firsttab" value="#tab-<%=catArr[0]%>">
-                <%catArr.forEach(element=> {
-                    element1 = element.replaceAll('_', ' ')
-                    element = element.replaceAll('&', '_')%>
-                    <div class="tab-pane fade" id="tab-<%=element%>" role="tabpanel" aria-labelledby="nav-<%=element%>"
-                        tabindex="0">
-                        <%=element1%>
-                            <div class="row justify-content-evenly ps-auto pe-auto">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
-                                    <div id="searchDiv" class="form-control p-0 d-flex align-items-center">
-                                        <i class="fas fa-search px-2"></i>
-                                        <input class="flex-fill" type="search" placeholder="Search" aria-label="Search">
-                                    </div>
+            <% var catArr = catDocs.sub_category.split(', ')
+            var catArr2 = []
+            for (i = 0; i < catArr.length; i++){ 
+                catArr2[i] = catArr[i].replaceAll(' ', '_').replaceAll('&', '_' ) %>
+                <div class="tab-pane fade" id="tab-<%=catArr2[i]%>" role="tabpanel"
+                    aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
+                        <div class="row justify-content-evenly ps-auto pe-auto">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
+                                <div id="searchDiv" class="form-control p-0 d-flex align-items-center">
+                                    <i class="fas fa-search px-2"></i>
+                                    <input class="flex-fill" type="search" placeholder="Search" aria-label="Search">
                                 </div>
-                                <div
-                                    class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
-                                    <select name="subCat" class="form-select" onchange="catChange(this.value)" required>
-                                        <option value="All" selected>Sub-category - All</option>
-                                        <% var catArr=catData.sub_category.split(', ') 
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
+                                <select name="subCat" class="form-select" onchange="catChange(this.value)" required>
+                                    <option value="All" selected>Sub-category - All</option>
+                                    <% var catArr=catDocs.sub_category.split(', ') 
                                         catArr.forEach(element => { %>
                                             <option value="<%=element %>">Sub-category - <%=element %></option>
-                                        <%});  %>
+                                        <%})  %>
                                       </select>
-                                </div>
-                                <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
                                     <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#filterModal">
                                        <i class="fas fa-filter"></i> Filters
                                       </button>
-                                </div>
-                            </div>
-                            <div class="row justify-content-evenly ps-auto pe-auto">
-                                <%for (let index=0; index < 16; index++) {%>
-                                    <div class="flex-fill col-5 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">
-                                        <div class="pro ms-auto me-auto">
-                                            <div class="imgDiv">
-                                                <div class="discount-badge">10% off</div>
-                                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                                                <img src="https://i.imgur.com/VY0R9aV.jpg" alt="">
-                                            </div>
-                                            <div class="des px-2 text-start">
-                                                <span class="prodCat d-block">Personal Electronics</span>
-                                                <span class="prodName d-block">Colorfit Caliber Smartwatch</span>
-                                                <div class="rating my-1"><i class="fa fa-star"> 4.2</i></div>
-                                                <div>
-                                                    <span class="prodPrice">₹ 799</span>
-                                                    <span class="discPrice text-muted px-2">₹999</span>
-                                                </div>
-                                            </div>
-                                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-                                        </div>
-                                    </div>
-                                    <%}%>
                             </div>
                         </div>
-            <%}) %> 
-
+                        <div class="row justify-content-evenly ps-auto pe-auto">
+                                <% proDocs.forEach(function(product){
+                                    if(product.subcategory == catArr[i]){
+                                       %>
+                                    <div class="flex-fill col-5 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">                                        
+                                        <div class="pro ms-auto me-auto">
+                                            <% if(product.hasVariant){ 
+                                                for(j = 0; j < varDocs.length; j++){
+                                                    if(varDocs[j].prodID.equals(product._id)){
+                                                %>
+                                            <div class="imgDiv">
+                                                <div class="discount-badge"><%=varDocs[j].sizes[0].discount%>% off</div>
+                                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                                <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
+                                            </div>
+                                            <div class="des px-2 text-start">
+                                                <span class="prodCat d-block"><%=product.subcategory%></span>
+                                                <span class="prodName d-block"><%=product.productName%></span>
+                                                <div class="rating my-1"><i class="fa fa-star"> 4.2</i></div>
+                                                <div>
+                                                    <span class="prodPrice">₹ <%=varDocs[j].sizes[0].finalPrice%></span>
+                                                    <span class="discPrice text-muted px-2">₹ <%=varDocs[j].sizes[0].actualPrice%></span>
+                                                </div>
+                                            </div>
+                                            <%}}} else {%>
+                                            <div class="imgDiv">
+                                                <div class="discount-badge"><%=product.discount%>% off</div>
+                                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                                <img src="<%=product.images%>" alt="<%=product.productName%>">
+                                            </div>
+                                            <div class="des px-2 text-start">
+                                                <span class="prodCat d-block"><%=product.subcategory%></span>
+                                                <span class="prodName d-block"><%=product.productName%></span>
+                                                <div class="rating my-1"><i class="fa fa-star"> 4.2</i></div>
+                                                <div>
+                                                    <span class="prodPrice">₹ <%=product.finalPrice%></span>
+                                                    <span class="discPrice text-muted px-2">₹ <%=product.actualPrice%></span>
+                                                </div>
+                                            </div>    
+                                            <%}%>   
+                                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
+                                        </div>       
+                                    </div>
+                                    <% }})%>
+                        </div>
+                </div>
+            <%}%> 
+            <input type="hidden" id="firsttab" value="#tab-<%=catArr2[0]%>">        
         </div>
     </div>
 
@@ -165,97 +179,96 @@
     <!-- FOOTER -->
     <section id="footer">
         <%- include('footer') %>
-                                            </section>
+                                        </section>
 
-                                            <!-- FilterModal -->
-                                            <div class="modal fade" id="filterModal" data-bs-backdrop="static"
-                                                data-bs-keyboard="false" tabindex="-1"
-                                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
-                                                    <div class="modal-content" style="height: 90vh;">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="staticBackdropLabel">Filters
-                                                            </h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="accordion accordion-flush"
-                                                                id="accordionFlushExample">
-                                                                <div class="accordion-item">
-                                                                    <h2 class="accordion-header" id="flush-headingOne">
-                                                                        <button class="accordion-button collapsed"
-                                                                            type="button" data-bs-toggle="collapse"
-                                                                            data-bs-target="#flush-collapseOne"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="flush-collapseOne">
-                                                                            Price
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="flush-collapseOne"
-                                                                        class="accordion-collapse collapse"
-                                                                        aria-labelledby="flush-headingOne"
-                                                                        data-bs-parent="#accordionFlushExample">
-                                                                        <div class="accordion-body">
+                                        <!-- FilterModal -->
+                                        <div class="modal fade" id="filterModal" data-bs-backdrop="static"
+                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
+                                                <div class="modal-content" style="height: 90vh;">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Filters
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="accordion accordion-flush"
+                                                            id="accordionFlushExample">
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="flush-headingOne">
+                                                                    <button class="accordion-button collapsed"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#flush-collapseOne"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="flush-collapseOne">
+                                                                        Price
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="flush-collapseOne"
+                                                                    class="accordion-collapse collapse"
+                                                                    aria-labelledby="flush-headingOne"
+                                                                    data-bs-parent="#accordionFlushExample">
+                                                                    <div class="accordion-body">
 
-                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="accordion-item">
-                                                                    <h2 class="accordion-header" id="flush-headingTwo">
-                                                                        <button class="accordion-button collapsed"
-                                                                            type="button" data-bs-toggle="collapse"
-                                                                            data-bs-target="#flush-collapseTwo"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="flush-collapseTwo">
-                                                                            Ratings
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="flush-collapseTwo"
-                                                                        class="accordion-collapse collapse"
-                                                                        aria-labelledby="flush-headingTwo"
-                                                                        data-bs-parent="#accordionFlushExample">
-                                                                        <div class="accordion-body">
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="flush-headingTwo">
+                                                                    <button class="accordion-button collapsed"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#flush-collapseTwo"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="flush-collapseTwo">
+                                                                        Ratings
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="flush-collapseTwo"
+                                                                    class="accordion-collapse collapse"
+                                                                    aria-labelledby="flush-headingTwo"
+                                                                    data-bs-parent="#accordionFlushExample">
+                                                                    <div class="accordion-body">
 
-                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="accordion-item">
-                                                                    <h2 class="accordion-header"
-                                                                        id="flush-headingThree">
-                                                                        <button class="accordion-button collapsed"
-                                                                            type="button" data-bs-toggle="collapse"
-                                                                            data-bs-target="#flush-collapseThree"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="flush-collapseThree">
-                                                                            Availability
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="flush-collapseThree"
-                                                                        class="accordion-collapse collapse"
-                                                                        aria-labelledby="flush-headingThree"
-                                                                        data-bs-parent="#accordionFlushExample">
-                                                                        <div class="accordion-body">
-                                                                            <input type="checkbox" name="availability"
-                                                                                id="availability">
-                                                                            <label class="form-check-label"
-                                                                                for="availability">Include Out of
-                                                                                Stock</label>
-                                                                        </div>
+                                                            </div>
+                                                            <div class="accordion-item">
+                                                                <h2 class="accordion-header" id="flush-headingThree">
+                                                                    <button class="accordion-button collapsed"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        data-bs-target="#flush-collapseThree"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="flush-collapseThree">
+                                                                        Availability
+                                                                    </button>
+                                                                </h2>
+                                                                <div id="flush-collapseThree"
+                                                                    class="accordion-collapse collapse"
+                                                                    aria-labelledby="flush-headingThree"
+                                                                    data-bs-parent="#accordionFlushExample">
+                                                                    <div class="accordion-body">
+                                                                        <input type="checkbox" name="availability"
+                                                                            id="availability">
+                                                                        <label class="form-check-label"
+                                                                            for="availability">Include Out of
+                                                                            Stock</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-outline-primary"
-                                                                data-bs-dismiss="modal">Apply</button>
-                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-primary"
+                                                            data-bs-dismiss="modal">Apply</button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <!-- Login Modal -->
-                                            <%- include('login') %>
+                                        <!-- Login Modal -->
+                                        <%- include('login') %>
 
 
 
