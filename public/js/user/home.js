@@ -42,8 +42,6 @@ var swiper = new Swiper(".sellerSwiper", {
     slidesPerView: 5,
     spaceBetween: 20,
     slidesPerGroup: 1,
-    loop: true,
-    loopFillGroupWithBlank: true,
     fade: 'true',
     keyboard: {
         enabled: true,
@@ -77,8 +75,6 @@ var swiper = new Swiper(".productSwiper", {
     slidesPerView: 5,
     spaceBetween: 20,
     slidesPerGroup: 1,
-    loop: true,
-    loopFillGroupWithBlank: true,
     fade: 'true',
     keyboard: {
         enabled: true,

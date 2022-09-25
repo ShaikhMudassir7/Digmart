@@ -93,7 +93,7 @@
     </section>
 
     <!-- CATEGORIES -->
-    <section id="Categories" style="margin-top: 5rem; margin-bottom: 5rem;">
+    <section id="Categories" style="margin-top: 4rem; margin-bottom: 4rem;">
         <div class="headline text-center m-4">
             <h2 class="pb-3 position-relative d-inline-block">Shop by Category</h2>
         </div>
@@ -124,7 +124,7 @@
     </section>
 
     <!-- SELLERS -->
-    <section id="Sellers" style="margin-top: 5rem; margin-bottom: 5rem;">
+    <section id="Sellers" style="margin-top: 4rem; margin-bottom: 4rem;">
         <div class="headline text-center m-4">
             <h2 class="pb-3 position-relative d-inline-block">Featured Sellers</h2>
         </div>
@@ -172,32 +172,36 @@
                             for(j = 0; j < varDocs.length; j++){
                                 if(varDocs[j].prodID.equals(product._id)){ %>
                             <div class="imgDiv">
-                                <div class="discount-badge"><%=varDocs[j].sizes[0].discount%>% off</div>
+                                <%if(varDocs[j].sizes[0].discount){%>
+                                <div class="discount-badge"><%=varDocs[j].sizes[0].discount%>% off</div><%}%>
                                 <i class="fa fa-heart" onclick="wishlist(this)"></i>
                                 <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                             </div>
                             <div class="des px-2 text-start">
-                                <span class="category"><%=product.category%></span>
-                                <h6><%=product.productName%></h6>
-                                <div class="rating py-1"><i class="fa fa-star"> 4.2</i></div>
+                                <span class="prodCat d-block"><%=product.category%></span>
+                                <span class="prodName d-block"><%=product.productName%></span>
+                                <div class="rating"><i class="fa fa-star"> 4.2</i></div>
                                 <div>
-                                    <h5 class="prodPrice">₹ <%=varDocs[j].sizes[0].finalPrice%></h5>
-                                    <span class="discPrice text-muted px-2">₹ <%=varDocs[j].sizes[0].actualPrice%></span>
+                                    <span class="prodPrice">₹ <%=varDocs[j].sizes[0].finalPrice%></span>
+                                    <%if(varDocs[j].sizes[0].discount){%>
+                                    <span class="discPrice text-muted px-2">₹ <%=varDocs[j].sizes[0].actualPrice%></span><%}%>
                                 </div>
                             </div>
                         <%}}} else {%>
                             <div class="imgDiv">
-                                <div class="discount-badge"><%=product.discount%>% off</div>
+                                <%if(product.discount){%>
+                                <div class="discount-badge"><%=product.discount%>% off</div><%}%>
                                 <i class="fa fa-heart" onclick="wishlist(this)"></i>
                                 <img src="<%=product.images%>" alt="<%=product.productName%>">
                             </div>
                             <div class="des px-2 text-start">
-                                <span class="category"><%=product.category%></span>
-                                <h6><%=product.productName%></h6>
-                                <div class="rating py-1"><i class="fa fa-star"> 4.2</i></div>
+                                <span class="prodCat d-block"><%=product.category%></span>
+                                <span class="prodName d-block"><%=product.productName%></span>
+                                <div class="rating"><i class="fa fa-star"> 4.2</i></div>
                                 <div>
-                                    <h5 class="prodPrice">₹ <%=product.finalPrice%></h5>
-                                    <span class="discPrice text-muted px-2">₹ <%=product.actualPrice%></span>
+                                    <span class="prodPrice">₹ <%=product.finalPrice%></span>
+                                    <%if(product.discount){%>
+                                    <span class="discPrice text-muted px-2">₹ <%=product.actualPrice%></span><%}%>
                                 </div>
                             </div>
                         <%}%>
