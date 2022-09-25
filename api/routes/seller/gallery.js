@@ -72,7 +72,7 @@ router.post('/add-gallery/:id', imgUpload, async (req, res, next) => {
             }
         }
        
-        var galleryData = new Gallery({
+        var galleryData = new SellerGall({
             _id: mongoose.Types.ObjectId(),
             sellerID: sellerID,
             images: imageArr,
@@ -85,7 +85,7 @@ router.post('/add-gallery/:id', imgUpload, async (req, res, next) => {
 });
 
 router.get("/edit-gallery/(:id)/(:galleryID)", checkAuth, (req, res) => {
-    const allImages = Gallery.find().select("images")
+    const allImages = SellerGall.find().select("images")
     var id = req.params.id;
     var galleryID = req.params.galleryID;
 
@@ -95,7 +95,7 @@ router.get("/edit-gallery/(:id)/(:galleryID)", checkAuth, (req, res) => {
                 SellerGall.findById(galleryID,
                     (err, doc) => {
                         if (!err) {
-                            Gallery.find({ 'sellerID': id }).select()
+                            SellerGall.find({ 'sellerID': id }).select()
                                 .exec()
                                 .then(docs => {
                                     res.render('./seller/gallery/edit-gallery', { images: allImages, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
@@ -165,7 +165,7 @@ router.get("/delete-gallery/(:id)/(:galleryID)", async (req, res, next) => {
 
     }
     res.redirect('/seller/gallery/' + sellerID);
-
+Gallery
 });
 
 router.get("/delete-image/(:id)/(:galleryID)/(:a)", async (req, res, next) => {
