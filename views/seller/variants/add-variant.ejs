@@ -234,9 +234,6 @@
             colours.setAttribute("disabled", 'true')
             images.setAttribute("disabled", 'true')
             var coloursVal = $("#colours").val();
-
-            // var imagesVal = $("#images")[0].files[0];
-
             $.ajax({
                 url: "/seller/products/variant/add-variant/<%=productData._id %>",
                 method: "POST",

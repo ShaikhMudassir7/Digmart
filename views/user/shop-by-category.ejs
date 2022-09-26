@@ -80,7 +80,7 @@
                 <% var catArr=catDocs.sub_category.split(', ')
                 var catArr2 = []
                 for (i = 0; i < catArr.length; i++){ 
-                    catArr2[i] = catArr[i].replaceAll(' ', '_').replaceAll('&', '_' ) %>
+                    catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
                     <button class="nav-link flex-fill" id="nav-<%=catArr2[i]%>" data-bs-toggle="tab"
                         data-bs-target="#tab-<%=catArr2[i]%>" type="button" role="tab"
                         aria-controls="tab-<%=catArr2[i]%>" aria-selected="false">
@@ -95,7 +95,7 @@
             <% var catArr = catDocs.sub_category.split(', ')
             var catArr2 = []
             for (i = 0; i < catArr.length; i++){ 
-                catArr2[i] = catArr[i].replaceAll(' ', '_').replaceAll('&', '_' ) %>
+                catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
                 <div class="tab-pane fade" id="tab-<%=catArr2[i]%>" role="tabpanel"
                     aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
                         <div class="row justify-content-evenly ps-auto pe-auto">
