@@ -14,9 +14,8 @@ router.get('/view-product/(:id)', (req, res) => {
             if (!err) {
                 Variants.find({ prodID: id }).exec()
                     .then(docs => {
-                        console.log(docs[0])
                         if (!err) {
-                            res.render('./user/product', { images: allImages, variantData: docs[0], variantsData: docs, productData: element });
+                            res.render('./user/product', { images: allImages, variantData: docs[0], variantsData: docs, productData: element, user: req.session.userid });
                         }
                     })
             } else {
@@ -29,7 +28,6 @@ router.get('/view-product/(:id)', (req, res) => {
 router.get('/variant/(:id)/(:colours)', (req, res) => {
     const allImages = Variants.find().select("images")
     var id = req.params.id;
-    var docsize
     var vd;
     Products.findById(id,
         async (err, element) => {
@@ -40,7 +38,7 @@ router.get('/variant/(:id)/(:colours)', (req, res) => {
                     })
                 await Variants.findOne({ prodID: id, colours: req.params.colours })
                     .then(doc => {
-                        res.render('./user/product', { images: allImages, variantData: doc, variantsData: vd, productData: element });
+                        res.render('./user/product', { images: allImages, variantData: doc, variantsData: vd, productData: element, user: req.session.userid });
                     })
             } else {
                 res.send('try-again')
