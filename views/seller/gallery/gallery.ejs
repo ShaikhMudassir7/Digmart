@@ -52,11 +52,12 @@
                                                 galleryData.forEach(function(data){ %>
                                                 <tr>
                                                     <td>
-                                                        <%-data.sellerID%>
+                                                        <%-data.id%>
                                                     </td>
-                                                    <td>
-                                                        <%-images[i].join('</br>')%>
-
+                                                    <td>                              
+                                                       <img src="<%=data.images[i]%>"
+                                                       style="width: 25%; ">
+                                                       
                                                     </td>
 
 

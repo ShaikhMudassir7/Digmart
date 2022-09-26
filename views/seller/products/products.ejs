@@ -17,8 +17,6 @@
 </head>
 
 <body>
-
-
     <div class="wrapper">
         <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
@@ -36,7 +34,6 @@
                                             class="fas fa-plus-circle"></i> Add</a>
                                 </h3>
                             </div>
-
                             <div class="box box-primary">
                                 <div class="box-body">
                                     <table width="100%" class="table table-hover" id="dataTables-example">
@@ -73,7 +70,6 @@
                                                     <td>
                                                         <%=data.status %>
                                                     </td>
-
                                                     <td class="text-end">
                                                         <% if(data.hasVariant) { %>
                                                             <a href="/seller/products/variant/<%=data._id %>"
@@ -83,23 +79,17 @@
                                                                 <a href="/seller/products/edit-product/<%=data._id %>"
                                                                     class="btn btn-outline-info btn-rounded"><i
                                                                         class="fas fa-pen"></i></a>
-
-
-
                                                                 <!-- <button type="button"
                                                                     class="btn btn-outline-danger btn-rounded"
                                                                     id="submitData" data-bs-toggle="modal"
                                                                     data-bs-target="#staticBackdrop"><i
                                                                         class="fas fa-trash"></i>
                                                                 </button> -->
-
                                                                 <a href="/seller/products/delete-product/<%=data._id %>"
                                                             class="btn btn-outline-danger btn-rounded"><i
                                                                 class="fas fa-trash"></i></a>
                                                     </td>
-
                                                 </tr>
-
                                                 <!-- 
                                                 Delete Warning Modal 
                                                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
@@ -123,24 +113,18 @@
 
                                                                 <a href="/seller/products/delete-product/<%=data._id %>"
                                                                     class="btn btn-danger">DELETE</a>
-
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div> -->
                                                 <% i++; }) %>
                                                     <% } else{ %>
                                                         <tr>
-                                                          
                                                             <td colspan="12">No Data Found</td>
                                                         </tr>
                                                         <% } %>
-
                                         </tbody>
                                     </table>
-
-
                                 </div>
                             </div>
                         </div>
@@ -148,19 +132,14 @@
             </div>
     </div>
     <script>
-
         const toastTrigger = document.getElementById('staticBackdrop');
         const toastLiveExample = document.getElementById('liveToast')
         if (toastTrigger) {
             toastTrigger.addEventListener('click', () => {
                 const toast = new bootstrap.Toast(toastLiveExample)
-
                 toast.show()
             })
         }
-
-
-
     </script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

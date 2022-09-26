@@ -337,6 +337,7 @@ router.post('/login', (req, res) => {
 router.get('/dashboard', checkAuth, async (req, res) => {
     var count = {
         "totalProducts": 0,
+        "incompleteProducts": 0,
         "pendingProducts": 0,
         "verifiedProducts": 0,
         "rejectedProducts": 0,
@@ -344,6 +345,10 @@ router.get('/dashboard', checkAuth, async (req, res) => {
     await Products.find({ sellerID: req.session.sellerID })
         .then(docs => {
             count.totalProducts = docs.length
+        })
+    await Products.find({ sellerID: req.session.sellerID, status: "Incomplete" })
+        .then(docs => {
+            count.incompleteProducts = docs.length
         })
     await Products.find({ sellerID: req.session.sellerID, status: "Pending" })
         .then(docs => {
@@ -353,7 +358,7 @@ router.get('/dashboard', checkAuth, async (req, res) => {
         .then(docs => {
             count.verifiedProducts = docs.length
         })
-    await Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }] })
+    await Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
         .then(docs => {
             count.rejectedProducts = docs.length
         })

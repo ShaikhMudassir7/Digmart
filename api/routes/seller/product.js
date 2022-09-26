@@ -48,7 +48,6 @@ router.get('/', checkAuth, (req, res) => {
         Products.find({ sellerID: req.session.sellerID, $or: [{ status: "Pending" }, { status: "Incomplete" }] }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
             .exec()
             .then(docs => {
-
                 res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
             })
             .catch(err => {
@@ -61,7 +60,6 @@ router.get('/', checkAuth, (req, res) => {
         Products.find({ sellerID: req.session.sellerID, status: status }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
             .exec()
             .then(docs => {
-
                 res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
             })
             .catch(err => {
@@ -74,7 +72,6 @@ router.get('/', checkAuth, (req, res) => {
 })
 
 router.get('/add-product', checkAuth, (req, res) => {
-
     Category.find().select("catName sub_category variant")
         .exec()
         .then(docs => {
@@ -88,8 +85,7 @@ router.get('/add-product', checkAuth, (req, res) => {
         })
 });
 
-
-router.post('/add-product', imgUpload, async (req, res, next) => {
+router.post('/add-product', [checkAuth, imgUpload], async (req, res, next) => {
     const { productName } = req.body;
 
     var specsArr = [{
@@ -123,10 +119,8 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
                     specValue: specsArr[0]["specValue"][i],
                 })
             }
-            console.log(specificationsArr)
 
             var prodStatus;
-
             if (req.body.hasVariant) {
                 prodStatus = "Pending"
             } else {
@@ -153,31 +147,24 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
             await productData.save();
         }
         res.redirect('/seller/products/?status=Pending')
-
     } catch (err) {
         console.log("Error Occurred while adding product to Database");
-        console.log(err)
+        
     }
 });
 
-router.get("/edit-product/(:id)", checkAuth, (req, res) => {
+router.get("/edit-product/(:id)", checkAuth, async (req, res, next) => {
     const allImages = Products.find().select("images")
-
-    Products.findById(req.params.id,
-        (err, doc) => {
-            if (!err) {
-                Category.find().select("catName sub_category variant")
-                    .exec()
-                    .then(docs => {
-                        res.render('./seller/products/edit-product', { images: allImages, catData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
-                    })
-            } else {
-                res.send('try-again')
-            }
-        })
+    try {
+        const doc = await Products.findById(req.params.id)
+        const docs = await Category.find().select("catName sub_category variant")
+        res.render('./seller/products/edit-product', { images: allImages, catData: docs, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+    } catch {
+        res.send('try-again')
+    }
 });
 
-router.post("/edit-product/:productID", imgUpload, async (req, res) => {
+router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res) => {
     const id = req.params.productID
 
     var specsArr = [{
@@ -249,7 +236,7 @@ router.post("/edit-product/:productID", imgUpload, async (req, res) => {
         })
 });
 
-router.get("/delete-product/(:id)", async (req, res, next) => {
+router.get("/delete-product/(:id)", checkAuth, async (req, res, next) => {
     const id = req.params.id;
     var products = await Products.findByIdAndRemove(id).exec()
 
@@ -261,13 +248,13 @@ router.get("/delete-product/(:id)", async (req, res, next) => {
     res.redirect('/seller/products');
 });
 
-router.get("/delete-image/(:id)/(:a)", async (req, res, next) => {
+router.get("/delete-image/(:id)/(:a)", checkAuth, async (req, res, next) => {
     const index = req.params.a
     var products = await Products.findById(req.params.id).exec()
 
     var imagePath = products.images[index].split("?")
     var fileRef = firebase.storage().refFromURL(imagePath[0]);
-    var del = fileRef.delete();
+    await fileRef.delete();
 
     products.images.splice(index, 1)
 

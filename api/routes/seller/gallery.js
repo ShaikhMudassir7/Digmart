@@ -24,9 +24,9 @@ router.get('/:id', checkAuth, (req, res) => {
         (err, doc) => {
             if (!err) {
                 SellerGall.find({ 'sellerID': id }).select("images")
-                    // .exec()
+                    .exec()
                     .then(docs => {
-                        res.render('./seller/gallery/gallery', { galleryData: docs, id: id, sellerData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+                        res.render('./seller/gallery/gallery', {galleryData: docs, id: id, sellerData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
                         // .exec() 
                     })
                     .catch(err => {
@@ -78,7 +78,7 @@ router.post('/add-gallery/:id', imgUpload, async (req, res, next) => {
             images: imageArr,
         })
         await galleryData.save();
-        res.redirect('/seller/gallery/' + sellerID);
+        res.redirect('/seller/gallery/' + req.session.sellerID);
     } catch (err) {
         console.log('error'+err);
     }
