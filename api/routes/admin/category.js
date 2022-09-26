@@ -42,24 +42,20 @@ router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
 
         if (categoryExists) {
             res.send('Category Already Exists. Try editting the same category or adding a new one!')
-
         } else {
             var catFile = req.files.catImage[0]
             const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
-            imageRef.put(catFile.buffer, { contentType: catFile.mimetype }).then(snapshot => {
-
-                imageRef.getDownloadURL().then(function (url) {
-                    var categoryData = new Category({
-                        _id: mongoose.Types.ObjectId(),
-                        catImage: url,
-                        catName: req.body.catName,
-                        sub_category: req.body.sub_category,
-                        variant: req.body.variant
-                    })
-                    categoryData.save().then((result) => {
-                        res.redirect("/admin/category")
-                    })
-                })
+            await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
+            var url = await imageRef.getDownloadURL()
+            var categoryData = new Category({
+                _id: mongoose.Types.ObjectId(),
+                catImage: url,
+                catName: req.body.catName,
+                sub_category: req.body.sub_category,
+                variant: req.body.variant
+            })
+            categoryData.save().then((result) => {
+                res.redirect("/admin/category")
             })
         }
     } catch (err) {
@@ -69,7 +65,6 @@ router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
 
 router.get('/edit-category/:catID', [checkAuth, catUpload], (req, res) => {
     const id = req.params.catID
-
     const allCatImages = Category.find().select("catImage")
 
     Category.findById(id,
@@ -100,7 +95,7 @@ router.post("/edit-category/:catID", [checkAuth, catUpload], async (req, res) =>
 
         const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
 
-        var snapshot = await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
+        await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
         var url = await imageRef.getDownloadURL()
 
         updatedValue = {
@@ -116,7 +111,7 @@ router.post("/edit-category/:catID", [checkAuth, catUpload], async (req, res) =>
             variant: req.body.variant
         }
     }
-    
+
     Category.findByIdAndUpdate({ _id: id },
         updatedValue)
         .exec()

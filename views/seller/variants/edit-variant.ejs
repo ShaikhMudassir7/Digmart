@@ -12,30 +12,9 @@
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/css/seller/editImages.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
 </head>
-
-<style>
-    .item {
-        position: relative;
-        padding: 2px;
-        display: inline-block;
-        margin: 10px;
-        border: 2px solid #555;
-    }
-
-    .notify-badge {
-        position: absolute;
-        right: -20px;
-        top: -10px;
-        opacity: 0.95;
-        text-align: center;
-        border-radius: 5px 5px 5px 5px;
-        color: white;
-        padding: 5px 10px;
-        font-size: 10px;
-    }
-</style>
 
 <body>
     <div class="wrapper">
@@ -53,10 +32,8 @@
                                     <div class="card">
                                         <div class="card-header fw-bold bg-dark text-light">EDIT VARIANT</div>
                                         <div class="card-body">
-
                                             <form enctype="multipart/form-data" id="editVariantForm" method="post"
                                                 class="needs-validation" novalidate accept-charset="utf-8">
-
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
                                                         <label for="productName" class="form-label">Product
@@ -64,7 +41,6 @@
                                                         <input type="name" class="form-control" name="productName"
                                                             value="<%=productData.productName %>" id="productName"
                                                             readonly>
-
                                                     </div>
                                                 </div>
 
@@ -100,15 +76,12 @@
                                                 </div>
 
                                                 <div class="row g-2">
-
                                                     <div class="mb-3 col-md-12">
-
                                                         <% if(variantData.images.length!=0){ %>
                                                             <label for="productImg" class="form-label">Add More
                                                                 Images
                                                                 <span class="text-muted">(Optional)</span></label>
                                                             <% } %>
-
                                                                 <input type="file" class="form-control" name="images"
                                                                     accept="image/*" id="chooseImage" multiple>
                                                                 <div class="valid-feedback">Looks good!</div>
@@ -240,7 +213,6 @@
                                                                         class="fas fa-minus-circle"></i>
                                                                     Remove</a>
                                                             </div>
-
                                                         </div>
                                                         <% } %>
                                                 </div>
@@ -249,7 +221,6 @@
                                                         <button class="btn btn-outline-primary" id="addMoreBtnMain"><i
                                                                 class="fas fa-plus-circle"></i>
                                                             Add More</button>
-
                                                     </div>
                                                 </div>
 
@@ -287,8 +258,7 @@
                                                     </div>
                                                 </div>
 
-
-                                                <!-- Save changes Warning Modal -->
+                                                <!-- Save changes Confirmation Modal -->
                                                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
                                                     data-bs-keyboard="false" tabindex="-1"
                                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -311,10 +281,8 @@
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-bs-dismiss="modal">Cancel</button>
-
                                                                 <button type="submit" class="btn btn-primary"
                                                                     data-bs-dismiss="modal">SAVE
-
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -325,51 +293,50 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+            </div>
+    </div>
 
-                            <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
 
-                            <script>
-                                let element = document.getElementById('colours');
-                                element.value = '<%=variantData.colours %>';
+    <script>
+        let element = document.getElementById('colours');
+        element.value = '<%=variantData.colours %>';
 
-                                let element1 = document.getElementById('sizes');
-                                element1.value = '<%=variantData.sizes %>';
+        let element1 = document.getElementById('sizes');
+        element1.value = '<%=variantData.sizes %>';
 
-                                let chooseImage = document.getElementById("chooseImage")
-                                '<% if(variantData.images.length==0){ %>'
-                                chooseImage.setAttribute('required', '');
-                                '<% } %>'
+        let chooseImage = document.getElementById("chooseImage")
+        '<% if(variantData.images.length==0){ %>'
+        chooseImage.setAttribute('required', '');
+        '<% } %>'
+    </script>
 
-                            </script>
+    <script>
+        $(document).ready(function () {
+            coloursDropdown();
+        });
+        function coloursDropdown() {
+            var selectobject = document.getElementById("colours");
+            '<% if(coloursData.length!=0){ var j=1; coloursData.forEach(function(data){ %>'
+            for (var i = 0; i < selectobject.length; i++) {
+                if (selectobject.options[i].value == '<%= data.colours %>')
+                    selectobject.remove(i);
+            }
+            '<% j++; }) } %>'
+        }
+    </script>
 
-                            <script>
-                                $(document).ready(function () {
-                                    coloursDropdown();
-                                });
-
-                                function coloursDropdown() {
-                                    var selectobject = document.getElementById("colours");
-                                    '<% if(coloursData.length!=0){ var j=1; coloursData.forEach(function(data){ %>'
-                                    for (var i = 0; i < selectobject.length; i++) {
-                                        if (selectobject.options[i].value == '<%= data.colours %>')
-                                            selectobject.remove(i);
-                                    }
-                                    '<% j++; }) } %>'
-                                }
-
-                            </script>
-
-                            <script>
-                                function moreItems(counter) {
-
-                                    var moreItems =
-                                        `<div class="row g-2" id="itemsRow` + counter + `">
+    <script>
+        function moreItems(counter) {
+            var moreItems =
+                `<div class="row g-2" id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
                         <select name="sizes[]" class="form-select" id="sizes` + counter + `" required>
                             <option value="">
                                 ---Choose Size---
                             </option>
-                            
                         </select>
                     </div>
 
@@ -385,9 +352,7 @@
                                 id="actualPrice` + counter + `" min="1" pattern="[0-9]{1,9}"
                                 onblur="calculateMoreFields('discount` + counter + `', this.value, ` + counter + ` )"
                                 placeholder="Eg. 30000" required>
-                          
                         </div>
-
                     </div>
 
                     <div class="mb-3 col-md-2">
@@ -406,7 +371,6 @@
                             <span class="input-group-text">&#8377;</span>
                             <input type="number" class="form-control" name="finalPrice[]"
                                 id="finalPrice` + counter + `"  placeholder="Final Price" readonly required>
-                        
                         </div>
                     </div>
 
@@ -415,60 +379,54 @@
                             class="fas fa-minus-circle"></i>
                         Remove</a>
                     </div>
-
                 </div>`
-                                    return moreItems;
-                                }
+            return moreItems;
+        }
 
-                                var counter = 1;
-                                $(document).ready(function () {
+        var counter = 1;
+        $(document).ready(function () {
+            $("#addMoreBtnMain").click(function (e) {
+                e.preventDefault();
+                var appendMoreItems = moreItems(counter);
+                $("#appendItems").append(appendMoreItems);
+                counter++
 
-                                    $("#addMoreBtnMain").click(function (e) {
-                                        e.preventDefault();
-                                        var appendMoreItems = moreItems(counter);
-                                        $("#appendItems").append(appendMoreItems);
-                                        counter++
+                $(document).on('click', '.removeItemsBtn', function (e) {
+                    e.preventDefault();
+                    let row_item = $(this).parent().parent();
+                    $(row_item).remove();
+                })
+            });
+        });
+    </script>
 
-                                        $(document).on('click', '.removeItemsBtn', function (e) {
-                                            e.preventDefault();
-                                            let row_item = $(this).parent().parent();
-                                            $(row_item).remove();
-                                        })
-                                    });
-                                });
+    <script>
+        function calculateMoreFields(val1, val2, counter) {
+            var actualPrice = document.getElementById("actualPrice" + counter).value;
+            var discountPct = document.getElementById("discount" + counter).value;
+            var finalPriceField = document.getElementById("finalPrice" + counter);
 
-                            </script>
+            var total = (actualPrice * discountPct) / 100;
+            var finalPrice = actualPrice - total;
+            finalPriceField.value = finalPrice;
+        }
 
-                            <script>
-                                function calculateMoreFields(val1, val2, counter) {
-                                    var actualPrice = document.getElementById("actualPrice" + counter).value;
-                                    var discountPct = document.getElementById("discount" + counter).value;
+        function calculate(val1, val2) {
+            var actualPrice = document.getElementById("actualPrice").value;
+            var discountPct = document.getElementById("discount").value;
+            var finalPriceField = document.getElementById("finalPrice");
 
-                                    var total = (actualPrice * discountPct) / 100;
-                                    finalPrice = actualPrice - total;
+            var total = (actualPrice * discountPct) / 100;
+            var finalPrice = actualPrice - total;
+            finalPriceField.value = finalPrice;
+        }
+    </script>
 
-                                    var finalPriceField = document.getElementById("finalPrice" + counter);
-                                    finalPriceField.value = finalPrice;
-                                }
-
-                                function calculate(val1, val2) {
-                                    var actualPrice = document.getElementById("actualPrice").value;
-                                    var discountPct = document.getElementById("discount").value;
-
-                                    var total = (actualPrice * discountPct) / 100;
-                                    finalPrice = actualPrice - total;
-
-                                    var finalPriceField = document.getElementById("finalPrice");
-                                    finalPriceField.value = finalPrice;
-                                }
-
-                            </script>
-
-                            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                            <script src="/vendor/datatables/datatables.min.js"></script>
-                            <script src="/js/form-validator.js"></script>
-                            <script src="/js/initiate-datatables.js"></script>
-                            <script src="/js/script.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/datatables/datatables.min.js"></script>
+    <script src="/js/form-validator.js"></script>
+    <script src="/js/initiate-datatables.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

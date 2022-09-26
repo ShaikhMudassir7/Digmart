@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const sellerProfileSchema = mongoose.Schema({
+const gallerySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     sellerID: {
         type: mongoose.Schema.Types.ObjectId,
@@ -8,5 +8,5 @@ const sellerProfileSchema = mongoose.Schema({
     },
     images: [{type: String}],
 })
-const SellerProfile = new mongoose.model("sellerProfile", sellerProfileSchema)
-module.exports = SellerProfile;
+const gallery = new mongoose.model("gallery", gallerySchema)
+module.exports = gallery;

@@ -12,23 +12,16 @@ const { sendMobileOtp } = require('../../utils/mobileOtp')
 const { sendEmail } = require('../../utils/emailOtp')
 const checkAuth = require("../../middleware/seller/checkAuth")
 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "public/uploads/sellerDocs")
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + file.originalname);
-    },
-});
+const firebase = require('../../utils/firebase')
+const storage = firebase.storage().ref();
+const store = multer.memoryStorage();
+var upload = multer({ storage: store });
 
-var upload = multer({
-    storage: storage,
-});
-
-const middleware = upload.fields([{ name: 'busLogo', maxCount: 1 },
-{ name: 'busPanFile', maxCount: 1 },
-{ name: 'busGstFile', maxCount: 1 },
-{ name: 'bankChqPass', maxCount: 1 }
+const middleware = upload.fields([
+    { name: 'busLogo', maxCount: 1 },
+    { name: 'busPanFile', maxCount: 1 },
+    { name: 'busGstFile', maxCount: 1 },
+    { name: 'bankChqPass', maxCount: 1 }
 ])
 
 router.get('/signup', (req, res) => {
@@ -94,11 +87,14 @@ router.post('/add-seller', middleware, async (req, res) => {
     var busMobile = req.body.busMobile
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
     var emailOtp = Math.floor(1000 + Math.random() * 9000)
+
     console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
-    if (busMobile != "9324326404") {
+    var excepArr = ['9324326404', '8898413414', '9137242482', '7738408767', '4444444444', '5555555555', '6666666666', '7777777777']
+    if (!excepArr.includes(busMobile)) {
         await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
         await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
     }
+
     var sellerAcc = new Seller({
         _id: new mongoose.Types.ObjectId(),
         pFname: req.body.pFname,
@@ -125,32 +121,38 @@ router.post('/add-seller', middleware, async (req, res) => {
     })
 
     if (req.files) {
+        var count = 0
         Object.keys(req.files).forEach(key => {
-            if (key == 'busLogo') {
-                sellerAcc.busLogo = (req.files[key])[0].path.toString().substring(6)
-            }
-            if (key == 'busPanFile') {
-                sellerAcc.busPanFile = (req.files[key])[0].path.toString().substring(6)
-            }
-            if (key == 'busGstFile') {
-                sellerAcc.busGstFile = (req.files[key])[0].path.toString().substring(6)
-            }
-            if (key == 'bankChqPass') {
-                sellerAcc.bankChqPass = (req.files[key])[0].path.toString().substring(6)
-            }
+            var file = (req.files[key])[0]
+            const imageRef = storage.child("/seller/" + req.body.busName + '-' + key);
+            imageRef.put(file.buffer, { contentType: file.mimetype }).then(snapshot => {
+                imageRef.getDownloadURL().then(function (url) {
+                    if (key == 'busLogo')
+                        sellerAcc.busLogo = url
+                    if (key == 'busPanFile')
+                        sellerAcc.busPanFile = url
+                    if (key == 'busGstFile')
+                        sellerAcc.busGstFile = url
+                    if (key == 'bankChqPass')
+                        sellerAcc.bankChqPass = url
+                    count++
+                    if (count == 4) {
+                        sellerAcc.save()
+                            .then(doc => {
+                                console.log("Seller Account Created (Authentication left)")
+                                res.redirect('/seller/authentication/?busMobile=' + busMobile + '&busEmail=' + busEmail)
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                })
+                            })
+                    }
+                })
+            })
         });
     }
-    sellerAcc.save()
-        .then(doc => {
-            console.log("Seller Account Created (Authentication left)")
-            res.redirect('/seller/authentication/?busMobile=' + busMobile + '&busEmail=' + busEmail)
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
 })
 
 router.get('/authentication', (req, res) => {
@@ -207,8 +209,13 @@ router.get('/login', (req, res) => {
     res.render("./seller/login")
 })
 
+router.get('/add-gallery', (req, res) => {
+    res.render("./seller/add-gallery")
+})
+
 router.post('/sendOtp', (req, res) => {
     if (req.query.busEmail) {
+        var excepArr = ['dsouzaglen30@gmail.com', 'hatimsb11@gmail.com', 'hawaiza27@gmail.com', 'send2mudassir@gmail.com', '4444444444@gmail.com', '5555555555@gmail.com', '6666666666@gmail.com', '7777777777@gmail.com']
         var busEmail = req.query.busEmail
         Seller.find({
             busEmail: busEmail,
@@ -222,7 +229,7 @@ router.post('/sendOtp', (req, res) => {
                         res.send({ status: 1, busMobile: seller[0].busMobile, busEmail: seller[0].busEmail })
                     } else if (seller[0].status == "Pending") {
                         res.send({ status: 2 })
-                    } else if (busEmail == 'dsouzaglen30@gmail.com' || busEmail == 'hatmsb11@gmail.com' || busEmail == 'hawaiza27@gmail.com') {
+                    } else if (excepArr.includes(busEmail)) {
                         res.send({ status: 3 })
                     } else {
                         var id = seller[0]._id
@@ -243,6 +250,7 @@ router.post('/sendOtp', (req, res) => {
                 });
             });
     } else if (req.query.busMobile) {
+        var excepArr = ['9324326404', '8898413414', '9137242482', '7738408767', '4444444444', '5555555555', '6666666666', '7777777777']
         var busMobile = req.query.busMobile
         Seller.find({
             busMobile: busMobile,
@@ -256,7 +264,7 @@ router.post('/sendOtp', (req, res) => {
                         res.send({ status: 1, busMobile: seller[0].busMobile, busEmail: seller[0].busEmail })
                     } else if (seller[0].status == "Pending") {
                         res.send({ status: 2 })
-                    } else if (busMobile == '9324326404' || busMobile == '8898413414' || busMobile == '9137242482' || busMobile == '7738408767') {
+                    } else if (excepArr.includes(busMobile)) {
                         res.send({ status: 3 })
                     } else {
                         var id = seller[0]._id

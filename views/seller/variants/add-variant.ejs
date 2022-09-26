@@ -228,20 +228,13 @@
         var colours = document.getElementById("colours")
         var images = document.getElementById("images")
         var variantID;
-        //   var imageArray = []
+
         $("#submitColoursData").click(function () {
             colours.setAttribute("disabled", 'true')
             images.setAttribute("disabled", 'true')
             var coloursVal = $("#colours").val();
 
-            // var formData = new FormData();
             // var imagesVal = $("#images")[0].files[0];
-
-            // formData.append('images', imagesVal);
-            // alert(formData.get('images'))
-            // // fd.append('images', document.getElementById('images').files[0])
-            // // const query = new URLSearchParams(fd);
-            // alert(formData[2]);
 
             $.ajax({
                 url: "/seller/products/variant/add-variant/<%=productData._id %>",
@@ -265,7 +258,6 @@
         $("#submitVariantData").click(function () {
             addValues();
         })
-
         var addMoreItemsArr = [];
         var sizesArray = [];
         var quantityArray = [];
@@ -318,14 +310,11 @@
                     selectobject.remove(i);
             }
             '<% j++; }) } %>'
-
         }
-
     </script>
 
     <script>
         function moreItems(counter) {
-
             var moreItems =
                 `<div class="row g-2 id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
@@ -385,7 +374,6 @@
             return moreItems;
         }
 
-
         var numberOfRows = sizesArray.length
         var counter = 1;
         var isFirstElementAgain = false;
@@ -396,14 +384,9 @@
 
                 var sizesDropdownElement;
                 if (counter == 1) {
-                    alert("Hellllo")
-
                     var sizesDropdownElement1 = document.getElementsByName("sizes0")[0]
                     if (sizesDropdownElement1.value != "") {
-                        //     if (isFirstElementAgain == false) {
                         addValues((counter - 1), false);
-                        //       isFirstElementAgain = true;
-                        //  }
                         sizesDropdownElement1.setAttribute('disabled', '');
                         numberOfRows++
                         alert(sizesArray)
@@ -420,33 +403,33 @@
                 quantityAddedElement = document.getElementsByName("quantity" + (numberOfRows - 1))[0]
                 if (numberOfRows > 1) {
                     for (var i = 0; i < sizesArray.length; i++) {
-                        if (sizesArray[i] == sizesDropdownElement.value && quantityArray[i] == quantityAddedElement.value) {
-                            alert("Element Already Exists")
-                            alert(numberOfRows)
-                            alert(counter)
-                            sizeExists = true
-
-                            var appendMoreItems = moreItems(counter);
-                            $("#appendItems").append(appendMoreItems);
-                            numberOfRows++
-                            counter++
-                            break;
-                        }
-                        else if (sizesArray[i] == sizesDropdownElement.value) {
+                        // if (sizesArray[i] == sizesDropdownElement.value && quantityArray[i] == quantityAddedElement.value) {
+                        //     alert("Element Already Exists")
+                        //     alert(numberOfRows)
+                        //     alert(counter)
+                        //     sizeExists = true
+                        //     break;
+                        // }
+                        if (sizesArray[i] == sizesDropdownElement.value) {
                             alert("Size Already Exists")
                             alert(sizesArray)
                             sizeExists = true
                         }
+                        // else {
+                        //     var appendMoreItems = moreItems(counter);
+                        //     $("#appendItems").append(appendMoreItems);
+                        //     numberOfRows++
+                        //     counter++
+                        // }
                     }
                 }
 
                 if (sizesDropdownElement.length > 0 && sizeExists == false) {
                     if (sizesDropdownElement.value != "") {
-                        alert("Inside")
                         var appendMoreItems = moreItems(counter);
                         $("#appendItems").append(appendMoreItems);
                         if (counter != 1) {
-                            addValues((counter - 1), false);    //1
+                            addValues((counter - 1), false);
                             alert(sizesArray)
                         }
                         numberOfRows++
@@ -458,18 +441,16 @@
                     e.preventDefault();
                     let row_item = $(this).parent().parent();
 
-
                     let eleID = (this.id).toString()
                     eleID = eleID.replace("removeItemsBtn", "");
 
                     var removedElementSizeValue = document.getElementsByName("sizes" + eleID);
 
                     if ((removedElementSizeValue[0].value == "") || (eleID == (counter - 1))) {
-                        numberOfRows = sizesArray.length
+                        numberOfRows = sizesArray.length -1
                         counter -= 1
                         alert("counter")
                         $(row_item).remove();
-
                     }
                     else {
                         var index = sizesArray.indexOf(removedElementSizeValue[0].value);
@@ -489,11 +470,8 @@
                             }
                         }
                     }
-
-                    // $(row_item).remove();
                     alert(sizesArray)
                 })
-
             })
         });
 

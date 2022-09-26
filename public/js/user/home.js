@@ -42,8 +42,6 @@ var swiper = new Swiper(".sellerSwiper", {
     slidesPerView: 5,
     spaceBetween: 20,
     slidesPerGroup: 1,
-    loop: true,
-    loopFillGroupWithBlank: true,
     fade: 'true',
     keyboard: {
         enabled: true,
@@ -77,8 +75,6 @@ var swiper = new Swiper(".productSwiper", {
     slidesPerView: 5,
     spaceBetween: 20,
     slidesPerGroup: 1,
-    loop: true,
-    loopFillGroupWithBlank: true,
     fade: 'true',
     keyboard: {
         enabled: true,
@@ -113,11 +109,61 @@ var swiper = new Swiper(".productSwiper", {
 });
 
 function wishlist(element) {
-    if (!user) {
-        console.log('Display loginpopup modal')
-        $('#loginpopup').modal('show');
-    } else {
+    if ($("#hidLogin").val()) {
         element.classList.toggle('i-red');
+    } else {
+        $('#loginpopup').modal('show');
     }
 }
 
+function cart() {
+    if ($("#hidLogin").val()) {
+        console.log("Added to Cart")
+    } else {
+        $('#loginpopup').modal('show');
+    }
+}
+
+function getLocation() {
+    if (navigator.geolocation) {
+        if (!sessionStorage.pincode)
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else
+        alert("Geolocation is not supported by this browser.")
+
+}
+getLocation();
+
+function showPosition(position) {
+    $.ajax({
+        url: "/api/pincode",
+        type: "POST",
+        data: {
+            lat: position.coords.latitude,
+            long: position.coords.longitude,
+        },
+        dataType: 'json',
+        success: function (result) {
+            if (result.pincode != 'error')
+                sessionStorage.setItem("pincode", result.pincode);
+        }
+    });
+}
+
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            console.log("User denied the request for Geolocation.")
+            // window.location.reload()
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.log("Location information is unavailable.")
+            break;
+        case error.TIMEOUT:
+            console.log("The request to get user location timed out.")
+            break;
+        case error.UNKNOWN_ERROR:
+            console.log("An unknown error occurred.")
+            break;
+    }
+}

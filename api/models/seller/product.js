@@ -23,6 +23,7 @@ const productSchema = mongoose.Schema({
     discount: { type: Number},
     finalPrice:  { type: String},
     hasVariant: { type: Boolean, default: true},
+    featured: { type: Boolean, default: false},
     status:  { type: String, default: "Incomplete : Variants Not Added"},
 });
 

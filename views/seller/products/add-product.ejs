@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -24,8 +23,6 @@
                 <!-- navbar navigation component -->
                 <%- include('../navbar') %>
                     <!-- end of navbar navigation -->
-
-
                     <div class="content">
                         <div class="container">
                             <div class="row">
@@ -37,7 +34,6 @@
                                             <form action="/seller/products/add-product" enctype="multipart/form-data"
                                                 id="addProductForm" method="post" class="needs-validation" novalidate
                                                 accept-charset="utf-8">
-
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-6">
                                                         <label for="category" class="form-label">Category</label>
@@ -65,9 +61,7 @@
                                                     <div class="mb-3 col-md-6">
                                                         <label for="subcategory" class="form-label">Subcategory</label>
                                                         <select name="subcategory" id="subcategory" class="form-select">
-
                                                         </select>
-
                                                     </div>
                                                 </div>
 
@@ -93,7 +87,6 @@
                                                         <textarea type="name" class="form-control" name="description"
                                                             placeholder="e.g. The first Galaxy S with embedded S Pen. Write comfortably like pen on paper, turn quick notes into legible text and use Air Actions to control your phone remotely..."
                                                             required></textarea>
-
                                                     </div>
                                                 </div>
 
@@ -105,37 +98,27 @@
                                                             </label>
                                                             <input type="name" class="form-control" name="brand"
                                                                 placeholder="e.g. Samsung">
-                                                            <!-- <div class="valid-feedback">Looks good!</div>
-                                                <div class="invalid-feedback">Please enter Brand Name.</div> -->
                                                         </div>
                                                     </div>
-
                                                 </div>
-
-
-
                                                 <hr>
-
                                                 <div class="row g-2">
                                                     <div class="mb-1 col-md-12 fw-bold">
                                                         <label for="specName" class="form-label">ADDITIONAL
                                                             SPECIFICATIONS
                                                             <span class="text-muted"> (Optional)</span> :
                                                         </label>
-
                                                     </div>
                                                 </div>
 
                                                 <div class="row g-2">
                                                     <div class=" col-md-3">
                                                         <label for="specName" class="form-label">Name:
-
                                                         </label>
                                                     </div>
 
                                                     <div class=" col-md-5">
                                                         <label for="specValue" class="form-label">Description:
-
                                                         </label>
                                                     </div>
                                                 </div>
@@ -155,7 +138,6 @@
                                                                     style="height: 30px;"
                                                                     placeholder="e.g. Handset, Charging Cable"></textarea>
                                                             </div>
-
                                                         </div>
                                                     </div>
 
@@ -163,12 +145,8 @@
                                                         <button class="btn btn-outline-primary" id="addSpecsBtnMain"><i
                                                                 class="fas fa-plus-circle"></i>
                                                             Add More Specifications</button>
-
                                                     </div>
-
                                                 </div>
-
-
 
                                                 <a href="/seller/products/?status=Pending" class="btn btn-danger"><i
                                                         class="fas fa-times"></i>
@@ -177,10 +155,6 @@
                                                     style="float: right"><i class="fas fa-save"></i> Add
                                                     Product</button>
                                             </form>
-
-
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -193,24 +167,18 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
 
     <script>
-
         //Populate subcategory dropdown 
         function populate(category, subcategory) {
             var cat = document.getElementById("category");
             var subcat = document.getElementById("subcategory");
-
             var subcatValuesArray = testing(cat);
-
             subcat.innerHTML = "";
 
             function testing(cat) {
-
                 '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
-                var a = '<%=data.catName%>';
-
-                if (cat.value == a) {
+                var catName = '<%=data.catName%>';
+                if (cat.value == catName) {
                     if ('<%=data.variant%>' == "Unavailable") {
-
                         $(("#Images")).remove();
                         $(("#Quantity")).remove();
                         $(("#Prices")).remove();
@@ -226,100 +194,71 @@
                         actualPrice.setAttribute('required', '');
                         finalPrice.setAttribute('required', '');
                     }
-
                     else {
                         $(("#Images")).remove();
                         $(("#Quantity")).remove();
                         $(("#Prices")).remove();
-
                     }
-
                     return '<%=data.sub_category%>';
-
                 }
-
                 '<% i++; }) %>'
                 '<% } %>'
-
             }
 
             var optionsArray = subcatValuesArray.split(", ")
-
             for (var option in optionsArray) {
                 var pair = optionsArray[option].split(",")
                 var newoption = document.createElement("option");
-
                 newoption.value = pair[0];
                 newoption.innerHTML = pair[0];
                 subcat.options.add(newoption);
             }
         }
+
         function calculate(val1, val2) {
             var actualPrice = document.getElementById("actualPrice").value;
             var discountPct = document.getElementById("discount").value;
-
+            var finalPriceField = document.getElementById("finalPrice");
 
             var total = (actualPrice * discountPct) / 100;
-            finalPrice = actualPrice - total;
-
-            var finalPriceField = document.getElementById("finalPrice");
+            var finalPrice = actualPrice - total;
             finalPriceField.value = finalPrice;
-
-            // if (discountPct == 0) {
-            //     finalPriceField.value = null;
-            // }
-
         }
-
-
     </script>
 
-
     <script>
-
         function displayFieldImage() {
-
             var displayFieldImage =
                 `<div class="row g-2" id="Images">
-
-        <div class="mb-3 col-md-12">
-            <label for="images" class="form-label">Product
-            Images:</label>
-            <input type="file" class="form-control" name="images" id="addImage"
-            multiple='multiple' accept="image/*">
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please Choose an Image.</div>
-        </div>
-    </div>`
-
+                    <div class="mb-3 col-md-12">
+                        <label for="images" class="form-label">Product
+                        Images:</label>
+                        <input type="file" class="form-control" name="images" id="addImage"
+                        multiple='multiple' accept="image/*">
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please Choose an Image.</div>
+                    </div>
+                </div>`
             return displayFieldImage;
         }
 
-
-
         function displayFieldQuantity() {
-
             var displayFieldQuantity =
                 `<div class="row g-2" id="Quantity">
-            
-            <div class="mb-3 col-md-4">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" class="form-control" name="quantity" id="addQuantity"
-                min="1" placeholder="e.g. 50">
-            </div>
-
-            <div class="mb-3 col-md-4">
-                <input type="bool" class="form-control" name="hasVariant" id="hasVariant"
-                value=false hidden>
-            </div>
-            </div>`
-
+                    <div class="mb-3 col-md-4">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" name="quantity" id="addQuantity"
+                        min="1" placeholder="e.g. 50">
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <input type="bool" class="form-control" name="hasVariant" id="hasVariant"
+                        value=false hidden>
+                    </div>
+                </div>`
             return displayFieldQuantity;
         }
 
-
         function displayFieldPrices() {
-
             var displayFieldPrices =
                 `<div class="row g-2" id="Prices">
                     <hr>
@@ -332,7 +271,6 @@
                                 id="actualPrice" min="1" pattern="[0-9]{1,9}"
                                 onblur="calculate('discount', this.value )"
                                 placeholder="Eg. 30000">
-
                             <div class="invalid-feedback">Please enter Actual Price.
                             </div>
                             <div class="valid-feedback">Looks good!</div>
@@ -349,7 +287,6 @@
                                 id="discount"
                                 onblur="calculate(this.value, 'actualPrice')"
                                 placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
-
                             <div class="valid-feedback">Looks good!</div>
                             <div class="invalid-feedback">Discount should be below
                                 100
@@ -365,20 +302,13 @@
                             <input type="number" class="form-control" name="finalPrice"
                                 id="finalPrice"
                                 placeholder="Final Price (Auto calculated)" readonly>
-
                         </div>
                     </div>
-
                 </div>`
-
             return displayFieldPrices;
         }
 
-
-
-
         function moreSpecs(counter) {
-
             var specifications =
                 `<div class="row g-2" id="specsRow` + counter + `">
                 <div class="mb-3 col-md-3">
@@ -398,33 +328,25 @@
                 </div>
 
             </div>`
-
             return specifications;
         }
 
-
         var counter = 1;
         $(document).ready(function () {
-
             $("#addSpecsBtnMain").click(function (e) {
                 e.preventDefault();
-
                 var specifications = moreSpecs(counter);
-                counter++;
                 $("#showSpecifications").append(specifications);
+                counter++;
+                
                 $(document).on('click', '.removeSpecsBtn', function (e) {
                     e.preventDefault();
                     let row_item = $(this).parent().parent();
                     $(row_item).remove();
                 })
             });
-
         });
-
-
     </script>
-
-
 
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
@@ -432,6 +354,5 @@
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
 </body>
-
 
 </html>

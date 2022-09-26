@@ -12,30 +12,9 @@
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/seller/editImages.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
 </head>
-
-<style>
-    .item {
-        position: relative;
-        padding: 2px;
-        display: inline-block;
-        margin: 10px;
-        border: 2px solid #555;
-    }
-
-    .notify-badge {
-        position: absolute;
-        right: -20px;
-        top: -10px;
-        background: red;
-        text-align: center;
-        border-radius: 5px 5px 5px 5px;
-        color: white;
-        padding: 5px 10px;
-        font-size: 10px;
-    }
-</style>
 
 <body>
     <div class="wrapper">
@@ -65,41 +44,25 @@
                                                 </div>
 
                                                 <div class="row g-2">
-
                                                     <div class="mb-3 col-md-2">
                                                         <div class="item">
-
                                                             <img src="<%=categoryData.catImage %>" style="width: 100%;">
-
-
                                                         </div>
                                                     </div>
-
                                                 </div>
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-2">
-                                                        <!-- <button type="button" id="files"
-                                                onclick="document.getElementById('file').click(); return false;"
-                                                class="btn btn-outline-primary">Change Image
-
-                                            </button> -->
                                                         <label for="text" class="form-label">Change Image:
                                                             <span class="text-muted">(Optional)</span>
                                                         </label>
-
                                                     </div>
                                                     <div class="mb-3 col-md-10">
-                                                        <!-- <a href="/admin/category/change-image/<%=categoryData._id%> %>">
-                                                Hello</a>
-                                                 -->
                                                         <input type="file" class="form-control" name="catImage"
                                                             accept="image/*" id="file">
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please Choose an Image.
                                                         </div>
-
-
                                                     </div>
                                                 </div>
 
@@ -122,8 +85,6 @@
                                                     </div>
                                                 </div>
 
-
-
                                                 <div class="mb-3 col-md-4">
                                                     <label for="variant" class="form-label">Variant</label>
                                                     <select name="variant" class="form-select"  id="variant" required>
@@ -139,15 +100,11 @@
                                                                     Available
                                                                 </option>
                                                                 <% } %>
-                                                           
-
                                                     </select>
                                                 </div>
 
                                                 <div class="mb-3">
-
                                                     <button type="submit" class="btn btn-primary">Submit
-
                                                     </button>
                                                 </div>
                                             </form>
@@ -159,19 +116,6 @@
                     </div>
             </div>
     </div>
-
-
-    <script>
-        // let element = document.getElementById('status');
-        // element.value = '<%=categoryData.status %>';
-                            // let chooseImage = document.getElementById("chooseImage")
-                            // '<% if(categoryData.catImage.length==0){ %>'
-                            // chooseImage.setAttribute('required', '');
-                            // '<% } %>'
-
-
-
-    </script>
 
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
