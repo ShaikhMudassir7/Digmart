@@ -81,6 +81,7 @@ function checkMobileOtp() {
     var otp = mobOtp1.value + mobOtp2.value + mobOtp3.value + mobOtp4.value
     if (otp.length == 4) {
         var elements = [mobOtp1, mobOtp2, mobOtp3, mobOtp4]
+        
         $.ajax({
             url: "/login/checkMobileOtp?mobile=" + mobile + "&otp=" + otp,
             method: 'POST',

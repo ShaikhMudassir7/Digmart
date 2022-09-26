@@ -18,7 +18,7 @@ const sellerSchema = mongoose.Schema({
     busType: { type: String, required: true },
     busCat: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'categories'
+        ref: 'Category'
     }],
     busLogo: { type: String, required: true },
     busPanNo: { type: String, required: true },
@@ -30,6 +30,8 @@ const sellerSchema = mongoose.Schema({
     bankAccNo: { type: Number, required: true },
     bankIfsc: { type: String, required: true },
     bankChqPass: { type: String, required: true },
+
+    featured: { type: Boolean, default: false},
 
     mobileOtp: { type: String },
     emailOtp: { type: String },
