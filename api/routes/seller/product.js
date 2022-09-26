@@ -123,8 +123,7 @@ router.post('/add-product', imgUpload, async (req, res, next) => {
                     specValue: specsArr[0]["specValue"][i],
                 })
             }
-            console.log(specificationsArr)
-
+            
             var prodStatus;
 
             if (req.body.hasVariant) {

@@ -51,7 +51,7 @@
                                                         <label for="images" class="form-label">Product
                                                             Images:</label>
                                                         <input type="file" class="form-control" name="images"
-                                                            multiple='multiple' accept="image/*" required>
+                                                            id="images" multiple='multiple' accept="image/*" required>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please Choose an Image.</div>
                                                     </div>
@@ -77,41 +77,65 @@
                                                         <div class="invalid-feedback">Please Choose a Colour.</div>
                                                     </div>
                                                 </div>
-
                                                 <div class="row g-2">
-                                                    <div class="col-md-2">
-                                                        <label for="sizes" class="form-label">Sizes
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="quantity" class="form-label">Quantity
-                                                        </label>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="actualPrice" class="form-label">Actual
-                                                            Price</label>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="discount" class="form-label">Discount
-                                                            <span class="text-muted"> (Optional)</span>
-                                                        </label>
-
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <label for="finalPrice" class="form-label">Final
-                                                            Price</label>
+                                                    <div class="mb-3 col-md-12">
+                                                        <a href="/seller/products/variant/<%=productData._id %>"
+                                                            class="btn btn-danger" id="cancelButton1"><i
+                                                                class="fas fa-times"></i>
+                                                            Cancel</a>
+                                                        <button type="button" class="btn btn-primary"
+                                                            id="submitColoursData"><i class="fas fa-save"></i> Save
+                                                            Details and Proceed
+                                                        </button>
                                                     </div>
                                                 </div>
 
-                                                <div id="appendItems">
+
+                                                <div id="appendItemsLabel" style="display:none">
+                                                    <hr>
+                                                    <div class="row g-2">
+                                                        <div class="mb-1 col-md-12 fw-bold">
+                                                            <label for="specName" class="form-label">ADD
+                                                                SIZES
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-2">
+                                                        <div class="col-md-2">
+                                                            <label for="sizes" class="form-label">Sizes
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label for="quantity" class="form-label">Quantity
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label for="actualPrice" class="form-label">Actual
+                                                                Price</label>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label for="discount" class="form-label">Discount
+                                                                <span class="text-muted"> (Optional)</span>
+                                                            </label>
+
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label for="finalPrice" class="form-label">Final
+                                                                Price</label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div id="appendItems" style="display:none">
                                                     <div class="row g-2">
                                                         <div class="mb-3 col-md-2" id="sizesID0">
-
-                                                            <select name="sizes[]" class="form-select sizes0" required>
+                                                            <select name="sizes0" class="form-select" required>
                                                                 <option value="">
                                                                     ---Choose Size---
                                                                 </option>
@@ -125,7 +149,7 @@
                                                         </div>
 
                                                         <div class="mb-3 col-md-2">
-                                                            <input type="number" class="form-control" name="quantity[]"
+                                                            <input type="number" class="form-control" name="quantity0"
                                                                 min="1" placeholder="e.g. 50" required>
                                                         </div>
 
@@ -133,7 +157,7 @@
                                                             <div class="input-group">
                                                                 <span class="input-group-text">&#8377;</span>
                                                                 <input type="text" class="form-control"
-                                                                    name="actualPrice[]" id="actualPrice" min="1"
+                                                                    name="actualPrice0" id="actualPrice" min="1"
                                                                     pattern="[0-9]{1,9}"
                                                                     onblur="calculate('discount', this.value )"
                                                                     placeholder="Eg. 30000" required>
@@ -144,12 +168,13 @@
                                                         <div class="mb-3 col-md-2">
                                                             <div class="input-group">
                                                                 <span class="input-group-text">%</span>
-                                                                <input type="text" class="form-control"
-                                                                    name="discount[]" id="discount"
+                                                                <input type="text" class="form-control" name="discount0"
+                                                                    id="discount"
                                                                     onblur="calculate(this.value, 'actualPrice')"
                                                                     placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
 
-                                                                <div class="invalid-feedback">Invalid Discount
+                                                                <div class="invalid-feedback">Invalid
+                                                                    Discount
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -158,24 +183,34 @@
                                                             <div class="input-group">
                                                                 <span class="input-group-text">&#8377;</span>
                                                                 <input type="number" class="form-control"
-                                                                    name="finalPrice[]" id="finalPrice"
+                                                                    name="finalPrice0" id="finalPrice"
                                                                     placeholder="Final Price" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="mb-3 col-md-2 d-grid">
-                                                            <button class="btn btn-outline-primary"
-                                                                id="addMoreBtnMain"><i class="fas fa-plus-circle"></i>
-                                                                Add More</button>
+                                                            <button class="btn btn-outline-danger removeItemsBtn"
+                                                                id="removeItemsBtn0`"><i
+                                                                    class="fas fa-minus-circle"></i>
+                                                                Remove</a>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-2 d-grid">
+                                                        <button class="btn btn-outline-primary" id="addMoreBtnMain"
+                                                            style="display:none"><i class="fas fa-plus-circle"></i>
+                                                            Add More</button>
                                                     </div>
                                                 </div>
 
                                                 <a href="/seller/products/variant/<%=productData._id %>"
-                                                    class="btn btn-danger"><i class="fas fa-times"></i>
+                                                    class="btn btn-danger" id="cancelButton2"
+                                                    style="display:none; float: left"><i class="fas fa-times"></i>
                                                     Cancel</a>
-                                                <button type="submit" class="btn btn-primary" id="submitVariantData"
-                                                    style="float: right"><i class="fas fa-save"></i> Add
+
+                                                <button type="button" class="btn btn-primary" id="submitVariantData"
+                                                    style="display:none; float: right"><i class="fas fa-save"></i> Add
                                                     Variant</button>
                                             </form>
                                         </div>
@@ -190,6 +225,87 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
 
     <script>
+        var colours = document.getElementById("colours")
+        var images = document.getElementById("images")
+        var variantID;
+        //   var imageArray = []
+        $("#submitColoursData").click(function () {
+            colours.setAttribute("disabled", 'true')
+            images.setAttribute("disabled", 'true')
+            var coloursVal = $("#colours").val();
+
+            // var formData = new FormData();
+            // var imagesVal = $("#images")[0].files[0];
+
+            // formData.append('images', imagesVal);
+            // alert(formData.get('images'))
+            // // fd.append('images', document.getElementById('images').files[0])
+            // // const query = new URLSearchParams(fd);
+            // alert(formData[2]);
+
+            $.ajax({
+                url: "/seller/products/variant/add-variant/<%=productData._id %>",
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                data: JSON.stringify({ colours: coloursVal }),
+                success: function (res) {
+                    variantID = res.getVariantID
+                }
+            })
+            document.getElementById('appendItemsLabel').style.display = "block";
+            document.getElementById('appendItems').style.display = "block";
+            document.getElementById('submitColoursData').remove();
+            document.getElementById('submitVariantData').style.display = "block";
+            document.getElementById('cancelButton1').remove();
+            document.getElementById('cancelButton2').style.display = "block";
+            document.getElementById('addMoreBtnMain').style.display = "block";
+
+        })
+
+        $("#submitVariantData").click(function () {
+            addValues();
+        })
+
+        var addMoreItemsArr = [];
+        var sizesArray = [];
+        var quantityArray = [];
+        var actualPriceArray = [];
+        var discountArray = [];
+        var finalPriceArray = [];
+
+        function addValues(sizesCount, removeItem) {
+            if (removeItem == false) {
+                var sizes = $("select[name='sizes" + sizesCount + "']").val();
+                var quantity = $("input[name='quantity" + sizesCount + "']").val();
+                var actualPrice = $("input[name='actualPrice" + sizesCount + "']").val();
+                var discount = $("input[name='discount" + sizesCount + "']").val();
+                var finalPrice = $("input[name='finalPrice" + sizesCount + "']").val();
+
+                sizesArray.push(sizes)
+                quantityArray.push(quantity)
+                actualPriceArray.push(actualPrice)
+                discountArray.push(discount)
+                finalPriceArray.push(finalPrice)
+            }
+
+            $.ajax({
+                url: "/seller/products/variant/add-variant/<%=productData._id %>",
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                data: JSON.stringify({
+                    _id: variantID,
+                    sizes: sizesArray,
+                    quantity: quantityArray,
+                    actualPrice: actualPriceArray,
+                    discount: discountArray,
+                    finalPrice: finalPriceArray
+                }),
+                success: function (res) {
+                    alert("Data Inserted")
+                }
+            })
+        }
+
         $(document).ready(function () {
             coloursDropdown();
         });
@@ -202,6 +318,7 @@
                     selectobject.remove(i);
             }
             '<% j++; }) } %>'
+
         }
 
     </script>
@@ -212,7 +329,7 @@
             var moreItems =
                 `<div class="row g-2 id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
-                        <select name="sizes[]" class="form-select"  required>
+                        <select name="sizes` + counter + `" class="form-select" required>
                             <option value="">
                                 ---Choose Size---
                             </option>
@@ -227,14 +344,14 @@
                     </div>
 
                     <div class="mb-3 col-md-2">
-                        <input type="number" class="form-control" name="quantity[]" min="1"
+                        <input type="number" class="form-control" name="quantity` + counter + `" min="1"
                             placeholder="e.g. 50" required>
                     </div>
 
                     <div class="mb-3 col-md-2">
                         <div class="input-group">
                             <span class="input-group-text">&#8377;</span>
-                            <input type="text" class="form-control" name="actualPrice[]"
+                            <input type="text" class="form-control" name="actualPrice` + counter + `"
                                 id="actualPrice` + counter + `" min="1" pattern="[0-9]{1,9}"
                                 onblur="calculateMoreFields('discount` + counter + `', this.value, ` + counter + ` )"
                                 placeholder="Eg. 30000" required>
@@ -244,7 +361,7 @@
                     <div class="mb-3 col-md-2">
                         <div class="input-group">
                             <span class="input-group-text">%</span>
-                            <input type="text" class="form-control" name="discount[]"
+                            <input type="text" class="form-control" name="discount` + counter + `"
                                 id="discount` + counter + `" onblur="calculateMoreFields(this.value, 'actualPrice` + counter + `', ` + counter + `)"
                                 placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
                             <div class="invalid-feedback">Invalid Discount
@@ -255,11 +372,10 @@
                     <div class="mb-3 col-md-2">
                         <div class="input-group">
                             <span class="input-group-text">&#8377;</span>
-                            <input type="number" class="form-control" name="finalPrice[]"
+                            <input type="number" class="form-control" name="finalPrice` + counter + `"
                                 id="finalPrice` + counter + `"  placeholder="Final Price" readonly required>
                         </div>
                     </div>
-
                     <div class="mb-3 col-md-2 d-grid">
                         <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn` + counter + `"><i
                             class="fas fa-minus-circle"></i>
@@ -269,19 +385,115 @@
             return moreItems;
         }
 
+
+        var numberOfRows = sizesArray.length
         var counter = 1;
+        var isFirstElementAgain = false;
+
         $(document).ready(function () {
             $("#addMoreBtnMain").click(function (e) {
                 e.preventDefault();
-                var appendMoreItems = moreItems(counter);
-                $("#appendItems").append(appendMoreItems);
-                counter++
+
+                var sizesDropdownElement;
+                if (counter == 1) {
+                    alert("Hellllo")
+
+                    var sizesDropdownElement1 = document.getElementsByName("sizes0")[0]
+                    if (sizesDropdownElement1.value != "") {
+                        //     if (isFirstElementAgain == false) {
+                        addValues((counter - 1), false);
+                        //       isFirstElementAgain = true;
+                        //  }
+                        sizesDropdownElement1.setAttribute('disabled', '');
+                        numberOfRows++
+                        alert(sizesArray)
+                    }
+                }
+                sizesElement = document.getElementsByName("sizes" + (sizesArray.length - 1))[0]
+                quantityElement = document.getElementsByName("quantity" + (sizesArray.length - 1))[0]
+                actualPriceElement = document.getElementsByName("actualPrice" + (sizesArray.length - 1))[0]
+                discountElement = document.getElementsByName("discount" + (sizesArray.length - 1))[0]
+                finalPriceElement = document.getElementsByName("finalPrice" + (sizesArray.length - 1))[0]
+
+                var sizeExists = false;
+                sizesDropdownElement = document.getElementsByName("sizes" + (numberOfRows - 1))[0]
+                quantityAddedElement = document.getElementsByName("quantity" + (numberOfRows - 1))[0]
+                if (numberOfRows > 1) {
+                    for (var i = 0; i < sizesArray.length; i++) {
+                        if (sizesArray[i] == sizesDropdownElement.value && quantityArray[i] == quantityAddedElement.value) {
+                            alert("Element Already Exists")
+                            alert(numberOfRows)
+                            alert(counter)
+                            sizeExists = true
+
+                            var appendMoreItems = moreItems(counter);
+                            $("#appendItems").append(appendMoreItems);
+                            numberOfRows++
+                            counter++
+                            break;
+                        }
+                        else if (sizesArray[i] == sizesDropdownElement.value) {
+                            alert("Size Already Exists")
+                            alert(sizesArray)
+                            sizeExists = true
+                        }
+                    }
+                }
+
+                if (sizesDropdownElement.length > 0 && sizeExists == false) {
+                    if (sizesDropdownElement.value != "") {
+                        alert("Inside")
+                        var appendMoreItems = moreItems(counter);
+                        $("#appendItems").append(appendMoreItems);
+                        if (counter != 1) {
+                            addValues((counter - 1), false);    //1
+                            alert(sizesArray)
+                        }
+                        numberOfRows++
+                        counter++
+                    }
+                }
 
                 $(document).on('click', '.removeItemsBtn', function (e) {
                     e.preventDefault();
                     let row_item = $(this).parent().parent();
-                    $(row_item).remove();
+
+
+                    let eleID = (this.id).toString()
+                    eleID = eleID.replace("removeItemsBtn", "");
+
+                    var removedElementSizeValue = document.getElementsByName("sizes" + eleID);
+
+                    if ((removedElementSizeValue[0].value == "") || (eleID == (counter - 1))) {
+                        numberOfRows = sizesArray.length
+                        counter -= 1
+                        alert("counter")
+                        $(row_item).remove();
+
+                    }
+                    else {
+                        var index = sizesArray.indexOf(removedElementSizeValue[0].value);
+                        if (index != -1) {
+                            sizesArray.splice(index, 1);
+                            addValues((counter - 1), true)
+                        }
+                        alert("Index" + index)
+
+                        for (var i = 2; i < counter; i++) {
+                            var checkSizesDropdownElement = document.getElementsByName("sizes" + (counter - i))[0]
+                            if (checkSizesDropdownElement.length > 1) {
+                                if (removedElementSizeValue[0].value == checkSizesDropdownElement.value) {
+                                    let row_item1 = $('#removeItemsBtn' + (counter - i)).parent().parent();
+                                    $(row_item1).remove();
+                                }
+                            }
+                        }
+                    }
+
+                    // $(row_item).remove();
+                    alert(sizesArray)
                 })
+
             })
         });
 
@@ -317,6 +529,7 @@
     <script src="/js/form-validator.js"></script>
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
+
 </body>
 
 </html>

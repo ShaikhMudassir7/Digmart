@@ -37,7 +37,7 @@
                                             <form action="/seller/products/add-product" enctype="multipart/form-data"
                                                 id="addProductForm" method="post" class="needs-validation" novalidate
                                                 accept-charset="utf-8">
-                                   
+
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-6">
                                                         <label for="category" class="form-label">Category</label>
@@ -112,7 +112,7 @@
 
                                                 </div>
 
-                                               
+
 
                                                 <hr>
 
@@ -144,8 +144,9 @@
                                                     <div id="showSpecifications">
                                                         <div class="row g-2" id="specsRow">
                                                             <div class="mb-3 col-md-3">
-                                                                <input type="name" class="form-control" name="specName[]"
-                                                                    id="specName" placeholder="e.g. In The Box">
+                                                                <input type="name" class="form-control"
+                                                                    name="specName[]" id="specName"
+                                                                    placeholder="e.g. In The Box">
                                                             </div>
 
                                                             <div class="mb-3 col-md-5">
@@ -158,13 +159,13 @@
                                                         </div>
                                                     </div>
 
-                                                        <div class="mb-3 col-md-3 d-grid">
-                                                            <button class="btn btn-outline-primary"
-                                                                id="addSpecsBtnMain"><i class="fas fa-plus-circle"></i>
-                                                                Add More Specifications</button>
+                                                    <div class="mb-3 col-md-3 d-grid">
+                                                        <button class="btn btn-outline-primary" id="addSpecsBtnMain"><i
+                                                                class="fas fa-plus-circle"></i>
+                                                            Add More Specifications</button>
 
-                                                        </div>
-                                                  
+                                                    </div>
+
                                                 </div>
 
 
@@ -173,7 +174,8 @@
                                                         class="fas fa-times"></i>
                                                     Cancel</a>
                                                 <button type="submit" class="btn btn-primary" id="submitData"
-                                                    style="float: right"><i class="fas fa-save"></i> Add Product</button>
+                                                    style="float: right"><i class="fas fa-save"></i> Add
+                                                    Product</button>
                                             </form>
 
 
@@ -190,19 +192,16 @@
 
     <script src="/vendor/jquery/jquery.min.js"></script>
 
-
     <script>
 
         //Populate subcategory dropdown 
         function populate(category, subcategory) {
             var cat = document.getElementById("category");
             var subcat = document.getElementById("subcategory");
-            // document.write(subcategory);
 
-            var b = testing(cat);
+            var subcatValuesArray = testing(cat);
 
             subcat.innerHTML = "";
-
 
             function testing(cat) {
 
@@ -211,7 +210,7 @@
 
                 if (cat.value == a) {
                     if ('<%=data.variant%>' == "Unavailable") {
-                       
+
                         $(("#Images")).remove();
                         $(("#Quantity")).remove();
                         $(("#Prices")).remove();
@@ -227,12 +226,12 @@
                         actualPrice.setAttribute('required', '');
                         finalPrice.setAttribute('required', '');
                     }
-                   
+
                     else {
                         $(("#Images")).remove();
                         $(("#Quantity")).remove();
                         $(("#Prices")).remove();
-                     
+
                     }
 
                     return '<%=data.sub_category%>';
@@ -244,8 +243,7 @@
 
             }
 
-            var subcatValues = b;
-            var optionsArray = subcatValues.split(",")
+            var optionsArray = subcatValuesArray.split(", ")
 
             for (var option in optionsArray) {
                 var pair = optionsArray[option].split(",")
@@ -255,15 +253,7 @@
                 newoption.innerHTML = pair[0];
                 subcat.options.add(newoption);
             }
-
-
-
         }
-
-
-      
-
-
         function calculate(val1, val2) {
             var actualPrice = document.getElementById("actualPrice").value;
             var discountPct = document.getElementById("discount").value;
@@ -415,7 +405,7 @@
 
         var counter = 1;
         $(document).ready(function () {
-            
+
             $("#addSpecsBtnMain").click(function (e) {
                 e.preventDefault();
 

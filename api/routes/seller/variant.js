@@ -18,52 +18,48 @@ var upload = multer({ storage: store });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
-router.get('/:id', checkAuth, (req, res) => {
+router.get('/:id', checkAuth, async (req, res) => {
     var id = req.params.id;
     var sizeArr = [];
-    Products.findById(req.params.id,
-        (err, doc) => {
-            if (!err) {
-                Variants.find({ 'prodID': id }).select("sizes colours quantity finalPrice")
-                    .exec()
-                    .then(docs => {
-                        docs.forEach((element) => {
-                            var arr = [];
+    var doc = await Products.findById(req.params.id)
+    
+        Variants.find({ 'prodID': id }).select("sizes colours quantity finalPrice")
+            .exec()
+            .then(docs => {
+                docs.forEach((element) => {
+                    var arr = [];
 
-                            for (var i = 0; i < element["sizes"].length; i++) {
-                                arr.push(
-                                    element.sizes[i]["sizes"] + " : " +
-                                    element.sizes[i]["quantity"] + " : Rs " +
-                                    element.sizes[i]["finalPrice"]
+                    for (var i = 0; i < element["sizes"].length; i++) {
+                        arr.push(
+                            element.sizes[i]["sizes"] + " : " +
+                            element.sizes[i]["quantity"] + " : Rs " +
+                            element.sizes[i]["finalPrice"]
 
-                                )
-                            }
-                            sizeArr.push(arr)
-                        })
-                        res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+                        )
+                    }
+                    sizeArr.push(arr)
+                })
+                res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
 
-                        var setStatus;
-                        if (docs.length > 0) {
-                            setStatus = "Pending"
-                        } else {
-                            setStatus = "Incomplete"
-                        }
-                        Products.findByIdAndUpdate({ _id: id }, {
-                            $set: {
-                                status: setStatus
-                            }
-                        }).exec()
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        res.status(500).json({
-                            error: err
-                        })
-                    })
-            } else {
-                res.send('try-again')
-            }
-        })
+                var setStatus;
+                if (docs.length > 0) {
+                    setStatus = "Pending"
+                } else {
+                    setStatus = "Incomplete"
+                }
+                Products.findByIdAndUpdate({ _id: id }, {
+                    $set: {
+                        status: setStatus
+                    }
+                }).exec()
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({
+                    error: err
+                })
+            })
+    
 });
 
 router.get('/add-variant/:id', checkAuth, (req, res) => {
@@ -85,49 +81,90 @@ router.get('/add-variant/:id', checkAuth, (req, res) => {
 
 router.post('/add-variant/:id', imgUpload, async (req, res, next) => {
     var prodID = req.params.id;
+    var getVariantID;
 
-    var sizesArr = [{
-        "sizes": req.body.sizes,
-        "quantity": req.body.quantity,
-        "actualPrice": req.body.actualPrice,
-        "discount": req.body.discount,
-        "finalPrice": req.body.finalPrice
-    },];
+    console.log(req.body.sizes)
+
+    if (req.body.sizes) {
+        console.log("Setting size Array")
+        var sizesArr = [{
+            "sizes": req.body.sizes,
+            "quantity": req.body.quantity,
+            "actualPrice": req.body.actualPrice,
+            "discount": req.body.discount,
+            "finalPrice": req.body.finalPrice
+        },];
+        console.log(sizesArr)
+    }
 
     try {
-        var rawSS = req.files.images;
-        var imageArr = [];
-        if (rawSS) {
-            for (let i = 0; i < rawSS.length; i++) {
-                const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
-                await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
-                var url = await imageRef.getDownloadURL()
-                imageArr.push(url)
+        // var rawSS = req.files.images;
+        // var imageArr = [];
+        // if (rawSS) {
+        //     for (let i = 0; i < rawSS.length; i++) {
+        //         const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
+        //         await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+        //         var url = await imageRef.getDownloadURL()
+        //         imageArr.push(url)
+        //     }
+        // }
+
+        if (req.body.sizes) {
+            console.log("Helllo")
+
+            var sizeArr = [];
+            var a = sizesArr[0]["sizes"].length
+            console.log(a)
+
+            for (var i = 0; i < a; i++) {
+                sizeArr.push({
+                    sizes: sizesArr[0]["sizes"][i],
+                    quantity: sizesArr[0]["quantity"][i],
+                    actualPrice: sizesArr[0]["actualPrice"][i],
+                    discount: sizesArr[0]["discount"][i],
+                    finalPrice: sizesArr[0]["finalPrice"][i],
+                })
             }
-        }
-        var sizeArr = [];
-        var a = sizesArr[0]["sizes"].length
+            console.log(req.body._id)
+            console.log(sizeArr)
 
-        for (var i = 0; i < a; i++) {
-            sizeArr.push({
-                sizes: sizesArr[0]["sizes"][i],
-                quantity: sizesArr[0]["quantity"][i],
-                actualPrice: sizesArr[0]["actualPrice"][i],
-                discount: sizesArr[0]["discount"][i],
-                finalPrice: sizesArr[0]["finalPrice"][i],
+            Variants.findByIdAndUpdate({ _id: req.body._id }, {
+                $set: {
+                    sizes: sizeArr,
+                    status: "Pending"
+                }
             })
+                .exec()
+                .then(result => {
+                    console.log(result)
+                    res.redirect('/seller/products/variant/' + prodID);
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+
+        }
+        else {
+
+            var variantData = new Variants({
+                _id: mongoose.Types.ObjectId(),
+                prodID: prodID,
+                //    images: imageArr,
+                colours: req.body.colours,
+                status: ""
+            })
+            await variantData.save()
+            getVariantID = variantData._id
+            res.send({
+                getVariantID: getVariantID
+            })
+
         }
 
-        var variantData = new Variants({
-            _id: mongoose.Types.ObjectId(),
-            prodID: prodID,
-            images: imageArr,
-            colours: req.body.colours,
-            sizes: sizeArr,
-            status: "Pending"
-        })
-        await variantData.save();
-        res.redirect('/seller/products/variant/' + prodID);
+        // res.redirect('/seller/products/variant/' + prodID);
     } catch (err) {
         console.log(err);
     }
