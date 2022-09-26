@@ -5,46 +5,67 @@ const mongoose = require('mongoose')
 const Wishlist = require('../../models/user/wishlist');
 const Seller = require("../../models/seller/seller")
 
-router.get('/view-wishlist/(:userID)',  async (req, res) => {
+router.get('/view-wishlist/(:userID)', async (req, res) => {
     var seller;
     var sellerdoc;
+    var size = [];
     await Wishlist.find({ userID: req.params.userID }).distinct('sellerID').then(doc => {
         sellerdoc = doc
     })
 
     await Seller.find({ _id: { $in: sellerdoc } }).then(rdoc => {
         seller = rdoc;
-        console.log(seller);
     });
-     await Wishlist.find({ userID: req.params.userID }).populate('sellerID productID').exec(function (err, docs) {
+    await Wishlist.find({ userID: req.params.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
         if (err) {
             console.log(err)
         } else {
-            res.render('user/wishlist', {seller: seller, wishlistData: docs })
+            for (let i = 0; i < docs.length; i++) {
+                if (docs[i].variantID) {
+                    for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
+                        if (docs[i].variantID.sizes[j].sizes == docs[i].size) {
+                            size.push(j);
+                        }
+                    }
+                }
+                else {
+                    size.push(0);
+                }
+            }
+            res.render('user/wishlist', { seller: seller, wishlistData: docs, size: size, user: req.session.userid })
         }
     });
 })
 
-router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
-    // var cartdata = new Cart({
-    //     _id: mongoose.Types.ObjectId(),
-    //     userID: "",
-    //     sellerID: req.params.sellerID,
-    //     productID: req.params.productID,
-    //     colour: req.params.colour,
-    //     qauntity: 1
-    // })
+router.get('/add-to-wishlist/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)', (req, res) => {
     var wishlistdata = new Wishlist({
         _id: mongoose.Types.ObjectId(),
-        userID: "mudassir",
+        userID: req.session.userid,
         sellerID: req.params.sellerID,
+        variantID: req.params.variantID,
         productID: req.params.id,
-        colour: "red",
-        size: "10",
+        colour: req.params.colours,
+        size: req.params.sizes
     })
-    
+
     wishlistdata.save().then(result => {
-        res.redirect('/wishlist/view-wishlist/mudassir')
+        res.redirect('/wishlist/view-wishlist/' + req.session.userid)
+    })
+        .catch(err => {
+            console.log("Error Occurred while adding product to Cart." + err);
+        })
+})
+
+router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
+    var wishlistdata = new Wishlist({
+        _id: mongoose.Types.ObjectId(),
+        userID: req.session.userid,
+        sellerID: req.params.sellerID,
+        productID: req.params.id
+    })
+
+    wishlistdata.save().then(result => {
+        res.redirect('/wishlist/view-wishlist/' + req.session.userid)
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Cart." + err);
@@ -54,7 +75,7 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
 router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
     Cart.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
         if (!err) {
-            res.redirect('/wishlist/view-wishlist/hatim')
+            res.redirect('/wishlist/view-wishlist/' + req.session.userid)
         }
         else {
             res.status(500).send(err)

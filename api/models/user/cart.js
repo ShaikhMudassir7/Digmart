@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const cartSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     userID: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     sellerID: {
@@ -10,13 +10,17 @@ const cartSchema = mongoose.Schema({
         ref: 'sellers',
         required: true
     },
+    variantID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'variants',
+    },
     productID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'products',
         required: true
     },
-    size: { type: String,  required: true},
-    colour: { type: String,  required: true},
+    size: { type: String},
+    colour: { type: String},
     quantity: { type: String, required: true}
 })
 const Cart = new mongoose.model("cart", cartSchema)

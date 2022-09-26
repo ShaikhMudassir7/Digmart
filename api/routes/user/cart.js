@@ -4,55 +4,73 @@ const mongoose = require('mongoose')
 
 const Cart = require('../../models/user/cart');
 const Seller = require("../../models/seller/seller");
-const { render } = require("ejs");
 
 router.get('/view-cart/(:userID)', async (req, res) => {
     var subtotal = 0;
     var seller;
     var sellerdoc;
+    var size = [];
     await Cart.find({ userID: req.params.userID }).distinct('sellerID').then(doc => {
         sellerdoc = doc
     })
 
-    console.log(sellerdoc)
     await Seller.find({ _id: { $in: sellerdoc } }).then(rdoc => {
         seller = rdoc;
-        console.log(seller);
     });
 
-    await Cart.find({ userID: req.params.userID }).populate('sellerID productID').exec(function (err, docs) {
+    await Cart.find({ userID: req.params.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
         if (err) {
-            console.log(err)
         } else {
             for (let i = 0; i < docs.length; i++) {
-                subtotal = subtotal + (Number(docs[i].productID.finalPrice) * (Number(docs[i].quantity)));
+                if (docs[i].variantID) {
+                    for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
+                        if (docs[i].variantID.sizes[j].sizes == docs[i].size) {
+                            subtotal = subtotal + (Number(docs[i].variantID.sizes[j].finalPrice) * (Number(docs[i].quantity)));
+                            size.push(j);
+                        }
+                    }
+                }
+                else{
+                    subtotal = subtotal + (Number(docs[i].productID.finalPrice) * (Number(docs[i].quantity)));
+                            size.push(0);
+                }
             }
-            res.render('user/cart', { seller: seller, cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2) })
+            res.render('user/cart', { seller: seller, cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2), size: size, user: req.session.userid })
         }
     });
 })
 
-router.get('/add-to-cart/(:id)/(:sellerID)', (req, res) => {
-    // var cartdata = new Cart({
-    //     _id: mongoose.Types.ObjectId(),
-    //     userID: "",
-    //     sellerID: req.params.sellerID,
-    //     productID: req.params.productID,
-    //     colour: req.params.colour,
-    //     qauntity: 1
-    // })
+router.get('/add-to-cart/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)', (req, res) => {
     var cartdata = new Cart({
         _id: mongoose.Types.ObjectId(),
-        userID: "mudassir",
+        userID: req.session.userid,
         sellerID: req.params.sellerID,
+        variantID: req.params.variantID,
         productID: req.params.id,
-        colour: "red",
-        size: "10",
+        colour: req.params.colours,
+        size: req.params.sizes,
         quantity: "1"
     })
 
     cartdata.save().then(result => {
-        res.redirect('/cart/view-cart/mudassir')
+        res.redirect('/cart/view-cart/' + req.session.userid)
+    })
+        .catch(err => {
+            console.log("Error Occurred while adding product to Cart." + err);
+        })
+})
+
+router.get('/add-to-cart/(:id)/(:sellerID)', (req, res) => {
+    var cartdata = new Cart({
+        _id: mongoose.Types.ObjectId(),
+        userID: req.session.userid,
+        sellerID: req.params.sellerID,
+        productID: req.params.id,
+        quantity: "1"
+    })
+
+    cartdata.save().then(result => {
+        res.redirect('/cart/view-cart/' + req.session.userid)
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Cart." + err);
@@ -62,7 +80,7 @@ router.get('/add-to-cart/(:id)/(:sellerID)', (req, res) => {
 router.get('/delete-cart/(:cartID)', (req, res) => {
     Cart.findByIdAndRemove(req.params.cartID, (err, doc) => {
         if (!err) {
-            res.redirect('/cart/view-cart/hatim')
+            res.redirect('/cart/view-cart/' + req.session.userid)
         }
         else {
             res.status(500).send(err)
@@ -71,6 +89,7 @@ router.get('/delete-cart/(:cartID)', (req, res) => {
 })
 
 router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
+    console.log(req.params.qty)
     Cart.find({
         _id: req.params.id
     })
@@ -82,7 +101,7 @@ router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
             Cart.updateOne({ _id: req.params.id }, { $set: cartdata })
                 .exec()
                 .then(result => {
-                    res.redirect('/cart/view-cart/hatim')
+                    res.redirect('/cart/view-cart/' + req.session.userid)
                 })
                 .catch(err => {
                     console.log(err)
