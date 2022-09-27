@@ -57,10 +57,10 @@
                                         <li><a class="dropdown-item" data-bs-target="#loginpopup"
                                                 data-bs-toggle="modal">Sign in</a></li>
                                         <% } else{%>
-                                            <li><a class="dropdown-item" href="#">My Orders</a></li>
-                                            <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My Orders</a></li>
+                                            <li><a class="dropdown-item" href="/wishlist/<%=user%>"><i class="fas fa-heart"></i> Wishlist</a></li>
 
-                                            <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i>
+                                            <li><a class="dropdown-item" href="/cart/<%=user%>"><i class="fas fa-shopping-cart"></i>
                                                     View
                                                     Cart</a></li>
                                             <li>
