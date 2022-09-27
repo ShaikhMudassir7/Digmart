@@ -11,6 +11,10 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sellers'
     },
+    variantIDArr: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'variants'
+    }],
     category: { type: String, required: true },
     subcategory: { type: String},
     images: [{type: String}],

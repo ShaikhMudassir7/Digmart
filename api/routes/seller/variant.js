@@ -56,7 +56,7 @@ router.get('/add-variant/:id', checkAuth, async (req, res) => {
 
     var doc = await Products.findById(req.params.id)
     var docs = await Variants.find({ 'prodID': prodID }).select().exec()
-    
+
     res.render("./seller/variants/add-variant", { productData: doc, id: prodID, variantData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
 });
 
@@ -94,6 +94,13 @@ router.post('/add-variant/:id', [checkAuth, imgUpload], async (req, res, next) =
                 finalPrice: sizesArray[0]["finalPrice"][i],
             })
         }
+        var variantByID = await Variants.findById(req.body._id)
+        if (variantByID.status == "Incomplete Variant") {
+            var product = await Products.findById(req.params.id)
+            product.variantIDArr.push(req.body._id);
+            await product.save();
+        }
+
         Variants.findByIdAndUpdate({ _id: req.body._id }, {
             $set: {
                 sizes: sizeArr,
@@ -118,13 +125,14 @@ router.post('/add-variant/:id', [checkAuth, imgUpload], async (req, res, next) =
             prodID: prodID,
             //    images: imageArr,
             colours: req.body.colours,
-            status: ""
+            status: "Incomplete Variant"
         })
         await variantData.save()
         getVariantID = variantData._id
         res.send({
             getVariantID: getVariantID
         })
+
     }
 });
 
@@ -208,6 +216,12 @@ router.get("/delete-variant/(:id)/(:variantID)", checkAuth, async (req, res, nex
     const id = req.params.variantID;
 
     var variant = await Variants.findByIdAndRemove(id).exec()
+    var product = await Products.findById(req.params.id)
+    const index = product.variantIDArr.indexOf(id);
+    if (index > -1) {
+        product.variantIDArr.splice(index, 1);
+    }
+    await product.save();
 
     for (let i = 0; i < variant.images.length; i++) {
         var imagePath = variant.images[i].split("?")
