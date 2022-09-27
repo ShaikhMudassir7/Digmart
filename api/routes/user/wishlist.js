@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const Wishlist = require('../../models/user/wishlist');
 const Seller = require("../../models/seller/seller")
 
-router.get('/view-wishlist/(:userID)', async (req, res) => {
+router.get('/(:userID)', async (req, res) => {
     var seller;
     var sellerdoc;
     var size = [];
@@ -47,7 +47,7 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)'
     })
 
     wishlistdata.save().then(result => {
-        res.redirect('/wishlist/view-wishlist/' + req.session.userid)
+        res.redirect('/wishlist/' + req.session.userid)
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Cart." + err);
@@ -63,7 +63,7 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
     })
 
     wishlistdata.save().then(result => {
-        res.redirect('/wishlist/view-wishlist/' + req.session.userid)
+        res.redirect('/wishlist/' + req.session.userid)
     })
         .catch(err => {
             console.log("Error Occurred while adding product to Cart." + err);
@@ -73,7 +73,7 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
 router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
     Cart.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
         if (!err) {
-            res.redirect('/wishlist/view-wishlist/' + req.session.userid)
+            res.redirect('/wishlist/' + req.session.userid)
         }
         else {
             res.status(500).send(err)
