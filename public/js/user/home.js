@@ -39,7 +39,7 @@ var swiper = new Swiper(".categorySwiper", {
 });
 
 var swiper = new Swiper(".sellerSwiper", {
-    slidesPerView: 5,
+    slidesPerView: 6,
     spaceBetween: 20,
     slidesPerGroup: 1,
     fade: 'true',
@@ -54,19 +54,24 @@ var swiper = new Swiper(".sellerSwiper", {
     breakpoints: {
         0: {
             slidesPerView: 1,
+            spaceBetween: 10,
         },
-        450: {
+        360: {
             slidesPerView: 2,
             spaceBetween: 10,
         },
-        730: {
+        575: {
             slidesPerView: 3,
+            spaceBetween: 10,
         },
-        992: {
+        730: {
             slidesPerView: 4,
         },
-        1175: {
+        992: {
             slidesPerView: 5,
+        },
+        1175: {
+            slidesPerView: 6,
         },
     },
 });
@@ -167,3 +172,11 @@ function showError(error) {
             break;
     }
 }
+
+$("#navbar-menu").on("shown.bs.collapse", function () {
+    $(".dropdown-menu").css({"position": "absolute", "left": "50%"})
+});
+
+$("#navbar-menu").on("hidden.bs.collapse", function () {
+    $(".dropdown-menu").css({"position": "absolute", "left": "auto"})
+});
