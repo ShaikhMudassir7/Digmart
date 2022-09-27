@@ -44,8 +44,6 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)'
         sellerID: req.params.sellerID,
         variantID: req.params.variantID,
         productID: req.params.id,
-        colour: req.params.colours,
-        size: req.params.sizes
     })
 
     wishlistdata.save().then(result => {
