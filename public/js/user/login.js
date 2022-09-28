@@ -40,10 +40,7 @@ mobOtp4.addEventListener('keyup', function (event) {
     checkMobileOtp()
 });
 
-
-
 function sendOTP() {
-    console.log("calling");
     var cred = document.getElementById('mobile');
     var err = document.getElementById('err');
     var errMsg = document.getElementById('errMsg');

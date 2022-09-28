@@ -28,8 +28,8 @@
                     <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
                 </a>
                 <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around"
-                    type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
-                    aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu"
+                    aria-expanded="false" aria-label="Toggle navigation">
                     <span class="toggler-icon top-bar"></span>
                     <span class="toggler-icon middle-bar"></span>
                     <span class="toggler-icon bottom-bar"></span>
@@ -52,15 +52,19 @@
                             <div class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarScrollingDropdown2">
+                                <ul class="dropdown-menu dropdown-menu-lg-end"
+                                    aria-labelledby="navbarScrollingDropdown2">
                                     <% if (!user) { %>
                                         <li><a class="dropdown-item" data-bs-target="#loginpopup"
                                                 data-bs-toggle="modal">Sign in</a></li>
                                         <% } else{%>
-                                            <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My Orders</a></li>
-                                            <li><a class="dropdown-item" href="/wishlist/<%=user%>"><i class="fas fa-heart"></i> Wishlist</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My
+                                                    Orders</a></li>
+                                            <li><a class="dropdown-item" href="/wishlist/<%=user%>"><i
+                                                        class="fas fa-heart"></i> Wishlist</a></li>
 
-                                            <li><a class="dropdown-item" href="/cart/<%=user%>"><i class="fas fa-shopping-cart"></i>
+                                            <li><a class="dropdown-item" href="/cart/<%=user%>"><i
+                                                        class="fas fa-shopping-cart"></i>
                                                     View
                                                     Cart</a></li>
                                             <li>
@@ -168,44 +172,62 @@
             <div id="product1" class="swiper-wrapper">
                 <% proDocs.forEach(function(product){%>
                     <div class="pro swiper-slide">
-                        <%if(product.hasVariant){ 
-                            for(j = 0; j < varDocs.length; j++){
-                                if(varDocs[j].prodID.equals(product._id)){ %>
+                        <%if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
+                            if(varDocs[j].prodID.equals(product._id)){ %>
                             <div class="imgDiv">
                                 <%if(varDocs[j].sizes[0].discount){%>
-                                <div class="discount-badge"><%=varDocs[j].sizes[0].discount%>% off</div><%}%>
-                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                                <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
+                                    <div class="discount-badge">
+                                        <%=varDocs[j].sizes[0].discount%>% off
+                                    </div>
+                                    <%}%>
+                                        <i class="fa fa-heart"
+                                            onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>')"></i>
+                                        <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                             </div>
                             <div class="des px-2 text-start">
-                                <span class="prodCat d-block"><%=product.category%></span>
-                                <span class="prodName d-block"><%=product.productName%></span>
+                                <span class="prodCat d-block">
+                                    <%=product.category%>
+                                </span>
+                                <span class="prodName d-block">
+                                    <%=product.productName%>
+                                </span>
                                 <div class="rating"><i class="fa fa-star"> 4.2</i></div>
                                 <div>
                                     <span class="prodPrice">₹ <%=varDocs[j].sizes[0].finalPrice%></span>
                                     <%if(varDocs[j].sizes[0].discount){%>
-                                    <span class="discPrice text-muted px-2">₹ <%=varDocs[j].sizes[0].actualPrice%></span><%}%>
+                                        <span class="discPrice text-muted px-2">₹ <%=varDocs[j].sizes[0].actualPrice%>
+                                                </span>
+                                        <%}%>
                                 </div>
                             </div>
-                        <%}}} else {%>
-                            <div class="imgDiv">
-                                <%if(product.discount){%>
-                                <div class="discount-badge"><%=product.discount%>% off</div><%}%>
-                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
-                                <img src="<%=product.images%>" alt="<%=product.productName%>">
-                            </div>
-                            <div class="des px-2 text-start">
-                                <span class="prodCat d-block"><%=product.category%></span>
-                                <span class="prodName d-block"><%=product.productName%></span>
-                                <div class="rating"><i class="fa fa-star"> 4.2</i></div>
-                                <div>
-                                    <span class="prodPrice">₹ <%=product.finalPrice%></span>
+                            <%}}} else {%>
+                                <div class="imgDiv">
                                     <%if(product.discount){%>
-                                    <span class="discPrice text-muted px-2">₹ <%=product.actualPrice%></span><%}%>
+                                        <div class="discount-badge">
+                                            <%=product.discount%>% off
+                                        </div>
+                                        <%}%>
+                                            <i class="fa fa-heart"
+                                                onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', null)"></i>
+                                            <img src="<%=product.images%>" alt="<%=product.productName%>">
                                 </div>
-                            </div>
-                        <%}%>
-                        <i class="fas fa-shopping-cart cart" onclick="cart()"></i>
+                                <div class="des px-2 text-start">
+                                    <span class="prodCat d-block">
+                                        <%=product.category%>
+                                    </span>
+                                    <span class="prodName d-block">
+                                        <%=product.productName%>
+                                    </span>
+                                    <div class="rating"><i class="fa fa-star"> 4.2</i></div>
+                                    <div>
+                                        <span class="prodPrice">₹ <%=product.finalPrice%></span>
+                                        <%if(product.discount){%>
+                                            <span class="discPrice text-muted px-2">₹ <%=product.actualPrice%></span>
+                                            <%}%>
+                                    </div>
+                                </div>
+                                <%}%>
+                                    <i class="fas fa-shopping-cart cart" onclick="cart()"></i>
                     </div>
                     <%})%>
             </div>
@@ -224,7 +246,10 @@
     <!-- Login Modal -->
     <%- include('login') %>
 
-
+    <div id="wishlistSuccess" class="alert alert-success px-3 d-none">
+        <h5 class="alert-title"><i class="fas fa-check"></i> Success</h5>
+        This is a success alert.
+    </div>
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

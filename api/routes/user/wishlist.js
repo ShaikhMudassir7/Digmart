@@ -70,6 +70,36 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
         })
 })
 
+router.post('/add-product', async (req, res) => {
+    if (req.body.variantID) {
+        var wishlistdata = new Wishlist({
+            _id: mongoose.Types.ObjectId(),
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+            variantID: req.body.variantID,
+        })
+    } else {
+        var wishlistdata = new Wishlist({
+            _id: mongoose.Types.ObjectId(),
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+        })
+    }
+    await wishlistdata.save()
+    res.json({ status: true });
+})
+
+router.post('/remove-product', async (req, res) => {
+    if (req.body.variantID) {
+        await Wishlist.deleteOne({productID: req.body.productID, variantID: req.body.variantID})
+    } else {
+        await Wishlist.deleteOne({productID: req.body.productID})
+    }
+    res.json({ status: true });
+})
+
 router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
     Cart.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
         if (!err) {
