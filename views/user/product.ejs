@@ -32,70 +32,15 @@
   <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/master.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/user/home.css">
 
   <!-- title of the page -->
   <title>Product Page</title>
 </head>
 
 <body>
-  <section id="header">
-    <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid ">
-        <a class="navbar-brand" href="/">
-          <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
-        </a>
-        <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around" type="button"
-          data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span class="toggler-icon top-bar"></span>
-          <span class="toggler-icon middle-bar"></span>
-          <span class="toggler-icon bottom-bar"></span>
-        </button>
-        <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
-          <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
-            <li class="nav-item mx-2 text-center">
-              <a class="nav-link" href="/seller/signup">Become a Seller</a>
-            </li>
-            <li class="nav-item mx-2 text-center">
-              <a class="nav-link" href="#deals">Products</a>
-            </li>
-            <li class="nav-item mx-2 text-center">
-              <a class="nav-link" href="#Sellers">Sellers</a>
-            </li>
-            <li class="nav-item mx-2 text-center">
-              <a class="nav-link" href="#footer">About</a>
-            </li>
-            <li class="nav-item mx-2 text-center">
-              <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarScrollingDropdown2">
-                  <% if (!user) { %>
-                    <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal">Sign in</a></li>
-                    <% } else{%>
-                      <li><a class="dropdown-item" href="#">My Orders</a></li>
-                      <li><a class="dropdown-item" href="#">Wishlist</a></li>
-
-                      <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i>
-                          View
-                          Cart</a></li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item" href="/login/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
-                      </li>
-                      <% } %>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </section>
+  <%- include('navbar') %>
   <!-- header part for product image and price  -->
-  <header class="container mt-3  p-1 bg-white" style="min-width: 900px;">
+  <div class="container mt-3  p-1 bg-white" style="min-width: 900px;">
     <div class="row">
       <!--Carousel Slide-->
       <div class="col-md-7 col-sm-10 mt-2 p-1">
@@ -584,7 +529,11 @@
         </button>
       </div>
     </section>
-  </header>
+   
+  </div>
+   <section>
+    <%- include('footer') %>
+   </section>
   <br><br>
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -605,9 +554,12 @@
       </div>
     </div>
   </div>
+  
   <!-- Login Modal -->
   <%- include('login') %>
 
+
+ 
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/js/user/login.js"></script>
