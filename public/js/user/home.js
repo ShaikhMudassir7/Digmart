@@ -113,9 +113,46 @@ var swiper = new Swiper(".productSwiper", {
     },
 });
 
-function wishlist(element) {
+function wishlist(element, userID, sellerID, productID, variantID) {
     if ($("#hidLogin").val()) {
-        element.classList.toggle('i-red');
+        if (!element.classList.contains('i-red'))
+            $.ajax({
+                url: "/wishlist/add-product",
+                type: "POST",
+                data: {
+                    userID: userID,
+                    sellerID: sellerID,
+                    productID: productID,
+                    variantID: variantID,
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status){
+                        element.classList.add('i-red')
+                        $("#wishlistSuccess").addClass('alertPop')
+                        $("#wishlistSuccess").removeClass('d-none')
+                        setTimeout(function() {
+                            $("#wishlistSuccess").alert('close')
+                            $("#wishlistSuccess").removeClass('alertPop')
+                            $("#wishlistSuccess").addClass('d-none')
+                        }, 2000);
+                    }
+                }
+            })
+        else
+            $.ajax({
+                url: "/wishlist/remove-product",
+                type: "POST",
+                data: {
+                    productID: productID,
+                    variantID: variantID,
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status)
+                        element.classList.remove('i-red');
+                }
+            })
     } else {
         $('#loginpopup').modal('show');
     }
@@ -135,7 +172,6 @@ function getLocation() {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else
         alert("Geolocation is not supported by this browser.")
-
 }
 getLocation();
 
@@ -174,9 +210,9 @@ function showError(error) {
 }
 
 $("#navbar-menu").on("shown.bs.collapse", function () {
-    $(".dropdown-menu").css({"position": "absolute", "left": "50%"})
+    $(".dropdown-menu").css({ "position": "absolute", "left": "50%" })
 });
 
 $("#navbar-menu").on("hidden.bs.collapse", function () {
-    $(".dropdown-menu").css({"position": "absolute", "left": "auto"})
+    $(".dropdown-menu").css({ "position": "absolute", "left": "auto" })
 });
