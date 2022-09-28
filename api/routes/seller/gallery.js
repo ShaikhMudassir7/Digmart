@@ -24,9 +24,9 @@ router.get('/:id', checkAuth, (req, res) => {
         (err, doc) => {
             if (!err) {
                 SellerGall.find({ 'sellerID': id }).select("images")
-                    .exec()
+                    // .exec()
                     .then(docs => {
-                        res.render('./seller/gallery/gallery', {galleryData: docs, id: id, sellerData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+                        res.render('./seller/gallery/gallery', { galleryData: docs, id: id, sellerData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
                         // .exec() 
                     })
                     .catch(err => {
@@ -78,7 +78,7 @@ router.post('/add-gallery/:id', imgUpload, async (req, res, next) => {
             images: imageArr,
         })
         await galleryData.save();
-        res.redirect('/seller/gallery/' + req.session.sellerID);
+        res.redirect('/seller/gallery/' + sellerID);
     } catch (err) {
         console.log('error'+err);
     }
@@ -98,7 +98,7 @@ router.get("/edit-gallery/(:id)/(:galleryID)", checkAuth, (req, res) => {
                             SellerGall.find({ 'sellerID': id }).select()
                                 .exec()
                                 .then(docs => {
-                                    res.render('./seller/gallery/edit-gallery', { images: allImages, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+                                    res.render('./seller/gallery/edit-gallery', { images: allImages, galleryData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
                                 })
                         }
                     })
@@ -112,7 +112,7 @@ router.post("/edit-gallery/(:id)/(:galleryID)", imgUpload, async (req, res) => {
     var sellerID = req.params.id;
     var galleryID = req.params.galleryID;
 
-
+    var imageArr = [];
     try {
         var gallery = await SellerGall.findById(galleryID).exec()
         for (let i = 0; i < gallery.images.length; i++) {
@@ -165,7 +165,6 @@ router.get("/delete-gallery/(:id)/(:galleryID)", async (req, res, next) => {
 
     }
     res.redirect('/seller/gallery/' + sellerID);
-Gallery
 });
 
 router.get("/delete-image/(:id)/(:galleryID)/(:a)", async (req, res, next) => {
