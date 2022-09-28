@@ -78,6 +78,7 @@ router.post('/add-product', async (req, res) => {
             sellerID: req.body.sellerID,
             productID: req.body.productID,
             variantID: req.body.variantID,
+            size: req.body.size,
         })
     } else {
         var wishlistdata = new Wishlist({
@@ -93,7 +94,7 @@ router.post('/add-product', async (req, res) => {
 
 router.post('/remove-product', async (req, res) => {
     if (req.body.variantID) {
-        await Wishlist.deleteOne({productID: req.body.productID, variantID: req.body.variantID})
+        await Wishlist.deleteOne({productID: req.body.productID, variantID: req.body.variantID,  size: req.body.size,})
     } else {
         await Wishlist.deleteOne({productID: req.body.productID})
     }
@@ -110,6 +111,5 @@ router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
         }
     })
 })
-
 
 module.exports = router

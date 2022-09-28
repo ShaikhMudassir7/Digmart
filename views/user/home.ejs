@@ -181,7 +181,7 @@
                                     </div>
                                     <%}%>
                                         <i class="fa fa-heart"
-                                            onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>')"></i>
+                                            onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                                         <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                             </div>
                             <div class="des px-2 text-start">
@@ -196,7 +196,7 @@
                                     <span class="prodPrice">₹ <%=varDocs[j].sizes[0].finalPrice%></span>
                                     <%if(varDocs[j].sizes[0].discount){%>
                                         <span class="discPrice text-muted px-2">₹ <%=varDocs[j].sizes[0].actualPrice%>
-                                                </span>
+                                        </span>
                                         <%}%>
                                 </div>
                             </div>
@@ -208,7 +208,7 @@
                                         </div>
                                         <%}%>
                                             <i class="fa fa-heart"
-                                                onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', null)"></i>
+                                                onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
                                             <img src="<%=product.images%>" alt="<%=product.productName%>">
                                 </div>
                                 <div class="des px-2 text-start">
@@ -246,10 +246,6 @@
     <!-- Login Modal -->
     <%- include('login') %>
 
-    <div id="wishlistSuccess" class="alert alert-success px-3 d-none">
-        <h5 class="alert-title"><i class="fas fa-check"></i> Success</h5>
-        This is a success alert.
-    </div>
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -113,7 +113,7 @@ var swiper = new Swiper(".productSwiper", {
     },
 });
 
-function wishlist(element, userID, sellerID, productID, variantID) {
+function wishlist(element, userID, sellerID, productID, variantID, size) {
     if ($("#hidLogin").val()) {
         if (!element.classList.contains('i-red'))
             $.ajax({
@@ -124,19 +124,12 @@ function wishlist(element, userID, sellerID, productID, variantID) {
                     sellerID: sellerID,
                     productID: productID,
                     variantID: variantID,
+                    size: size,
                 },
                 dataType: 'json',
                 success: function (result) {
-                    if (result.status){
+                    if (result.status)
                         element.classList.add('i-red')
-                        $("#wishlistSuccess").addClass('alertPop')
-                        $("#wishlistSuccess").removeClass('d-none')
-                        setTimeout(function() {
-                            $("#wishlistSuccess").alert('close')
-                            $("#wishlistSuccess").removeClass('alertPop')
-                            $("#wishlistSuccess").addClass('d-none')
-                        }, 2000);
-                    }
                 }
             })
         else
@@ -146,6 +139,7 @@ function wishlist(element, userID, sellerID, productID, variantID) {
                 data: {
                     productID: productID,
                     variantID: variantID,
+                    size: size,
                 },
                 dataType: 'json',
                 success: function (result) {

@@ -451,12 +451,3 @@ body {
 }
 
 /* END OF PRODUCT SWIPER */
-
-.alertPop{
-    position: fixed;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 75%;
-    z-index: 1001;
-}
