@@ -97,9 +97,9 @@ var swiper = new Swiper(".productSwiper", {
         0: {
             slidesPerView: 1,
         },
-        450: {
+        430: {
             slidesPerView: 2,
-            spaceBetween: 10,
+            spaceBetween: 5,
         },
         730: {
             slidesPerView: 3,
@@ -137,6 +137,8 @@ function wishlist(element, userID, sellerID, productID, variantID, size) {
                 url: "/wishlist/remove-product",
                 type: "POST",
                 data: {
+                    userID: userID,
+                    sellerID: sellerID,
                     productID: productID,
                     variantID: variantID,
                     size: size,
@@ -147,14 +149,6 @@ function wishlist(element, userID, sellerID, productID, variantID, size) {
                         element.classList.remove('i-red');
                 }
             })
-    } else {
-        $('#loginpopup').modal('show');
-    }
-}
-
-function cart() {
-    if ($("#hidLogin").val()) {
-        console.log("Added to Cart")
     } else {
         $('#loginpopup').modal('show');
     }

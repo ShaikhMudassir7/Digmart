@@ -27,8 +27,45 @@ function navScroll() {
     })
 }
 
-function wishlist(element) {
-    element.classList.toggle('i-red');
+function wishlist(element, userID, sellerID, productID, variantID, size) {
+    if ($("#hidLogin").val()) {
+        if (!element.classList.contains('i-red'))
+            $.ajax({
+                url: "/wishlist/add-product",
+                type: "POST",
+                data: {
+                    userID: userID,
+                    sellerID: sellerID,
+                    productID: productID,
+                    variantID: variantID,
+                    size: size,
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status)
+                        element.classList.add('i-red')
+                }
+            })
+        else
+            $.ajax({
+                url: "/wishlist/remove-product",
+                type: "POST",
+                data: {
+                    userID: userID,
+                    sellerID: sellerID,
+                    productID: productID,
+                    variantID: variantID,
+                    size: size,
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status)
+                        element.classList.remove('i-red');
+                }
+            })
+    } else {
+        $('#loginpopup').modal('show');
+    }
 }
 
 function sortChange(val) {

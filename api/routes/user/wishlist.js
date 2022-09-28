@@ -71,9 +71,45 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
 })
 
 router.post('/add-product', async (req, res) => {
+    if (req.body.variantID)
+        var wishDocs = await Wishlist.find({
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+            variantID: req.body.variantID,
+            size: req.body.size
+        })
+    else
+        var wishDocs = await Wishlist.find({
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+        })
+    if (wishDocs.length == 0) {
+        if (req.body.variantID)
+            var wishlistdata = new Wishlist({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.body.userID,
+                sellerID: req.body.sellerID,
+                productID: req.body.productID,
+                variantID: req.body.variantID,
+                size: req.body.size,
+            })
+        else
+            var wishlistdata = new Wishlist({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.body.userID,
+                sellerID: req.body.sellerID,
+                productID: req.body.productID,
+            })
+        await wishlistdata.save()
+    }
+    res.json({ status: true });
+})
+
+router.post('/remove-product', async (req, res) => {
     if (req.body.variantID) {
-        var wishlistdata = new Wishlist({
-            _id: mongoose.Types.ObjectId(),
+        await Wishlist.deleteOne({
             userID: req.body.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
@@ -81,22 +117,7 @@ router.post('/add-product', async (req, res) => {
             size: req.body.size,
         })
     } else {
-        var wishlistdata = new Wishlist({
-            _id: mongoose.Types.ObjectId(),
-            userID: req.body.userID,
-            sellerID: req.body.sellerID,
-            productID: req.body.productID,
-        })
-    }
-    await wishlistdata.save()
-    res.json({ status: true });
-})
-
-router.post('/remove-product', async (req, res) => {
-    if (req.body.variantID) {
-        await Wishlist.deleteOne({productID: req.body.productID, variantID: req.body.variantID,  size: req.body.size,})
-    } else {
-        await Wishlist.deleteOne({productID: req.body.productID})
+        await Wishlist.deleteOne({ userID: req.body.userID, sellerID: req.body.sellerID, productID: req.body.productID })
     }
     res.json({ status: true });
 })
