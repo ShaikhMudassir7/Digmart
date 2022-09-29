@@ -1,15 +1,29 @@
+<style>
+    @media screen and (max-width: 430px) {
+        .chgsize {
+            font-size: 12px;
+        }
+    }
+
+    @media screen and (min-width: 431px) {
+        .chgsize {
+            font-size: 16px;
+        }
+    }
+</style>
+
 <div class="modal fade" id="loginpopup" data-bs-backdrop="login" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 500px;">
         <div class="modal-content">
-            <div class="modal-body p-0">
+            <div class="modal-body p-0" style="word-break: break-all;">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-4 col-sm-4 col-4" style="background-color: #1e686dfa">
-                            <div class="ms-1">
-                                <h2 class="mt-3" style="color: white;" id="staticBackdropLabel">
-                                    Login
+                        <div class="col-md-4 col-sm-4 col-4 p-0" style="background-color: #1e686dfa">
+                            <div class="ms-1 text-center p-1" style="color: white;">
+                                <h2 class="mt-3">
+                                    <b>Login</b>
                                 </h2>
-                                <div class="me-1" style=" color: white;">
+                                <div class="chgsize">
                                     Get personalized recommendation, wishlist products and track orders!
                                 </div>
                             </div>
@@ -18,55 +32,58 @@
                         </div>
                         <div class="col-md-8 col-sm-8 col-8" id="loginotp">
                             <div class="row mt-1">
-                                <div class="col-md-11 center-block col-sm-11 col-10 p-2">
+                                <div class="col-md-11 center-block col-sm-11 col-11 p-2">
                                     <div class="input-group mb-2" style="margin-top: 130px; ">
                                         <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
                                         <input value="" id="mobile" type="numeric" class="form-control " name="mobile"
                                             placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$"
-                                            style=" width: 80%;" required aria-describedby="basic-addon1">
+                                            style=" width: 50%;" required aria-describedby="basic-addon1">
                                         <small id="err" class="form-text text-muted col-md-12" style="display: none;">
                                             <span id="errMsg" style="color: red;"></span></small>
                                     </div>
-                                    <p style="font-size:0.7em;" class="text-start">By continuing, you agree to DigMart's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</p>
+                                    <p style="font-size:0.7em;" class="text-start">By continuing, you agree to DigMart's
+                                        <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</p>
                                     <button type="button" onclick="sendOTP()"
-                                        style=" min-width: 290px; color: white;  background-color: #1e686dfa;"
-                                        class="mt-2 btn center-block d-block mx-auto">Request OTP</button>
+                                        style=" color: white;  background-color: #1e686dfa;"
+                                        class=" col-md-12 col-sm-12 col-12 mt-2 btn center-block d-block mx-auto">Request
+                                        OTP</button>
                                 </div>
                                 <div class="col-md-1 col-sm-1 col-1 p-0">
-                                    <button type="button" onclick="window.location.reload()" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <button type="button" onclick="window.location.reload()" class="btn-close p-0"
+                                        data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-8 col-8" id="mobileotp" style="display: none;">
                             <div class="row mt-1">
-                                <div class="text-start col-md-11 col-sm-11 col-10 p-2">
-                                    <div class="d-flex justify-content-center align-items-center" style="margin-top: 50px;">
+                                <div class="col-md-11 col-sm-11 col-11 p-2">
+                                    <div class="d-flex justify-content-center align-items-center"
+                                        style="margin-top: 25px;">
                                         <div class="mb-0 border-0">
                                             <span class="">Enter the code we just send on your Mobile
                                                 No.<br>
                                                 <b id="usermobile" style="color: rgb(11, 78, 179);">
 
                                                 </b></span>
-                                            <div class="d-flex flex-row mt-3">
+                                            <div class="d-flex flex-row mt-1">
                                                 <input id="mobOtp1" name="mobOtp1" type="text"
-                                                    class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                    class="text-center form-control" pattern="[0-9]{1}"
                                                     maxlength="1" autofocus="" required>
                                                 <input id="mobOtp2" name="mobOtp2" type="text"
-                                                    class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                    class="text-center form-control" pattern="[0-9]{1}"
                                                     maxlength="1" required>
                                                 <input id="mobOtp3" name="mobOtp3" type="text"
-                                                    class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                    class="text-center form-control" pattern="[0-9]{1}"
                                                     maxlength="1" required>
                                                 <input id="mobOtp4" name="mobOtp4" type="text"
-                                                    class="text-center form-control m-2" pattern="[0-9]{1}"
+                                                    class="text-center form-control" pattern="[0-9]{1}"
                                                     maxlength="1" required>
                                             </div>
                                             <input type="hidden" name="hidMobile" id="hidMobile" value="">
                                             <div class="text-center mt-3 mb-3">
                                                 <button id="submit" type="button" onclick="window.location.reload()"
-                                                    class="btn" disabled="true"
-                                                    style="width: 35%; color: white;  background-color: #1e686dfa;">Submit</button>
+                                                    class="col-md-12 col-sm-12 col-12  btn" disabled="true"
+                                                    style="color: white;  background-color: #1e686dfa;">Submit</button>
                                             </div>
                                             <div class="text-center mt-2" id="mobResendstr">
                                                 <span class="d-block mobile-text">Didn't receive the
@@ -80,8 +97,8 @@
 
                                 </div>
                                 <div class="col-md-1 col-sm-1 col-1 p-0">
-                                    <button type="button" onclick="window.location.reload()" class="btn-close me-1" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <button type="button" onclick="window.location.reload()" class="btn-close p-0"
+                                        data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                             </div>
                         </div>

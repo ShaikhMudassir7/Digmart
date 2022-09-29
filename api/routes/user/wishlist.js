@@ -34,112 +34,110 @@ router.get('/(:userID)', async (req, res) => {
                     size.push(0);
                 }
             }
-            console.log(size);
             res.render('user/wishlist', { seller: seller, wishlistData: docs, size: size, user: req.session.userid })
         }
     });
 })
 
-router.get('/add-to-wishlist/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)', (req, res) => {
-    var wishlistdata = new Wishlist({
-        _id: mongoose.Types.ObjectId(),
-        userID: req.session.userid,
-        sellerID: req.params.sellerID,
-        variantID: req.params.variantID,
-        productID: req.params.id,
-    })
-
+router.post('/add-to-wishlist', async (req, res) => {
     const newValues = {
-        wislisted: true,
+        wishlisted: true,
     }
-    if(variantID==null){
-        Variant.updateOne({ _id: variantID }, { $set: newValues })
-        .exec()
-        .then(result => {
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
-    }else{
-        Products.updateOne({ _id: id }, { $set: newValues })
-        .exec()
-        .then(result => {
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
-    }
-    
-    wishlistdata.save().then(result => {
-        res.redirect('/wishlist/' + req.session.userid)
-    })
-        .catch(err => {
-            console.log("Error Occurred while adding product to Cart." + err);
-        })
-})
-
-router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
-    var wishlistdata = new Wishlist({
-        _id: mongoose.Types.ObjectId(),
-        userID: req.session.userid,
-        sellerID: req.params.sellerID,
-        productID: req.params.id
-    })
-
-    wishlistdata.save().then(result => {
-        res.redirect('/wishlist/' + req.session.userid)
-    })
-        .catch(err => {
-            console.log("Error Occurred while adding product to Cart." + err);
-        })
-})
-
-router.post('/add-product', async (req, res) => {
     if (req.body.variantID) {
         var wishlistdata = new Wishlist({
             _id: mongoose.Types.ObjectId(),
+            userID: req.session.userid,
+            sellerID: req.body.sellerID,
+            variantID: req.body.variantID,
+            productID: req.body.productID,
+            size: req.body.size,
+        })
+        await Variants.updateOne(
+            { _id: req.body.variantID, "sizes.sizes": req.body.size },
+            { $set: { "sizes.$.wishlisted": true } }
+        )
+    }
+    else {
+        var wishlistdata = new Wishlist({
+            _id: mongoose.Types.ObjectId(),
+            userID: req.session.userid,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+        })
+        await Products.updateOne({ _id: req.body.productID }, { $set: newValues })
+    }
+
+    await wishlistdata.save().then(result => {
+        res.json({ status: true });
+    })
+})
+
+router.post('/add-product', async (req, res) => {
+    if (req.body.variantID)
+        var wishDocs = await Wishlist.find({
             userID: req.body.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
             variantID: req.body.variantID,
+            size: req.body.size
         })
-    } else {
-        var wishlistdata = new Wishlist({
-            _id: mongoose.Types.ObjectId(),
+    else
+        var wishDocs = await Wishlist.find({
             userID: req.body.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
         })
+    if (wishDocs.length == 0) {
+        if (req.body.variantID)
+            var wishlistdata = new Wishlist({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.body.userID,
+                sellerID: req.body.sellerID,
+                productID: req.body.productID,
+                variantID: req.body.variantID,
+                size: req.body.size,
+            })
+        else
+            var wishlistdata = new Wishlist({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.body.userID,
+                sellerID: req.body.sellerID,
+                productID: req.body.productID,
+            })
+        await wishlistdata.save()
     }
-    await wishlistdata.save()
     res.json({ status: true });
 })
 
 router.post('/remove-product', async (req, res) => {
     if (req.body.variantID) {
-        await Wishlist.deleteOne({ productID: req.body.productID, variantID: req.body.variantID })
+        await Wishlist.deleteOne({
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+            variantID: req.body.variantID,
+            size: req.body.size,
+        })
     } else {
-        await Wishlist.deleteOne({ productID: req.body.productID })
+        await Wishlist.deleteOne({ userID: req.body.userID, sellerID: req.body.sellerID, productID: req.body.productID })
     }
     res.json({ status: true });
 })
 
-router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
-    Cart.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
-        if (!err) {
-            res.redirect('/wishlist/' + req.session.userid)
-        }
-        else {
-            res.status(500).send(err)
-        }
-    })
+router.get('/delete-wishlist/(:wishlistID)/(:variantID)', async (req, res) => {
+    const newValues = {
+        wishlisted: false,
+    }
+    await Wishlist.findByIdAndRemove(req.params.wishlistID)
+    if (req.params.variantID) {
+        await Variants.updateOne(
+            { _id: req.body.variantID, "sizes.sizes": req.body.size },
+            { $set: { "sizes.$.wishlisted": false } }
+        )
+    }
+    else {
+        await Products.updateOne({ _id: req.body.productID }, { $set: newValues })
+    }
 })
-
 
 module.exports = router

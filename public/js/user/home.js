@@ -97,9 +97,9 @@ var swiper = new Swiper(".productSwiper", {
         0: {
             slidesPerView: 1,
         },
-        450: {
+        430: {
             slidesPerView: 2,
-            spaceBetween: 10,
+            spaceBetween: 5,
         },
         730: {
             slidesPerView: 3,
@@ -113,7 +113,7 @@ var swiper = new Swiper(".productSwiper", {
     },
 });
 
-function wishlist(element, userID, sellerID, productID, variantID) {
+function wishlist(element, userID, sellerID, productID, variantID, size) {
     if ($("#hidLogin").val()) {
         if (!element.classList.contains('i-red'))
             $.ajax({
@@ -124,19 +124,12 @@ function wishlist(element, userID, sellerID, productID, variantID) {
                     sellerID: sellerID,
                     productID: productID,
                     variantID: variantID,
+                    size: size,
                 },
                 dataType: 'json',
                 success: function (result) {
-                    if (result.status){
+                    if (result.status)
                         element.classList.add('i-red')
-                        $("#wishlistSuccess").addClass('alertPop')
-                        $("#wishlistSuccess").removeClass('d-none')
-                        setTimeout(function() {
-                            $("#wishlistSuccess").alert('close')
-                            $("#wishlistSuccess").removeClass('alertPop')
-                            $("#wishlistSuccess").addClass('d-none')
-                        }, 2000);
-                    }
                 }
             })
         else
@@ -144,8 +137,11 @@ function wishlist(element, userID, sellerID, productID, variantID) {
                 url: "/wishlist/remove-product",
                 type: "POST",
                 data: {
+                    userID: userID,
+                    sellerID: sellerID,
                     productID: productID,
                     variantID: variantID,
+                    size: size,
                 },
                 dataType: 'json',
                 success: function (result) {
@@ -153,14 +149,6 @@ function wishlist(element, userID, sellerID, productID, variantID) {
                         element.classList.remove('i-red');
                 }
             })
-    } else {
-        $('#loginpopup').modal('show');
-    }
-}
-
-function cart() {
-    if ($("#hidLogin").val()) {
-        console.log("Added to Cart")
     } else {
         $('#loginpopup').modal('show');
     }

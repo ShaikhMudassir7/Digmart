@@ -16,6 +16,7 @@ const sizeSchema = new mongoose.Schema({
     actualPrice: { type: String },
     discount: { type: Number },
     finalPrice: { type: String },
+    wishlisted: { type: Boolean},
 });
 
 const variantSchema = new mongoose.Schema({
@@ -28,7 +29,6 @@ const variantSchema = new mongoose.Schema({
     colours: { type: String },
     sizes: [sizeSchema],
     status: { type: String, default: "Pending" },
-    wishlishted: { type: boolean, default: false }
 });
 
 module.exports = mongoose.model("variants", variantSchema);
