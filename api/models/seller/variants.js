@@ -16,7 +16,6 @@ const sizeSchema = new mongoose.Schema({
     actualPrice: { type: String },
     discount: { type: Number },
     finalPrice: { type: String },
-    wishlisted: { type: Boolean},
 });
 
 const variantSchema = new mongoose.Schema({

@@ -4,8 +4,7 @@ const mongoose = require('mongoose')
 
 const Wishlist = require('../../models/user/wishlist');
 const Seller = require("../../models/seller/seller")
-const Products = require("../../models/seller/product")
-const Variants = require('../../models/seller/variants');
+
 
 router.get('/(:userID)', async (req, res) => {
     var seller;
@@ -40,9 +39,6 @@ router.get('/(:userID)', async (req, res) => {
 })
 
 router.post('/add-to-wishlist', async (req, res) => {
-    const newValues = {
-        wishlisted: true,
-    }
     if (req.body.variantID) {
         var wishlistdata = new Wishlist({
             _id: mongoose.Types.ObjectId(),
@@ -52,10 +48,6 @@ router.post('/add-to-wishlist', async (req, res) => {
             productID: req.body.productID,
             size: req.body.size,
         })
-        await Variants.updateOne(
-            { _id: req.body.variantID, "sizes.sizes": req.body.size },
-            { $set: { "sizes.$.wishlisted": true } }
-        )
     }
     else {
         var wishlistdata = new Wishlist({
@@ -64,7 +56,6 @@ router.post('/add-to-wishlist', async (req, res) => {
             sellerID: req.body.sellerID,
             productID: req.body.productID,
         })
-        await Products.updateOne({ _id: req.body.productID }, { $set: newValues })
     }
 
     await wishlistdata.save().then(result => {
@@ -124,20 +115,16 @@ router.post('/remove-product', async (req, res) => {
     res.json({ status: true });
 })
 
-router.get('/delete-wishlist/(:wishlistID)/(:variantID)', async (req, res) => {
-    const newValues = {
-        wishlisted: false,
-    }
-    await Wishlist.findByIdAndRemove(req.params.wishlistID)
-    if (req.params.variantID) {
-        await Variants.updateOne(
-            { _id: req.body.variantID, "sizes.sizes": req.body.size },
-            { $set: { "sizes.$.wishlisted": false } }
-        )
-    }
-    else {
-        await Products.updateOne({ _id: req.body.productID }, { $set: newValues })
-    }
+router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
+    Wishlist.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
+        if (!err) {
+            res.redirect('/wishlist/' + req.session.userid)
+        }
+        else {
+            res.status(500).send(err)
+        }
+    })
+
 })
 
 module.exports = router

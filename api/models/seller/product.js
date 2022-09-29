@@ -28,7 +28,6 @@ const productSchema = mongoose.Schema({
     finalPrice:  { type: String},
     hasVariant: { type: Boolean, default: true},
     featured: { type: Boolean, default: false},
-    wishlisted: { type: Boolean},
     status:  { type: String, default: "Incomplete : Variants Not Added"},
 });
 
