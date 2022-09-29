@@ -58,14 +58,18 @@
                                     <input class="flex-fill" type="search" placeholder="Search" aria-label="Search">
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">   
-                                    <select name="sortCriteria" class="form-select" onchange="sortChange(this.value)" required>
-                                        <option value="" selected>Sort by: ----------</option>
-                                        <option value="Popularity">Sort: Popularity</option>
-                                        <option value="Price Low to High">Sort: Price Low to high</option>
-                                        <option value="Price High to Low">Sort: Price High to Low</option>
-                                        <option value="Discounts">Sort: Discounts</option>
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
+                                <div class="sortSelect d-flex">
+                                    <div class="align-self-stretch px-1">Sort by:</div>
+                                    <select name="sortCriteria" class="form-select flex-fill" onchange="sortChange(this.value)">
+                                        <option value="" selected></option>
+                                        <option value="Popularity">Popularity</option>
+                                        <option value="Price Low to High">Price Low to high</option>
+                                        <option value="Price High to Low">Price High to Low</option>
+                                        <option value="Discounts">Discounts</option>
                                     </select>
+                                </div>   
+                                    
                             </div>
                             <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
                                     <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#filterModal">

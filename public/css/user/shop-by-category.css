@@ -101,11 +101,28 @@ body {
     box-shadow: none
 }
 
+.sortSelect {
+    border-radius: .25rem;
+    border: 1px solid #ced4da;
+}
+
+.sortSelect div {
+    background-color: #ced4da;
+    text-align: center;
+    line-height: 38px;
+    min-width: 51px;
+    font-size: .75rem;
+    font-weight: bold;
+}
+
+
 .form-select,
 .form-select:focus {
-    color: dimgray;
-    border-color: #ced4da;
-    box-shadow: none
+    box-shadow: none;
+    border: none;
+    background-position: right .5rem center;
+    background-size: 12px 10px;
+    padding-right: 1.3rem;
 }
 
 .pro {
@@ -217,9 +234,9 @@ body {
 /* FILTER MODAL */
 
 @media screen and (min-width: 576px) {
-   .modal-content{
-    height: 90vh;
-   }
+    .modal-content {
+        height: 90vh;
+    }
 }
 
 @media screen and (max-width: 431px) {
