@@ -28,6 +28,7 @@ const variantSchema = new mongoose.Schema({
     colours: { type: String },
     sizes: [sizeSchema],
     status: { type: String, default: "Pending" },
+    wishlishted: { type: boolean, default: false }
 });
 
 module.exports = mongoose.model("variants", variantSchema);

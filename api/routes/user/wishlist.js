@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 
 const Wishlist = require('../../models/user/wishlist');
 const Seller = require("../../models/seller/seller")
+const Products = require("../../models/seller/product")
+const Variants = require('../../models/seller/variants');
 
 router.get('/(:userID)', async (req, res) => {
     var seller;
@@ -32,6 +34,7 @@ router.get('/(:userID)', async (req, res) => {
                     size.push(0);
                 }
             }
+            console.log(size);
             res.render('user/wishlist', { seller: seller, wishlistData: docs, size: size, user: req.session.userid })
         }
     });
@@ -46,6 +49,33 @@ router.get('/add-to-wishlist/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)'
         productID: req.params.id,
     })
 
+    const newValues = {
+        wislisted: true,
+    }
+    if(variantID==null){
+        Variant.updateOne({ _id: variantID }, { $set: newValues })
+        .exec()
+        .then(result => {
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+    }else{
+        Products.updateOne({ _id: id }, { $set: newValues })
+        .exec()
+        .then(result => {
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: err
+            })
+        })
+    }
+    
     wishlistdata.save().then(result => {
         res.redirect('/wishlist/' + req.session.userid)
     })
@@ -93,9 +123,9 @@ router.post('/add-product', async (req, res) => {
 
 router.post('/remove-product', async (req, res) => {
     if (req.body.variantID) {
-        await Wishlist.deleteOne({productID: req.body.productID, variantID: req.body.variantID})
+        await Wishlist.deleteOne({ productID: req.body.productID, variantID: req.body.variantID })
     } else {
-        await Wishlist.deleteOne({productID: req.body.productID})
+        await Wishlist.deleteOne({ productID: req.body.productID })
     }
     res.json({ status: true });
 })
