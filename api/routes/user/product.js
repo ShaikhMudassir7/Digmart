@@ -47,6 +47,20 @@ router.get('/variant/(:id)/(:colours)', (req, res) => {
         })
 })
 
+router.get('/findsize/(:id)/(:size)', (req, res) => {
+    var id = req.params.id;
+    Variants.findOne({ _id: id })
+        .then(doc => {
+            for (let i = 0; i < doc.sizes.length; i++) {
+                if (doc.sizes[i].sizes == req.params.size) {
+                    res.send(doc.sizes[i])
+                    break;
+                }
+            }
+           
+        })
+})
+
 
 
 module.exports = router

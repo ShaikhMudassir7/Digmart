@@ -15,235 +15,178 @@
     <link rel="stylesheet" href="/css/user/home.css">
     <link href="/css/user/login.css" rel="stylesheet">
     <style>
-       
+
     </style>
 </head>
 
 <body>
     <div class="wrapper">
-       
-        <div id="body" class="active">
-             <!-- NAVBAR -->
-             <section id="header">
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container-fluid ">
-                        <a class="navbar-brand" href="/">
-                            <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
-                        </a>
-                        <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around"
-                            type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-                            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="toggler-icon top-bar"></span>
-                            <span class="toggler-icon middle-bar"></span>
-                            <span class="toggler-icon bottom-bar"></span>
-                        </button>
-                        <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
-                            <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
-                                <li class="nav-item mx-2 text-center">
-                                    <a class="nav-link" href="/seller/signup">Become a Seller</a>
-                                </li>
-                                <li class="nav-item mx-2 text-center">
-                                    <a class="nav-link" href="#deals">Products</a>
-                                </li>
-                                <li class="nav-item mx-2 text-center">
-                                    <a class="nav-link" href="#Sellers">Sellers</a>
-                                </li>
-                                <li class="nav-item mx-2 text-center">
-                                    <a class="nav-link" href="#footer">About</a>
-                                </li>
-                                <li class="nav-item mx-2 text-center">
-                                    <div class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2"
-                                            role="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                class="fas fa-user"></i></a>
-                                        <ul class="dropdown-menu dropdown-menu-end"
-                                            aria-labelledby="navbarScrollingDropdown2">
-                                            <% if (!user) { %>
-                                                <li><a class="dropdown-item" data-bs-target="#loginpopup"
-                                                        data-bs-toggle="modal">Sign in</a></li>
-                                                <% } else{%>
-                                                    <li><a class="dropdown-item" href="#">My Orders</a></li>
-                                                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
 
-                                                    <li><a class="dropdown-item" href="#"><i
-                                                                class="fas fa-shopping-cart"></i>
-                                                            View
-                                                            Cart</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li><a class="dropdown-item" href="/login/logout"><i
-                                                                class="fas fa-sign-out-alt"></i>Logout</a></li>
-                                                    <% } %>
-                                        </ul>
+        <div id="body" class="active">
+            <!-- NAVBAR -->
+            <%- include('navbar') %>
+                <div class="container-fluid">
+                    <div class="grandparent row">
+                        <div class="container border mt-3 col-md-11 col-sm-11 col-11"
+                            style="background-color:  #ffffff; ">
+                            <h3>
+                                <p class="modal-header border-danger">Your Wishlist</p>
+                            </h3>
+
+                            <% if(seller.length!=0) {var i=0; seller.forEach(function(data){ %>
+                                <div class="parent ">
+                                    <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
+                                        <label style="color: black;">
+                                            <h5><b>
+                                                    <%= data.busName %>
+                                                </b></h5>
+                                        </label>
+                                        <hr class="mt-0" style="color: black; height: 2px;">
+                                        <% wishlistData.forEach(function(wishlistData){%>
+                                            <% if(wishlistData.sellerID._id.toString()==data._id.toString()) { %>
+                                                <div class="card p-0 " style="box-shadow: 2px 2px rgb(136, 136, 138);">
+                                                    <div class="card-header p-0">
+                                                        <h4 class="m-0"><a
+                                                            href="/wishlist/delete-wishlist/<%= wishlistData._id %>"><i
+                                                                class="fa fa-minus-square ms-2 mt-1"
+                                                                style="color: rgb(188, 21, 21); "
+                                                                aria-hidden="true"></i></a>
+                                                    </h4>
+                                                      </div>
+                                                    <div class=" ms-1 mb-2 row  p-0 w-100">
+                                                        <%if(wishlistData.variantID){%>
+                                                            <div class="image col-md-3 mt-2">
+                                                                <img src=" <%= wishlistData.variantID.images[0] %>"
+                                                                    class="img-fluid rounded-start border-1 border"
+                                                                    width="100%" h="100%">
+                                                            </div>
+                                                            <%}else{%>
+                                                                <div class="image col-md-3 mt-2">
+                                                                    <img src=" <%= wishlistData.productID.images[0] %>"
+                                                                        class="img-fluid rounded-start border-1 border"
+                                                                        width="100%" h="100%">
+                                                                </div>
+                                                                <%}%>
+                                                                    <div class="col-md-9 p-0">
+                                                                        <div class="row col-md-12 ms-1">
+                                                                            <div class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
+                                                                                <div class="row p-1">
+                                                                                    <h5 class="card-title">
+                                                                                        <label id="productName"
+                                                                                            name="productName">
+                                                                                            <%= wishlistData.productID.productName
+                                                                                                %>:
+                                                                                        </label>
+                                                                                    </h5>
+                                                                                    <label id="productDesc"
+                                                                                        name="productDesc">
+                                                                                        <%= wishlistData.productID.description
+                                                                                            %>
+                                                                                    </label>
+                                                                                </div>
+
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-7 mb-2">
+                                                                                        <div class="row mt-2 ms-1">
+                                                                                            <div
+                                                                                                class="col-md-2 p-0 col-sm-4 col-4 card-subtitle">
+                                                                                                <b>Price:</b>
+                                                                                            </div>
+                                                                                            <%if(wishlistData.variantID){%>
+                                                                                                <div
+                                                                                                    class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
+                                                                                                    <%if(wishlistData.variantID.sizes[size[i]].discount==null){%>
+                                                                                                        <p
+                                                                                                            class="card-text text-dark text-black-20 fs-6">
+                                                                                                            ₹
+                                                                                                            <strong>
+                                                                                                                <%=wishlistData.variantID.sizes[size[i]].actualPrice%>
+                                                                                                            </strong>
+                                                                                                        </p>
+                                                                                                        <%} else{%>
+                                                                                                            <p
+                                                                                                                class="card-text text-dark">
+                                                                                                                <strong>
+                                                                                                                    ₹
+                                                                                                                    <%=wishlistData.variantID.sizes[size[i]].finalPrice%>
+                                                                                                                </strong><strike><span
+                                                                                                                        class="text-black-20">₹
+                                                                                                                        <%=wishlistData.variantID.sizes[size[i]].actualPrice%>
+                                                                                                                    </span></strike><span
+                                                                                                                    class="text-success fs-6">
+                                                                                                                    <%=wishlistData.variantID.sizes[size[i]].discount%>
+                                                                                                                        %
+                                                                                                                        off
+                                                                                                                </span>
+                                                                                                            </p>
+
+                                                                                                            <%}%>
+
+                                                                                                </div>
+                                                                                                <%}else{%>
+                                                                                                    <div
+                                                                                                        class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
+                                                                                                        <%if(wishlistData.productID.discount==null){%>
+                                                                                                            <p
+                                                                                                                class="card-text text-dark text-black-20 fs-6">
+                                                                                                                ₹
+                                                                                                                <strong>
+                                                                                                                    <%=wishlistData.productID.actualPrice%>
+                                                                                                                </strong>
+                                                                                                            </p>
+                                                                                                            <%} else{%>
+                                                                                                                <p
+                                                                                                                    class="card-text text-dark">
+                                                                                                                    <strong>
+                                                                                                                        ₹
+                                                                                                                        <%=wishlistData.productID.finalPrice%>
+                                                                                                                    </strong><strike><span
+                                                                                                                            class="text-black-20">₹
+                                                                                                                            <%=wishlistData.productID.actualPrice%>
+                                                                                                                        </span></strike><span
+                                                                                                                        class="text-success fs-6">
+                                                                                                                        <%=wishlistData.productID.discount%>
+                                                                                                                            %
+                                                                                                                            off
+                                                                                                                    </span>
+                                                                                                                </p>
+                                                                                                                <%}%>
+                                                                                                    </div>
+                                                                                                    <%}%>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-3 col-sm-12 col-12 mb-2" style="padding-right: 35px;">
+                                                                                        <button
+                                                                                        class="btn btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12"
+                                                                                        id="buy">Add to Cart
+                                                                                    </button>
+                                                                                        </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                    </div>
+                                                </div>
+                                                <% i++}}) %>
                                     </div>
-                                </li>
-                            </ul>
+                                </div>
+                                <% })}%>
                         </div>
                     </div>
-                </nav>
-            </section>
-
-            <div class="container-fluid">
-                <div class="grandparent row">
-                    <div class="container border mt-3 col-md-11 col-sm-11 col-11" style="background-color:  #ffffff; ">
-                        <h3>
-                            <p class="modal-header border-danger">Your Wishlist</p>
-                        </h3>
-
-                        <% if(seller.length!=0) {var i=0; seller.forEach(function(data){ %>
-                            <div class="parent ">
-                                <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
-                                    <label style="color: black;">
-                                        <h5><b>
-                                                <%= data.busName %>
-                                            </b></h5>
-                                    </label>
-                                    <hr class="mt-0" style="color: black; height: 2px;">
-                                    <% wishlistData.forEach(function(wishlistData){%>
-                                        <% if(wishlistData.sellerID._id.toString()==data._id.toString()) { %>
-                                            <div class="card p-0 " style="box-shadow: 2px 2px rgb(136, 136, 138);">
-                                                <div class=" ms-1 mb-2 row  p-0 w-100">
-                                                    <%if(wishlistData.variantID){%>
-                                                    <div class="image col-md-3 mt-2">
-                                                        <img src=" <%= wishlistData.variantID.images[0] %>"
-                                                            class="img-fluid rounded-start border-1 border" width="100%" h="100%">
-                                                    </div>
-                                                    <%}else{%>
-                                                        <div class="image col-md-3 mt-2">
-                                                            <img src=" <%= wishlistData.productID.images[0] %>"
-                                                                class="img-fluid rounded-start border-1 border" width="100%" h="100%">
-                                                        </div>
-                                                        <%}%>
-                                                    <div class="col-md-9 p-0">
-                                                        <div class="row col-md-12 ms-1">
-                                                            <div class="card-body mt-2 col-md-10 col-sm-10 col-10 p-0" >
-                                                                <div class="row p-1 ms-0">
-                                                                    <h5 class="card-title">
-                                                                        <label id="productName" name="productName">
-                                                                            <%= wishlistData.productID.productName %>:
-                                                                                &nbsp;
-                                                                        </label>
-                                                                    </h5>
-                                                                    <label id="productName" name="productName">
-                                                                        <%= wishlistData.productID.description %>
-                                                                    </label>
-                                                                </div>
-
-                                                                
-                                                                <div class="row">
-                                                                    <%if(wishlistData.variantID){%>
-                                                                    <%}%>
-                                                                    <div class="col-md-7 mb-2">
-                                                                        <div class="row mt-2 ms-0">
-                                                                            <div
-                                                                                class="col-md-3 col-sm-4 card-subtitle">
-                                                                                <b>Price:</b>
-                                                                            </div>
-                                                                            <%if(wishlistData.variantID){%>
-                                                                            <div class="col-md-9  col-sm-8 card-subtitle">
-                                                                                <%if(wishlistData.variantID.sizes[size[i]].discount==null){%>
-                                                                                    <p
-                                                                                        class="card-text text-dark text-black-20 fs-6">
-                                                                                        ₹
-                                                                                        <strong>
-                                                                                            <%=wishlistData.variantID.sizes[size[i]].actualPrice%>
-                                                                                        </strong>
-                                                                                    </p>
-                                                                                    <%} else{%>
-                                                                                        <p class="card-text text-dark">
-                                                                                            <strong>
-                                                                                                ₹
-                                                                                                <%=wishlistData.variantID.sizes[size[i]].finalPrice%>
-                                                                                            </strong><strike><span
-                                                                                                    class="text-black-20">₹
-                                                                                                    <%=wishlistData.variantID.sizes[size[i]].actualPrice%>
-                                                                                                </span></strike><span
-                                                                                                class="text-success fs-6">
-                                                                                                <%=wishlistData.variantID.sizes[size[i]].discount%>
-                                                                                                    % off
-                                                                                            </span>
-                                                                                        </p>
-
-                                                                                        <%}%>
-
-                                                                            </div>
-                                                                            <%}else{%>
-                                                                                <div class="col-md-9  col-sm-8 card-subtitle">
-                                                                                    <%if(wishlistData.productID.discount==null){%>
-                                                                                        <p
-                                                                                            class="card-text text-dark text-black-20 fs-6">
-                                                                                            ₹
-                                                                                            <strong>
-                                                                                                <%=wishlistData.productID.actualPrice%>
-                                                                                            </strong>
-                                                                                        </p>
-                                                                                        <%} else{%>
-                                                                                            <p class="card-text text-dark">
-                                                                                                <strong>
-                                                                                                    ₹
-                                                                                                    <%=wishlistData.productID.finalPrice%>
-                                                                                                </strong><strike><span
-                                                                                                        class="text-black-20">₹
-                                                                                                        <%=wishlistData.productID.actualPrice%>
-                                                                                                    </span></strike><span
-                                                                                                    class="text-success fs-6">
-                                                                                                    <%=wishlistData.productID.discount%>
-                                                                                                        % off
-                                                                                                </span>
-                                                                                            </p>
-                                                                                            <%}%>
-                                                                                </div>
-                                                                                <%}%>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            
-                                                            <div class="col-md-2 col-sm-12 col-12 mt-1 ">
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <h4><a href=""><i
-                                                                            class="fa fa-cart-plus "
-                                                                            style="color: rgb(182, 192, 8); "
-                                                                            aria-hidden="true"></i></a></h4>
-                                                                    </div>
-                                                                   <div class="col-md-6">
-                                                                    <h4><a href="/cart/delete-wishlist/<%= wishlistData._id %>"><i
-                                                                        class="fa fa-minus-square col-md-6"
-                                                                        style="color: rgb(188, 21, 21); "
-                                                                        aria-hidden="true"></i></a></h4>
-                                                                   </div>
-                                                    
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <% i++}}) %>
-                                </div>
-                            </div>
-                            <% })}%>
-                    </div>
                 </div>
-
-
-            </div>
-
-
         </div>
-         <!-- Login Modal -->
-         <%- include('login') %>
+        <!-- Login Modal -->
+        <%- include('login') %>
     </div>
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/script.js"></script>
-    <script src="/js/user/login.js"></script>
+    <%- include('footer') %>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/user/login.js"></script>
 </body>
 
 </html>
