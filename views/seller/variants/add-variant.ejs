@@ -48,19 +48,8 @@
                                                 </div>
 
                                                 <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="images" class="form-label">Product
-                                                            Images:</label>
-                                                        <input type="file" class="form-control" name="images"
-                                                            id="images" multiple='multiple' accept="image/*" required>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please Choose an Image.</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
                                                     <div class="mb-3 col-md-4 d-grid">
-                                                        <label for="colours" class="form-label">Colour
+                                                        <label for="colours" class="form-label">Colour 
                                                         </label>
                                                         <select name="colours" class="form-select" id="colours"
                                                             required>
@@ -78,65 +67,73 @@
                                                         <div class="invalid-feedback">Please Choose a Colour.</div>
                                                     </div>
                                                 </div>
+
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
-                                                        <a href="/seller/products/variant/<%=productData._id %>"
-                                                            class="btn btn-danger" id="cancelButton1"><i
-                                                                class="fas fa-times"></i>
-                                                            Cancel</a>
-                                                        <button type="button" class="btn btn-primary"
-                                                            id="submitColoursData"><i class="fas fa-save"></i> Save
-                                                            Details and Proceed
-                                                        </button>
+                                                        <label for="images" class="form-label">Product
+                                                            Images
+                                                            <span class="text-muted"> (with respect to colour)</span></label>
+                                                        <input type="file" class="form-control" name="images"
+                                                            id="images" multiple='multiple' accept="image/*" required>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback">Please Choose an Image.</div>
                                                     </div>
                                                 </div>
 
-
-                                                <div id="appendItemsLabel" style="display:none">
-                                                    <hr>
-                                                    <div class="row g-2">
-                                                        <div class="mb-1 col-md-12 fw-bold">
-                                                            <label for="specName" class="form-label">ADD
-                                                                SIZES
-                                                            </label>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="row g-2">
-                                                        <div class="col-md-2">
-                                                            <label for="sizes" class="form-label">Sizes
-                                                            </label>
-                                                        </div>
-
-                                                        <div class="col-md-2">
-                                                            <label for="quantity" class="form-label">Quantity
-                                                            </label>
-                                                        </div>
-
-                                                        <div class="col-md-2">
-                                                            <label for="actualPrice" class="form-label">Actual
-                                                                Price</label>
-                                                        </div>
-
-                                                        <div class="col-md-2">
-                                                            <label for="discount" class="form-label">Discount
-                                                                <span class="text-muted"> (Optional)</span>
-                                                            </label>
-
-                                                        </div>
-
-                                                        <div class="col-md-2">
-                                                            <label for="finalPrice" class="form-label">Final
-                                                                Price</label>
-                                                        </div>
+                                                <div class="row g-2">
+                                                    <div class="col-md-2">
+                                                        <label for="sizes" class="form-label">Sizes
+                                                        </label>
                                                     </div>
 
+                                                    <div class="col-md-2">
+                                                        <label for="quantity" class="form-label">Quantity
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="actualPrice" class="form-label">Actual
+                                                            Price</label>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="discount" class="form-label">Discount
+                                                            <span class="text-muted"> (Optional)</span>
+                                                        </label>
+
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label for="finalPrice" class="form-label">Final
+                                                            Price</label>
+                                                    </div>
                                                 </div>
 
-                                                <div id="appendItems" style="display:none">
+                                                <div id="appendItems">
                                                     <div class="row g-2">
-                                                        <div class="mb-3 col-md-2" id="sizesID0">
-                                                            <select name="sizes0" class="form-select" required>
+                                                        <div class="mb-3 col-md-2">
+                                                            <% if(productData.category == "Boys Wear" || productData.category == "Girls Wear"){%>
+                                                                <select name="sizes[]" class="form-select"
+                                                                required>
+                                                                <option value="">
+                                                                    ---Choose Size---
+                                                                </option>
+                                                                <option value="1 - 2 Years">1 - 2 Years</option>
+                                                                <option value="2 - 3 Years">2 - 3 Years</option>
+                                                                <option value="3 - 4 Years">3 - 4 Years</option>
+                                                                <option value="4 - 5 Years">4 - 5 Years</option>
+                                                                <option value="5 - 6 Years">5 - 6 Years</option>
+                                                                <option value="6 - 7 Years">6 - 7 Years</option>
+                                                                <option value="7 - 8 Years">7 - 8 Years</option>
+                                                                <option value="8 - 9 Years">8 - 9 Years</option>
+                                                                <option value="9 - 10 Years">9 - 10 Years</option>
+                                                                <option value="10 - 11 Years">10 - 11 Years</option>
+                                                                <option value="11 - 12 Years">11 - 12 Years</option>
+                                                                <option value="12 - 13 Years">12 - 13 Years</option>
+                                                            </select>
+                                                            <% } else { %>
+                                                                <select name="sizes[]" class="form-select"
+                                                                required>
                                                                 <option value="">
                                                                     ---Choose Size---
                                                                 </option>
@@ -147,10 +144,11 @@
                                                                 <option value="XL">XL</option>
                                                                 <option value="XXL">XXL</option>
                                                             </select>
+                                                            <% } %>
                                                         </div>
 
                                                         <div class="mb-3 col-md-2">
-                                                            <input type="number" class="form-control" name="quantity0"
+                                                            <input type="number" class="form-control" name="quantity[]"
                                                                 min="1" placeholder="e.g. 50" required>
                                                         </div>
 
@@ -158,24 +156,21 @@
                                                             <div class="input-group">
                                                                 <span class="input-group-text">&#8377;</span>
                                                                 <input type="text" class="form-control"
-                                                                    name="actualPrice0" id="actualPrice" min="1"
+                                                                    name="actualPrice[]" id="actualPrice" min="1"
                                                                     pattern="[0-9]{1,9}"
                                                                     onblur="calculate('discount', this.value )"
                                                                     placeholder="Eg. 30000" required>
                                                             </div>
-
                                                         </div>
 
                                                         <div class="mb-3 col-md-2">
                                                             <div class="input-group">
                                                                 <span class="input-group-text">%</span>
-                                                                <input type="text" class="form-control" name="discount0"
-                                                                    id="discount"
+                                                                <input type="text" class="form-control"
+                                                                    name="discount[]" id="discount"
                                                                     onblur="calculate(this.value, 'actualPrice')"
                                                                     placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
-
-                                                                <div class="invalid-feedback">Invalid
-                                                                    Discount
+                                                                <div class="invalid-feedback">Invalid Discount
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -184,34 +179,26 @@
                                                             <div class="input-group">
                                                                 <span class="input-group-text">&#8377;</span>
                                                                 <input type="number" class="form-control"
-                                                                    name="finalPrice0" id="finalPrice"
+                                                                    name="finalPrice[]" id="finalPrice"
                                                                     placeholder="Final Price" readonly>
                                                             </div>
                                                         </div>
 
                                                         <div class="mb-3 col-md-2 d-grid">
-                                                            <button class="btn btn-outline-danger removeItemsBtn"
-                                                                id="removeItemsBtn0`"><i
-                                                                    class="fas fa-minus-circle"></i>
-                                                                Remove</a>
+                                                            <button class="btn btn-outline-primary"
+                                                                id="addMoreBtnMain"><i class="fas fa-plus-circle"></i>
+                                                                Add More</button>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-2 d-grid">
-                                                        <button class="btn btn-outline-primary" id="addMoreBtnMain"
-                                                            style="display:none"><i class="fas fa-plus-circle"></i>
-                                                            Add More</button>
                                                     </div>
                                                 </div>
 
                                                 <a href="/seller/products/variant/<%=productData._id %>"
-                                                    class="btn btn-danger" id="cancelButton2"
-                                                    style="display:none; float: left"><i class="fas fa-times"></i>
+                                                    class="btn btn-danger" id="cancelButton" style="float: left"><i
+                                                        class="fas fa-times"></i>
                                                     Cancel</a>
 
-                                                <button type="button" class="btn btn-primary" id="submitVariantData"
-                                                    style="display:none; float: right"><i class="fas fa-save"></i> Add
+                                                <button type="submit" class="btn btn-primary" id="submitVariantData"
+                                                    style="float: right"><i class="fas fa-save"></i> Add
                                                     Variant</button>
                                             </form>
                                         </div>
@@ -226,76 +213,89 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
 
     <script>
-        var colours = document.getElementById("colours")
-        var images = document.getElementById("images")
-        var variantID;
+        function moreItems(counter) {
+        var moreItems =
+        `<div class="row g-2" id="itemsRow` + counter + `">
+        <div class="mb-3 col-md-2">
+            <% if(productData.category == "Boys Wear" || productData.category == "Girls Wear"){%>
+                <select name="sizes[]" class="form-select" required>
+                    <option value="">
+                        ---Choose Size---
+                    </option>
+                    <option value="1 - 2 Years">1 - 2 Years</option>
+                    <option value="2 - 3 Years">2 - 3 Years</option>
+                    <option value="3 - 4 Years">3 - 4 Years</option>
+                    <option value="4 - 5 Years">4 - 5 Years</option>
+                    <option value="5 - 6 Years">5 - 6 Years</option>
+                    <option value="6 - 7 Years">6 - 7 Years</option>
+                    <option value="7 - 8 Years">7 - 8 Years</option>
+                    <option value="8 - 9 Years">8 - 9 Years</option>
+                    <option value="9 - 10 Years">9 - 10 Years</option>
+                    <option value="10 - 11 Years">10 - 11 Years</option>
+                    <option value="11 - 12 Years">11 - 12 Years</option>
+                    <option value="12 - 13 Years">12 - 13 Years</option>
+                </select>
+                <% } else { %>
+                    <select name="sizes[]" class="form-select"
+                    required>
+                    <option value="">
+                        ---Choose Size---
+                    </option>
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+                <% } %>
+        </div>
 
-        $("#submitColoursData").click(function () {
-            colours.setAttribute("disabled", 'true')
-            images.setAttribute("disabled", 'true')
-            var coloursVal = $("#colours").val();
-            $.ajax({
-                url: "/seller/products/variant/add-variant/<%=productData._id %>",
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                data: JSON.stringify({ colours: coloursVal }),
-                success: function (res) {
-                    variantID = res.getVariantID
-                }
-            })
-            document.getElementById('appendItemsLabel').style.display = "block";
-            document.getElementById('appendItems').style.display = "block";
-            document.getElementById('submitColoursData').remove();
-            document.getElementById('submitVariantData').style.display = "block";
-            document.getElementById('cancelButton1').remove();
-            document.getElementById('cancelButton2').style.display = "block";
-            document.getElementById('addMoreBtnMain').style.display = "block";
+        <div class="mb-3 col-md-2">
+            <input type="number" class="form-control" name="quantity[]" min="1"
+                placeholder="e.g. 50" required>
+        </div>
 
-        })
+        <div class="mb-3 col-md-2">
+            <div class="input-group">
+                <span class="input-group-text">&#8377;</span>
+                <input type="text" class="form-control" name="actualPrice[]"
+                    id="actualPrice` + counter + `" min="1" pattern="[0-9]{1,9}"
+                    onblur="calculateMoreFields('discount` + counter + `', this.value, ` + counter + ` )"
+                    placeholder="Eg. 30000" required>
+            </div>
+        </div>
 
-        $("#submitVariantData").click(function () {
-            addValues();
-        })
-        var addMoreItemsArr = [];
-        var sizesArray = [];
-        var quantityArray = [];
-        var actualPriceArray = [];
-        var discountArray = [];
-        var finalPriceArray = [];
+        <div class="mb-3 col-md-2">
+            <div class="input-group">
+                <span class="input-group-text">%</span>
+                <input type="text" class="form-control" name="discount[]"
+                    id="discount` + counter + `" onblur="calculateMoreFields(this.value, 'actualPrice` + counter + `', ` + counter + `)"
+                    placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
+                <div class="invalid-feedback">Invalid Discount
+                </div>
+            </div>
+        </div>
 
-        function addValues(sizesCount, removeItem) {
-            if (removeItem == false) {
-                var sizes = $("select[name='sizes" + sizesCount + "']").val();
-                var quantity = $("input[name='quantity" + sizesCount + "']").val();
-                var actualPrice = $("input[name='actualPrice" + sizesCount + "']").val();
-                var discount = $("input[name='discount" + sizesCount + "']").val();
-                var finalPrice = $("input[name='finalPrice" + sizesCount + "']").val();
+        <div class="mb-3 col-md-2">
+            <div class="input-group">
+                <span class="input-group-text">&#8377;</span>
+                <input type="number" class="form-control" name="finalPrice[]"
+                    id="finalPrice` + counter + `"  placeholder="Final Price" readonly required>
+            </div>
+        </div>
 
-                sizesArray.push(sizes)
-                quantityArray.push(quantity)
-                actualPriceArray.push(actualPrice)
-                discountArray.push(discount)
-                finalPriceArray.push(finalPrice)
-            }
-
-            $.ajax({
-                url: "/seller/products/variant/add-variant/<%=productData._id %>",
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                data: JSON.stringify({
-                    _id: variantID,
-                    sizes: sizesArray,
-                    quantity: quantityArray,
-                    actualPrice: actualPriceArray,
-                    discount: discountArray,
-                    finalPrice: finalPriceArray
-                }),
-                success: function (res) {
-                    alert("Data Inserted")
-                }
-            })
+        <div class="mb-3 col-md-2 d-grid">
+            <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn` + counter + `"><i
+                class="fas fa-minus-circle"></i>
+            Remove</a>
+        </div>
+    </div>`
+            return moreItems;
         }
+    </script>
 
+    <script>
         $(document).ready(function () {
             coloursDropdown();
         });
@@ -309,197 +309,79 @@
             }
             '<% j++; }) } %>'
         }
-    </script>
 
-    <script>
-        function moreItems(counter) {
-            var moreItems =
-                `<div class="row g-2 id="itemsRow` + counter + `">
-                    <div class="mb-3 col-md-2">
-                        <select name="sizes` + counter + `" class="form-select" required>
-                            <option value="">
-                                ---Choose Size---
-                            </option>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            
-                        </select>
-                    </div>
-
-                    <div class="mb-3 col-md-2">
-                        <input type="number" class="form-control" name="quantity` + counter + `" min="1"
-                            placeholder="e.g. 50" required>
-                    </div>
-
-                    <div class="mb-3 col-md-2">
-                        <div class="input-group">
-                            <span class="input-group-text">&#8377;</span>
-                            <input type="text" class="form-control" name="actualPrice` + counter + `"
-                                id="actualPrice` + counter + `" min="1" pattern="[0-9]{1,9}"
-                                onblur="calculateMoreFields('discount` + counter + `', this.value, ` + counter + ` )"
-                                placeholder="Eg. 30000" required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 col-md-2">
-                        <div class="input-group">
-                            <span class="input-group-text">%</span>
-                            <input type="text" class="form-control" name="discount` + counter + `"
-                                id="discount` + counter + `" onblur="calculateMoreFields(this.value, 'actualPrice` + counter + `', ` + counter + `)"
-                                placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
-                            <div class="invalid-feedback">Invalid Discount
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 col-md-2">
-                        <div class="input-group">
-                            <span class="input-group-text">&#8377;</span>
-                            <input type="number" class="form-control" name="finalPrice` + counter + `"
-                                id="finalPrice` + counter + `"  placeholder="Final Price" readonly required>
-                        </div>
-                    </div>
-                    <div class="mb-3 col-md-2 d-grid">
-                        <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn` + counter + `"><i
-                            class="fas fa-minus-circle"></i>
-                        Remove</a>
-                    </div>
-                </div>`
-            return moreItems;
-        }
-
-        var numberOfRows = sizesArray.length
         var counter = 1;
-        var isFirstElementAgain = false;
-
         $(document).ready(function () {
             $("#addMoreBtnMain").click(function (e) {
                 e.preventDefault();
-
-                var sizesDropdownElement;
-                if (counter == 1) {
-                    var sizesDropdownElement1 = document.getElementsByName("sizes0")[0]
-                    if (sizesDropdownElement1.value != "") {
-                        addValues((counter - 1), false);
-                        sizesDropdownElement1.setAttribute('disabled', '');
-                        numberOfRows++
-                        alert(sizesArray)
-                    }
-                }
-                sizesElement = document.getElementsByName("sizes" + (sizesArray.length - 1))[0]
-                quantityElement = document.getElementsByName("quantity" + (sizesArray.length - 1))[0]
-                actualPriceElement = document.getElementsByName("actualPrice" + (sizesArray.length - 1))[0]
-                discountElement = document.getElementsByName("discount" + (sizesArray.length - 1))[0]
-                finalPriceElement = document.getElementsByName("finalPrice" + (sizesArray.length - 1))[0]
-
-                var sizeExists = false;
-                sizesDropdownElement = document.getElementsByName("sizes" + (numberOfRows - 1))[0]
-                quantityAddedElement = document.getElementsByName("quantity" + (numberOfRows - 1))[0]
-                if (numberOfRows > 1) {
-                    for (var i = 0; i < sizesArray.length; i++) {
-                        // if (sizesArray[i] == sizesDropdownElement.value && quantityArray[i] == quantityAddedElement.value) {
-                        //     alert("Element Already Exists")
-                        //     alert(numberOfRows)
-                        //     alert(counter)
-                        //     sizeExists = true
-                        //     break;
-                        // }
-                        if (sizesArray[i] == sizesDropdownElement.value) {
-                            alert("Size Already Exists")
-                            alert(sizesArray)
-                            sizeExists = true
-                        }
-                        // else {
-                        //     var appendMoreItems = moreItems(counter);
-                        //     $("#appendItems").append(appendMoreItems);
-                        //     numberOfRows++
-                        //     counter++
-                        // }
-                    }
-                }
-
-                if (sizesDropdownElement.length > 0 && sizeExists == false) {
-                    if (sizesDropdownElement.value != "") {
-                        var appendMoreItems = moreItems(counter);
-                        $("#appendItems").append(appendMoreItems);
-                        if (counter != 1) {
-                            addValues((counter - 1), false);
-                            alert(sizesArray)
-                        }
-                        numberOfRows++
-                        counter++
-                    }
-                }
+                var appendMoreItems = moreItems(counter);
+                $("#appendItems").append(appendMoreItems);
+                counter++;
 
                 $(document).on('click', '.removeItemsBtn', function (e) {
-                    e.preventDefault();
-                    let row_item = $(this).parent().parent();
-
-                    let eleID = (this.id).toString()
-                    eleID = eleID.replace("removeItemsBtn", "");
-
-                    var removedElementSizeValue = document.getElementsByName("sizes" + eleID);
-
-                    if ((removedElementSizeValue[0].value == "") || (eleID == (counter - 1))) {
-                        numberOfRows = sizesArray.length -1
-                        counter -= 1
-                        alert("counter")
-                        $(row_item).remove();
-                    }
-                    else {
-                        var index = sizesArray.indexOf(removedElementSizeValue[0].value);
-                        if (index != -1) {
-                            sizesArray.splice(index, 1);
-                            addValues((counter - 1), true)
-                        }
-                        alert("Index" + index)
-
-                        for (var i = 2; i < counter; i++) {
-                            var checkSizesDropdownElement = document.getElementsByName("sizes" + (counter - i))[0]
-                            if (checkSizesDropdownElement.length > 1) {
-                                if (removedElementSizeValue[0].value == checkSizesDropdownElement.value) {
-                                    let row_item1 = $('#removeItemsBtn' + (counter - i)).parent().parent();
-                                    $(row_item1).remove();
-                                }
-                            }
-                        }
-                    }
-                    alert(sizesArray)
-                })
+                e.preventDefault();
+                let row_item = $(this).parent().parent();
+                $(row_item).remove();
             })
+            });
         });
 
+        var checkSizes=[];
+        $(document).on('click', '#submitVariantData', function (e) {
+            var sizesElements = document.getElementsByName("sizes[]");
+            var noEmptyElement = true
+            for(var i = 0; i<sizesElements.length; i++){
+                checkSizes.push(sizesElements[i].value)
+            }
+            if(checkSizes.includes("")){
+                noEmptyElement = false
+            }
+            var hasDuplicateSizes = hasDuplicates(checkSizes);
+            if (hasDuplicateSizes && noEmptyElement) {
+                e.preventDefault();
+                swal({
+                    title: "You cannot insert duplicate sizes.",
+                    icon: "warning",
+                    dangerMode: true,
+                })
+            }
+            checkSizes=[];
+        });
+
+        function hasDuplicates(checkSizes) {
+            if (checkSizes.length != new Set(checkSizes).size) {
+                return true;
+            }
+            return false;
+        }
     </script>
 
     <script>
         function calculateMoreFields(val1, val2, counter) {
-
             var actualPrice = document.getElementById("actualPrice" + counter).value;
             var discountPct = document.getElementById("discount" + counter).value;
+            var finalPriceField = document.getElementById("finalPrice" + counter);
 
             var total = (actualPrice * discountPct) / 100;
-            finalPrice = actualPrice - total;
-
-            var finalPriceField = document.getElementById("finalPrice" + counter);
+            var finalPrice = actualPrice - total;
             finalPriceField.value = finalPrice;
         }
 
         function calculate(val1, val2) {
             var actualPrice = document.getElementById("actualPrice").value;
             var discountPct = document.getElementById("discount").value;
+            var finalPriceField = document.getElementById("finalPrice");
 
             var total = (actualPrice * discountPct) / 100;
-            finalPrice = actualPrice - total;
-
-            var finalPriceField = document.getElementById("finalPrice");
+            var finalPrice = actualPrice - total;
+            if( !Number.isInteger(finalPrice) )
+            {
+                finalPrice = finalPrice.toFixed(2)
+            }
             finalPriceField.value = finalPrice;
         }
     </script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
     <script src="/js/form-validator.js"></script>

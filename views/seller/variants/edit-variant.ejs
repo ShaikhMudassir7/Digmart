@@ -46,53 +46,6 @@
                                                 </div>
 
                                                 <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="productName" class="form-label">Product
-                                                            Images</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <% for (let a=0; a < variantData.images.length; a++){ %>
-                                                        <div class=" col-md-2">
-                                                            <div class="item">
-                                                                <img src="<%=variantData.images[a]%>"
-                                                                    style="width: 100%; ">
-                                                                <% if(variantData.images.length> 1){ %>
-                                                                    <a
-                                                                        href="/seller/products/variant/delete-image/<%=productData._id%>/<%=variantData._id%>/<%=a %>">
-                                                                        <span
-                                                                            class="btn btn-danger notify-badge fw-bold">X</span>
-                                                                    </a>
-                                                                    <% } else {%>
-                                                                        <button type="button"
-                                                                            class="btn btn-danger notify-badge fw-bold"
-                                                                            id="dontDelete" data-bs-toggle="modal"
-                                                                            data-bs-target="#cantDelete"><i
-                                                                                class="fas fa-cancel"></i>X</button>
-                                                                        <% } %>
-                                                            </div>
-                                                        </div>
-                                                        <% } %>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <% if(variantData.images.length!=0){ %>
-                                                            <label for="productImg" class="form-label">Add More
-                                                                Images
-                                                                <span class="text-muted">(Optional)</span></label>
-                                                            <% } %>
-                                                                <input type="file" class="form-control" name="images"
-                                                                    accept="image/*" id="chooseImage" multiple>
-                                                                <div class="valid-feedback">Looks good!</div>
-                                                                <div class="invalid-feedback">Please Choose an
-                                                                    Image.
-                                                                </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
                                                     <div class="mb-3 col-md-4 d-grid">
                                                         <label for="colours" class="form-label">Colour
                                                         </label>
@@ -113,6 +66,54 @@
                                                         </select>
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please Choose a Colour.</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <label for="productName" class="form-label">Product Images
+                                                            <span class="text-muted"> (with respect to
+                                                                colour)</span></label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-2">
+                                                    <% for (let a=0; a < variantData.images.length; a++){ %>
+                                                        <div class=" col-md-2">
+                                                            <div class="item">
+                                                                <img src="<%=variantData.images[a]%>"
+                                                                    style="width: 100%; ">
+                                                                <% if(variantData.images.length> 1){ %>
+                                                                    <a
+                                                                        href="/seller/products/variant/delete-image/<%=productData._id%>/<%=variantData._id%>/<%=a %>">
+                                                                        <span
+                                                                            class="btn btn-danger notify-badge fw-bold">X</span>
+                                                                    </a>
+                                                                    <% } else {%>
+                                                                        <button type="button"
+                                                                            class="btn btn-danger notify-badge fw-bold"
+                                                                            id="dontDelete"
+                                                                            onclick="cannotDeleteAlert()"><i
+                                                                                class="fas fa-cancel"></i>X</button>
+                                                                        <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                                                </div>
+
+                                                <div class="row g-2">
+                                                    <div class="mb-3 col-md-12">
+                                                        <% if(variantData.images.length!=0){ %>
+                                                            <label for="productImg" class="form-label">Add More
+                                                                Images
+                                                                <span class="text-muted">(Optional)</span></label>
+                                                            <% } %>
+                                                                <input type="file" class="form-control" name="images"
+                                                                    accept="image/*" id="chooseImage" multiple>
+                                                                <div class="valid-feedback">Looks good!</div>
+                                                                <div class="invalid-feedback">Please Choose an
+                                                                    Image.
+                                                                </div>
                                                     </div>
                                                 </div>
 
@@ -150,9 +151,11 @@
                                                     <% for (let i in variantData.sizes){ %>
                                                         <div class="row g-2">
                                                             <div class="mb-3 col-md-2">
-                                                                <select name="sizes[]" class="form-select" id="sizes0"
+                                                                <select name="sizes[]" class="form-select sizes"
                                                                     required>
-                                                                    <option value="<%=variantData.sizes[i].sizes %>">
+                                                                    <option value="">---Choose Size---</option>
+                                                                    <option value="<%=variantData.sizes[i].sizes %>"
+                                                                        selected>
                                                                         <%=variantData.sizes[i].sizes %>
                                                                     </option>
                                                                     <option value="XS">XS</option>
@@ -180,8 +183,6 @@
                                                                         id="actualPrice" min="1" pattern="[0-9]{1,9}"
                                                                         onblur="calculate('discount', this.value )"
                                                                         placeholder="Eg. 30000" required>
-                                                                    <div class="invalid-feedback">Invalid Discount
-                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -229,66 +230,9 @@
                                                     class="btn btn-danger"><i class="fas fa-times"></i>
                                                     Cancel</a>
 
-                                                <button type="button" class="btn btn-primary" id="submitData"
-                                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                <button type="submit" class="btn btn-primary" id="submitVariantData"
                                                     style="float:right"><i class="fas fa-save"></i>
                                                     Save Changes</button>
-
-                                                <!-- Delete Image Warning Modal -->
-                                                <div class="modal fade" id="cantDelete" data-bs-backdrop="static"
-                                                    data-bs-keyboard="false" tabindex="-1"
-                                                    aria-labelledby="cantDeleteLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="cantDeleteLabel">
-                                                                    Cannot delete image
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                There should be atleast one
-                                                                product image present!
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger"
-                                                                    data-bs-dismiss="modal">OK</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Save changes Confirmation Modal -->
-                                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                                    data-bs-keyboard="false" tabindex="-1"
-                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">
-                                                                    Save
-                                                                    Changes!
-                                                                </h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to
-                                                                Save
-                                                                the
-                                                                Changes?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="btn btn-primary"
-                                                                    data-bs-dismiss="modal">SAVE
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -317,6 +261,7 @@
     <script>
         $(document).ready(function () {
             coloursDropdown();
+            sizesDropdown();
         });
         function coloursDropdown() {
             var selectobject = document.getElementById("colours");
@@ -327,6 +272,13 @@
             }
             '<% j++; }) } %>'
         }
+
+        function sizesDropdown() {
+            $(".sizes option").each(function () {
+                $(this).siblings('[value="' + this.value + '"]').remove();
+            });
+        }
+
     </script>
 
     <script>
@@ -334,11 +286,37 @@
             var moreItems =
                 `<div class="row g-2" id="itemsRow` + counter + `">
                     <div class="mb-3 col-md-2">
-                        <select name="sizes[]" class="form-select" id="sizes` + counter + `" required>
-                            <option value="">
-                                ---Choose Size---
-                            </option>
-                        </select>
+                        <% if(productData.category == "Boys Wear" || productData.category == "Girls Wear"){%>
+                            <select name="sizes[]" class="form-select" required>
+                                <option value="">
+                                    ---Choose Size---
+                                </option>
+                                <option value="1 - 2 Years">1 - 2 Years</option>
+                                <option value="2 - 3 Years">2 - 3 Years</option>
+                                <option value="3 - 4 Years">3 - 4 Years</option>
+                                <option value="4 - 5 Years">4 - 5 Years</option>
+                                <option value="5 - 6 Years">5 - 6 Years</option>
+                                <option value="6 - 7 Years">6 - 7 Years</option>
+                                <option value="7 - 8 Years">7 - 8 Years</option>
+                                <option value="8 - 9 Years">8 - 9 Years</option>
+                                <option value="9 - 10 Years">9 - 10 Years</option>
+                                <option value="10 - 11 Years">10 - 11 Years</option>
+                                <option value="11 - 12 Years">11 - 12 Years</option>
+                                <option value="12 - 13 Years">12 - 13 Years</option>
+                            </select>
+                        <% } else { %>
+                            <select name="sizes[]" class="form-select" required>
+                                <option value="">
+                                    ---Choose Size---
+                                </option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        <% } %>
                     </div>
 
                     <div class="mb-3 col-md-2">
@@ -376,7 +354,7 @@
                     </div>
 
                     <div class="mb-3 col-md-2 d-grid divremoveItemsBtnMain">
-                        <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn` + counter + `"><i
+                        <button class="btn btn-outline-danger removeItemsBtn" id="removeItemsBtn"><i
                             class="fas fa-minus-circle"></i>
                         Remove</a>
                     </div>
@@ -392,13 +370,60 @@
                 $("#appendItems").append(appendMoreItems);
                 counter++
 
-                $(document).on('click', '.removeItemsBtn', function (e) {
-                    e.preventDefault();
+            });
+            $(document).on('click', '.removeItemsBtn', function (e) {
+                e.preventDefault();
+                if ($(".divremoveItemsBtnMain")[1]) {
                     let row_item = $(this).parent().parent();
                     $(row_item).remove();
-                })
-            });
+                }
+                else {
+                    document.getElementsByName("sizes[]")[0].value = ""
+                    document.getElementsByName("quantity[]")[0].value = ""
+                    document.getElementsByName("actualPrice[]")[0].value = ""
+                    document.getElementsByName("discount[]")[0].value = ""
+                    document.getElementsByName("finalPrice[]")[0].value = ""
+                }
+            })
         });
+
+        function cannotDeleteAlert() {
+            swal({
+                title: "Cannot Delete Image!",
+                text: " There should be atleast one product image present.",
+                icon: "warning",
+                dangerMode: true,
+            })
+        }
+
+        var checkSizes = [];
+        $(document).on('click', '#submitVariantData', function (e) {
+            var sizesElements = document.getElementsByName("sizes[]");
+            var noEmptyElement = true
+            for (var i = 0; i < sizesElements.length; i++) {
+                checkSizes.push(sizesElements[i].value)
+            }
+            if (checkSizes.includes("")) {
+                noEmptyElement = false
+            }
+            var hasDuplicateSizes = hasDuplicates(checkSizes);
+            if (hasDuplicateSizes && noEmptyElement) {
+                e.preventDefault();
+                swal({
+                    title: "You cannot insert duplicate sizes.",
+                    icon: "warning",
+                    dangerMode: true,
+                })
+            }
+            checkSizes = [];
+        });
+
+        function hasDuplicates(checkSizes) {
+            if (checkSizes.length != new Set(checkSizes).size) {
+                return true;
+            }
+            return false;
+        }
     </script>
 
     <script>
@@ -419,10 +444,14 @@
 
             var total = (actualPrice * discountPct) / 100;
             var finalPrice = actualPrice - total;
+            if( !Number.isInteger(finalPrice) )
+            {
+                finalPrice = finalPrice.toFixed(2)
+            }
             finalPriceField.value = finalPrice;
         }
     </script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
     <script src="/js/form-validator.js"></script>

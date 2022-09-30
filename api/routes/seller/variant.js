@@ -62,29 +62,29 @@ router.get('/add-variant/:id', checkAuth, async (req, res) => {
 
 router.post('/add-variant/:id', [checkAuth, imgUpload], async (req, res, next) => {
     var prodID = req.params.id;
-    var getVariantID;
 
-    if (req.body.sizes) {
-        var sizesArray = [{
+    var sizesArray = [
+        {
             "sizes": req.body.sizes,
             "quantity": req.body.quantity,
             "actualPrice": req.body.actualPrice,
             "discount": req.body.discount,
             "finalPrice": req.body.finalPrice
-        },];
-        // var rawSS = req.files.images;
-        // var imageArr = [];
-        // if (rawSS) {
-        //     for (let i = 0; i < rawSS.length; i++) {
-        //         const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
-        //         await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
-        //         var url = await imageRef.getDownloadURL()
-        //         imageArr.push(url)
-        //     }
-        // }
+        },
+    ];
+    try {
+        var rawSS = req.files.images;
+        var imageArr = [];
+        if (rawSS) {
+            for (let i = 0; i < rawSS.length; i++) {
+                const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
+                await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+                var url = await imageRef.getDownloadURL()
+                imageArr.push(url)
+            }
+        }
         var sizeArr = [];
         var a = sizesArray[0]["sizes"].length
-
         for (var i = 0; i < a; i++) {
             sizeArr.push({
                 sizes: sizesArray[0]["sizes"][i],
@@ -94,50 +94,24 @@ router.post('/add-variant/:id', [checkAuth, imgUpload], async (req, res, next) =
                 finalPrice: sizesArray[0]["finalPrice"][i],
             })
         }
-        var variantByID = await Variants.findById(req.body._id)
-        if (variantByID.status == "Incomplete Variant") {
-            var product = await Products.findById(req.params.id)
-            product.variantIDArr.push(req.body._id);
-            await product.save();
-        }
 
-        Variants.findByIdAndUpdate({ _id: req.body._id }, {
-            $set: {
-                sizes: sizeArr,
-                status: "Pending"
-            }
-        })
-            .exec()
-            .then(result => {
-                console.log(result)
-                res.redirect('/seller/products/variant/' + prodID);
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
-    }
-    else {
         var variantData = new Variants({
             _id: mongoose.Types.ObjectId(),
             prodID: prodID,
-            //    images: imageArr,
+            images: imageArr,
             colours: req.body.colours,
-            status: "Incomplete Variant"
+            sizes: sizeArr,
+            status: "Pending"
         })
-        await variantData.save()
-        getVariantID = variantData._id
-        res.send({
-            getVariantID: getVariantID
-        })
-
+        await variantData.save();
+        res.redirect('/seller/products/variant/' + prodID);
+    } catch (err) {
+        console.log("Error Occurred while adding variant to Database");
+        console.log(err)
     }
 });
 
 router.get("/edit-variant/(:id)/(:variantID)", checkAuth, async (req, res) => {
-    const allImages = Variants.find().select("images")
     var id = req.params.id;
     var variantID = req.params.variantID;
 
@@ -145,7 +119,7 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, async (req, res) => {
     const doc = await Variants.findById(variantID)
     const docs = await Variants.find({ 'prodID': id }).select().exec()
 
-    res.render('./seller/variants/edit-variant', { images: allImages, variantData: doc, coloursData: docs, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+    res.render('./seller/variants/edit-variant', { variantData: doc, coloursData: docs, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
 });
 
 router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async (req, res) => {
