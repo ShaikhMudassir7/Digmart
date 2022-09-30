@@ -1,15 +1,5 @@
 const mongoose = require("mongoose");
 
-
-// const sizeSchema = new mongoose.Schema({
-//     sizes: { type: String, required: true },
-//     quantity:  { type: Number, required: true },
-//     actualPrice:  { type: String, required: true },
-//     discount: { type: Number},
-//     finalPrice:  { type: String, required: true },
-// });
-
-
 const sizeSchema = new mongoose.Schema({
     sizes: { type: String },
     quantity: { type: Number },
