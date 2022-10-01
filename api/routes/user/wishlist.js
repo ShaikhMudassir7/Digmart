@@ -5,7 +5,8 @@ const mongoose = require('mongoose')
 const Wishlist = require('../../models/user/wishlist');
 const Seller = require("../../models/seller/seller")
 
-router.get('/view-wishlist/(:userID)', async (req, res) => {
+
+router.get('/(:userID)', async (req, res) => {
     var seller;
     var sellerdoc;
     var size = [];
@@ -37,49 +38,93 @@ router.get('/view-wishlist/(:userID)', async (req, res) => {
     });
 })
 
-router.get('/add-to-wishlist/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)', (req, res) => {
-    var wishlistdata = new Wishlist({
-        _id: mongoose.Types.ObjectId(),
-        userID: req.session.userid,
-        sellerID: req.params.sellerID,
-        variantID: req.params.variantID,
-        productID: req.params.id,
-    })
-
-    wishlistdata.save().then(result => {
-        res.redirect('/wishlist/view-wishlist/' + req.session.userid)
-    })
-        .catch(err => {
-            console.log("Error Occurred while adding product to Cart." + err);
+router.post('/add-to-wishlist', async (req, res) => {
+    if (req.body.variantID) {
+        var wishlistdata = new Wishlist({
+            _id: mongoose.Types.ObjectId(),
+            userID: req.session.userid,
+            sellerID: req.body.sellerID,
+            variantID: req.body.variantID,
+            productID: req.body.productID,
+            size: req.body.size,
         })
+    }
+    else {
+        var wishlistdata = new Wishlist({
+            _id: mongoose.Types.ObjectId(),
+            userID: req.session.userid,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+        })
+    }
+
+    await wishlistdata.save().then(result => {
+        res.json({ status: true });
+    })
 })
 
-router.get('/add-to-wishlist/(:id)/(:sellerID)', (req, res) => {
-    var wishlistdata = new Wishlist({
-        _id: mongoose.Types.ObjectId(),
-        userID: req.session.userid,
-        sellerID: req.params.sellerID,
-        productID: req.params.id
-    })
-
-    wishlistdata.save().then(result => {
-        res.redirect('/wishlist/view-wishlist/' + req.session.userid)
-    })
-        .catch(err => {
-            console.log("Error Occurred while adding product to Cart." + err);
+router.post('/add-product', async (req, res) => {
+    if (req.body.variantID)
+        var wishDocs = await Wishlist.find({
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+            variantID: req.body.variantID,
+            size: req.body.size
         })
+    else
+        var wishDocs = await Wishlist.find({
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+        })
+    if (wishDocs.length == 0) {
+        if (req.body.variantID)
+            var wishlistdata = new Wishlist({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.body.userID,
+                sellerID: req.body.sellerID,
+                productID: req.body.productID,
+                variantID: req.body.variantID,
+                size: req.body.size,
+            })
+        else
+            var wishlistdata = new Wishlist({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.body.userID,
+                sellerID: req.body.sellerID,
+                productID: req.body.productID,
+            })
+        await wishlistdata.save()
+    }
+    res.json({ status: true });
+})
+
+router.post('/remove-product', async (req, res) => {
+    if (req.body.variantID) {
+        await Wishlist.deleteOne({
+            userID: req.body.userID,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+            variantID: req.body.variantID,
+            size: req.body.size,
+        })
+    } else {
+        await Wishlist.deleteOne({ userID: req.body.userID, sellerID: req.body.sellerID, productID: req.body.productID })
+    }
+    res.json({ status: true });
 })
 
 router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
-    Cart.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
+    Wishlist.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
         if (!err) {
-            res.redirect('/wishlist/view-wishlist/' + req.session.userid)
+            res.redirect('/wishlist/' + req.session.userid)
         }
         else {
             res.status(500).send(err)
         }
     })
-})
 
+})
 
 module.exports = router

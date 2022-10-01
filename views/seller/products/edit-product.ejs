@@ -32,7 +32,7 @@
                                     <div class="card">
                                         <div class="card-header fw-bold bg-dark text-light">EDIT PRODUCT</div>
                                         <div class="card-body">
-                                            <form method="post" enctype="multipart/form-data" id="form1"
+                                            <form method="post" enctype="multipart/form-data" id="form1" onsubmit="return checkForm(this);" 
                                                 action="/seller/products/edit-product/<%=productData._id %>"
                                                 class="needs-validation" novalidate accept-charset="utf-8">
 
@@ -296,7 +296,7 @@
                                                     <div class="mb-3 col-md-12">
                                                         <a href="/seller/products/?status=<%=productData.status %>" class="btn btn-danger"><i class="fas fa-times">
                                                             </i> Cancel</a>
-                                                        <button type="submit" class="btn btn-primary" id="submitData"
+                                                        <button type="submit" class="btn btn-primary" id="submitData" name="submitData"
                                                             style="float: right"><i class="fas fa-save">
                                                             </i> Save Changes</button>           
                                                     </div>
@@ -365,6 +365,14 @@
                 finalPrice = finalPrice.toFixed(2)
             }
             finalPriceField.value = finalPrice;
+        }
+
+        function checkForm(form) {
+            if ($('form')[0].checkValidity()) {
+                form.submitData.disabled = true;
+                form.submitData.innerText = "Please Wait";
+                return true;
+            }
         }
     </script>
 

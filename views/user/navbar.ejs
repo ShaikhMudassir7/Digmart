@@ -1,0 +1,219 @@
+<style>
+    :root {
+        --bg-dark: #1e686dfa;
+    }
+
+    .navbar {
+        background-color: var(--bg-dark);
+        box-shadow: 0 0.125rem 0.675rem rgb(0 0 0 / 50%);
+    }
+
+    #BrandLogo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .navbar-toggler,
+    .navbar-toggler:focus,
+    .navbar-toggler:active,
+    .navbar-toggler-icon:focus {
+        outline: none;
+        box-shadow: none;
+        border: 0;
+        position: relative;
+    }
+
+    .nav-link,
+    .nav-link:focus {
+        color: white;
+        transition: transform .2s;
+    }
+
+    .nav-link:hover {
+        color: white;
+        transform: scale(1.2);
+    }
+
+    .offcanvas {
+        border-radius: .5rem 0 0 .5rem;
+    }
+
+    .offcanvas-header {
+        border-radius: .5rem 0 0 0;
+        background-color: rgba(226, 226, 226, 0.705);
+    }
+
+    .btn-close:hover{
+        transform: scale(1.1);
+    }
+
+    .btn-close:focus{
+        box-shadow: none;
+    }
+
+    .offcanvas .nav-link,
+    .offcanvas .nav-link:focus {
+        color: rgb(0, 0, 0);
+        transition: transform .2s;
+        border-bottom: 1px solid rgba(226, 226, 226, 0.705);
+        ;
+    }
+
+    .offcanvas .nav-link:hover {
+        color: rgb(0, 0, 0);
+        transform: none;
+        border-radius: .5rem;
+        color: var(--bg-dark);
+        transform: scale(1.05);
+    }
+
+    .offcanvas-body {
+        padding: 0 1rem;
+    }
+
+    #nav-search-select {
+        display: none;
+        border-radius: .25rem 0 0 .25rem;
+        border: none;
+        max-width: 5.5rem;
+        width: 21%;
+        background-size: 10px 8px;
+        background-position: right 0.5rem center;
+        padding-right: 1.5rem;
+        font-size: .8rem;
+        background-color: rgba(255, 255, 255, 0.822);
+    }
+
+    #nav-search-field {
+        border-radius: .25rem 0 0 .25rem;
+        min-width: 250px;
+        max-width: 500px;
+        box-shadow: none;
+    }
+
+    #nav-search-btn {
+        color: var(--bg-dark);
+        background-color: white;
+        border-radius: 0 .25rem .25rem 0;
+        box-shadow: none;
+    }
+
+    #nav-search-btn:hover {
+        background-color: var(--bg-dark);
+        color: white;
+        border-color: white;
+    }
+
+    @media screen and (min-width: 470px) {
+        #nav-search-select {
+            display: block;
+        }
+
+        #nav-search-field {
+            border-radius: 0;
+        }
+    }
+
+    @media screen and (min-width: 576px) {
+        #nav-search-select {
+            display: none;
+        }
+
+        #nav-search-field {
+            border-radius: .25rem 0 0 .25rem;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        #nav-search-select {
+            display: block;
+        }
+
+        #nav-search-field {
+            border-radius: 0;
+        }
+    }
+</style>
+
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid ">
+        <a class="navbar-brand px-3" href="/">
+            <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
+        </a>
+
+        <form id="nav-search-form"
+            class="d-flex justify-content-center col-12 col-sm-7 col-md-8 mt-2 mt-sm-0 ms-auto me-auto order-1 order-sm-0"
+            role="search">
+            <select id="nav-search-select" name="nav-search-select" class="form-select">
+                <option value="Products" selected>Products</option>
+                <option value="Sellers">Sellers</option>
+            </select>
+            <input id="nav-search-field" class="form-control flex-fill" type="search" placeholder="Search"
+                aria-label="Search">
+            <button id="nav-search-btn" class="btn" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+
+
+        <div class="nav-item dropdown d-none d-sm-block">
+            <a class="nav-link dropdown-toggle" href="#" id="nav-dropdown-btn" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fas fa-user"></i></a>
+            <ul class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="nav-dropdown-btn">
+                <% if (!user) { %>
+                    <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal">Sign in</a>
+                    </li>
+                    <% } else{%>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My Orders</a></li>
+                        <li><a class="dropdown-item" href="/wishlist/<%=user%>"><i class="fas fa-heart"></i>
+                                Wishlist</a></li>
+                        <li><a class="dropdown-item" href="/cart/<%=user%>"><i class="fas fa-shopping-cart"></i>
+                                View Cart</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/login/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                        <% } %>
+            </ul>
+        </div>
+        <% if (!user) { %>
+            <button class="navbar-toggler nav-link py-0 d-sm-none" type="button" data-bs-target="#loginpopup"
+                data-bs-toggle="modal">
+                <i class="fas fa-user-circle"></i>
+            </button>
+            <% } else{%>
+                <button class="navbar-toggler nav-link py-0 d-sm-none" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <% } %>
+
+                    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                        aria-labelledby="offcanvasDarkNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Welcome Back!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li class="nav-item">
+                                    <a class="nav-link p-3" href="#"><i class="fas fa-list"></i> My Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link p-3" href="/wishlist/<%=user%>"><i class="fas fa-heart"></i>
+                                        Wishlist</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link p-3" href="/cart/<%=user%>"><i class="fas fa-shopping-cart"></i>
+                                        View Cart</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link p-3" href="/login/logout"><i class="fas fa-sign-out-alt"></i>
+                                        Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+    </div>
+</nav>

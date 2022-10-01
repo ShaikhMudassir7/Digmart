@@ -20,54 +20,7 @@
 <body>
     <!-- NAVBAR -->
     <section id="header">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid ">
-                <a class="navbar-brand" href="/">
-                    <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
-                </a>
-                <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around"
-                    type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
-                    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="toggler-icon top-bar"></span>
-                    <span class="toggler-icon middle-bar"></span>
-                    <span class="toggler-icon bottom-bar"></span>
-                </button>
-                <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
-                    <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
-                        <li class="nav-item mx-2 text-center">
-                            <a class="nav-link" href="/seller/signup">Become a Seller</a>
-                        </li>
-                        <li class="nav-item mx-2 text-center">
-                            <a class="nav-link" href="#footer">About</a>
-                        </li>
-                        <li class="nav-item mx-2 text-center">
-                            <div class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarScrollingDropdown2">
-                                    <% if (!user) { %>
-                                        <li><a class="dropdown-item" data-bs-target="#loginpopup"
-                                                data-bs-toggle="modal">Sign in</a></li>
-                                        <% } else{%>
-                                            <li><a class="dropdown-item" href="#">My Orders</a></li>
-                                            <li><a class="dropdown-item" href="#">Wishlist</a></li>
-
-                                            <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i>
-                                                    View
-                                                    Cart</a></li>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <li><a class="dropdown-item" href="/login/logout"><i
-                                                        class="fas fa-sign-out-alt"></i>Logout</a></li>
-                                            <% } %>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <%- include('navbar') %>
     </section>
 
     <div class="text-center text-muted m-3 fs-1">
@@ -134,7 +87,7 @@
                                                 <%if(varDocs[j].sizes[0].discount){%>
                                                 <div class="discount-badge"><%=varDocs[j].sizes[0].discount%>% off</div>
                                                 <%}%>
-                                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                                <i class="fa fa-heart" onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                                                 <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                                             </div>
                                             <div class="des px-2 text-start">
@@ -151,7 +104,7 @@
                                             <div class="imgDiv">
                                                 <%if(product.discount){%>
                                                 <div class="discount-badge"><%=product.discount%>% off</div><%}%>
-                                                <i class="fa fa-heart" onclick="wishlist(this)"></i>
+                                                <i class="fa fa-heart" onclick="wishlist(this, '<%=user%>', '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
                                                 <img src="<%=product.images%>" alt="<%=product.productName%>">
                                             </div>
                                             <div class="des px-2 text-start">
@@ -165,7 +118,6 @@
                                                 </div>
                                             </div>    
                                             <%}%>   
-                                            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
                                         </div>       
                                     </div>
                                     <% }})%>
@@ -176,23 +128,17 @@
         </div>
     </div>
 
-
-
-
-
-
-
     <!-- FOOTER -->
-    <section id="footer">
-        <%- include('footer') %>
-                                        </section>
-
-                                        <!-- FilterModal -->
-                                        <div class="modal fade" id="filterModal" data-bs-backdrop="static"
+    <%- include('footer') %>
+    
+    <input type="hidden" id="hidLogin" value="<%=user%>">
+    
+    <!-- FilterModal -->
+    <div class="modal fade" id="filterModal" data-bs-backdrop="static"
                                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
-                                                <div class="modal-content" style="height: 90vh;">
+                                                <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="staticBackdropLabel">Filters
                                                         </h5>
@@ -364,10 +310,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+    </div>
 
-                                        <!-- Login Modal -->
-                                        <%- include('login') %>
+    <!-- Login Modal -->
+    <%- include('login') %>
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

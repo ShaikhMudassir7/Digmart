@@ -35,8 +35,8 @@
 
                                             <form action="/seller/products/variant/add-variant/<%=id %>"
                                                 enctype="multipart/form-data" id="addVariantForm" method="post"
-                                                class="needs-validation" novalidate accept-charset="utf-8">
-
+                                                onsubmit="return checkForm(this);" class="needs-validation" novalidate
+                                                accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
                                                         <label for="productName" class="form-label">Product
@@ -49,7 +49,7 @@
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-4 d-grid">
-                                                        <label for="colours" class="form-label">Colour 
+                                                        <label for="colours" class="form-label">Colour
                                                         </label>
                                                         <select name="colours" class="form-select" id="colours"
                                                             required>
@@ -72,7 +72,8 @@
                                                     <div class="mb-3 col-md-12">
                                                         <label for="images" class="form-label">Product
                                                             Images
-                                                            <span class="text-muted"> (with respect to colour)</span></label>
+                                                            <span class="text-muted"> (with respect to
+                                                                colour)</span></label>
                                                         <input type="file" class="form-control" name="images"
                                                             id="images" multiple='multiple' accept="image/*" required>
                                                         <div class="valid-feedback">Looks good!</div>
@@ -112,39 +113,38 @@
                                                 <div id="appendItems">
                                                     <div class="row g-2">
                                                         <div class="mb-3 col-md-2">
-                                                            <% if(productData.category == "Boys Wear" || productData.category == "Girls Wear"){%>
-                                                                <select name="sizes[]" class="form-select"
-                                                                required>
-                                                                <option value="">
-                                                                    ---Choose Size---
-                                                                </option>
-                                                                <option value="1 - 2 Years">1 - 2 Years</option>
-                                                                <option value="2 - 3 Years">2 - 3 Years</option>
-                                                                <option value="3 - 4 Years">3 - 4 Years</option>
-                                                                <option value="4 - 5 Years">4 - 5 Years</option>
-                                                                <option value="5 - 6 Years">5 - 6 Years</option>
-                                                                <option value="6 - 7 Years">6 - 7 Years</option>
-                                                                <option value="7 - 8 Years">7 - 8 Years</option>
-                                                                <option value="8 - 9 Years">8 - 9 Years</option>
-                                                                <option value="9 - 10 Years">9 - 10 Years</option>
-                                                                <option value="10 - 11 Years">10 - 11 Years</option>
-                                                                <option value="11 - 12 Years">11 - 12 Years</option>
-                                                                <option value="12 - 13 Years">12 - 13 Years</option>
-                                                            </select>
-                                                            <% } else { %>
-                                                                <select name="sizes[]" class="form-select"
-                                                                required>
-                                                                <option value="">
-                                                                    ---Choose Size---
-                                                                </option>
-                                                                <option value="XS">XS</option>
-                                                                <option value="S">S</option>
-                                                                <option value="M">M</option>
-                                                                <option value="L">L</option>
-                                                                <option value="XL">XL</option>
-                                                                <option value="XXL">XXL</option>
-                                                            </select>
-                                                            <% } %>
+                                                            <% if(productData.category=="Boys Wear" ||
+                                                                productData.category=="Girls Wear" ){%>
+                                                                <select name="sizes[]" class="form-select" required>
+                                                                    <option value="">
+                                                                        ---Choose Size---
+                                                                    </option>
+                                                                    <option value="1 - 2 Years">1 - 2 Years</option>
+                                                                    <option value="2 - 3 Years">2 - 3 Years</option>
+                                                                    <option value="3 - 4 Years">3 - 4 Years</option>
+                                                                    <option value="4 - 5 Years">4 - 5 Years</option>
+                                                                    <option value="5 - 6 Years">5 - 6 Years</option>
+                                                                    <option value="6 - 7 Years">6 - 7 Years</option>
+                                                                    <option value="7 - 8 Years">7 - 8 Years</option>
+                                                                    <option value="8 - 9 Years">8 - 9 Years</option>
+                                                                    <option value="9 - 10 Years">9 - 10 Years</option>
+                                                                    <option value="10 - 11 Years">10 - 11 Years</option>
+                                                                    <option value="11 - 12 Years">11 - 12 Years</option>
+                                                                    <option value="12 - 13 Years">12 - 13 Years</option>
+                                                                </select>
+                                                                <% } else { %>
+                                                                    <select name="sizes[]" class="form-select" required>
+                                                                        <option value="">
+                                                                            ---Choose Size---
+                                                                        </option>
+                                                                        <option value="XS">XS</option>
+                                                                        <option value="S">S</option>
+                                                                        <option value="M">M</option>
+                                                                        <option value="L">L</option>
+                                                                        <option value="XL">XL</option>
+                                                                        <option value="XXL">XXL</option>
+                                                                    </select>
+                                                                    <% } %>
                                                         </div>
 
                                                         <div class="mb-3 col-md-2">
@@ -198,7 +198,8 @@
                                                     Cancel</a>
 
                                                 <button type="submit" class="btn btn-primary" id="submitVariantData"
-                                                    style="float: right"><i class="fas fa-save"></i> Add
+                                                    name="submitVariantData" style="float: right"><i
+                                                        class="fas fa-save"></i> Add
                                                     Variant</button>
                                             </form>
                                         </div>
@@ -214,8 +215,8 @@
 
     <script>
         function moreItems(counter) {
-        var moreItems =
-        `<div class="row g-2" id="itemsRow` + counter + `">
+            var moreItems =
+                `<div class="row g-2" id="itemsRow` + counter + `">
         <div class="mb-3 col-md-2">
             <% if(productData.category == "Boys Wear" || productData.category == "Girls Wear"){%>
                 <select name="sizes[]" class="form-select" required>
@@ -319,21 +320,21 @@
                 counter++;
 
                 $(document).on('click', '.removeItemsBtn', function (e) {
-                e.preventDefault();
-                let row_item = $(this).parent().parent();
-                $(row_item).remove();
-            })
+                    e.preventDefault();
+                    let row_item = $(this).parent().parent();
+                    $(row_item).remove();
+                })
             });
         });
 
-        var checkSizes=[];
+        var checkSizes = [];
         $(document).on('click', '#submitVariantData', function (e) {
             var sizesElements = document.getElementsByName("sizes[]");
             var noEmptyElement = true
-            for(var i = 0; i<sizesElements.length; i++){
+            for (var i = 0; i < sizesElements.length; i++) {
                 checkSizes.push(sizesElements[i].value)
             }
-            if(checkSizes.includes("")){
+            if (checkSizes.includes("")) {
                 noEmptyElement = false
             }
             var hasDuplicateSizes = hasDuplicates(checkSizes);
@@ -345,7 +346,7 @@
                     dangerMode: true,
                 })
             }
-            checkSizes=[];
+            checkSizes = [];
         });
 
         function hasDuplicates(checkSizes) {
@@ -374,11 +375,18 @@
 
             var total = (actualPrice * discountPct) / 100;
             var finalPrice = actualPrice - total;
-            if( !Number.isInteger(finalPrice) )
-            {
+            if (!Number.isInteger(finalPrice)) {
                 finalPrice = finalPrice.toFixed(2)
             }
             finalPriceField.value = finalPrice;
+        }
+        
+        function checkForm(form) {
+            if ($('form')[0].checkValidity()) {
+                form.submitVariantData.disabled = true;
+                form.submitVariantData.innerText = "Please Wait";
+                return true;
+            }
         }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

@@ -1,8 +1,27 @@
-<footer class="text-center text-lg-start text-white">
-    <div class="container p-4 pb-0">
+<style>
+    :root {
+        --bg-dark: #1e686dfa;
+    }
+
+    footer {
+        border-radius: 0.5rem 0.5rem 0 0;
+        background-color: var(--bg-dark)
+    }
+
+    footer a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    footer a:hover {
+        text-decoration: underline;
+    }
+</style>
+<footer class="mt-2 text-center text-sm-start text-white">
+    <div class="mx-auto col-sm-11 col-md-10 col-lg-12 p-4 pb-0">
         <section class="">
-            <div class="row">
-                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <div class="row px-4 p-sm-0">
+                <div class="col-sm-5 col-lg-3 col-xl-3 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4">
                         <b>DigMart</b>
                     </h6>
@@ -13,9 +32,9 @@
                     </p>
                 </div>
 
-                <hr class="w-100 clearfix d-md-none" />
+                <hr class="w-100 clearfix d-sm-none" />
 
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <div class="col-sm-5 col-lg-2 col-xl-2 mx-auto mx-sm-0 mx-lg-auto mt-3">
                     <h6 class="text-uppercase mb-4"><b>About</b></h6>
                     <p>
                         <a class="text-white">About us</a>
@@ -31,9 +50,9 @@
                     </p>
                 </div>
 
-                <hr class="w-100 clearfix d-md-none" />
+                <hr class="w-100 clearfix d-lg-none mt-2" />
 
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <div class="col-sm-5 col-lg-2 col-xl-2 mx-auto mt-3 mt-lg-3">
                     <h6 class="text-uppercase mb-4">
                         <b>My Account</b>
                     </h6>
@@ -51,11 +70,11 @@
                     </p>
                 </div>
 
-                <hr class="w-100 clearfix d-md-none" />
+                <hr class="w-100 clearfix d-sm-none" />
 
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 text-md-start">
+                <div class="col-sm-5 col-lg-3 col-xl-3 mx-auto mx-sm-0 mx-lg-auto mt-3 mt-lg-3">
                     <h6 class="text-uppercase mb-4"><b>Contact</b></h6>
-                    <p><i class="fas fa-home mr-3"></i> Lal Qila, Chandni Chowk, Delhi - 110006</p>
+                    <p><i class="fas fa-map-marker-alt mr-3"></i> Lal Qila, Chandni Chowk, Delhi - 110006</p>
                     <p><i class="fas fa-envelope mr-3"></i> DigMart@outlook.com</p>
                     <p><i class="fas fa-phone mr-3"></i> + 91 9346576281</p>
                     <p><i class="fas fa-print mr-3"></i> + 91 22 1234 5678</p>
@@ -63,7 +82,7 @@
             </div>
         </section>
 
-        <hr class="my-3">
+        <hr class="my-3 px-4 px-sm-0">
 
         <section class="p-3 pt-0">
             <div class="row d-flex align-items-center">

@@ -33,7 +33,8 @@
                                     <div class="card">
                                         <div class="card-header fw-bold bg-dark text-light">EDIT VARIANT</div>
                                         <div class="card-body">
-                                            <form enctype="multipart/form-data" id="editVariantForm" method="post"
+                                            <form enctype="multipart/form-data" id="editVariantForm"
+                                                onsubmit="return checkForm(this);" method="post"
                                                 class="needs-validation" novalidate accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
@@ -444,11 +445,18 @@
 
             var total = (actualPrice * discountPct) / 100;
             var finalPrice = actualPrice - total;
-            if( !Number.isInteger(finalPrice) )
-            {
+            if (!Number.isInteger(finalPrice)) {
                 finalPrice = finalPrice.toFixed(2)
             }
             finalPriceField.value = finalPrice;
+        }
+
+        function checkForm(form) {
+            if ($('form')[0].checkValidity()) {
+                form.submitVariantData.disabled = true;
+                form.submitVariantData.innerText = "Please Wait";
+                return true;
+            }
         }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
