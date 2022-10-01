@@ -341,7 +341,7 @@ body {
     padding: 0;
 }
 
-#product1 .pro .imgDiv .discount-badge {
+#product1 .pro .imgDiv .prodDiscount {
     font-size: 0.8rem;
     font-weight: bold;
     color: white;
@@ -353,6 +353,10 @@ body {
     left: 0;
     top: 0.9rem;
     line-height: 1.1;
+}
+
+.pro .imgDiv .prodDiscount::after{
+    content: '% off';
 }
 
 #product1 .pro .imgDiv:hover .fa-heart {
@@ -384,7 +388,7 @@ body {
     object-fit: fill;
 }
 
-#product1 .pro .des .rating {
+#product1 .pro .des .prodRating {
     font-size: 0.8rem;
     color: #808719;
     margin-bottom: .25rem;
@@ -412,6 +416,10 @@ body {
     font-family: sans-serif;
     font-size: 0.78rem;
     text-decoration: line-through;
+}
+
+.prodPrice::before, .discPrice::before{
+    content: '₹ ';
 }
 
 .headline h2::before {

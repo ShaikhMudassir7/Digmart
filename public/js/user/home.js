@@ -113,14 +113,13 @@ var swiper = new Swiper(".productSwiper", {
     },
 });
 
-function wishlist(element, userID, sellerID, productID, variantID, size) {
+function wishlist(element, sellerID, productID, variantID, size) {
     if ($("#hidLogin").val()) {
         if (!element.classList.contains('i-red'))
             $.ajax({
                 url: "/wishlist/add-product",
                 type: "POST",
                 data: {
-                    userID: userID,
                     sellerID: sellerID,
                     productID: productID,
                     variantID: variantID,
@@ -137,7 +136,6 @@ function wishlist(element, userID, sellerID, productID, variantID, size) {
                 url: "/wishlist/remove-product",
                 type: "POST",
                 data: {
-                    userID: userID,
                     sellerID: sellerID,
                     productID: productID,
                     variantID: variantID,
