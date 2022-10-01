@@ -18,13 +18,9 @@
 
 <body>
     <div class="wrapper">
-        <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
-            <!-- end of sidebar component -->
             <div id="body" class="active">
-                <!-- navbar navigation component -->
                 <%- include('../navbar') %>
-                    <!-- end of navbar navigation -->
                     <div class="content">
                         <div class="container">
                             <div class="row">
@@ -39,23 +35,16 @@
                                                 accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
-                                                        <label for="productName" class="form-label">Product
-                                                            Name</label>
-                                                        <input type="name" class="form-control" name="productName"
-                                                            id="productName" value="<%=productData.productName %>"
-                                                            readonly>
+                                                        <label for="productName" class="form-label">Product Name</label>
+                                                        <input type="name" class="form-control" name="productName" id="productName" value="<%=productData.productName %>" readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-4 d-grid">
-                                                        <label for="colours" class="form-label">Colour
-                                                        </label>
-                                                        <select name="colours" class="form-select" id="colours"
-                                                            required>
-                                                            <option value="">
-                                                                ---Choose Colour---
-                                                            </option>
+                                                        <label for="colours" class="form-label">Colour</label>
+                                                        <select name="colours" class="form-select" id="colours" required>
+                                                            <option value=""> ---Choose Colour--- </option>
                                                             <option value="Black">Black</option>
                                                             <option value="White">White</option>
                                                             <option value="Blue">Blue</option>
