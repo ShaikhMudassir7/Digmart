@@ -160,7 +160,7 @@
                   <% }%>
               </div><br><br>
               <div>
-                <a onclick="addwishlist('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>')"
+                <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')"
                   class="btn p-3" style="background: rgb(94, 45, 129);color: white;"><i class="fa fa-cart-plus"></i>
                   &nbsp;ADD TO
                   CART</a>
@@ -182,7 +182,7 @@
                 <p class="card-text"><small class="text-muted">include of all taxes</small></p>
                 <br>
                 <div>
-                  <a href="/cart/add-to-cart/<%= productData._id%>/<%=productData.sellerID%>" class="btn p-3"
+                  <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class="btn p-3"
                     style="background: rgb(94, 45, 129);color: white;"><i class="fa fa-cart-plus"></i>
                     &nbsp;ADD TO
                     CART</a>

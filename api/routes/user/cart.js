@@ -40,41 +40,33 @@ router.get('/(:userID)', async (req, res) => {
     });
 })
 
-router.get('/add-to-cart/(:id)/(:sellerID)/(:variantID)/(:colours)/(:sizes)', (req, res) => {
-    var cartdata = new Cart({
-        _id: mongoose.Types.ObjectId(),
-        userID: req.session.userid,
-        sellerID: req.params.sellerID,
-        variantID: req.params.variantID,
-        productID: req.params.id,
-        colour: req.params.colours,
-        size: req.params.sizes,
-        quantity: "1"
-    })
-
-    cartdata.save().then(result => {
-        res.redirect('/cart/' + req.session.userid)
-    })
-        .catch(err => {
-            console.log("Error Occurred while adding product to Cart." + err);
+router.post('/add-to-cart', async (req, res) => {
+   
+    if (req.body.variantID) {
+        var cartdata = new Cart({
+            _id: mongoose.Types.ObjectId(),
+            userID: req.session.userid,
+            sellerID: req.body.sellerID,
+            variantID: req.body.variantID,
+            productID: req.body.productID,
+            colour: req.body.colour,
+            size: req.body.size,
+            quantity: "1"
         })
-})
-
-router.get('/add-to-cart/(:id)/(:sellerID)', (req, res) => {
-    var cartdata = new Cart({
-        _id: mongoose.Types.ObjectId(),
-        userID: req.session.userid,
-        sellerID: req.params.sellerID,
-        productID: req.params.id,
-        quantity: "1"
-    })
-
-    cartdata.save().then(result => {
-        res.redirect('/cart/' + req.session.userid)
-    })
-        .catch(err => {
-            console.log("Error Occurred while adding product to Cart." + err);
+    }
+    else {
+        var cartdata = new Cart({
+            _id: mongoose.Types.ObjectId(),
+            userID: req.session.userid,
+            sellerID: req.body.sellerID,
+            productID: req.body.productID,
+            quantity: "1"
         })
+    }
+
+    await cartdata.save().then(result => {
+        res.json({ status: true });
+    })
 })
 
 router.get('/delete-cart/(:cartID)', (req, res) => {
@@ -103,18 +95,6 @@ router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
                 .then(result => {
                     res.redirect('/cart/' + req.session.userid)
                 })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
-                })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
         })
 })
 

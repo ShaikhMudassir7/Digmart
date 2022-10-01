@@ -31,9 +31,9 @@ router.get('/viewProduct/(:id)/', checkAuth, (req, res) => {
         (err, element) => {
             if (!err) {
                 Variants.find({ 'prodID': id }).exec()
-                .then(docs => {
+                    .then(docs => {
                         if (!err) {
-                            res.render('./admin/verification/products/viewProduct', { images: allImages, variantsData: docs, productData: element,  userType: req.session.type, userName: req.session.name});
+                            res.render('./admin/verification/products/viewProduct', { images: allImages, variantsData: docs, productData: element, userType: req.session.type, userName: req.session.name });
                         }
                     })
             } else {
@@ -50,9 +50,9 @@ router.get('/viewproductStatus/(:id)', checkAuth, (req, res) => {
         (err, element) => {
             if (!err) {
                 Variants.find({ 'prodID': id }).exec()
-                .then(docs => {
+                    .then(docs => {
                         if (!err) {
-                            res.render('./admin/verification/products/viewproductStatus', { images: allImages, variantsData: docs, productData: element,  userType: req.session.type, userName: req.session.name});
+                            res.render('./admin/verification/products/viewproductStatus', { images: allImages, variantsData: docs, productData: element, userType: req.session.type, userName: req.session.name });
                         }
                     })
             } else {
@@ -80,21 +80,19 @@ router.get('/accept-product/(:id)', checkAuth, (req, res) => {
         })
 })
 
-router.post('/reject-product/(:id)', (req, res) => {
+router.post('/reject-product/(:id)', async (req, res) => {
     const id = req.params.id
     var newValues = {
         status: "Rejected : " + req.body.rejectText
     }
-    Products.updateOne({ _id: id }, { $set: newValues })
+    var oldValues = {
+        status: "Pending"
+    }
+    await Variants.updateMany({ 'prodID': id }, { $set: oldValues })
+    await Products.updateOne({ _id: id }, { $set: newValues })
         .exec()
         .then(result => {
             res.redirect('/admin/verification/product')
-        })
-        .catch(err => {
-            console.log(err)
-            res.json({
-                error: err
-            })
         })
 })
 
@@ -162,10 +160,38 @@ router.get('/accept-seller/(:id)', (req, res) => {
         })
 })
 
+router.post('/verify-variant', (req, res) => {
+    var newValues = {
+        status: req.body.status,
+    }
+    Variants.updateOne({ _id: req.body.variantID }, { $set: newValues })
+        .exec()
+        .then(result => {
+            res.send("Success")
+        })
+})
+
+router.post('/check-variant', (req, res) => {
+    var count = 0
+    Variants.find({ 'prodID': req.body.productID }).then(docs => {
+        docs.forEach(data => {
+            if (data.status == "Pending") {
+                count = 1;
+            }
+        })
+        if (count == 0) {
+            res.json({ status: true });
+        }
+        else {
+            res.json({ status: false });
+        }
+    })
+})
+
 router.get('/productStatus', checkAuth, (req, res) => {
     var status = req.query.status
     if (status == "Rejected") {
-        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" } , { status: "Incomplete" }] })
+        Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
             .exec()
             .then(docs => {
                 res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
@@ -178,7 +204,7 @@ router.get('/productStatus', checkAuth, (req, res) => {
             })
     } else {
         if (!status) {
-            Products.find({$nor: [{ status: "Incomplete" }]})
+            Products.find({ $nor: [{ status: "Incomplete" }] })
                 .exec()
                 .then(docs => {
                     res.render('./admin/verification/products/productStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
@@ -210,7 +236,7 @@ router.get('/productStatus', checkAuth, (req, res) => {
 router.get('/sellerStatus', checkAuth, (req, res) => {
     var status = req.query.status
     if (status == "Rejected") {
-        Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" },  { status: "Authentication" }] })
+        Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Authentication" }] })
             .select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
             .exec()
             .then(docs => {
@@ -239,17 +265,17 @@ router.get('/sellerStatus', checkAuth, (req, res) => {
         }
         else {
             Seller.find({ status: status, })
-            .select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
-            .exec()
-            .then(docs => {
-                res.render('./admin/verification/seller/sellerStatus', { sellersData: docs, userType: req.session.type, userName: req.session.name })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
+                .select("status pFname pLname pMobile pEmail busName busEmail busGstNo busAddress")
+                .exec()
+                .then(docs => {
+                    res.render('./admin/verification/seller/sellerStatus', { sellersData: docs, userType: req.session.type, userName: req.session.name })
                 })
-            })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({
+                        error: err
+                    })
+                })
         }
 
     }

@@ -11,20 +11,22 @@
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/master.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/user/home.css">
     <link href="/css/user/login.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/user/home.css">
     <style>
-
+        @media screen and (min-width: 767px) {
+            .chgsize {
+                max-width: 200px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="wrapper">
-
-        <div id="body" class="active">
-            <!-- NAVBAR -->
-            <%- include('navbar') %>
+    <!-- NAVBAR -->
+    <%- include('navbar') %>
+        <div class="wrapper mb-5" style="min-height: 200px;">
+            <div id="body" class="active">
                 <div class="container-fluid">
                     <div class="grandparent row">
                         <div class="container border mt-3 col-md-11 col-sm-11 col-11"
@@ -34,7 +36,7 @@
                             </h3>
 
                             <% if(seller.length!=0) {var i=0; seller.forEach(function(data){ %>
-                                <div class="parent ">
+                                <div class="parent">
                                     <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
                                         <label style="color: black;">
                                             <h5><b>
@@ -45,31 +47,31 @@
                                         <% wishlistData.forEach(function(wishlistData){%>
                                             <% if(wishlistData.sellerID._id.toString()==data._id.toString()) { %>
                                                 <div class="card p-0 " style="box-shadow: 2px 2px rgb(136, 136, 138);">
-                                                    <div class="card-header p-0">
-                                                        <h4 class="m-0"><a
-                                                            href="/wishlist/delete-wishlist/<%= wishlistData._id %>"><i
-                                                                class="fa fa-minus-square ms-2 mt-1"
-                                                                style="color: rgb(188, 21, 21); "
-                                                                aria-hidden="true"></i></a>
-                                                    </h4>
-                                                      </div>
+                                                    <div class="card-header p-1 bg-white">
+                                                        <h4><a href="/wishlist/delete-wishlist/<%= wishlistData._id %>"><i
+                                                                    class="fa fa fa-times ms-2 mt-1"
+                                                                    style="color: rgb(188, 21, 21); float: right; "
+                                                                    aria-hidden="true"></i></a>
+                                                        </h4>
+                                                    </div>
                                                     <div class=" ms-1 mb-2 row  p-0 w-100">
                                                         <%if(wishlistData.variantID){%>
-                                                            <div class="image col-md-3 mt-2">
+                                                            <div class="image col-md-3 mt-2 chgsize">
                                                                 <img src=" <%= wishlistData.variantID.images[0] %>"
                                                                     class="img-fluid rounded-start border-1 border"
-                                                                    width="100%" h="100%">
+                                                                    width="100%" height="100%">
                                                             </div>
                                                             <%}else{%>
-                                                                <div class="image col-md-3 mt-2">
+                                                                <div class="image col-md-3 mt-2 chgsize">
                                                                     <img src=" <%= wishlistData.productID.images[0] %>"
                                                                         class="img-fluid rounded-start border-1 border"
-                                                                        width="100%" h="100%">
+                                                                        width="100%" height="100%">
                                                                 </div>
                                                                 <%}%>
                                                                     <div class="col-md-9 p-0">
                                                                         <div class="row col-md-12 ms-1">
-                                                                            <div class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
+                                                                            <div
+                                                                                class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
                                                                                 <div class="row p-1">
                                                                                     <h5 class="card-title">
                                                                                         <label id="productName"
@@ -156,12 +158,13 @@
                                                                                                     <%}%>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-md-3 col-sm-12 col-12 mb-2" style="padding-right: 35px;">
+                                                                                    <div class="col-md-3 col-sm-12 col-12 mb-2"
+                                                                                        style="padding-right: 35px;">
                                                                                         <button
-                                                                                        class="btn btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12"
-                                                                                        id="buy">Add to Cart
-                                                                                    </button>
-                                                                                        </div>
+                                                                                            class="btn btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12"
+                                                                                            id="buy">Add to Cart
+                                                                                        </button>
+                                                                                    </div>
                                                                                 </div>
 
                                                                             </div>
@@ -178,15 +181,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- Login Modal -->
+            <%- include('login') %>
         </div>
-        <!-- Login Modal -->
-        <%- include('login') %>
-    </div>
-    <%- include('footer') %>
-        <script src="/vendor/jquery/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="/js/script.js"></script>
-        <script src="/js/user/login.js"></script>
+        <!-- Footer -->
+        <%- include('footer') %>
+
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/js/script.js"></script>
+            <script src="/js/user/login.js"></script>
 </body>
 
 </html>
