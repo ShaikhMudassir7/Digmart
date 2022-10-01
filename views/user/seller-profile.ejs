@@ -26,9 +26,7 @@
     <div class="container shadow-">
       <div class="page-title mt-2 mb-4 shadow-lg">
         <div class="card w-100 m-14 align-middl">
-          <a
-          href="#profile-tab"
-          >
+          <a href="#profile-tab">
             <div class="gallery">
               <figure class="gallery__item gallery__item--1">
                 <img
@@ -66,12 +64,21 @@
           </a>
 
           <span class="p-4">
-            <p class="fs-2"><img src="<%=sellerData.busLogo%>" id="BrandLogo" class="rounded-circle" width="200px"> <%=sellerData.busName%> <br />
+            <p class="fs-2">
+              <img
+                src="<%=sellerData.busLogo%>"
+                id="BrandLogo"
+                class="rounded-circle"
+                width="200px"
+              />
+              <%=sellerData.busName%> <br />
               <span class="fs-4 text-warning"><%=sellerData.busType%></span>
             </p>
             <p class="fs-5 text-black-50">
               <%=sellerData.busAddress%> <br />
-              <span class="fs-6 text-success">Delivery Available At: <%=sellerData.busZip%></span>
+              <span class="fs-6 text-success"
+                >Delivery Available At: <%=sellerData.busZip%></span
+              >
             </p>
           </span>
         </div>
@@ -83,16 +90,17 @@
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
-    > <button
-    type="button"
-    class=" fs-1 opacity-25 btn btn-dark text-light position-absolute top-0 start-0"
-    style=""
-    data-bs-dismiss="modal"
-    aria-label="Close"
-  ><i class="fa fa-times"></i></button>
+    >
+      <button
+        type="button"
+        class="fs-1 opacity-25 btn btn-dark text-light position-absolute top-0 start-0"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      >
+        <i class="fa fa-times"></i>
+      </button>
       <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content ">
-         
+        <div class="modal-content">
           <div
             id="carouselExampleIndicators"
             class="carousel slide"
@@ -221,8 +229,8 @@
             aria-labelledby="home-tab"
             tabindex="0"
           >
-            <div class="row ">
-              <div class="col-4 ">
+            <div class="row">
+              <div class="col-4">
                 <nav
                   id="navbar-example3"
                   class="h-100 flex-column align-items-stretch shadow pe-4 border-end"
@@ -439,5 +447,6 @@
         </div>
       </div>
     </div>
+    <section id="footer"><%- include('footer') %></section>
   </body>
 </html>
