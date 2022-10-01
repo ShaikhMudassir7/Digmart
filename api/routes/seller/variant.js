@@ -107,16 +107,6 @@ router.post('/add-variant/:id', [checkAuth, imgUpload], async (req, res, next) =
         console.log("Error Occurred while adding variant to Database");
         console.log(err)
     }
-
-    var variantData = new Variants({
-        _id: mongoose.Types.ObjectId(),
-        prodID: prodID,
-        images: imageArr,
-        colours: req.body.colours,
-        status: "Incomplete Variant"
-    })
-    await variantData.save()
-    res.redirect('/seller/products/variant/add-sizes/' + variantData._id)
 });
 
 router.get("/edit-variant/(:id)/(:variantID)", checkAuth, async (req, res) => {
