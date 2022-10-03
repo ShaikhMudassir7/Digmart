@@ -58,72 +58,58 @@ router.get('/add-variant/:id', checkAuth, async(req, res) => {
     res.render("./seller/variants/add-variant", { productData: doc, id: prodID, variantData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
 });
 
-router.get('/add-sizes/:variantID', checkAuth, async(req, res) => {
-    var variant = await Variants.findById(req.params.variantID).exec()
-    res.render("./seller/variants/add-sizes", { variant, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-});
-
-router.post('/add-sizes/:variantID', checkAuth, async(req, res) => {
-    var variantID = req.params.variantID;
-    var variant = await Variants.findById(variantID).exec()
-    var flag = false
-    variant.sizes.forEach(function(data) {
-        if (data.sizes == req.body.sizeName) {
-            flag = true
-        }
-    })
-
-    if (flag) {
-        return res.send({ done: false });
-    }
-
-    var newSizes = [{
-        "sizes": req.body.sizeName,
-        "quantity": req.body.quantity,
-        "actualPrice": req.body.actualPrice,
-        "discount": req.body.discount,
-        "finalPrice": req.body.finalPrice
-    }]
-    var mergedSizes = [...variant.sizes, ...newSizes]
-    Variants.findByIdAndUpdate({ _id: variantID }, {
-            $set: {
-                sizes: mergedSizes,
-                status: "Pending"
-            }
-        })
-        .exec()
-        .then(result => {
-            res.send({ done: true });
-        })
-});
-
-router.post('/add-variant/:id', [checkAuth, imgUpload], async(req, res, next) => {
+router.post('/add-variant/:id', [checkAuth, imgUpload], async (req, res, next) => {
     var prodID = req.params.id;
 
-    var rawSS = req.files.images;
-    var imageArr = [];
-    if (rawSS) {
-        for (let i = 0; i < rawSS.length; i++) {
-            const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
-            await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
-            var url = await imageRef.getDownloadURL()
-            imageArr.push(url)
+    var sizesArray = [
+        {
+            "sizes": req.body.sizes,
+            "quantity": req.body.quantity,
+            "actualPrice": req.body.actualPrice,
+            "discount": req.body.discount,
+            "finalPrice": req.body.finalPrice
+        },
+    ];
+    try {
+        var rawSS = req.files.images;
+        var imageArr = [];
+        if (rawSS) {
+            for (let i = 0; i < rawSS.length; i++) {
+                const imageRef = storage.child("/variants/" + (rawSS[i].fieldname + '-' + Date.now() + rawSS[i].originalname));
+                await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype })
+                var url = await imageRef.getDownloadURL()
+                imageArr.push(url)
+            }
         }
-    }
+        var sizeArr = [];
+        var a = sizesArray[0]["sizes"].length
+        for (var i = 0; i < a; i++) {
+            sizeArr.push({
+                sizes: sizesArray[0]["sizes"][i],
+                quantity: sizesArray[0]["quantity"][i],
+                actualPrice: sizesArray[0]["actualPrice"][i],
+                discount: sizesArray[0]["discount"][i],
+                finalPrice: sizesArray[0]["finalPrice"][i],
+            })
+        }
 
-    var variantData = new Variants({
-        _id: mongoose.Types.ObjectId(),
-        prodID: prodID,
-        images: imageArr,
-        colours: req.body.colours,
-        status: "Incomplete Variant"
-    })
-    await variantData.save()
-    res.redirect('/seller/products/variant/add-sizes/' + variantData._id)
+        var variantData = new Variants({
+            _id: mongoose.Types.ObjectId(),
+            prodID: prodID,
+            images: imageArr,
+            colours: req.body.colours,
+            sizes: sizeArr,
+            status: "Pending"
+        })
+        await variantData.save();
+        res.redirect('/seller/products/variant/' + prodID);
+    } catch (err) {
+        console.log("Error Occurred while adding variant to Database");
+        console.log(err)
+    }
 });
 
-router.get("/edit-variant/(:id)/(:variantID)", checkAuth, async(req, res) => {
-    const allImages = Variants.find().select("images")
+router.get("/edit-variant/(:id)/(:variantID)", checkAuth, async (req, res) => {
     var id = req.params.id;
     var variantID = req.params.variantID;
 
@@ -131,7 +117,7 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, async(req, res) => {
     const doc = await Variants.findById(variantID)
     const docs = await Variants.find({ 'prodID': id }).select().exec()
 
-    res.render('./seller/variants/edit-variant', { images: allImages, variantData: doc, coloursData: docs, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
+    res.render('./seller/variants/edit-variant', { variantData: doc, coloursData: docs, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
 });
 
 router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async(req, res) => {

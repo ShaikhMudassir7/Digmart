@@ -69,7 +69,8 @@
                                                 <div class="mb-3">
                                                     <label for="text" class="form-label">Category Name</label>
                                                     <input type="text" value="<%=categoryData.catName %>" name="catName"
-                                                        placeholder="Enter Category" class="form-control" required>
+                                                        id="catName" placeholder="Enter Category" class="form-control"
+                                                        required>
                                                     <div class="valid-feedback">Looks good!</div>
                                                     <div class="invalid-feedback">Please Choose a Category.
                                                     </div>
@@ -87,15 +88,15 @@
 
                                                 <div class="mb-3 col-md-4">
                                                     <label for="variant" class="form-label">Variant</label>
-                                                    <select name="variant" class="form-select"  id="variant" required>
-                                                            <option value="<%=categoryData.variant %>" selected>
-                                                                <%=categoryData.variant %>
+                                                    <select name="variant" class="form-select" id="variant" required>
+                                                        <option value="<%=categoryData.variant %>" selected>
+                                                            <%=categoryData.variant %>
+                                                        </option>
+                                                        <% if(categoryData.variant=="Available" ){ %>
+                                                            <option value="Unavailable">
+                                                                Unavailable
                                                             </option>
-                                                            <% if(categoryData.variant == "Available"){ %>
-                                                                <option value="Unavailable">
-                                                                    Unavailable
-                                                                </option>
-                                                                <% } else{ %>
+                                                            <% } else{ %>
                                                                 <option value="Available">
                                                                     Available
                                                                 </option>
@@ -104,8 +105,9 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <button type="submit" class="btn btn-primary">Submit
-                                                    </button>
+                                                    <button type="submit" class="btn btn-primary" id="submitData">
+                                                        <i class="fas fa-save">
+                                                        </i> Save Changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -116,8 +118,26 @@
                     </div>
             </div>
     </div>
-
     <script src="/vendor/jquery/jquery.min.js"></script>
+    <script>
+        var catNameBeforeEdit = '<%= categoryData.catName%>'
+        $(document).on('click', '#submitData', function (e) {
+            var catName = document.getElementById("catName").value;
+
+            '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
+            if (catName == '<%= data.catName %>' && catName != catNameBeforeEdit) {
+                e.preventDefault();
+                swal({
+                    title: "Category with the same name already exists!",
+                    text: "Try editting the same category or adding a new one.",
+                    icon: "warning",
+                    dangerMode: true,
+                })
+            }
+            '<% i++; })}%>'
+        }); 
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/js/form-validator.js"></script>
     <script src="/js/script.js"></script>

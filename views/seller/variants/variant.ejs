@@ -56,12 +56,15 @@
                                                         <%-sizeArr[i].join('</br>')%>
                                                     </td>
                                                     <td class="text-end">
-                                                        <a title="Add Sizes" href="/seller/products/variant/add-sizes/<%= data._id %>" class="btn btn-outline-info btn-rounded"><i class="fas fa-plus"></i></a>
-                                                        <a href="/seller/products/variant/edit-variant/<%=productData._id%>/<%=data._id%>" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
-                                                        <a href="/seller/products/variant/delete-variant/<%=productData._id%>/<%=data._id %>" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></a>
+                                                        <a href="/seller/products/variant/edit-variant/<%=productData._id%>/<%=data._id%>"
+                                                            class="btn btn-outline-info btn-rounded"><i
+                                                                class="fas fa-pen"></i></a>
+                                                        <button type="button" class="btn btn-outline-danger btn-rounded" onclick="sweetAlertTrigger('<%=productData._id%>' , '<%=data._id %>')"
+                                                            id="submitData"><i
+                                                                class="fas fa-trash"></i>
+                                                        </button>
                                                     </td>
                                                 </tr>
-
                                                 <% i++; }) %>
                                                     <% } else{ %>
                                                         <tr>
@@ -77,15 +80,22 @@
             </div>
     </div>
     <script>
-        const toastTrigger = document.getElementById('staticBackdrop');
-        const toastLiveExample = document.getElementById('liveToast')
-        if (toastTrigger) {
-            toastTrigger.addEventListener('click', () => {
-                const toast = new bootstrap.Toast(toastLiveExample)
-                toast.show()
+      function sweetAlertTrigger(prodID, variantID) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this variant!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
             })
-        }
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.location = "/seller/products/variant/delete-variant/" + prodID + "/" + variantID
+                    }
+                });
+        }  
     </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>

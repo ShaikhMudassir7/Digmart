@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="/img/favicon.png">
-    <title>Categroy Add Page</title>
+    <title>Add Categroy</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -34,17 +34,17 @@
                                                 enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="catImage" class="form-label">Category Image</label>
-                                                    <input type="file" name="catImage" class="form-control"
+                                                    <input type="file" name="catImage" class="form-control" id="catImage"
                                                         accept="image/*" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="catName" class="form-label">Category Name</label>
-                                                    <input name="catName" placeholder="Enter Category"
+                                                    <input name="catName" placeholder="Enter Category" id="catName"
                                                         class="form-control" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="sub_category" class="form-label">Sub-Category</label>
-                                                    <input type="text" name="sub_category"
+                                                    <input type="text" name="sub_category" id="sub_category"
                                                         placeholder="Enter Sub-Category" class="form-control" required>
                                                 </div>
                                                 <div class="mb-3 col-md-4">
@@ -54,14 +54,9 @@
                                                         <option value="Unavailable">Unavailable</option>
                                                     </select>
                                                 </div>
-
-                                                <!-- <a href="/admin/category" class="btn btn-danger"><i
-                                            class="fas fa-times"></i>
-                                        Cancel</a>
-                                        <button type="submit" class="btn btn-primary" id="submitData"
-                                            style="float: right"><i class="fas fa-save"></i> Add Category</button> -->
                                                 <div class="mb-3">
-                                                    <input type="submit" class="btn btn-primary">
+                                                    <button type="submit" class="btn btn-primary" id="submitData"><i
+                                                            class="fas fa-save"></i> Save Category</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -73,6 +68,25 @@
             </div>
     </div>
     <script src="/vendor/jquery/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '#submitData', function (e) {
+                var catName = document.getElementById("catName").value;
+                '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
+                if (catName == '<%= data.catName %>') {
+                    e.preventDefault();
+                    swal({
+                        title: "Category with the same name already exists!",
+                        text: "Try editting the same category or adding a new one.",
+                        icon: "warning",
+                        dangerMode: true,
+                    })
+                }
+                '<% i++; }) } %>'
+            });
+        })
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/js/form-validator.js"></script>
     <script src="/js/script.js"></script>

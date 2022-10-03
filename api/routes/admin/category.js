@@ -30,19 +30,15 @@ router.get('/', checkAuth, (req, res) => {
         })
 })
 
-router.get('/add-category', checkAuth, (req, res) => {
-    res.render("./admin/category/add", { userType: req.session.type, userName: req.session.name })
+router.get('/add-category', checkAuth, async(req, res, next) => {
+    const documents = await Category.find().select().exec()
+    res.render("./admin/category/add", { catData: documents, userType: req.session.type, userName: req.session.name })
 })
 
 router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
     const { catName } = req.body;
 
     try {
-        const categoryExists = await Category.findOne({ catName: catName })
-
-        if (categoryExists) {
-            res.send('Category Already Exists. Try editting the same category or adding a new one!')
-        } else {
             var catFile = req.files.catImage[0]
             const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
             await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
@@ -57,20 +53,19 @@ router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
             categoryData.save().then((result) => {
                 res.redirect("/admin/category")
             })
-        }
     } catch (err) {
         console.log(err);
     }
 })
 
-router.get('/edit-category/:catID', [checkAuth, catUpload], (req, res) => {
+router.get('/edit-category/:catID', [checkAuth, catUpload], async(req, res, next) => {
     const id = req.params.catID
-    const allCatImages = Category.find().select("catImage")
+    const documents = await Category.find().select().exec()
 
     Category.findById(id,
         (err, doc) => {
             if (!err) {
-                res.render('./admin/category/edit', { catImage: allCatImages, categoryData: doc, userType: req.session.type, userName: req.session.name })
+                res.render('./admin/category/edit', {catData: documents, categoryData: doc, userType: req.session.type, userName: req.session.name })
             } else {
                 res.send('try-again')
             }
@@ -92,9 +87,7 @@ router.post("/edit-category/:catID", [checkAuth, catUpload], async (req, res) =>
 
     if (req.files.catImage) {
         var catFile = req.files.catImage[0]
-
         const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
-
         await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
         var url = await imageRef.getDownloadURL()
 

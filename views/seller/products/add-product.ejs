@@ -33,8 +33,8 @@
                                         <div class="card-body">
 
                                             <form action="/seller/products/add-product" enctype="multipart/form-data"
-                                                id="addProductForm" method="post" class="needs-validation" novalidate
-                                                accept-charset="utf-8">
+                                                id="addProductForm" onsubmit="return checkForm(this);" method="post"
+                                                class="needs-validation" novalidate accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-6">
                                                         <label for="category" class="form-label">Category</label>
@@ -149,11 +149,12 @@
                                                     </div>
                                                 </div>
 
-                                                <a href="/seller/products/?status=Pending" class="btn btn-danger"><i
+                                                <button class="btn btn-danger" onclick="prevPage()"><i
                                                         class="fas fa-times"></i>
-                                                    Cancel</a>
+                                                    Cancel</button>
                                                 <button type="submit" class="btn btn-primary" id="submitData"
-                                                    style="float: right"><i class="fas fa-save"></i> Add
+                                                    name="submitData" style="float: right"><i class="fas fa-save"></i>
+                                                    Add
                                                     Product</button>
                                             </form>
                                         </div>
@@ -164,10 +165,11 @@
                     </div>
             </div>
     </div>
-
     <script src="/vendor/jquery/jquery.min.js"></script>
-
     <script>
+        function prevPage() {
+            window.history.back();
+        }
         //Populate subcategory dropdown 
         function populate(category, subcategory) {
             var cat = document.getElementById("category");
@@ -205,7 +207,6 @@
                 '<% i++; }) %>'
                 '<% } %>'
             }
-
             var optionsArray = subcatValuesArray.split(", ")
             for (var option in optionsArray) {
                 var pair = optionsArray[option].split(",")
@@ -223,7 +224,18 @@
 
             var total = (actualPrice * discountPct) / 100;
             var finalPrice = actualPrice - total;
+            if (!Number.isInteger(finalPrice)) {
+                finalPrice = finalPrice.toFixed(2)
+            }
             finalPriceField.value = finalPrice;
+        }
+
+        function checkForm(form) {
+            if ($('form')[0].checkValidity()) {
+                form.submitData.disabled = true;
+                form.submitData.innerText = "Please Wait";
+                return true;
+            }
         }
     </script>
 
@@ -339,7 +351,7 @@
                 var specifications = moreSpecs(counter);
                 $("#showSpecifications").append(specifications);
                 counter++;
-                
+
                 $(document).on('click', '.removeSpecsBtn', function (e) {
                     e.preventDefault();
                     let row_item = $(this).parent().parent();
@@ -347,8 +359,24 @@
                 })
             });
         });
+
+        $(document).on('click', '#submitData', function (e) {
+            var prodName = document.getElementById("prodName").value;
+            '<% if(prodsData.length!=0){ var i=1; prodsData.forEach(function(data){ %>'
+            if (prodName == '<%= data.productName %>') {
+                e.preventDefault();
+                swal({
+                    title: "Product with the same name already exists!",
+                    text: "Try editting the same product or adding a new one.",
+                    icon: "warning",
+                    dangerMode: true,
+                })
+            }
+            '<% i++; }) } %>'
+        }); 
     </script>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
     <script src="/js/form-validator.js"></script>

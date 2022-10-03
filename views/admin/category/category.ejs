@@ -19,11 +19,11 @@
     <div class="wrapper">
         <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
-        <!-- end of sidebar component -->
-        <div id="body" class="active">
-            <!-- navbar navigation component -->
-            <%- include('../navbar') %>
-            <!-- end of navbar navigation -->
+            <!-- end of sidebar component -->
+            <div id="body" class="active">
+                <!-- navbar navigation component -->
+                <%- include('../navbar') %>
+                    <!-- end of navbar navigation -->
                     <div class="content">
                         <div class="container">
                             <div class="page-title">
@@ -65,10 +65,9 @@
                                                         <a href="/admin/category/edit-category/<%=data._id %>"
                                                             class="btn btn-outline-info btn-rounded"><i
                                                                 class="fas fa-pen"></i></a>
-                                                         <a href="/admin/category/delete-category/<%=data._id %>"
-                                                            class="btn btn-outline-danger btn-rounded"
-                                                           ><i
-                                                                class="fas fa-trash"></i></a>
+                                                        <button type="button" class="btn btn-outline-danger btn-rounded"
+                                                            onclick="sweetAlertTrigger('<%=data._id %>')">
+                                                            <i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                                 <% i++; }) %>
@@ -84,12 +83,29 @@
                             </div>
                         </div>
                     </div>
-    </div>
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/datatables/datatables.min.js"></script>
-    <script src="/js/initiate-datatables.js"></script>
-    <script src="/js/script.js"></script>
+            </div>
+            <script>
+                function sweetAlertTrigger(dataID) {
+                    swal({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this category!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                window.location = "/admin/category/delete-category/" + dataID
+                            }
+                        });
+                }
+            </script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/datatables/datatables.min.js"></script>
+            <script src="/js/initiate-datatables.js"></script>
+            <script src="/js/script.js"></script>
 </body>
 
 </html>
