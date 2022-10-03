@@ -191,7 +191,8 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 1rem 1rem 0px 0px;
-    object-fit: fill;
+    /* object-fit: fill; */
+    object-fit: contain;
 }
 
 .pro .des .prodCat {

@@ -113,6 +113,16 @@ var swiper = new Swiper(".productSwiper", {
     },
 });
 
+document.addEventListener("DOMContentLoaded", function(){
+    var myOffcanvas = document.getElementById('homeOffCanvas');
+    var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+    document.getElementById("navbar-toggler").addEventListener('click',function (e){
+      e.preventDefault();
+      e.stopPropagation();
+      bsOffcanvas.toggle();
+    });
+  });
+
 function wishlist(element, sellerID, productID, variantID, size) {
     if ($("#hidLogin").val()) {
         if (!element.classList.contains('i-red'))

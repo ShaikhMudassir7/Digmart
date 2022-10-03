@@ -85,7 +85,7 @@ function searchProd(el, tab) {
 }
 
 function sortProd(val, tab) {
-    const products = Array.from(document.querySelectorAll(tab + ' .prodContainer'))
+    var products = Array.from(document.querySelectorAll(tab + ' .prodContainer'))
     switch (val) {
         case 'Price Low to High':
             prodSort('.prodPrice', 'ascend')
@@ -95,7 +95,7 @@ function sortProd(val, tab) {
             break
         case 'Discounts':
             prodSort('.prodDiscount', 'descend')
-            break    
+            break
         default:
             products.forEach((prod) => {
                 prod.style.order = ''
@@ -105,16 +105,16 @@ function sortProd(val, tab) {
 
     function prodSort(selector, type) {
         var productsWithout = []
+        var productsWith = []
         if (selector == '.prodDiscount') {
-            products.forEach((prod, index, arr) => {
+            products.forEach((prod) => {
                 if (prod.querySelector(selector) == null) {
-                    arr.splice(index, 1)
                     productsWithout.push(prod)
-                }
+                    prod.style.order = products.length 
+                } else
+                    productsWith.push(prod)
             })
-            productsWithout.forEach((prod) => {
-                prod.style.order = products.length + 1
-            })
+            products = productsWith
         }
 
         products.sort(function (a, b) {

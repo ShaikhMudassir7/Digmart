@@ -23,9 +23,6 @@
         <%- include('navbar') %>
     </section>
 
-    <div class="text-center text-muted m-3 fs-1">
-        <%=catDocs.catName%>
-    </div>
     <div class="card">
         <nav class="position-relative">
             <button id="navLeft" class="btn"><i class="fas fa-angle-left"></i></button>
@@ -65,7 +62,6 @@
                                         <option value="" selected></option>
                                         <option value="Price Low to High">Price Low to high</option>
                                         <option value="Price High to Low">Price High to Low</option>
-                                        <option value="Popularity">Popularity</option>
                                         <option value="Discounts">Discounts</option>
                                         <option value="Ratings">Ratings</option>
                                     </select>
@@ -78,11 +74,11 @@
                                       </button>
                             </div>
                         </div>
-                        <div class="row justify-content-evenly ps-auto pe-auto">
+                        <div class="row justify-content-start ps-auto pe-auto">
                                 <% proDocs.forEach(function(product){
                                     if(product.subcategory == catArr[i]){
                                        %>
-                                    <div class="prodContainer flex-fill col-5 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">                                        
+                                    <div class="prodContainer col-6 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">                                        
                                         <div class="pro ms-auto me-auto">
                                             <% if(product.hasVariant){ 
                                                 for(j = 0; j < varDocs.length; j++){

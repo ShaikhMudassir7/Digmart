@@ -43,7 +43,6 @@ router.get('/variant/(:id)/(:colours)', (req, res) => {
             } else {
                 res.send('try-again')
             }
-
         })
 })
 
