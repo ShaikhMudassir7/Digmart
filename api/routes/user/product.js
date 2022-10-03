@@ -21,7 +21,6 @@ router.get('/view-product/(:id)', (req, res) => {
             } else {
                 res.send('try-again')
             }
-
         })
 })
 

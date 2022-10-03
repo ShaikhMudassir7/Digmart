@@ -28,11 +28,8 @@
                     <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
                 </a>
                 <button
-                    class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around me-3 position-relative"
-                    id="navbar-toggler">
-                    <span class="toggler-icon top-bar"></span>
-                    <span class="toggler-icon middle-bar"></span>
-                    <span class="toggler-icon bottom-bar"></span>
+                    class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around me-1 position-relative" id="navbar-toggler">
+                    <span class="fas fa-bars fs-4 text-white"></span>                
                 </button>
                 <div class="collapse navbar-collapse " id="navbar-menu">
                     <ul class="navbar-nav ms-auto me-2 me-lg-4 mb-2 mb-md-0">
@@ -165,7 +162,6 @@
                     <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn" type="button"><i class="fas fa-search"></i></button>
                 </div>
-
             </div>
 
         </div>
@@ -264,47 +260,45 @@
                     <div class="pro swiper-slide">
                         <%if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
                             if(varDocs[j].prodID.equals(product._id)){ %>
-                            <div class="imgDiv">
-                                <%if(varDocs[j].sizes[0].discount){%>
-                                    <div class="prodDiscount">
-                                        <%=varDocs[j].sizes[0].discount%>
-                                    </div>
-                                    <%}%>
-                                        <i class="fa fa-heart"
-                                            onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
-                                        <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
-                            </div>
-                            <div class="des px-2 text-start">
-                                <span class="prodCat d-block">
-                                    <%=product.category%>
-                                </span>
-                                <span class="prodName d-block">
-                                    <%=product.productName%>
-                                </span>
-                                <div class="prodRating"><i class="fa fa-star"> 4.2</i></div>
-                                <div>
-                                    <span class="prodPrice">
-                                        <%=varDocs[j].sizes[0].finalPrice%>
-                                    </span>
+                                <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
                                     <%if(varDocs[j].sizes[0].discount){%>
-                                        <span class="discPrice text-muted px-2">
-                                            <%=varDocs[j].sizes[0].actualPrice%>
-                                        </span>
+                                        <div class="prodDiscount">
+                                            <%=varDocs[j].sizes[0].discount%>
+                                        </div>
                                         <%}%>
+                                            <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                                 </div>
-                            </div>
+                                <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                                    <span class="prodCat d-block">
+                                        <%=product.category%>
+                                    </span>
+                                    <span class="prodName d-block">
+                                        <%=product.productName%>
+                                    </span>
+                                    <div class="prodRating"><i class="fa fa-star"> 4.2</i></div>
+                                    <div>
+                                        <span class="prodPrice">
+                                            <%=varDocs[j].sizes[0].finalPrice%>
+                                        </span>
+                                        <%if(varDocs[j].sizes[0].discount){%>
+                                            <span class="discPrice text-muted px-2">
+                                                <%=varDocs[j].sizes[0].actualPrice%>
+                                            </span>
+                                            <%}%>
+                                    </div>
+                                </div>
+                                <i class="fa fa-heart"
+                                    onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                             <%}}} else {%>
-                                <div class="imgDiv">
+                                <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
                                     <%if(product.discount){%>
                                         <div class="prodDiscount">
                                             <%=product.discount%>
                                         </div>
                                         <%}%>
-                                            <i class="fa fa-heart"
-                                                onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
                                             <img src="<%=product.images%>" alt="<%=product.productName%>">
                                 </div>
-                                <div class="des px-2 text-start">
+                                <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', null)">
                                     <span class="prodCat d-block">
                                         <%=product.category%>
                                     </span>
@@ -323,7 +317,9 @@
                                             <%}%>
                                     </div>
                                 </div>
-                                <%}%>
+                                <i class="fa fa-heart"
+                                    onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
+                            <%}%>
                     </div>
                     <%})%>
             </div>

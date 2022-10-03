@@ -21,82 +21,8 @@ body {
     height: 45px;
 }
 
-.navbar-toggler {
-    width: 1rem;
-    height: 1rem;
-    transition: .5s ease-in-out;
-}
-
-.navbar-toggler,
-.navbar-toggler:focus,
-.navbar-toggler:active,
-.navbar-toggler-icon:focus {
-    outline: none;
+#navbar-toggler:focus{
     box-shadow: none;
-    border: 0;
-    position: relative;
-}
-
-.navbar-toggler span {
-    margin: 0;
-    padding: 0;
-}
-
-.toggler-icon {
-    display: block;
-    position: absolute;
-    height: 0.165rem;
-    width: 85%;
-    background: white;
-    border-radius: 10px;
-    opacity: 1;
-    left: 0;
-    transform: rotate(0deg);
-    transition: .25s ease-in-out;
-}
-
-.middle-bar {
-    margin-top: 0px;
-}
-
-
-/* State when the navbar is collapsed */
-
-.navbar-toggler.collapsed .top-bar {
-    position: absolute;
-    top: 0px;
-    transform: rotate(0deg);
-}
-
-.navbar-toggler.collapsed .middle-bar {
-    opacity: 1;
-    position: absolute;
-    top: 10px;
-    filter: alpha(opacity=100);
-}
-
-.navbar-toggler.collapsed .bottom-bar {
-    position: absolute;
-    top: 20px;
-    transform: rotate(0deg);
-}
-
-/* when navigation is clicked */
-
-.navbar-toggler .top-bar {
-    top: inherit;
-    transform: rotate(135deg);
-}
-
-.navbar-toggler .middle-bar {
-    opacity: 0;
-    top: inherit;
-    filter: alpha(opacity=0);
-}
-
-.navbar-toggler .bottom-bar {
-    top: inherit;
-    transform: rotate(-135deg);
 }
 
 .nav-link,
@@ -422,12 +348,11 @@ body {
     content: '% off';
 }
 
-#product1 .pro .imgDiv:hover .fa-heart {
-    position: absolute;
+#product1 .pro:hover .fa-heart {
     top: 10px;
 }
 
-#product1 .pro .imgDiv .fa-heart {
+#product1 .pro .fa-heart {
     position: absolute;
     top: -50px;
     right: 0.7rem;
@@ -436,7 +361,7 @@ body {
     transition: all 0.5s;
 }
 
-#product1 .pro .imgDiv .i-red {
+#product1 .pro .i-red {
     color: red;
 }
 

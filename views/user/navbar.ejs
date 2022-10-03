@@ -103,7 +103,7 @@
             <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
         </a>
 
-        <% if (catDocs.catName) { %>
+        <% if (locals.catDocs) { %>
             <div class="fs-5 text-white">
                 <%=catDocs.catName%>
             </div>
@@ -122,8 +122,8 @@
                             data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
                         <ul class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="nav-dropdown-btn">
                             <% if (!user) { %>
-                                <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal">Sign
-                                        in</a>
+                                <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal"><i
+                                            class="fas fa-sign-in-alt"></i> Sign in</a>
                                 </li>
                                 <% } else{%>
                                     <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My Orders</a></li>
