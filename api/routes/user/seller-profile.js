@@ -9,21 +9,20 @@ const Seller = require("../../models/seller/seller");
 const SellerGall = require("../../models/seller/gallery");
 
 // Route of product page
-router.get("/(:galleryID)", async (req, res, next) => {
+router.get("/(:sellerID)", async (req, res, next) => {
+  var id = req.params.sellerID;
+  const images = await SellerGall.findOne({sellerID:id}).select("images");
   
-  var galleryID = req.params.galleryID;
-  const doc = await SellerGall.findById(galleryID);
-  var id = doc.sellerID;
   const element = await Seller.findById(id);
 
-  
-  SellerGall.find({ sellerID: id })
+
+  SellerGall.find({sellerID:id})
     .select()
     .exec()
     .then((docs) => {
-      console.log("sellerID"+ id);
+      console.log("sellerID"+ id+" Gal "+images.images[0]);
       res.render("./user/seller-profile", {
-        galleryData: doc,
+        galleryData: images,
         sellerID: id,
         sellerData: element,
         user: req.session.userid,

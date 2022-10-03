@@ -121,9 +121,9 @@
               2,47,770 Ratings & 24,853 Reviews</p>
             <%if(variantsData.length!=0){%>
 
-              <p class="card-text fs-2" id="noDiscount" style="display: none;">
+              <strong><p class="card-text fs-2 text-dark" id="noDiscount" style="display: none;">
 
-              </p>
+              </p></strong>
               <div id="withDiscount" style="display: none;">
                 <p class="card-text fs-2 text-dark mb-0">
                   <strong id="finalPrice">
@@ -591,7 +591,7 @@
                 count = btnval;
                 document.getElementById(btnval + 'size').classList.remove('btn')
                 document.getElementById(btnval + 'size').classList.add('sizebutton')
-                if (res.discount == "") {
+                if (res.discount==null) {
                   withDiscount.style.display = "none"
                   noDiscount.style.display = "inline"
                   noDiscount.innerText = '₹ ' + res.finalPrice
@@ -607,7 +607,7 @@
               }
             })
           }
-          if ('<%=variantData.sizes[0].discount%>' == "") {
+          if ('<%=variantData.sizes[0].discount%>==null') {
             withDiscount.style.display = "none"
             noDiscount.style.display = "inline"
             noDiscount.innerText = '₹ <%=variantData.sizes[0].finalPrice%>'

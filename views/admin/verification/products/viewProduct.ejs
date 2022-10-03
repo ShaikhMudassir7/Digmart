@@ -53,7 +53,8 @@
                                             <%if(variantsData.length==0){%>
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
-                                                        <label for="productImages" class="form-label">Product Images</label>
+                                                        <label for="productImages" class="form-label">Product
+                                                            Images</label>
                                                     </div>
                                                     <% for (let a=0; a < productData.images.length; a++){ %>
                                                         <div class=" col-md-3">
@@ -64,7 +65,7 @@
                                                         </div>
                                                         <% } %>
                                                 </div>
-                                                
+
 
                                                 <div class="row g-2 mt-4 ">
                                                     <div class="mb-3 col-md-4">
@@ -76,11 +77,11 @@
                                                                 min="1" pattern="[0-9]{1,9}"
                                                                 onblur="calculate('discount', this.value )"
                                                                 placeholder="Eg. 30000" disabled>
-    
-    
+
+
                                                         </div>
                                                     </div>
-    
+
                                                     <div class="mb-3 col-md-4">
                                                         <label for="discount" class="form-label">Discount
                                                             <span class="text-muted"> (Optional)</span>
@@ -90,11 +91,12 @@
                                                             <input type="text" class="form-control" name="discount"
                                                                 value="<%=productData.discount %>" id="discount"
                                                                 onblur="calculate(this.value, 'actualPrice')"
-                                                                placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}" disabled>
-    
+                                                                placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}"
+                                                                disabled>
+
                                                         </div>
                                                     </div>
-    
+
                                                     <div class="mb-3 col-md-4">
                                                         <label for="finalPrice" class="form-label">Final Price</label>
                                                         <div class="input-group">
@@ -102,242 +104,296 @@
                                                             <input type="number" class="form-control" name="finalPrice"
                                                                 value="<%=productData.finalPrice %>" id="finalPrice"
                                                                 placeholder="Final Price (Auto calculated)" disabled>
-    
-    
+
+
                                                         </div>
                                                     </div>
-    
+
                                                 </div>
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
                                                         <label for="quantity" class="form-label">Quantity
                                                             <span class="text-muted"> (Optional)</span>
                                                         </label>
-                                                        <input type="number" class="form-control" name="quantity" min="1"
-                                                            value="<%=productData.quantity %>" placeholder="e.g. 50"
-                                                            disabled>
-    
+                                                        <input type="number" class="form-control" name="quantity"
+                                                            min="1" value="<%=productData.quantity %>"
+                                                            placeholder="e.g. 50" disabled>
+
                                                     </div>
                                                 </div>
                                                 <%}%>
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="productName" class="form-label">Product Name</label>
-                                                    <input type="name" class="form-control" name="productName"
-                                                        value="<%=productData.productName %>" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="description" class="form-label">Product
-                                                        Description</label>
-                                                    <textarea type="name" class="form-control" name="description"
-                                                        disabled><%=productData.description %></textarea>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-6">
-                                                    <label for="category" class="form-label">Category</label>
-                                                    <input type="name" class="form-control" name="category"
-                                                        id="category" value="<%=productData.category %>" disabled>
-                                                </div>
-
-                                                <div class="mb-3 col-md-6">
-                                                    <label for="subcategory" class="form-label">Subcategory</label>
-                                                    <input type="name" class="form-control" name="subcategory"
-                                                        id="subcategory" value="<%=productData.subcategory %>" disabled>
-                                                </div>
-                                            </div>
-
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="brand" class="form-label">Brand
-                                                        <span class="text-muted"> (Optional)</span>
-                                                    </label>
-                                                    <input type="name" class="form-control" name="brand"
-                                                        value="<%=productData.brand %>" disabled>
-
-                                                </div>
-                                            </div>
-
-                                            <br>
-                                            <div class="row g-2">
-                                                <div class="col-md-12">
-                                                    <div class="card border border-dark">
-                                                        <div class="card-header fw-bold text-dark"
-                                                            style="background-color: rgb(213, 213, 213);">Product
-                                                            Variants</div>
-                                                        <div class="card-body">
-                                                            <% if(variantsData.length!=0) { var i=0;
-                                                                variantsData.forEach(function(data){
-                                                                if(data.status=="Pending" ){%>
-                                                                <div class="row g-2">
-                                                                    <div class="mb-3 col-md-12">
-                                                                        <label for="productName"
-                                                                            class="form-label">Product
-                                                                            Images</label>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="row g-2">
-                                                                    <% for (let a=0; a < data.images.length; a++){ %>
-                                                                        <div class=" col-md-3">
-                                                                            <div class="item">
-                                                                                <img src="<%=data.images[a]%>"
-                                                                                    style="width: 100%; ">
-                                                                            </div>
-                                                                        </div>
-                                                                        <% } %>
-                                                                </div>
-                                                                <br>
-                                                                <div class="row g-2">
-                                                                    <div class="mb-3 col-md-4 d-grid">
-                                                                        <label for="colours" class="form-label">Colour
-                                                                        </label>
-                                                                        <input type="name" class="form-control"
-                                                                            name="colours" value="<%=data.colours %>"
-                                                                            disabled>
-
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="row g-2">
-                                                                    <div class="col-md-2">
-                                                                        <label for="sizes" class="form-label">Sizes
-                                                                        </label>
-                                                                    </div>
-
-                                                                    <div class="col-md-2">
-                                                                        <label for="quantity"
-                                                                            class="form-label">Quantity
-                                                                        </label>
-                                                                    </div>
-
-                                                                    <div class="col-md-2">
-                                                                        <label for="actualPrice"
-                                                                            class="form-label">Actual
-                                                                            Price</label>
-                                                                    </div>
-
-                                                                    <div class="col-md-2">
-                                                                        <label for="discount"
-                                                                            class="form-label">Discount
-                                                                        </label>
-                                                                    </div>
-
-                                                                    <div class="col-md-2">
-                                                                        <label for="finalPrice" class="form-label">Final
-                                                                            Price</label>
-                                                                    </div>
-                                                                </div>
-
-
-                                                                <div id="appendItems">
-                                                                    <% for (let i in data.sizes){ %>
-                                                                        <div class="row g-2">
-                                                                            <div class="mb-3 col-md-2">
-                                                                                <select name="sizes[]"
-                                                                                    class="form-select" id="sizes"
-                                                                                    disabled>
-                                                                                    <option
-                                                                                        value="<%=data.sizes[i].sizes %>"
-                                                                                        id="element">
-                                                                                        <%=data.sizes[i].sizes %>
-                                                                                    </option>
-                                                                                    <option value="XS">XS</option>
-                                                                                    <option value="S">S</option>
-                                                                                    <option value="M">M</option>
-                                                                                    <option value="L">L</option>
-                                                                                    <option value="XL">XL</option>
-                                                                                    <option value="XXL">XXL</option>
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="mb-3 col-md-2">
-                                                                                <input type="number"
-                                                                                    class="form-control"
-                                                                                    name="quantity[]"
-                                                                                    value="<%=data.sizes[i].quantity %>"
-                                                                                    min="1" disabled>
-                                                                            </div>
-
-                                                                            <div class="mb-3 col-md-2">
-                                                                                <div class="input-group">
-                                                                                    <span
-                                                                                        class="input-group-text">&#8377;</span>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        name="actualPrice[]"
-                                                                                        value="<%=data.sizes[i].actualPrice %>"
-                                                                                        id="actualPrice" min="1"
-                                                                                        disabled>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="mb-3 col-md-2">
-                                                                                <div class="input-group">
-                                                                                    <span
-                                                                                        class="input-group-text">%</span>
-                                                                                    <input type="text"
-                                                                                        class="form-control"
-                                                                                        name="discount[]" id="discount"
-                                                                                        value="<%=data.sizes[i].discount %>"
-                                                                                        min="1" disabled>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="mb-3 col-md-2">
-                                                                                <div class="input-group">
-                                                                                    <span
-                                                                                        class="input-group-text">&#8377;</span>
-                                                                                    <input type="number"
-                                                                                        class="form-control"
-                                                                                        name="finalPrice[]"
-                                                                                        id="finalPrice"
-                                                                                        value="<%=data.sizes[i].finalPrice %>"
-                                                                                        disabled>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <% } %>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <button type="button" value="<%=data._id%>"
-                                                                            id="<%=data._id%>accept"
-                                                                            onclick="check(this)"
-                                                                            class="btn btn-sm btn-outline-success"
-                                                                            style="float: right;"><i
-                                                                                class="fas fa-check"></i>
-                                                                            Accept</button>
-                                                                        <button type="button" value="<%=data._id%>"
-                                                                            onclick="check(this)"
-                                                                            id="<%=data._id%>reject"
-                                                                            class="btn btn-sm btn-outline-danger"><i
-                                                                                class="fas fa-times"></i>
-                                                                            Reject</button>
-                                                                    </div>
-                                                                </div>
-
-
-                                                                <hr style="border: 1px solid black;" class="col-md-12">
-                                                                <% }i++; })} else{ %>
-                                                                    No Variants for this propduct
-                                                                    <% }%>
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="productName" class="form-label">Product
+                                                                Name</label>
+                                                            <input type="name" class="form-control" name="productName"
+                                                                value="<%=productData.productName %>" disabled>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row g-2">
-                                                <div class="mb-3 col-md-12">
-                                                    <label for="productName" class="form-label">Status</label>
-                                                    <input type="name" class="form-control" name="_id"
-                                                        value="<%=productData.status %>" disabled>
-                                                </div>
-                                            </div>
+
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="description" class="form-label">Product
+                                                                Description</label>
+                                                            <textarea type="name" class="form-control"
+                                                                name="description"
+                                                                disabled><%=productData.description %></textarea>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="category" class="form-label">Category</label>
+                                                            <input type="name" class="form-control" name="category"
+                                                                id="category" value="<%=productData.category %>"
+                                                                disabled>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-6">
+                                                            <label for="subcategory"
+                                                                class="form-label">Subcategory</label>
+                                                            <input type="name" class="form-control" name="subcategory"
+                                                                id="subcategory" value="<%=productData.subcategory %>"
+                                                                disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="brand" class="form-label">Brand
+                                                                <span class="text-muted"> (Optional)</span>
+                                                            </label>
+                                                            <input type="name" class="form-control" name="brand"
+                                                                value="<%=productData.brand %>" disabled>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <br>
+                                                    <div class="row g-2">
+                                                        <div class="col-md-12">
+                                                            <div class="card border border-dark">
+                                                                <div class="card-header fw-bold text-dark"
+                                                                    style="background-color: rgb(213, 213, 213);">
+                                                                    Product
+                                                                    Variants</div>
+                                                                <div class="card-body">
+                                                                    <% if(variantsData.length!=0) { var i=0;
+                                                                        variantsData.forEach(function(data){
+                                                                        if(data.status=="Pending" ){%>
+                                                                        <div class="row g-2">
+                                                                            <div class="mb-3 col-md-12">
+                                                                                <label for="productName"
+                                                                                    class="form-label">Product
+                                                                                    Images</label>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row g-2">
+                                                                            <% for (let a=0; a < data.images.length;
+                                                                                a++){ %>
+                                                                                <div class=" col-md-3">
+                                                                                    <div class="item" style="max-width: 200px; max-height: 300px;">
+                                                                                        <img src="<%=data.images[a]%>"
+                                                                                            style="width: 100%; ">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <% } %>
+                                                                        </div>
+                                                                        <br>
+                                                                        <div class="row g-2">
+                                                                            <div class="mb-3 col-md-4 d-grid">
+                                                                                <label for="colours"
+                                                                                    class="form-label">Colour
+                                                                                </label>
+                                                                                <input type="name" class="form-control"
+                                                                                    name="colours"
+                                                                                    value="<%=data.colours %>" disabled>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row g-2">
+                                                                            <div class="col-md-2">
+                                                                                <label for="sizes"
+                                                                                    class="form-label">Sizes
+                                                                                </label>
+                                                                            </div>
+
+                                                                            <div class="col-md-2">
+                                                                                <label for="quantity"
+                                                                                    class="form-label">Quantity
+                                                                                </label>
+                                                                            </div>
+
+                                                                            <div class="col-md-2">
+                                                                                <label for="actualPrice"
+                                                                                    class="form-label">Actual
+                                                                                    Price</label>
+                                                                            </div>
+
+                                                                            <div class="col-md-2">
+                                                                                <label for="discount"
+                                                                                    class="form-label">Discount
+                                                                                </label>
+                                                                            </div>
+
+                                                                            <div class="col-md-2">
+                                                                                <label for="finalPrice"
+                                                                                    class="form-label">Final
+                                                                                    Price</label>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div id="appendItems">
+                                                                            <% for (let i in data.sizes){ %>
+                                                                                <div class="row g-2">
+                                                                                    <div class="mb-3 col-md-2">
+                                                                                        <select name="sizes[]"
+                                                                                            class="form-select"
+                                                                                            id="sizes" disabled>
+                                                                                            <option
+                                                                                                value="<%=data.sizes[i].sizes %>"
+                                                                                                id="element">
+                                                                                                <%=data.sizes[i].sizes
+                                                                                                    %>
+                                                                                            </option>
+                                                                                            <option value="XS">XS
+                                                                                            </option>
+                                                                                            <option value="S">S</option>
+                                                                                            <option value="M">M</option>
+                                                                                            <option value="L">L</option>
+                                                                                            <option value="XL">XL
+                                                                                            </option>
+                                                                                            <option value="XXL">XXL
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+
+                                                                                    <div class="mb-3 col-md-2">
+                                                                                        <input type="number"
+                                                                                            class="form-control"
+                                                                                            name="quantity[]"
+                                                                                            value="<%=data.sizes[i].quantity %>"
+                                                                                            min="1" disabled>
+                                                                                    </div>
+
+                                                                                    <div class="mb-3 col-md-2">
+                                                                                        <div class="input-group">
+                                                                                            <span
+                                                                                                class="input-group-text">&#8377;</span>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                name="actualPrice[]"
+                                                                                                value="<%=data.sizes[i].actualPrice %>"
+                                                                                                id="actualPrice" min="1"
+                                                                                                disabled>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="mb-3 col-md-2">
+                                                                                        <div class="input-group">
+                                                                                            <span
+                                                                                                class="input-group-text">%</span>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                name="discount[]"
+                                                                                                id="discount"
+                                                                                                value="<%=data.sizes[i].discount %>"
+                                                                                                min="1" disabled>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="mb-3 col-md-2">
+                                                                                        <div class="input-group">
+                                                                                            <span
+                                                                                                class="input-group-text">&#8377;</span>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                name="finalPrice[]"
+                                                                                                id="finalPrice"
+                                                                                                value="<%=data.sizes[i].finalPrice %>"
+                                                                                                disabled>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <% } %>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <button type="button"
+                                                                                    value="<%=data._id%>"
+                                                                                    id="<%=data._id%>accept"
+                                                                                    onclick="check(this)"
+                                                                                    class="btn btn-sm btn-outline-success"
+                                                                                    style="float: right;"><i
+                                                                                        class="fas fa-check"></i>
+                                                                                    Accept</button>
+                                                                                <button type="button"
+                                                                                    onclick="check(this)"
+                                                                                    id="<%=data._id%>reject"
+                                                                                    value="<%=data._id%>"
+                                                                                    class="btn btn-sm btn-outline-danger"><i
+                                                                                        class="fas fa-times"></i>
+                                                                                    Reject</button>
+                                                                            </div>
+                                                                            <!-- Variant modal -->
+                                                                            <div class="modal fade" id="variantBackdrop"
+                                                                                data-bs-backdrop="static"
+                                                                                data-bs-keyboard="false" tabindex="-1"
+                                                                                aria-labelledby="staticBackdropLabel"
+                                                                                aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title"
+                                                                                                id="staticBackdropLabel">
+                                                                                                REMARKS
+
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                class="btn-close"
+                                                                                                data-bs-dismiss="modal"
+                                                                                                aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <label for="varrejectText"
+                                                                                                class="form-label">Reason(s)
+                                                                                                for Rejection</label>
+                                                                                            <input type="text"
+                                                                                                class="form-control"
+                                                                                                name="varrejectText"
+                                                                                                id="varrejectText">
+                                                                                        </div>
+
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button" onclick="chkmodal()"
+                                                                                                class="btn btn-primary">Reject</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <hr style="border: 1px solid black;"
+                                                                            class="col-md-12">
+                                                                        <% }i++; })} else{ %>
+                                                                            No Variants for this propduct
+                                                                            <% }%>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="productName" class="form-label">Status</label>
+                                                            <input type="name" class="form-control" name="_id"
+                                                                value="<%=productData.status %>" disabled>
+                                                        </div>
+                                                    </div>
                                         </div>
                                     </div>
 
@@ -346,9 +402,11 @@
                                         class="btn btn-danger"><i class="fas fa-times"></i>
                                         Reject Product</button>
                                     <button type="button" class="btn btn-primary"
-                                        onclick="checkvariant('<%=productData._id %>','Verified')"
-                                        id="submitData" style="float:right"><i class="fas fa-check"></i>
+                                        onclick="checkvariant('<%=productData._id %>','Verified')" id="submitData"
+                                        style="float:right"><i class="fas fa-check"></i>
                                         Accept Product</button>
+
+
 
 
                                     <!-- Save changes Warning Modal -->
@@ -369,7 +427,7 @@
                                                             aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <label for="productName" class="form-label">Reason(s)
+                                                        <label for="rejectText" class="form-label">Reason(s)
                                                             for Rejection</label>
                                                         <input type="text" class="form-control" name="rejectText"
                                                             id="rejectText">

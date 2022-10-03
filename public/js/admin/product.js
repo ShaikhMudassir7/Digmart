@@ -1,6 +1,6 @@
+var btnval;
 function check(abc) {
     btnval = abc.value;
-
     if (document.getElementById(btnval + "accept").classList.contains("active")) {
         document.getElementById(btnval + "accept").classList.remove("active");
     }
@@ -10,17 +10,31 @@ function check(abc) {
     document.getElementById(abc.id).classList.add("active");
     if (document.getElementById(btnval + "accept").classList.contains("active")) {
         var status="Verified"
+        $.ajax({
+            url: "/admin/verification/verify-variant",
+            type: "POST",
+            data: {
+                variantID: btnval,
+                status: status,
+            },
+        })
     }else{
-        var status="Rejected"
+        $('#variantBackdrop').modal('show');
     }
-    $.ajax({
-        url: "/admin/verification/verify-variant",
-        type: "POST",
-        data: {
-            variantID: btnval,
-            status: status,
-        },
-    })
+    
+}
+
+function chkmodal(val){
+val="Rejected : " +document.getElementById("varrejectText").value
+$('#variantBackdrop').modal('hide');
+$.ajax({
+    url: "/admin/verification/verify-variant",
+    type: "POST",
+    data: {
+        variantID: btnval,
+        status: val,
+    },
+})
 }
 
 function checkvariant(id,status) {

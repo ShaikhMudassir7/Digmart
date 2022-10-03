@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const Seller = require("../../models/seller/seller")
 const Products = require("../../models/seller/product")
 const Admin = require("../../models/admin/admin")
+const Variants = require('../../models/seller/variants');
 
 const checkAuth = require("../../middleware/admin/checkAuth");
 
@@ -107,19 +108,38 @@ router.get('/dashboard', checkAuth, async (req, res) => {
         .then(docs => {
             count.totalProduct = docs.length
         })
-    await Products.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
-        .then(docs => {
-            count.rejectedProduct = docs.length
-        })
+
+    rejectprodID=[];
+    await Variants.find({
+        $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }]
+    }).then(docs => {
+        docs.forEach(data => {
+            rejectprodID.push(data.prodID);
+        })})
+    await Products.find({
+        $or: [{ _id: { $in: rejectprodID} }, { $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] }]
+    }).then(docs => {
+        count.rejectedProduct = docs.length
+    })
+
     await Products.find({ status: "Verified" })
         .then(docs => {
             count.verifiedProduct = docs.length
         })
-    await Products.find({ status: "Pending" })
-        .then(docs => {
-            count.pendingProduct = docs.length
 
-        })
+    prodID=[];
+    await Variants.find({
+        status: "Pending",
+    }).then(docs => {
+        docs.forEach(data => {
+            prodID.push(data.prodID);
+        })})
+    await Products.find({
+        $or: [{ _id: { $in: prodID} }, { status: "Pending" }]
+    }).then(docs => {
+        count.pendingProduct = docs.length
+    })
+
     res.render("admin/dashboard", { userType: req.session.type, userName: req.session.name, countarr: count });
 })
 
