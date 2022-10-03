@@ -25,7 +25,7 @@ router.get('/view-product/(:id)', (req, res) => {
         })
 })
 
-router.get('/variant/(:id)/(:colours)', (req, res) => {
+router.get('/variant/(:id)/(:variantID)', (req, res) => {
     const allImages = Variants.find().select("images")
     var id = req.params.id;
     var vd;
@@ -36,7 +36,7 @@ router.get('/variant/(:id)/(:colours)', (req, res) => {
                     .then(docs => {
                         vd = docs;
                     })
-                await Variants.findOne({ prodID: id, colours: req.params.colours })
+                await Variants.findOne({ _id: req.params.variantID})
                     .then(doc => {
                         res.render('./user/product', { images: allImages, variantData: doc, variantsData: vd, productData: element, user: req.session.userid });
                     })

@@ -121,9 +121,9 @@
               2,47,770 Ratings & 24,853 Reviews</p>
             <%if(variantsData.length!=0){%>
 
-              <p class="card-text fs-2" id="noDiscount" style="display: none;">
+              <strong><p class="card-text fs-2 text-dark" id="noDiscount" style="display: none;">
 
-              </p>
+              </p></strong>
               <div id="withDiscount" style="display: none;">
                 <p class="card-text fs-2 text-dark mb-0">
                   <strong id="finalPrice">
@@ -141,7 +141,7 @@
               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                 <%var i=0; variantsData.forEach(function(data){ %>
                   <button type="button" id="<%= i%>color"
-                    onclick="window.location.href='/product/variant/<%=data.prodID %>/<%=data.colours %>'"
+                    onclick="window.location.href='/product/variant/<%=data.prodID %>/<%=data._id %>'"
                     name="<%=data.colours %>"
                     style="padding-left: 20px; padding-top: 20px; padding-right: 20px; background-color: <%=data.colours %> ;"
                     class="btn"></button>
@@ -160,7 +160,7 @@
                   <% }%>
               </div><br><br>
               <div>
-                <a onclick="addwishlist('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>')"
+                <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')"
                   class="btn p-3" style="background: rgb(94, 45, 129);color: white;"><i class="fa fa-cart-plus"></i>
                   &nbsp;ADD TO
                   CART</a>
@@ -182,7 +182,7 @@
                 <p class="card-text"><small class="text-muted">include of all taxes</small></p>
                 <br>
                 <div>
-                  <a href="/cart/add-to-cart/<%= productData._id%>/<%=productData.sellerID%>" class="btn p-3"
+                  <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class="btn p-3"
                     style="background: rgb(94, 45, 129);color: white;"><i class="fa fa-cart-plus"></i>
                     &nbsp;ADD TO
                     CART</a>
@@ -591,7 +591,7 @@
                 count = btnval;
                 document.getElementById(btnval + 'size').classList.remove('btn')
                 document.getElementById(btnval + 'size').classList.add('sizebutton')
-                if (res.discount == "") {
+                if (res.discount==null) {
                   withDiscount.style.display = "none"
                   noDiscount.style.display = "inline"
                   noDiscount.innerText = '₹ ' + res.finalPrice
@@ -607,7 +607,7 @@
               }
             })
           }
-          if ('<%=variantData.sizes[0].discount%>' == "") {
+          if ('<%=variantData.sizes[0].discount%>==null') {
             withDiscount.style.display = "none"
             noDiscount.style.display = "inline"
             noDiscount.innerText = '₹ <%=variantData.sizes[0].finalPrice%>'
