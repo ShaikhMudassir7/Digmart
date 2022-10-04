@@ -20,7 +20,6 @@ router.get("/(:sellerID)", async (req, res, next) => {
     .select()
     .exec()
     .then((docs) => {
-      console.log("sellerID"+ id+" Gal "+images.images[0]);
       res.render("./user/seller-profile", {
         galleryData: images,
         sellerID: id,
@@ -28,11 +27,5 @@ router.get("/(:sellerID)", async (req, res, next) => {
         user: req.session.userid,
       });
     })
-    .catch((err) => {
-      console.log("Error: " + err);
-      res.status(500).json({
-        error: err,
-      });
-    });
 });
 module.exports = router;
