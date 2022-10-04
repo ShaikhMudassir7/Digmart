@@ -66,7 +66,7 @@ router.post('/add-to-wishlist', async (req, res) => {
 router.post('/add-product', async (req, res) => {
     if (req.body.variantID)
         var wishDocs = await Wishlist.find({
-            userID: req.body.userID,
+            userID: req.session.userid,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
             variantID: req.body.variantID,
@@ -74,7 +74,7 @@ router.post('/add-product', async (req, res) => {
         })
     else
         var wishDocs = await Wishlist.find({
-            userID: req.body.userID,
+            userID: req.session.userid,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
         })
@@ -82,7 +82,7 @@ router.post('/add-product', async (req, res) => {
         if (req.body.variantID)
             var wishlistdata = new Wishlist({
                 _id: mongoose.Types.ObjectId(),
-                userID: req.body.userID,
+                userID: req.session.userid,
                 sellerID: req.body.sellerID,
                 productID: req.body.productID,
                 variantID: req.body.variantID,
@@ -91,7 +91,7 @@ router.post('/add-product', async (req, res) => {
         else
             var wishlistdata = new Wishlist({
                 _id: mongoose.Types.ObjectId(),
-                userID: req.body.userID,
+                userID: req.session.userid,
                 sellerID: req.body.sellerID,
                 productID: req.body.productID,
             })
@@ -103,14 +103,14 @@ router.post('/add-product', async (req, res) => {
 router.post('/remove-product', async (req, res) => {
     if (req.body.variantID) {
         await Wishlist.deleteOne({
-            userID: req.body.userID,
+            userID: req.session.userid,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
             variantID: req.body.variantID,
             size: req.body.size,
         })
     } else {
-        await Wishlist.deleteOne({ userID: req.body.userID, sellerID: req.body.sellerID, productID: req.body.productID })
+        await Wishlist.deleteOne({ userID: req.session.userid, sellerID: req.body.sellerID, productID: req.body.productID })
     }
     res.json({ status: true });
 })

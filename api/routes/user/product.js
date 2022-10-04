@@ -21,7 +21,6 @@ router.get('/view-product/(:id)', (req, res) => {
             } else {
                 res.send('try-again')
             }
-
         })
 })
 
@@ -43,7 +42,6 @@ router.get('/variant/(:id)/(:variantID)', (req, res) => {
             } else {
                 res.send('try-again')
             }
-
         })
 })
 
