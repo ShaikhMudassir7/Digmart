@@ -41,7 +41,7 @@ router.get('/(:userID)', async (req, res) => {
 })
 
 router.post('/add-to-cart', async (req, res) => {
-   
+   var status = true;
     if (req.body.variantID) {
         var cartdata = new Cart({
             _id: mongoose.Types.ObjectId(),
@@ -53,6 +53,13 @@ router.post('/add-to-cart', async (req, res) => {
             size: req.body.size,
             quantity: "1"
         })
+        
+        await Cart.find({ variantID:  req.body.variantID,userID: req.session.userid}).then(doc => {
+            if(doc.length!=0){
+                status=false;
+                res.json({ status: status });
+            }
+        })
     }
     else {
         var cartdata = new Cart({
@@ -62,11 +69,19 @@ router.post('/add-to-cart', async (req, res) => {
             productID: req.body.productID,
             quantity: "1"
         })
+        await Cart.find({ productID:  req.body.productID,userID: req.session.userid}).then(doc => {
+            if(doc.length!=0){
+                status=false;
+                res.json({ status: status });
+            }
+        })
     }
-
-    await cartdata.save().then(result => {
-        res.json({ status: true });
-    })
+    if(status){
+        await cartdata.save().then(result => {
+            res.json({ status: true });
+        })
+    }
+   
 })
 
 router.get('/delete-cart/(:cartID)', (req, res) => {
@@ -81,7 +96,6 @@ router.get('/delete-cart/(:cartID)', (req, res) => {
 })
 
 router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
-    console.log(req.params.qty)
     Cart.find({
         _id: req.params.id
     })

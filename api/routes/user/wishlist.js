@@ -3,7 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Wishlist = require('../../models/user/wishlist');
-const Seller = require("../../models/seller/seller")
+const Seller = require("../../models/seller/seller");
+const wishlist = require("../../models/user/wishlist");
 
 
 router.get('/(:userID)', async (req, res) => {
@@ -39,6 +40,7 @@ router.get('/(:userID)', async (req, res) => {
 })
 
 router.post('/add-to-wishlist', async (req, res) => {
+   var status = true;
     if (req.body.variantID) {
         var wishlistdata = new Wishlist({
             _id: mongoose.Types.ObjectId(),
@@ -48,6 +50,12 @@ router.post('/add-to-wishlist', async (req, res) => {
             productID: req.body.productID,
             size: req.body.size,
         })
+        await Wishlist.find({ variantID:  req.body.variantID,userID: req.session.userid}).then(doc => {
+            if(doc.length!=0){
+                status=false;
+                res.json({ status: status });
+            }
+        })
     }
     else {
         var wishlistdata = new Wishlist({
@@ -56,11 +64,19 @@ router.post('/add-to-wishlist', async (req, res) => {
             sellerID: req.body.sellerID,
             productID: req.body.productID,
         })
+        await Wishlist.find({ productID:  req.body.productID,userID: req.session.userid}).then(doc => {
+            if(doc.length!=0){
+                status=false;
+                res.json({ status: status });
+            }
+        })
     }
-
-    await wishlistdata.save().then(result => {
-        res.json({ status: true });
-    })
+    if(status){
+        await wishlistdata.save().then(result => {
+            res.json({ status: true });
+        })
+    }
+    
 })
 
 router.post('/add-product', async (req, res) => {
