@@ -18,7 +18,7 @@ var upload = multer({ storage: store });
 
 var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 
-router.get('/:id', checkAuth, async(req, res) => {
+router.get('/:id', checkAuth, async (req, res) => {
     var id = req.params.id;
     var sizeArr = [];
     var doc = await Products.findById(req.params.id)
@@ -38,20 +38,28 @@ router.get('/:id', checkAuth, async(req, res) => {
     res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
 
     var setStatus;
-    if (docs.length > 0) {
-        setStatus = "Pending"
-    } else {
-        setStatus = "Incomplete"
+    if (doc.status != "Verified") {
+        console.log("No changes")
+        if (docs.length > 0) {
+            setStatus = "Pending"
+        } else {
+            setStatus = "Incomplete"
+        }
+    }
+    else{
+        console.log("Hello")
+
     }
 
     Products.findByIdAndUpdate({ _id: id }, {
+
         $set: {
             status: setStatus
         }
     }).exec()
 });
 
-router.get('/add-variant/:id', checkAuth, async(req, res) => {
+router.get('/add-variant/:id', checkAuth, async (req, res) => {
     var prodID = req.params.id;
     var doc = await Products.findById(req.params.id)
     var docs = await Variants.find({ 'prodID': prodID }).select().exec()
@@ -120,7 +128,7 @@ router.get("/edit-variant/(:id)/(:variantID)", checkAuth, async (req, res) => {
     res.render('./seller/variants/edit-variant', { variantData: doc, coloursData: docs, productData: element, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
 });
 
-router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async(req, res) => {
+router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async (req, res) => {
     var prodID = req.params.id;
     var variantID = req.params.variantID;
 
@@ -130,7 +138,7 @@ router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async(re
         "actualPrice": req.body.actualPrice,
         "discount": req.body.discount,
         "finalPrice": req.body.finalPrice
-    }, ];
+    },];
 
     var sizeArr = [];
     var a = sizesArray[0]["sizes"].length
@@ -162,14 +170,14 @@ router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async(re
     }
 
     Variants.findByIdAndUpdate({ _id: variantID }, {
-            $set: {
-                prodID: prodID,
-                images: imageArr,
-                colours: req.body.colours,
-                sizes: sizeArr,
-                status: "Pending"
-            }
-        })
+        $set: {
+            prodID: prodID,
+            images: imageArr,
+            colours: req.body.colours,
+            sizes: sizeArr,
+            status: "Pending"
+        }
+    })
         .exec()
         .then(result => {
             console.log(result)
@@ -183,7 +191,7 @@ router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async(re
         })
 });
 
-router.get("/delete-variant/(:id)/(:variantID)", checkAuth, async(req, res, next) => {
+router.get("/delete-variant/(:id)/(:variantID)", checkAuth, async (req, res, next) => {
     var prodID = req.params.id;
     const id = req.params.variantID;
 
@@ -203,7 +211,7 @@ router.get("/delete-variant/(:id)/(:variantID)", checkAuth, async(req, res, next
     res.redirect('/seller/products/variant/' + prodID);
 });
 
-router.get("/delete-image/(:id)/(:variantID)/(:a)", checkAuth, async(req, res, next) => {
+router.get("/delete-image/(:id)/(:variantID)/(:a)", checkAuth, async (req, res, next) => {
     const index = req.params.a
 
     var variant = await Variants.findById(req.params.variantID).exec()
@@ -215,10 +223,10 @@ router.get("/delete-image/(:id)/(:variantID)/(:a)", checkAuth, async(req, res, n
     variant.images.splice(index, 1)
 
     Variants.findByIdAndUpdate({ _id: req.params.variantID }, {
-            $set: {
-                images: variant.images
-            }
-        })
+        $set: {
+            images: variant.images
+        }
+    })
         .exec()
         .then(result => {
             res.redirect("/seller/products/variant/edit-variant/" + req.params.id + "/" + req.params.variantID);

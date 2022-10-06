@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CheckOut Page</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/css/master.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <%- include('navbar') %>
+
+        <div class="container pt-4">
+            <div class="row">
+                <div class="col-12 col-md-9 col-lg-9" id="address">
+                    <form class="needs-validation" novalidate>
+                        <div class="card p-2 mb-0" style="background-color:#1e686dfa">
+                            <strong style="color: #F4FFFF; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
+                                DELIVERY
+                                ADDRESS</strong>
+                        </div>
+
+                        <div class="card p-4 mb-0" id="defaultAddressCard" style="background-color:#F4FFFF;">
+                            <div class="row">
+                                <div class="col-10 col-md-10">
+                                    <input class="form-check-input" id="defaultAddress" type="radio"
+                                        onclick="radioSelected()" name="flexRadioDefault" checked>
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        <b>Hawaiza Siddiqui </b>9137242482</br> Lal Qila, Chandni Chowk, Delhi - 110006
+                                    </label>
+                                </div>
+                                <div class="col-2 col-md-2">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        style="float:right">Edit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="addAddressButton" style="background-color: white; padding-left: 2%">
+                            <div class="col-12 col-md-6 p-2">
+                                <div onclick="showAddressDetails()" style="cursor: pointer"><i
+                                        class="fas fa-plus-circle"></i>
+                                    Add a new address</div>
+                            </div>
+                        </div>
+
+                        <div class="card p-4" id="addAddress" style="background-color:#F4FFFF; display:none">
+                            <div class="row">
+                                <div class="col-12 col-md-12 mb-3">
+                                    <input class="form-check-input" type="radio" onclick="newRadioSelected()"
+                                        name="flexRadioDefault1" id="newAddress" checked>
+                                    <label class="form-check-label fw-bold" for="flexRadioDefault1">
+                                        Add a new Address
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="fname" class="form-label">First Name</label>
+                                    <input type="text" id="fname" class="form-control" placeholder="e.g. John" required>
+                                    <div class="invalid-feedback">
+                                        Please enter your first name.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label for="lname" class="form-label">Last Name</label>
+                                    <input type="text" id="lname" class="form-control" placeholder="e.g. Smith"
+                                        required>
+                                    <div class="invalid-feedback">
+                                        Please enter your last name.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="email" class="form-label">Email Id</label>
+                                    <input type="email" id="email" class="form-control" value=""
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                        placeholder="e.g. johnsmith123@gmail.com" required>
+                                    <div class="invalid-feedback">
+                                        Please enter valid email id.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" id="address" class="form-control"
+                                        placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert" required>
+                                    <div class="invalid-feedback">
+                                        Please enter your address.
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 mb-3">
+                                    <label for="country" class="form-label">Country</label>
+                                    <div class="btn-group  w-100">
+                                        <select type="button" id="country"
+                                            class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <option class="dropdown-item" value="India">India</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 mb-3">
+                                    <label for="city" class="form-label">City</label>
+                                    <div class="btn-group  w-100">
+                                        <select type="button" id="city"
+                                            class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <option class="dropdown-item" value="Mumbai">Mumbai</option>
+                                            <option class="dropdown-item" value="Aurangabad">Aurangabad
+                                            </option>
+                                            <option class="dropdown-item" value="Puna">Pune</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-4 mb-3">
+                                    <label for="zip" class="form-label">Zip</label>
+                                    <input type="text" id="zip" class="form-control" placeholder="e.g. 400029" required>
+                                    <div class="invalid-feedback">
+                                        Please enter your zip code.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="phoneno" class="form-label">Phone Number</label>
+                                    <input type="text" id="phoneno" maxlength="10" pattern="[6789][0-9]{9}"
+                                        class="form-control" placeholder="e.g. 9898989898" required>
+                                    <div class="invalid-feedback">
+                                        Please enter valid phone number.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="ordernotes" class="form-label">Order Notes
+                                        <span class="text-muted"> (Optional)</span>
+                                    </label>
+                                    <textarea type="input" id="ordernotes" class="form-control"
+                                        placeholder="Notes about your order. e.g. special notes for delivery"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <div class="accordion pt-4" id="accordionPanelsStayOpenExample">
+                        <div class="accordion-item ">
+                            <h2 class="accordion-header  " id="panelsStayOpen-headingOne">
+                                <button class="accordion-button  bg-dark text-light fw-bold" type="button"
+                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseOne">
+                                    ORDER SUMMARY
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                aria-labelledby="panelsStayOpen-headingOne">
+                                <div class="accordion-body">
+                                    <div class="table-responsive  mb-3">
+                                        <div style="height: 200px; width: 110% ;overflow:auto;">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Product</th>
+                                                        <th scope="col">Qty</th>
+                                                        <th scope="col">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Samsung Galaxy S20 FE 5G (Cloud Navy, 8GB RAM, 128GB
+                                                            Storage)
+                                                        </td>
+
+                                                        <td>2</td>
+                                                        <td>&#8377;50</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shoes</td>
+                                                        <td>2</td>
+                                                        <td>&#8377;50</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shoes</td>
+                                                        <td>2</td>
+                                                        <td>&#8377;50</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Samsung Galaxy S20 FE 5G (Cloud Navy, 8GB RAM, 128GB
+                                                            Storage)
+                                                        </td>
+
+                                                        <td>2</td>
+                                                        <td>&#8377;50</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shoes</td>
+                                                        <td>2</td>
+                                                        <td>&#8377;50</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shoes</td>
+                                                        <td>2</td>
+                                                        <td>&#8377;50</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between text-secondary">
+                                        <div class="fst-italic">Shipping
+                                            <!-- Button trigger modal -->
+                                            <svg class="secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                <path
+                                                    d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                            </svg>
+                                        </div>
+                                        <div class="fw-bold">FREE</div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between fst-italic fw-bolder fs-6">
+                                        <div>Total</div>
+                                        <div>&#8377;5000</div>
+                                    </div>
+
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-warning fw-bold" type="submit"
+                                            style="margin-top:15px">CONTINUE
+                                            TO PAYMENT</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3 col-lg-3">
+                    <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
+                        <strong style="text-align: center;">
+                            <i class="fas fa-tag"></i>  COUPONS
+                        </strong>
+
+                        <div id="coupon">
+                            <div class="row mt-2">
+                                <div>
+                                    <input type="text" id="couponCode" class="form-control" placeholder="Apply Coupons">
+                                    <button class="btn btn-outline-dark col-12 col-md-12 mt-2 fw-bold">APPLY</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
+                        <strong style="text-align: center;">
+                            PRICE DETAILS
+                        </strong>
+                        <div id="bill">
+                            <div class="row mt-4">
+                                <div class="col-md-6 col-sm-8 col-8">
+                                    Total MRP
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4">
+                                    <label id="totalMRP" style="float:right">
+                                        <small>₹</small>3000
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-7 col-sm-7 col-7">
+                                    Discount on MRP
+                                </div>
+                                <div class="col-md-5 col-sm-3 col-3">
+                                    <label id="subtotal" style="float:right; color: #189ca5fa;">
+                                        -<small>₹</small>1000
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-7 col-sm-9 col-9">
+                                    Coupon Discount
+                                </div>
+                                <div class="col-md-5 col-sm-3 col-3">
+                                    <label id="subtotal" style="float:right; color: #189ca5fa;">
+                                        -<small>₹</small>400
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="row mt-2">
+                                <div class="col-md-6 col-sm-8 col-8">
+                                    Delivery
+                                    <svg class="secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-question-circle" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                            d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                    </svg>
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4">
+                                    <label id="delivery" style="float:right">
+                                        FREE
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="row mt-4">
+                                <div class="col-md-6 col-sm-8 col-8 fw-bold">
+                                    Total Amount
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4 fw-bold">
+                                    <label id="subtotal" style="float:right">
+                                        <small>₹</small>2000
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="button" class="btn btn-outline-dark mt-4" id="buy"><b>CONTINUE TO PAYMENT</b>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Shipping Policy</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <span style="text-decoration:underline;">
+                                <strong>Domestic Shipping :</strong>
+                            </span>
+                        </p>
+                        <p>We ship all over India.</p>
+                        <p>Once we receive your order, we ship your product(s) within 2-3 working days using
+                            some of the best courier
+                            services available.
+                            You should receive your order within 7-10 working days from dispatch.
+                            In situations beyond DigMart's control, there may be circumstances which cause a
+                            delay.
+                            In such cases, DigMart's will strive to ensure delivery in the earliest timeframe
+                            possible.</p>
+                        <p>Free shipping on
+                            <strong>PREPAID</strong> orders when u shop for <strong>INR : 590/-</strong> or
+                            Above within
+                            <strong>INDIA.</strong>
+                        </p>
+
+                        <p>We charge a flat shipping rate of &#8377;60/- per order, when you shop below
+                            <strong>&#8377; 590/-</strong>.
+                        </p>
+                        <p>COD services are available all over India.</p>
+
+                        <p><span style="text-decoration:underline;">
+                                <strong>International Shipping:-</strong>
+                            </span>
+                        </p>
+                        <p><strong>We are shipping worldwide.</strong></p>
+
+                        <p>Note :- Standard and Free Shipping Deliveries to <strong>Jammu and
+                                Kashmir</strong>
+                            takes 20 days or more. So we
+                            always recommend customers from <strong>Jammu and Kashmir</strong> to choose
+                            <strong>Speed-post</strong> option
+                            to get their order delivered within 12 days approx.
+                        </p>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var defaultAddressRadio = document.getElementById("defaultAddress")
+            var newAddressRadio = document.getElementById("newAddress")
+            var defaultAddressCard = document.getElementById("defaultAddressCard")
+
+
+            function showAddressDetails() {
+                document.getElementById("addAddress").style.display = "block"
+                document.getElementById("addAddressButton").style.display = "none"
+                defaultAddressCard.style.backgroundColor= "white"
+                defaultAddressRadio.checked = false
+                newAddressRadio.checked = true
+            }
+
+            function radioSelected() {
+                document.getElementById("addAddress").style.display = "none"
+                document.getElementById("addAddressButton").style.display = "block"
+                defaultAddressCard.style.backgroundColor= "#F4FFFF"
+                newAddressRadio.checked = false
+            }
+
+            function newRadioSelected() {
+                defaultAddressRadio.checked = false
+            }
+
+        </script>
+
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/user/swiper-bundle.min.js"></script>
+
+
+</body>
+
+</html>
