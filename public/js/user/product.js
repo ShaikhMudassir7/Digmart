@@ -17,8 +17,20 @@ function addwishlist(sellerID, productID, variantID) {
       },
       dataType: 'json',
       success: function (result) {
-        if (result)
-          alert("Added succesfully")
+        if (result.status){
+          swal({
+            title: "Added to Wishlist Successfully",
+            icon: "success",
+            dangerMode: false,
+        })
+        }
+        else{
+          swal({
+            title: "Already in the Wishlist",
+            icon: "info",
+            dangerMode: false,
+        })
+        }
       }
     })
   }
@@ -44,8 +56,19 @@ function addwishlist(sellerID, productID, variantID) {
         },
         dataType: 'json',
         success: function (result) {
-          if (result)
-            alert("Added succesfully")
+          if (result.status){
+          swal({
+            title: "Added to Cart Successfully",
+            icon: "success",
+            dangerMode: false,
+        })}
+        else{
+          swal({
+            title: "Already in the Cart",
+            icon: "info",
+            dangerMode: false,
+        })
+        }
         }
       })
     }

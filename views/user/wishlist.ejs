@@ -160,10 +160,18 @@
                                                                                     </div>
                                                                                     <div class="col-md-3 col-sm-12 col-12 mb-2"
                                                                                         style="padding-right: 35px;">
-                                                                                        <button
+                                                                                        <%if(wishlistData.variantID){%>
+                                                                                            <button
                                                                                             class="btn btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12"
-                                                                                            id="buy">Add to Cart
+                                                                                            id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>','<%=wishlistData.variantID._id%>','<%=wishlistData.colours%>','<%=wishlistData.size%>')">Add to Cart
                                                                                         </button>
+                                                                                        <%}else{%>
+                                                                                            <button
+                                                                                            class="btn btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12"
+                                                                                            id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>',null,null,null)"> Add to Cart
+                                                                                        </button>
+                                                                                        <%}%>
+                                                                                       
                                                                                     </div>
                                                                                 </div>
 
@@ -190,8 +198,9 @@
 
             <script src="/vendor/jquery/jquery.min.js"></script>
             <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/js/script.js"></script>
+            <script src="/js/user/wishlistprod.js"></script>
             <script src="/js/user/login.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>
