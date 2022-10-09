@@ -95,19 +95,16 @@ router.get('/delete-cart/(:cartID)', (req, res) => {
     })
 })
 
-router.get('/edit-cart/(:id)/(:qty)', (req, res) => {
+router.post('/edit-cart', (req, res) => {
     Cart.find({
-        _id: req.params.id
-    })
-        .exec()
-        .then(docs => {
+        _id: req.body.id
+    }).then(docs => {
             var cartdata = new Cart({
-                quantity: req.params.qty,
+                quantity: req.body.qty,
             })
-            Cart.updateOne({ _id: req.params.id }, { $set: cartdata })
-                .exec()
+            Cart.updateOne({ _id: req.body.id }, { $set: cartdata })
                 .then(result => {
-                    res.redirect('/cart/' + req.session.userid)
+                    res.send("Done");
                 })
         })
 })

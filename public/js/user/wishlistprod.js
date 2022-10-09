@@ -16,13 +16,11 @@ function addcart(sellerID, productID, variantID,colour,size) {
           swal({
             title: "Added to Cart Successfully",
             icon: "success",
-            dangerMode: false,
         })}
         else{
           swal({
             title: "Already in the Cart",
             icon: "info",
-            dangerMode: false,
         })
         }
         }

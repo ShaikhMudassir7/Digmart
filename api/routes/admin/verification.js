@@ -103,26 +103,20 @@ router.get('/accept-product/(:id)', checkAuth, (req, res) => {
     Products.updateOne({ _id: id }, { $set: newValues })
         .exec()
         .then(result => {
-            res.redirect('/admin/verification/product')
-        })
-        .catch(err => {
-            console.log(err)
-            res.json({
-                error: err
-            })
+            res.send("Verified")
         })
 })
 
-router.post('/reject-product/(:id)', async (req, res) => {
-    const id = req.params.id
+router.post('/reject-product', async (req, res) => {
+    const id = req.body.productID
     var newValues = {
-        status: "Rejected : " + req.body.rejectText
+        status: req.body.status
     }
     await Variants.updateMany({ 'prodID': id }, { $set: newValues })
     await Products.updateOne({ _id: id }, { $set: newValues })
         .exec()
         .then(result => {
-            res.redirect('/admin/verification/product')
+            res.send('Rejected')
         })
 })
 
