@@ -333,7 +333,7 @@
                                 </div>
                             </div>
                             <button class="btn btn-warning mt-4  btn-lg col-md-12 col-sm-12 col-12"
-                                style=" font-family: cursive;" id="buy">BUY NOW
+                                style=" font-family: cursive;" id="buy" onclick="gotoCheckout('<%= user %>')">BUY NOW
                             </button>
                         </div>
                     </div>
@@ -344,6 +344,11 @@
         </div>
         <!-- Footer -->
         <%- include('footer') %>
+        <script>
+            function gotoCheckout(userID){
+                window.location = "/checkout/"+userID
+            }
+        </script>
             <script src="/vendor/jquery/jquery.min.js"></script>
             <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/js/user/login.js"></script>

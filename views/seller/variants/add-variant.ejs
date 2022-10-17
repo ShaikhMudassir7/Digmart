@@ -169,7 +169,7 @@
                                                                 <span class="input-group-text">&#8377;</span>
                                                                 <input type="number" class="form-control"
                                                                     name="finalPrice[]" id="finalPrice"
-                                                                    placeholder="Final Price" readonly>
+                                                                     readonly>
                                                             </div>
                                                         </div>
 
@@ -271,7 +271,7 @@
             <div class="input-group">
                 <span class="input-group-text">&#8377;</span>
                 <input type="number" class="form-control" name="finalPrice[]"
-                    id="finalPrice` + counter + `"  placeholder="Final Price" readonly required>
+                    id="finalPrice` + counter + `"   readonly required>
             </div>
         </div>
 
@@ -354,6 +354,7 @@
 
             var total = (actualPrice * discountPct) / 100;
             var finalPrice = actualPrice - total;
+            finalPrice = parseInt(finalPrice);
             finalPriceField.value = finalPrice;
         }
 

@@ -23,7 +23,7 @@ router.get('/:id', checkAuth, async (req, res) => {
     var sizeArr = [];
     var doc = await Products.findById(req.params.id)
 
-    var docs = await Variants.find({ 'prodID': id }).select("sizes colours quantity finalPrice")
+    var docs = await Variants.find({ 'prodID': id }).select("sizes colours quantity finalPrice status")
     docs.forEach((element) => {
         var arr = [];
         for (var i = 0; i < element["sizes"].length; i++) {
@@ -38,21 +38,15 @@ router.get('/:id', checkAuth, async (req, res) => {
     res.render('./seller/variants/variant', { variantsData: docs, id: id, sizeArr: sizeArr, productData: doc, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
 
     var setStatus;
-    if (doc.status != "Verified") {
-        console.log("No changes")
+    if (doc.status == "Pending" || doc.status == "Incomplete") {
         if (docs.length > 0) {
             setStatus = "Pending"
         } else {
             setStatus = "Incomplete"
         }
     }
-    else{
-        console.log("Hello")
-
-    }
 
     Products.findByIdAndUpdate({ _id: id }, {
-
         $set: {
             status: setStatus
         }

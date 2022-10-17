@@ -36,8 +36,9 @@
                                     <table width="100%" class="table table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th class="col-md-4">Colours</th>
-                                                <th>Size : Quantity : Final Price</th>
+                                                <th class="col-md-4 col-4">Colours</th>
+                                                <th class="col-md-4 col-4">Size : Quantity : Final Price</th>
+                                                <th class="col-md-1 col-1">Status</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -50,6 +51,9 @@
                                                     </td>
                                                     <td>
                                                         <%-sizeArr[i].join('</br>')%>
+                                                    </td>
+                                                    <td>
+                                                        <%=data.status %>
                                                     </td>
                                                     <td class="text-end">
                                                         <a href="/seller/products/variant/edit-variant/<%=productData._id%>/<%=data._id%>"

@@ -32,7 +32,8 @@
                                     <div class="card">
                                         <div class="card-header fw-bold bg-dark text-light">EDIT PRODUCT</div>
                                         <div class="card-body">
-                                            <form method="post" enctype="multipart/form-data" id="form1" onsubmit="return checkForm(this);" 
+                                            <form method="post" enctype="multipart/form-data" id="form1"
+                                                onsubmit="return checkForm(this);"
                                                 action="/seller/products/edit-product/<%=productData._id %>"
                                                 class="needs-validation" novalidate accept-charset="utf-8">
 
@@ -89,9 +90,9 @@
                                                         <div class="mb-3 col-md-12">
                                                             <label for="productName" class="form-label">Product
                                                                 Name</label>
-                                                            <input type="name" class="form-control" name="productName" id="productName"
-                                                                value="<%=productData.productName %>"
-                                                                placeholder="e.g. Samsung Galaxy S22 Ultra" required>
+                                                            <input type="name" class="form-control" name="productName"
+                                                                id="productName" value="<%=productData.productName %>"
+                                                                required>
                                                             <div class="valid-feedback">Looks good!</div>
                                                             <div class="invalid-feedback">Please enter product
                                                                 name.
@@ -100,207 +101,251 @@
                                                     </div>
                                                 </div>
                                                 <% if(!productData.hasVariant){%>
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="images" class="form-label">Product
-                                                            Images</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <% for (let a=0; a < productData.images.length; a++){ %>
-                                                        <div class=" col-md-2">
-                                                            <div class="item">
-                                                                <img src="<%=productData.images[a]%>"
-                                                                    style="width: 100%; ">
-                                                                <% if(productData.images.length> 1){ %>
-                                                                    <a
-                                                                        href="/seller/products/delete-image/<%=productData._id%>/<%=a %>">
-                                                                        <span
-                                                                        class="btn btn-danger notify-badge fw-bold">X</span>
-                                                                    </a>
-                                                                <% } else {%>
-                                                                    <button type="button"
-                                                                        class="btn btn-danger notify-badge fw-bold"
-                                                                        id="dontDelete" onclick="cannotDeleteAlert()"><i
-                                                                        class="fas fa-cancel"></i>X</button>
-                                                                 <% } %>
-                                                            </div>
-                                                        </div>
-                                                    <% } %>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <% if(productData.images.length!=0){ %>
-                                                        <label for="images" class="form-label">Add More
-                                                            Images</label>
-                                                        <% } %>
-                                                        <input type="file" class="form-control" name="images"
-                                                            accept="image/*" id="chooseImage" multiple>
-                                                        <div class="valid-feedback">Looks good!</div>
-                                                        <div class="invalid-feedback">Please Choose an
-                                                            Image.
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <% } %>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="description" class="form-label">Product
-                                                            Description</label>
-                                                        <textarea type="name" class="form-control"
-                                                            name="description"
-                                                            placeholder="e.g. The first Galaxy S with embedded S Pen. Write comfortably like pen on paper, turn quick notes into legible text and use Air Actions to control your phone remotely..."
-                                                            required ><%=productData.description %></textarea>
-                                                    </div>
-                                                </div>
-
-                                                <div id="addQuantityForNoVariant">
                                                     <div class="row g-2">
                                                         <div class="mb-3 col-md-12">
-                                                            <label for="brand" class="form-label">Brand
-                                                                <span class="text-muted"> (Optional)</span>
-                                                            </label>
-                                                            <input type="name" class="form-control" name="brand"
-                                                                value="<%=productData.brand %>"
-                                                                placeholder="e.g. Samsung">
+                                                            <label for="images" class="form-label">Product
+                                                                Images</label>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <% if(!productData.hasVariant){%>
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="quantity" class="form-label">Quantity
-                                                            <span class="text-muted">
-                                                                (Optional)</span>
-                                                        </label>
-                                                        <input type="number" class="form-control"
-                                                            name="quantity" id="quantity" min="1"
-                                                            value="<%=productData.quantity %>"
-                                                            placeholder="e.g. 50">
-                                                    </div>
-                                                </div>
-                                                <% } %>
-
-                                                <hr>
-                                                <div class="row g-2">
-                                                    <div class="mb-1 col-md-12 fw-bold">
-                                                        <label for="specName" class="form-label">ADDITIONAL
-                                                            SPECIFICATIONS
-                                                            <span class="text-muted">(Optional)</span>:
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row g-2">
-                                                    <div class=" col-md-3">
-                                                        <label for="specName" class="form-label">Name:
-                                                        </label>
-                                                    </div>
-
-                                                    <div class=" col-md-5">
-                                                        <label for="specValue" class="form-label">Description:
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div id="addPricesForNoVariant">
-                                                    <div id="showSpecifications">
-                                                        <% for (let i in productData.specifications){ %>
-                                                            <div class="row g-2" id="specsRow">
-                                                                <div class="mb-3 col-md-3">
-                                                                    <input type="name" class="form-control" name="specName[]" id="specName"
-                                                                        value="<%=productData.specifications[i].specName %>"
-                                                                        placeholder="e.g. In The Box">
-                                                                </div>
-
-                                                                <div class="mb-3 col-md-5">
-                                                                    <textarea type="name" class="form-control"
-                                                                        name="specValue[]" id="specValue" style="height: 30px;"
-                                                                        placeholder="e.g. Handset, Charging Cable"><%=productData.specifications[i].specValue %></textarea>
-                                                                </div>
-
-                                                                <div class="mb-3 col-md-2 divremoveSpecsBtnMain">
-                                                                    <button class="btn btn-outline-danger removeSpecsBtnMain"><i class="fas fa-minus-circle">
-                                                                        </i>Remove</a>
+                                                    <div class="row g-2">
+                                                        <% for (let a=0; a < productData.images.length; a++){ %>
+                                                            <div class=" col-md-2">
+                                                                <div class="item">
+                                                                    <img src="<%=productData.images[a]%>"
+                                                                        style="width: 100%; ">
+                                                                    <% if(productData.images.length> 1){ %>
+                                                                        <a
+                                                                            href="/seller/products/delete-image/<%=productData._id%>/<%=a %>">
+                                                                            <span
+                                                                                class="btn btn-danger notify-badge fw-bold">X</span>
+                                                                        </a>
+                                                                        <% } else {%>
+                                                                            <button type="button"
+                                                                                class="btn btn-danger notify-badge fw-bold"
+                                                                                id="dontDelete"
+                                                                                onclick="cannotDeleteAlert()"><i
+                                                                                    class="fas fa-cancel"></i>X</button>
+                                                                            <% } %>
                                                                 </div>
                                                             </div>
-                                                        <% } %>
+                                                            <% } %>
                                                     </div>
 
-                                                    <div class="mb-3 col-md-3 d-grid">
-                                                        <button class="btn btn-outline-primary" id="addSpecsBtnMain"><i class="fas fa-plus-circle">
-                                                        </i>Add More Specifications</button>
-                                                    </div>
-                                                </div>
-
-                                                <% if(!productData.hasVariant){%>
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="actualPrice" class="form-label">Actual Price</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">&#8377;</span>
-                                                            <input type="text" class="form-control"
-                                                                name="actualPrice" value="<%=productData.actualPrice %>" id="actualPrice" 
-                                                                min="1" pattern="[0-9]{1,9}" onblur="calculate('discount', this.value )"
-                                                                placeholder="Eg. 30000" required>
-                                                            <div class="invalid-feedback">Please enter Actual Price.
-                                                            </div>
-                                                            <div class="valid-feedback">Looks good!
-                                                            </div>
+                                                    <div class="row g-2">
+                                                        <div class="mb-3 col-md-12">
+                                                            <% if(productData.images.length!=0){ %>
+                                                                <label for="images" class="form-label">Add More
+                                                                    Images</label>
+                                                                <% } %>
+                                                                    <input type="file" class="form-control"
+                                                                        name="images" accept="image/*" id="chooseImage"
+                                                                        multiple>
+                                                                    <div class="valid-feedback">Looks good!</div>
+                                                                    <div class="invalid-feedback">Please Choose an
+                                                                        Image.
+                                                                    </div>
                                                         </div>
                                                     </div>
-
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="discount" class="form-label">Discount
-                                                            <span class="text-muted">(Optional)</span>
-                                                        </label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">%</span>
-                                                            <input type="text" class="form-control" name="discount" value="<%=productData.discount %>"
-                                                                id="discount" onblur="calculate(this.value, 'actualPrice')"
-                                                                placeholder="e.g. 10" min="1" pattern="[0-9]{1,2}">
-                                                            <div class="valid-feedback">Looks good!</div>
-                                                        </div>
-                                                        <div class="invalid-feedback">Please enter Discount (without % symbol).
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mb-3 col-md-4">
-                                                        <label for="finalPrice" class="form-label">Final Price</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">&#8377;</span>
-                                                            <input type="text" class="form-control" name="finalPrice"
-                                                                value="<%=productData.finalPrice %>" id="finalPrice"
-                                                                placeholder="Final Price (Auto calculated)" readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <% } %>
-
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <label for="status" class="form-label">Status</label>
-                                                            <input type="name" class="form-control" name="status"
-                                                                value="<%=productData.status %>" readonly>
-                                                    </div>
-                                                </div>
-                                                <% if((productData.status !="Incomplete" ) && (productData.status !="Pending" ) && (productData.status !="Verified" )) { %>
-                                                    <% productData.status= "Rejected" %>
                                                     <% } %>
 
-                                                <div class="row g-2">
-                                                    <div class="mb-3 col-md-12">
-                                                        <a href="/seller/products/?status=<%=productData.status %>" class="btn btn-danger"><i class="fas fa-times">
-                                                            </i> Cancel</a>
-                                                        <button type="submit" class="btn btn-primary" id="submitData" name="submitData"
-                                                            style="float: right"><i class="fas fa-save">
-                                                            </i> Save Changes</button>           
-                                                    </div>
-                                                </div>
+                                                        <div class="row g-2">
+                                                            <div class="mb-3 col-md-12">
+                                                                <label for="description" class="form-label">Product
+                                                                    Description</label>
+                                                                <textarea type="name" class="form-control"
+                                                                    name="description"
+                                                                    required><%=productData.description %></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="addQuantityForNoVariant">
+                                                            <div class="row g-2">
+                                                                <div class="mb-3 col-md-12">
+                                                                    <label for="brand" class="form-label">Brand
+                                                                        <span class="text-muted"> (Optional)</span>
+                                                                    </label>
+                                                                    <input type="name" class="form-control" name="brand"
+                                                                        value="<%=productData.brand %>"
+                                                                        placeholder="e.g. Samsung">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <% if(!productData.hasVariant){%>
+                                                            <div class="row g-2">
+                                                                <div class="mb-3 col-md-12">
+                                                                    <label for="quantity" class="form-label">Quantity
+                                                                        <span class="text-muted">
+                                                                            (Optional)</span>
+                                                                    </label>
+                                                                    <input type="number" class="form-control"
+                                                                        name="quantity" id="quantity" min="1"
+                                                                        value="<%=productData.quantity %>"
+                                                                        placeholder="e.g. 50">
+                                                                </div>
+                                                            </div>
+                                                            <% } %>
+
+                                                                <hr>
+                                                                <div class="row g-2">
+                                                                    <div class="mb-1 col-md-12 fw-bold">
+                                                                        <label for="specName"
+                                                                            class="form-label">ADDITIONAL
+                                                                            SPECIFICATIONS
+                                                                            <span class="text-muted">(Optional)</span>:
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row g-2">
+                                                                    <div class=" col-md-3">
+                                                                        <label for="specName" class="form-label">Name:
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <div class=" col-md-5">
+                                                                        <label for="specValue"
+                                                                            class="form-label">Description:
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div id="addPricesForNoVariant">
+                                                                    <div id="showSpecifications">
+                                                                        <% for (let i in productData.specifications){ %>
+                                                                            <div class="row g-2" id="specsRow">
+                                                                                <div class="mb-3 col-md-3">
+                                                                                    <input type="name"
+                                                                                        class="form-control"
+                                                                                        name="specName[]" id="specName"
+                                                                                        value="<%=productData.specifications[i].specName %>"
+                                                                                        placeholder="e.g. In The Box">
+                                                                                </div>
+
+                                                                                <div class="mb-3 col-md-5">
+                                                                                    <textarea type="name"
+                                                                                        class="form-control"
+                                                                                        name="specValue[]"
+                                                                                        id="specValue"
+                                                                                        style="height: 30px;"
+                                                                                        placeholder="e.g. Handset, Charging Cable"><%=productData.specifications[i].specValue %></textarea>
+                                                                                </div>
+
+                                                                                <div
+                                                                                    class="mb-3 col-md-2 divremoveSpecsBtnMain">
+                                                                                    <button
+                                                                                        class="btn btn-outline-danger removeSpecsBtnMain"><i
+                                                                                            class="fas fa-minus-circle">
+                                                                                        </i>Remove</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <% } %>
+                                                                    </div>
+
+                                                                    <div class="mb-3 col-md-3 d-grid">
+                                                                        <button class="btn btn-outline-primary"
+                                                                            id="addSpecsBtnMain"><i
+                                                                                class="fas fa-plus-circle">
+                                                                            </i>Add More Specifications</button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <% if(!productData.hasVariant){%>
+                                                                    <div class="row g-2">
+                                                                        <div class="mb-3 col-md-4">
+                                                                            <label for="actualPrice"
+                                                                                class="form-label">Actual Price</label>
+                                                                            <div class="input-group">
+                                                                                <span
+                                                                                    class="input-group-text">&#8377;</span>
+                                                                                <input type="text" class="form-control"
+                                                                                    name="actualPrice"
+                                                                                    value="<%=productData.actualPrice %>"
+                                                                                    id="actualPrice" min="1"
+                                                                                    pattern="[0-9]{1,9}"
+                                                                                    onblur="calculate('discount', this.value )"
+                                                                                    placeholder="Eg. 30000" required>
+                                                                                <div class="invalid-feedback">Please
+                                                                                    enter Actual Price.
+                                                                                </div>
+                                                                                <div class="valid-feedback">Looks good!
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="mb-3 col-md-4">
+                                                                            <label for="discount"
+                                                                                class="form-label">Discount
+                                                                                <span
+                                                                                    class="text-muted">(Optional)</span>
+                                                                            </label>
+                                                                            <div class="input-group">
+                                                                                <span class="input-group-text">%</span>
+                                                                                <input type="text" class="form-control"
+                                                                                    name="discount"
+                                                                                    value="<%=productData.discount %>"
+                                                                                    id="discount"
+                                                                                    onblur="calculate(this.value, 'actualPrice')"
+                                                                                    placeholder="e.g. 10" min="1"
+                                                                                    pattern="[0-9]{1,2}">
+                                                                                <div class="valid-feedback">Looks good!
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="invalid-feedback">Please enter
+                                                                                Discount (without % symbol).
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="mb-3 col-md-4">
+                                                                            <label for="finalPrice"
+                                                                                class="form-label">Final Price</label>
+                                                                            <div class="input-group">
+                                                                                <span
+                                                                                    class="input-group-text">&#8377;</span>
+                                                                                <input type="text" class="form-control"
+                                                                                    name="finalPrice"
+                                                                                    value="<%=productData.finalPrice %>"
+                                                                                    id="finalPrice"
+                                                                                    placeholder="Final Price (Auto calculated)"
+                                                                                    readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% } %>
+
+                                                                        <div class="row g-2">
+                                                                            <div class="mb-3 col-md-12">
+                                                                                <label for="status"
+                                                                                    class="form-label">Status</label>
+                                                                                <input type="name" class="form-control"
+                                                                                    name="status"
+                                                                                    value="<%=productData.status %>"
+                                                                                    readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                        <% if((productData.status !="Incomplete" ) &&
+                                                                            (productData.status !="Pending" ) &&
+                                                                            (productData.status !="Verified" )) { %>
+                                                                            <% productData.status="Rejected" %>
+                                                                                <% } %>
+
+                                                                                    <div class="row g-2">
+                                                                                        <div class="mb-3 col-md-12">
+                                                                                            <a href="/seller/products/?status=<%=productData.status %>"
+                                                                                                class="btn btn-danger"><i
+                                                                                                    class="fas fa-times">
+                                                                                                </i> Cancel</a>
+                                                                                            <button type="submit"
+                                                                                                class="btn btn-primary"
+                                                                                                id="submitData"
+                                                                                                name="submitData"
+                                                                                                style="float: right"><i
+                                                                                                    class="fas fa-save">
+                                                                                                </i> Save
+                                                                                                Changes</button>
+                                                                                        </div>
+                                                                                    </div>
 
                                             </form>
                                         </div>
@@ -333,7 +378,7 @@
             var subcat = document.getElementById("subcategory");
             var subcatValuesArray = testing(cat);
             subcat.innerHTML = "";
-            
+
             function testing(cat) {
                 '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
                 var catName = '<%=data.catName%>';
@@ -360,10 +405,7 @@
 
             var total = (actualPrice * discountPct) / 100;
             var finalPrice = actualPrice - total;
-            if( !Number.isInteger(finalPrice) )
-            {
-                finalPrice = finalPrice.toFixed(2)
-            }
+            finalPrice = parseInt(finalPrice);
             finalPriceField.value = finalPrice;
         }
 
@@ -514,10 +556,10 @@
         var prodNameBeforeEdit = '<%= productData.productName%>'
         $(document).on('click', '#submitData', function (e) {
             var prodName = document.getElementById("productName").value;
-           
+
             '<% if(prodsData.length!=0){ var i=1; prodsData.forEach(function(data){ %>'
-            if (prodName == '<%= data.productName %>' && prodName != prodNameBeforeEdit ) {
-                e.preventDefault();  
+            if (prodName == '<%= data.productName %>' && prodName != prodNameBeforeEdit) {
+                e.preventDefault();
                 swal({
                     title: "Product with the same name already exists!",
                     text: "Try editting the same product or adding a new one.",
@@ -526,7 +568,7 @@
                 })
             }
             '<% i++; })}%>'
-        }); 
+        });
 
     </script>
 
