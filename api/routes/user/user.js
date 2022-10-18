@@ -97,4 +97,8 @@ router.post('/search', async (req, res) => {
     })
 })
 
+router.post('/search-results', async (req, res) => {
+    res.render('./user/search-results', { user: req.session.userid })
+})
+
 module.exports = router

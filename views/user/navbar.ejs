@@ -163,9 +163,9 @@
             <% } %>
                 <form id="nav-search-form"
                     class="d-flex justify-content-center col-12 col-md-5 mt-2 mt-md-0 mx-auto order-1 order-md-0  position-relative"
-                    role="search">
+                    role="search" method="post" action="/search-results">
                     <input id="nav-search-field" class="form-control flex-fill ms-sm-3 ms-md-0" type="search"
-                        placeholder="Search" aria-label="Search" onkeyup="searchData(this)">
+                        placeholder="Search" aria-label="Search" onkeyup="searchData(this)" required>
                     <button id="nav-search-btn" class="btn" type="submit"><i class="fas fa-search"></i></button>
                     <div id="nav-search-results" class="ms-sm-3 ms-md-0">
                         <ul id="results-products">

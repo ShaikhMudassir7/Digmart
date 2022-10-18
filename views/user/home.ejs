@@ -159,9 +159,9 @@
                 <h2 class="fs-2" style="letter-spacing: 1.75px;">Discover the best in your Locality</h2>
             </div>
             <div class="search-wrapper pt-4  mx-auto">
-                <form class="d-flex search-container justify-content-center align-items-center" role="search" method="post" action="/hello" novalidate>
+                <form class="d-flex search-container justify-content-center align-items-center" role="search" method="post" action="/search-results">
                     <input id="searchField" class="form-control" type="search" placeholder="Search" aria-label="Search"
-                        onkeyup="searchData(this)">
+                        onkeyup="searchData(this)" required>
                     <button id="searchBtn" class="btn" type="submit"><i class="fas fa-search"></i></button>
                 </form>
                 <div id="search-results">
@@ -251,9 +251,7 @@
                             if(varDocs[j].prodID.equals(product._id)){ %>
                             <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
                                 <%if(varDocs[j].sizes[0].discount){%>
-                                    <div class="prodDiscount">
-                                        <%=varDocs[j].sizes[0].discount%>
-                                    </div>
+                                    <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
                                     <%}%>
                                         <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                             </div>
@@ -282,9 +280,7 @@
                             <%}}} else {%>
                                 <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
                                     <%if(product.discount){%>
-                                        <div class="prodDiscount">
-                                            <%=product.discount%>
-                                        </div>
+                                        <div class="prodDiscount"><%=product.discount%></div>
                                         <%}%>
                                             <img src="<%=product.images%>" alt="<%=product.productName%>">
                                 </div>
