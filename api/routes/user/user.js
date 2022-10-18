@@ -71,4 +71,34 @@ router.post('/api/pincode', (req, res) => {
     });
 })
 
+router.post('/search', async (req, res) => {
+    let payload = req.body.payload.trim()
+    let products = await Products.find({ productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' }).select('_id productName category')
+
+    const isEqual = (first, second) => {
+        return JSON.stringify(first) === JSON.stringify(second);
+    }
+    var prod = []
+    products = products.filter((product) => {
+        if (!prod.some(e => isEqual(e, {
+            productName: product.productName, category: product.category
+        }))) {
+            prod.push({ productName: product.productName, category: product.category })
+            return product
+        }
+    })
+    products = products.slice(0, 7)
+
+    let sellers = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' }).select('_id busName')
+    sellers = sellers.slice(0, 3)
+    res.json({
+        products: products,
+        sellers: sellers
+    })
+})
+
+router.post('/search-results', async (req, res) => {
+    res.render('./user/search-results', { user: req.session.userid })
+})
+
 module.exports = router

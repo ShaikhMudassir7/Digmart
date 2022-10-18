@@ -5,6 +5,7 @@ const multer = require("multer")
 const fs = require("fs");
 require("firebase/storage");
 
+const Variants = require('../../models/seller/variants');
 const Products = require('../../models/seller/product');
 const Category = require('../../models/admin/categorySchema');
 const Seller = require('../../models/seller/seller');
@@ -207,12 +208,30 @@ router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res)
 
         })
     }
-
+    var variantStatus;
     var prodStatus;
+
+    var docs = await Variants.find({ 'prodID': id }).select("status")
+    for(var i in docs){
+        if(docs[i].status!="Pending")
+        {
+            variantStatus = "Rejected";
+            break;
+        }
+    }
+    
     if (req.body.status == "Pending") {
         prodStatus = "Pending";
     } else if (req.body.status == "Incomplete") {
         prodStatus = "Incomplete";
+    }
+    else if (req.body.status == "Verified") {
+        prodStatus = "Verified";
+    }
+    else {
+        if(variantStatus != "Rejected"){
+            prodStatus = "Pending"
+        }
     }
 
     Products.findByIdAndUpdate({ _id: id }, {
@@ -235,6 +254,9 @@ router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res)
         .exec()
         .then(result => {
             console.log(result)
+            if(prodStatus != "Verified" && prodStatus != "Pending" && prodStatus != "Incomplete"){
+                prodStatus = "Rejected"
+            }
             res.redirect('/seller/products/?status=' + prodStatus)
         })
         .catch(err => {

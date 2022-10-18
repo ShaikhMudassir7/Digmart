@@ -76,6 +76,7 @@
         min-width: 250px;
         max-width: 500px;
         box-shadow: none;
+        z-index: 101;
     }
 
     #nav-search-field:focus {
@@ -85,8 +86,10 @@
     #nav-search-btn {
         color: var(--bg-dark);
         background-color: white;
+        border-color: #cecece;
         border-radius: 0 .25rem .25rem 0;
         box-shadow: none;
+        z-index: 101;
     }
 
     #nav-search-btn:hover {
@@ -94,11 +97,61 @@
         color: white;
         border-color: white;
     }
+
+    #nav-search-results {
+        position: absolute;
+        z-index: 100;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: 0 0 .5rem .5rem;
+        top: 37px;
+        width: 100%;
+        max-width: 542px;
+        display: none;
+    }
+
+    #nav-search-results ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        margin-top: .25rem;
+        padding-bottom: .25rem;
+        display: none;
+    }
+
+    .suggestion-title {
+        padding-left: 1rem;
+        font-size: .8rem;
+        font-weight: 600;
+        color: dimgray;
+        margin-bottom: .2rem;
+        background-color: rgb(230, 228, 228);
+    }
+
+    #nav-search-results li {
+        padding-left: 1rem;
+        color: dimgray;
+        cursor: pointer;
+        margin: .25rem;
+        border-radius: .35rem;
+    }
+
+    #nav-search-results li span {
+        float: right;
+        margin-right: .5rem;
+        font-size: .7rem;
+        line-height: 24px;
+    }
+
+    #nav-search-results li:hover {
+        background-color: #e8f9fafa;
+        color: #1e686dfa;
+    }
 </style>
 
 
 <nav class="navbar navbar-expand-md">
-    <div class="container-fluid ">
+    <div class="container-fluid">
         <a class="navbar-brand px-3 me-0 me-md-3" href="/">
             <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
         </a>
@@ -109,11 +162,17 @@
             </div>
             <% } %>
                 <form id="nav-search-form"
-                    class="d-flex justify-content-center col-12 col-md-5 mt-2 mt-md-0 mx-auto order-1 order-md-0 px-2 px-md-0"
-                    role="search">
-                    <input id="nav-search-field" class="form-control flex-fill ms-sm-3" type="search"
-                        placeholder="Search" aria-label="Search">
+                    class="d-flex justify-content-center col-12 col-md-5 mt-2 mt-md-0 mx-auto order-1 order-md-0  position-relative"
+                    role="search" method="post" action="/search-results">
+                    <input id="nav-search-field" class="form-control flex-fill ms-sm-3 ms-md-0" type="search"
+                        placeholder="Search" aria-label="Search" onkeyup="searchData(this)" required>
                     <button id="nav-search-btn" class="btn" type="submit"><i class="fas fa-search"></i></button>
+                    <div id="nav-search-results" class="ms-sm-3 ms-md-0">
+                        <ul id="results-products">
+                        </ul>
+                        <ul id="results-sellers">
+                        </ul>
+                    </div>
                 </form>
 
                 <div class="collapse navbar-collapse flex-row-reverse flex-grow-0">
@@ -152,7 +211,6 @@
                             <i class="fas fa-user-circle"></i>
                         </button>
                         <% } %>
-
                             <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
                                 aria-labelledby="offcanvasDarkNavbarLabel">
                                 <div class="offcanvas-header">
@@ -185,3 +243,70 @@
                             </div>
     </div>
 </nav>
+
+<script>
+    const container = document.getElementById('nav-search-results')
+    const containerSeller = document.getElementById('results-sellers')
+    const containerProduct = document.getElementById('results-products')
+    const searchField = document.getElementById('nav-search-field')
+    const searchBtn = document.getElementById('nav-search-btn')
+
+    function searchData(e) {
+        let match = e.value.match(/^[a-zA-z0-9-]*/)
+        let match2 = e.value.match(/\s*/)
+
+        if (match2[0] === e.value) {
+            container.style.display = 'none'
+            searchField.style.borderRadius = '.25rem 0 0 .25rem'
+            searchBtn.style.borderRadius = '0 .25rem .25rem 0'
+            return;
+        }
+        if (match[0] === e.value) {
+            $.ajax({
+                url: "/search",
+                type: "POST",
+                data: {
+                    payload: e.value
+                },
+                dataType: 'json',
+                success: function (res) {
+                    if (res.products.length < 1)
+                        containerProduct.style.display = 'none'
+                    else {
+                        containerProduct.style.display = 'block'
+                        containerProduct.innerHTML = '<div class="suggestion-title">Products</div>'
+                        res.products.forEach(prod => {
+                            containerProduct.innerHTML += '<li onclick="openResult(this,1)" data-resId=' + prod._id + '>' + prod.productName + '<span>' + prod.category + '</span></li>'
+                        });
+                    }
+
+                    if (res.sellers.length < 1)
+                        containerSeller.style.display = 'none'
+                    else {
+                        containerSeller.style.display = 'block'
+                        containerSeller.innerHTML = '<div class="suggestion-title">Sellers</div>'
+                        res.sellers.forEach(seller => {
+                            containerSeller.innerHTML += '<li onclick="openResult(this,2)" data-resId=' + seller._id + '>' + seller.busName + '</li>'
+                        });
+                    }
+
+                    if (containerSeller.style.display == 'block' || containerProduct.style.display == 'block') {
+                        container.style.display = 'block'
+                        searchField.style.borderRadius = '.25rem 0 0 0'
+                        searchBtn.style.borderRadius = '0 .25rem 0 0'
+                    } else {
+                        searchField.style.borderRadius = '.25rem 0 0 .25rem'
+                        searchBtn.style.borderRadius = '0 .25rem .25rem 0'
+                    }
+                }
+            })
+        }
+    }
+    function openResult(element, type) {
+        var resId = element.getAttribute("data-resId")
+        if (type == 1)
+            location.href = '/product/view-product/' + resId
+        else
+            location.href = '/seller-profile/' + resId
+    }
+</script>

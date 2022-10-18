@@ -136,8 +136,8 @@ function sortProd(val, tab) {
 
 function openProduct(productID, variantID) {
     if (variantID) {
-        window.location.href = '/product/variant/'+productID+'/'+variantID
+        location.href = '/product/variant/'+productID+'/'+variantID
     } else {
-        window.location.href = '/product/view-product/'+productID
+        location.href = '/product/view-product/'+productID
     }
 }
