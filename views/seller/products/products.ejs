@@ -64,7 +64,11 @@
                                                         <%=data.subcategory %>
                                                     </td>
                                                     <td>
-                                                        <%=data.finalPrice %>
+                                                        <% if(data.finalPrice) {%>
+                                                            <%= data.finalPrice %>
+                                                        <% } else {%>
+                                                            <span class="text-muted"> Check Variants</span>
+                                                        <% }%>
                                                     </td>
                                                     <td>
                                                         <%=data.status %>

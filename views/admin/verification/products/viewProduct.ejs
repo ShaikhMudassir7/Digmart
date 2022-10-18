@@ -25,8 +25,6 @@
                 <!-- navbar navigation component -->
                 <%- include('../../navbar') %>
                     <!-- end of navbar navigation -->
-
-
                     <div class="content">
                         <div class="container">
                             <div class="row">
@@ -194,7 +192,8 @@
                                                                             <% for (let a=0; a < data.images.length;
                                                                                 a++){ %>
                                                                                 <div class=" col-md-3">
-                                                                                    <div class="item" style="max-width: 200px; max-height: 300px;">
+                                                                                    <div class="item"
+                                                                                        style="max-width: 200px; max-height: 300px;">
                                                                                         <img src="<%=data.images[a]%>"
                                                                                             style="width: 100%; ">
                                                                                     </div>
@@ -369,7 +368,8 @@
                                                                                         </div>
 
                                                                                         <div class="modal-footer">
-                                                                                            <button type="button" onclick="chkmodal()"
+                                                                                            <button type="button"
+                                                                                                onclick="chkmodal()"
                                                                                                 class="btn btn-primary">Reject</button>
                                                                                         </div>
                                                                                     </div>
@@ -410,36 +410,32 @@
 
 
                                     <!-- Save changes Warning Modal -->
-                                    <form class="needs-validation" method="post"
-                                        action="/admin/verification/reject-product/<%=productData._id %>" novalidate
-                                        accept-charset="utf-8">
-                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">
-                                                            REMARKS
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                                        REMARKS
 
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <label for="rejectText" class="form-label">Reason(s)
-                                                            for Rejection</label>
-                                                        <input type="text" class="form-control" name="rejectText"
-                                                            id="rejectText">
-                                                    </div>
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label for="rejectText" class="form-label">Reason(s)
+                                                        for Rejection</label>
+                                                    <input type="text" class="form-control" name="rejectText"
+                                                        id="rejectText">
+                                                </div>
 
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-primary">Reject</button>
-                                                    </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" onclick="rejectproduct('<%=productData._id %>')" class="btn btn-primary">Reject</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -455,6 +451,7 @@
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
     <script src="/js/admin/product.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>

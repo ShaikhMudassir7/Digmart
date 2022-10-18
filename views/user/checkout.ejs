@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CheckOut Page</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/css/master.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <%- include('navbar') %>
+        <div class="container pt-4">
+            <div class="row">
+                <div class="col-12 col-md-9 col-lg-9" id="address">
+                    <form action="/checkout/checkout/<%= userID %>" id="addAddressForm" method="post"
+                        class="needs-validation" novalidate accept-charset="utf-8">
+                        <div class="card p-2 mb-0" style="background-color:#1e686dfa">
+                            <strong style="color: #FAFFFF; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
+                                DELIVERY ADDRESS</strong>
+                        </div>
+
+                        <% if(addressData.length!=0) { var i=0; addressData.forEach(function(data){ %>
+                            <div class="card p-4 mb-0" id="defaultAddressCard" style="background-color:#FAFFFF;">
+                                <div class="row">
+                                    <div class="col-10 col-md-10">
+                                        <input class="form-check-input" id="<%=data._id %>" type="radio"
+                                            onclick="radioSelected()" name="defaultAddress" checked>
+                                        <label class="form-label">
+                                            <b>
+                                                <%=data.firstName %>
+                                                    <%=data.lastName %>
+                                            </b>
+                                            <%=data.mobileNumber %></br>
+                                                <%=data.address %> - <%=data.pinCode %>
+                                        </label>
+
+                                    </div>
+                                    <div class="col-2 col-md-2">
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                            onclick="sweetAlertTrigger('<%=data._id %>' , '<%=userID %>')"
+                                            style="float:right;">Remove</button>
+                                        <!--                                         
+                                        <a href="/checkout/delete-address/<%=data._id%>/<%=userID%>"
+                                            class="btn btn-outline-primary btn-sm" style="float:right;">Remove</a> -->
+                                        <button type="button" id="editAddressBtn<%=data._id %>"
+                                            onclick="editAddressFunc('<%=data._id %>')" style="float:right"
+                                            class="btn btn-outline-primary btn-sm">
+                                            Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% i++; }) %>
+                                <% } %>
+
+                                    <div class="card" id="addAddressButton"
+                                        style="background-color: white; padding-left: 2%">
+                                        <div class="col-12 col-md-6 p-2">
+                                            <div onclick="showAddressDetails()" style="cursor: pointer"><i
+                                                    class="fas fa-plus-circle"></i>
+                                                Add a new address</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card p-4" id="addAddress" for="newAddress"
+                                        style="background-color:#FAFFFF; display:none">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 mb-3">
+
+                                                <label class="form-label fw-bold" for="newAddress" id="newAddressLabel">
+                                                    Add a new Address
+                                                </label>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="firstName" class="form-label">First Name</label>
+                                                <input type="text" id="firstName" name="firstName[]"
+                                                    class="form-control" placeholder="e.g. John" required>
+                                                <div class="invalid-feedback">
+                                                    Please enter your first name.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="lname" class="form-label">Last Name</label>
+                                                <input type="text" id="lname" name="lastName[]" class="form-control"
+                                                    placeholder="e.g. Smith" required>
+                                                <div class="invalid-feedback">
+                                                    Please enter your last name.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="email" class="form-label">Email Id</label>
+                                                <input type="email" id="email" name="email[]" class="form-control"
+                                                    value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                                    placeholder="e.g. johnsmith123@gmail.com" required>
+                                                <div class="invalid-feedback">
+                                                    Please enter valid email id.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="address" class="form-label">Address</label>
+                                                <input type="text" id="address" name="address[]" class="form-control"
+                                                    placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert"
+                                                    required>
+                                                <div class="invalid-feedback">
+                                                    Please enter your address.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-4 mb-3">
+                                                <label for="country" class="form-label">Country</label>
+                                                <div class="btn-group  w-100">
+                                                    <select type="button" id="country" name="country[]"
+                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <option class="dropdown-item" value="India">India</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-4 mb-3">
+                                                <label for="city" class="form-label">City</label>
+                                                <div class="btn-group  w-100">
+                                                    <select type="button" id="city" name="city[]"
+                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <option class="dropdown-item" value="Mumbai">Mumbai</option>
+                                                        <option class="dropdown-item" value="Aurangabad">Aurangabad
+                                                        </option>
+                                                        <option class="dropdown-item" value="Pune">Pune</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-4 mb-3">
+                                                <label for="pinCode" class="form-label">Pin Code</label>
+                                                <input type="text" maxlength="6" id="pinCode" name="pinCode[]"
+                                                    pattern="[1-9]{1}[0-9]{5}" class="form-control"
+                                                    placeholder="e.g. 400029" required>
+                                                <div class="invalid-feedback">
+                                                    Please enter correct pin code.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="mobileNo" class="form-label">Mobile Number</label>
+                                                <input type="text" id="mobileNo" name="mobileNumber[]" maxlength="10"
+                                                    pattern="[6789][0-9]{9}" class="form-control"
+                                                    placeholder="e.g. 9898989898" required>
+                                                <div class="invalid-feedback">
+                                                    Please enter valid Mobile number.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="ordernotes" class="form-label">Order Notes
+                                                    <span class="text-muted"> (Optional)</span>
+                                                </label>
+                                                <textarea type="input" id="ordernotes" name="orderNotes[]"
+                                                    class="form-control"
+                                                    placeholder="Notes about your order. e.g. special notes for delivery"></textarea>
+                                            </div>
+                                            <div class="col-12 mb-3  text-center">
+                                                <button type="submit" class="btn btn-outline-primary"><i
+                                                        class="fas fa-save"> </i>
+                                                    Save
+                                                    Address</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card p-4" id="editAddressCard" for="editFirstName"
+                                        style="background-color:#FAFFFF; display:none">
+                                        <div class="row">
+
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="editFirstName" class="form-label">First Name</label>
+                                                <input type="text" id="editFirstName" name="firstName[]"
+                                                    class="form-control" placeholder="e.g. John">
+                                                <div class="invalid-feedback">
+                                                    Please enter your first name.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6 mb-3">
+                                                <label for="editLastName" class="form-label">Last Name</label>
+                                                <input type="text" id="editLastName" name="lastName[]"
+                                                    class="form-control" placeholder="e.g. Smith">
+                                                <div class="invalid-feedback">
+                                                    Please enter your last name.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="editEmail" class="form-label">Email Id</label>
+                                                <input type="email" id="editEmail" name="email[]" class="form-control"
+                                                    value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                                    placeholder="e.g. johnsmith123@gmail.com">
+                                                <div class="invalid-feedback">
+                                                    Please enter valid email id.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="editAddress" class="form-label">Address</label>
+                                                <input type="text" id="editAddress" name="address[]"
+                                                    class="form-control"
+                                                    placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
+                                                <div class="invalid-feedback">
+                                                    Please enter your address.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-4 mb-3">
+                                                <label for="editCountry" class="form-label">Country</label>
+                                                <div class="btn-group  w-100">
+                                                    <select type="button" id="editCountry" name="country[]"
+                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <option class="dropdown-item" value="India">India</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-4 mb-3">
+                                                <label for="editCity" class="form-label">City</label>
+                                                <div class="btn-group  w-100">
+                                                    <select type="button" id="editCity" name="city[]"
+                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <option class="dropdown-item" value="Mumbai">Mumbai</option>
+                                                        <option class="dropdown-item" value="Aurangabad">Aurangabad
+                                                        </option>
+                                                        <option class="dropdown-item" value="Pune">Pune</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 col-md-4 mb-3">
+                                                <label for="editPinCode" class="form-label">Pin Code</label>
+                                                <input type="text" maxlength="6" id="editPinCode" name="pinCode[]"
+                                                    pattern="[1-9]{1}[0-9]{5}" class="form-control"
+                                                    placeholder="e.g. 400029">
+                                                <div class="invalid-feedback">
+                                                    Please enter your pin code.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="editMobileNo" class="form-label">Mobile Number</label>
+                                                <input type="text" id="editMobileNo" name="mobileNumber[]"
+                                                    maxlength="10" pattern="[6789][0-9]{9}" class="form-control"
+                                                    placeholder="e.g. 9898989898">
+                                                <div class="invalid-feedback">
+                                                    Please enter valid Mobile number.
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="editOrderNotes" class="form-label">Order Notes
+                                                    <span class="text-muted"> (Optional)</span>
+                                                </label>
+                                                <textarea type="input" id="editOrderNotes" name="orderNotes[]"
+                                                    class="form-control"
+                                                    placeholder="Notes about your order. e.g. special notes for delivery"></textarea>
+                                            </div>
+                                            <div class="col-12 mb-3  text-center">
+                                                <button type="button" class="btn btn-outline-primary"
+                                                    id="saveChangesBtn"><i class="fas fa-save"></i>
+                                                    Save
+                                                    Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                    </form>
+
+                    <div class="card p-2 mb-0" style="background-color:#1e686dfa">
+                        <strong style="color: #faffff; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
+                            ORDER SUMMARY</strong>
+                    </div>
+                    <div class="card p-4 mb-3" id="orderCard" style="background-color:#faffff;">
+                        <% if(cartData.length!=0) { var i=0; cartData.forEach(function(data){ %>
+                            <div class="row">
+                                <div class="card col-12 col-md-12">
+                                    <div class="row">
+
+                                        <div class="col-3 col-md-3 mt-3 mb-3">
+                                            <%if(data.variantID){%>
+                                                <img src="<%=data.variantID.images[0] %>" style="width: 100%; ">
+                                                <%}else{%>
+                                                    <img src="<%=data.productID.images[0] %>" style="width: 100%; ">
+                                                    <%}%>
+                                        </div>
+
+                                        <div class="col-9 col-md-9">
+                                            <div class="col-12 col-md-12  mt-3">
+                                                <label class="form-label mb-0" style="float:right; font-style: italic;">
+                                                    Delivery By Saturday, 8 October |
+                                                    <% if(deliveryFee=="FREE" ){ %>
+                                                        FREE <strike style="color:gray">₹ 99</strike>
+                                                        <%}else{%>
+                                                            ₹ 99
+                                                            <% } %>
+
+                                                </label>
+                                            </div>
+
+                                            <div class="col-12 col-md-12">
+                                                <label class="form-label fs-5 mb-2" for="prodName">
+                                                    <b>
+                                                        <%=data.productID.productName %>
+                                                    </b>
+                                                </label>
+                                            </div>
+                                            <div class="col-12 col-md-12">
+                                                <label class="form-label" for="prodName">
+                                                    Sold By: <b>
+                                                        <%=data.sellerID.busName %>
+                                                    </b>
+                                                </label>
+                                            </div>
+                                            <%if(data.variantID){%>
+                                                <div class="col-12 col-md-12">
+                                                    <label class="form-label" for="prodName">
+                                                        Size: <b>
+                                                            <%=data.size%>
+                                                        </b> | Colour: <b>
+                                                            <%=data.colour%>
+                                                        </b>
+                                                    </label>
+                                                </div>
+                                                <% } %>
+                                                    <div class="col-12 col-md-12">
+                                                        <label class="form-label" for="prodName">
+                                                            Quantity: <b>
+                                                                <%=data.quantity%>
+                                                            </b>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-12 col-md-12 mt-2">
+                                                        <%if(data.variantID){%>
+                                                            <label class="form-label fs-5" for="prodName">
+                                                                <b>₹ <%=data.variantID.sizes[0]["finalPrice"]%>
+                                                                </b></label>
+                                                            <%if(data.variantID.sizes[0]["discount"]!=null){%>
+                                                                <label class="form-label fs-6" style="color: gray">
+                                                                    <strike>₹
+                                                                        <%=data.variantID.sizes[0]["actualPrice"]%>
+                                                                    </strike>
+                                                                </label>
+                                                                <label class="form-label fs-5" style="color: #249c50fa">
+                                                                    <%=data.variantID.sizes[0]["discount"]%>% off
+                                                                </label>
+                                                                <%}%>
+                                                                    <%}else{%>
+                                                                        <label class="form-label fs-5" for="prodName">
+                                                                            <b>₹ <%=data.productID.finalPrice%>
+                                                                            </b></label>
+                                                                        <%if(data.productID.discount!=null){%>
+                                                                            <label class="form-label fs-6"
+                                                                                style="color: gray">
+                                                                                <strike>₹
+                                                                                    <%=data.productID.actualPrice%>
+                                                                                </strike>
+                                                                            </label>
+                                                                            <label class="form-label fs-5"
+                                                                                style="color: #249c50fa">
+                                                                                <%=data.productID.discount%>% off
+                                                                            </label>
+                                                                            <%}%>
+                                                                                <%}%>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; }) %>
+                                <% } %>
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-md-3 col-lg-3">
+                    <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
+                        <strong style="text-align: center;">
+                            <i class="fas fa-tag"></i> COUPONS
+                        </strong>
+
+                        <div id="coupon">
+                            <div class="row mt-2">
+                                <div>
+                                    <input type="text" id="couponCode" class="form-control" placeholder="Apply Coupons">
+                                    <button class="btn btn-outline-dark col-12 col-md-12 mt-2 fw-bold">APPLY</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
+                        <strong style="text-align: center;">
+                            PRICE DETAILS
+                        </strong>
+                        <div id="bill">
+                            <div class="row mt-4">
+                                <div class="col-md-6 col-sm-8 col-8">
+                                    Total MRP
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4">
+                                    <label id="totalMRP" style="float:right">
+                                        <small>₹</small>
+                                        <%= totalMRP %>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-7 col-sm-7 col-7">
+                                    Discount on MRP
+                                </div>
+                                <div class="col-md-5 col-sm-5 col-5">
+                                    <label id="subtotal" style="float:right; color: #189ca5fa;">
+                                        -<small>₹</small>
+                                        <%= discountOnMRP %>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-7 col-sm-9 col-9">
+                                    Coupon Discount
+                                </div>
+                                <div class="col-md-5 col-sm-3 col-3">
+                                    <label id="subtotal" style="float:right; color: #189ca5fa;">
+                                        -<small>₹</small>
+                                        <%= couponDiscount %>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-6 col-sm-8 col-8">
+                                    Delivery
+                                    <svg class="secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-question-circle" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                            d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                    </svg>
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4">
+                                    <label id="delivery" style="float:right">
+                                        <%= deliveryFee %>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6 col-sm-8 col-8 fw-bold">
+                                    Total Amount
+                                </div>
+                                <div class="col-md-6 col-sm-4 col-4 fw-bold">
+                                    <label id="subtotal" style="float:right">
+                                        <small>₹</small>
+                                        <%= finalPrice %>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-dark mt-4" id="buy"
+                            onclick="continueToPayment()"><b>CONTINUE TO
+                                PAYMENT</b>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Shipping Policy</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <span style="text-decoration:underline;">
+                                <strong>Domestic Shipping :</strong>
+                            </span>
+                        </p>
+                        <p>We ship all over India.</p>
+                        <p>Once we receive your order, we ship your product(s) within 2-3 working days using
+                            some of the best courier
+                            services available.
+                            You should receive your order within 7-10 working days from dispatch.
+                            In situations beyond DigMart's control, there may be circumstances which cause a
+                            delay.
+                            In such cases, DigMart's will strive to ensure delivery in the earliest timeframe
+                            possible.</p>
+                        <p>Free shipping on
+                            <strong>PREPAID</strong> orders when u shop for <strong>INR : 590/-</strong> or
+                            Above within
+                            <strong>INDIA.</strong>
+                        </p>
+
+                        <p>We charge a flat shipping rate of &#8377;60/- per order, when you shop below
+                            <strong>&#8377; 590/-</strong>.
+                        </p>
+                        <p>COD services are available all over India.</p>
+
+                        <p><span style="text-decoration:underline;">
+                                <strong>International Shipping:-</strong>
+                            </span>
+                        </p>
+                        <p><strong>We are shipping worldwide.</strong></p>
+
+                        <p>Note :- Standard and Free Shipping Deliveries to <strong>Jammu and
+                                Kashmir</strong>
+                            takes 20 days or more. So we
+                            always recommend customers from <strong>Jammu and Kashmir</strong> to choose
+                            <strong>Speed-post</strong> option
+                            to get their order delivered within 12 days approx.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script>
+            var newAddressRadio = document.getElementById("newAddress")
+            var defaultAddressCard = document.getElementById("defaultAddressCard")
+
+            function showAddressDetails() {
+                document.getElementById("addAddress").style.display = "block"
+                document.getElementById("addAddressButton").style.display = "none"
+                defaultAddressCard.style.backgroundColor = "white"
+                document.getElementById("editAddressCard").style.display = "none"
+
+            }
+
+            function radioSelected() {
+                document.getElementById("addAddress").style.display = "none"
+                document.getElementById("addAddressButton").style.display = "block"
+                defaultAddressCard.style.backgroundColor = "#FAFFFF"
+            }
+
+            function editAddressFunc(addressID) {
+                document.getElementById("addAddress").style.display = "none"
+                document.getElementById("addAddressButton").style.display = "block"
+                var editAddressBtn = document.getElementById("editAddressBtn" + addressID);
+                var editAddressCard = document.getElementById("editAddressCard")
+                let row_item = $(editAddressBtn).parent().parent().parent();
+                $(row_item).append($(editAddressCard).show())
+                editAddressShowDetails(addressID)
+            }
+
+            function editAddressShowDetails(addressID) {
+                var editFirstName = document.getElementById("editFirstName")
+                var editLastName = document.getElementById("editLastName")
+                var editEmail = document.getElementById("editEmail")
+                var editAddress = document.getElementById("editAddress")
+                var editPinCode = document.getElementById("editPinCode")
+                var editMobileNo = document.getElementById("editMobileNo")
+                var editOrderNotes = document.getElementById("editOrderNotes")
+                var saveChangesBtn = document.getElementById("saveChangesBtn")
+
+                editFirstName.setAttribute('required', "")
+                editLastName.setAttribute('required', "")
+                editEmail.setAttribute('required', "")
+                editAddress.setAttribute('required', "")
+                editPinCode.setAttribute('required', "")
+                editMobileNo.setAttribute('required', "")
+
+                $.ajax({
+                    url: "/checkout/edit-address/" + addressID,
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    success: function (res) {
+                        editFirstName.value = res.firstName
+                        editLastName.value = res.lastName
+                        editEmail.value = res.email
+                        editAddress.value = res.address
+                        editCountry.value = res.country
+                        editCity.value = res.city
+                        editPinCode.value = res.pinCode
+                        editMobileNo.value = res.mobileNumber
+                        editOrderNotes.value = res.orderNotes
+                    }
+                })
+
+                $("#saveChangesBtn").click(function (e) {
+                    e.preventDefault()
+                    if ($(editFirstName)[0].validity.valid &&
+                        $(editLastName)[0].validity.valid &&
+                        $(editEmail)[0].validity.valid &&
+                        $(editAddress)[0].validity.valid &&
+                        $(editPinCode)[0].validity.valid &&
+                        $(editMobileNo)[0].validity.valid) {
+                        $.ajax({
+                            url: "/checkout/edit-address/" + addressID,
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            data: JSON.stringify({
+                                firstName: editFirstName.value,
+                                lastName: editLastName.value,
+                                email: editEmail.value,
+                                address: editAddress.value,
+                                country: editCountry.value,
+                                city: editCity.value,
+                                pinCode: editPinCode.value,
+                                mobileNumber: editMobileNo.value,
+                                orderNotes: editOrderNotes.value
+                            }),
+                            success: function (res) {
+                                window.location = "/checkout/" + '<%= userID %>'
+                            }
+                        })
+                    }
+                    else {
+                        var form = $("#addAddressForm")
+                        form.addClass('was-validated');
+                    }
+                })
+            }
+
+            function sweetAlertTrigger(dataID, userID) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this address!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location = "/checkout/delete-address/" + dataID + "/" + userID
+                        }
+                    });
+            }
+
+            function continueToPayment() {
+                var selectedRadio = $('input[name=defaultAddress]:checked').attr('id');
+                alert(selectedRadio)
+            }
+        </script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/form-validator.js"></script>
+        <script src="/js/user/swiper-bundle.min.js"></script>
+</body>
+
+</html>

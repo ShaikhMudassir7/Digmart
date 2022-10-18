@@ -17,6 +17,12 @@ function check(abc) {
                 variantID: btnval,
                 status: status,
             },
+            success: function () {
+                swal({
+                    title: "Variant Verified",
+                    icon: "success",
+                })
+            }
         })
     }else{
         $('#variantBackdrop').modal('show');
@@ -34,6 +40,13 @@ $.ajax({
         variantID: btnval,
         status: val,
     },
+    success: function () {
+        swal({
+            title: "Variant Rejected",
+            icon: "warning",
+            dangerMode: true,
+        })
+    }
 })
 }
 
@@ -48,10 +61,46 @@ function checkvariant(id,status) {
         dataType: 'json',
         success: function (result) {
             if (result.status){
-                window.location.href='/admin/verification/accept-product/'+id
+                $.ajax({
+                    url: "/admin/verification/accept-product/"+id,
+                    type: "GET",
+                    success: function () {
+                        swal({
+                            title: "Product Verfied",
+                            icon: "success",
+                        }).then(function() {
+                            window.location = "/admin/verification/product";
+                        });
+                    }
+                })
+               
             }else{
-                alert("Pending Variants are remaining")
+                swal({
+                    title: "Pending Variants are Still left",
+                    icon: "warning",
+                    dangerMode: true,
+                })
             } 
+        }
+    })
+}
+
+function rejectproduct(id) {
+    $.ajax({
+        url: "/admin/verification/reject-product",
+        type: "POST",
+        data: {
+            productID: id,
+            status: "Rejected : " +document.getElementById("rejectText").value,
+        },
+        success: function () {
+            swal({
+                title: "Product Rejected",
+                icon: "warning",
+                dangerMode: true,
+            }).then(function() {
+                window.location = "/admin/verification/product";
+            });
         }
     })
 }
