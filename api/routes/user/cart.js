@@ -54,7 +54,7 @@ router.post('/add-to-cart', async (req, res) => {
             quantity: "1"
         })
         
-        await Cart.find({ variantID:  req.body.variantID,userID: req.session.userid}).then(doc => {
+        await Cart.find({ variantID:  req.body.variantID,userID: req.session.userid, size: req.body.size}).then(doc => {
             if(doc.length!=0){
                 status=false;
                 res.json({ status: status });
