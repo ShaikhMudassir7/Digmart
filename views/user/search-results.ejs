@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <title>DigMart</title>
+    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/user/range-slider.css" rel="stylesheet">
+    <link href="/css/user/shop-by-category.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <section id="header">
+        <%- include('navbar') %>
+    </section>
+
+
+    <input type="hidden" id="hidLogin" value="<%=user%>">
+
+    <!-- FOOTER -->
+    <%- include('footer') %>
+
+    <!-- Login Modal -->
+    <%- include('login') %>
+</body>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/user/range-slider.js"></script>
+<script src="/js/user/shop-by-category.js"></script>
+<script src="/js/user/login.js"></script>
+
+</html>
