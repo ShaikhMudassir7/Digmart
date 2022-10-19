@@ -207,10 +207,81 @@ function showError(error) {
 
 function openProduct(productID, variantID) {
     if (variantID) {
-        window.location.href = '/product/variant/'+productID+'/'+variantID
+        location.href = '/product/variant/' + productID + '/' + variantID
     } else {
-        window.location.href = '/product/view-product/'+productID
+        location.href = '/product/view-product/' + productID
     }
+}
+
+function openSeller(sellerID) {
+    location.href = '/seller-profile/' + sellerID
+}
+
+
+function searchData(e) {
+
+    const container = document.getElementById('search-results')
+    const containerSeller = document.getElementById('results-sellers')
+    const containerProduct = document.getElementById('results-products')
+    const searchField = document.getElementById('searchField')
+    const searchBtn = document.getElementById('searchBtn')
+
+    let match = e.value.match(/^[a-zA-z0-9-]*/)
+    let match2 = e.value.match(/\s*/)
+
+    if (match2[0] === e.value) {
+        container.style.display = 'none'
+        searchField.style.borderRadius = '10px 0 0 10px'
+        searchBtn.style.borderRadius = '0 10px 10px 0'
+        return;
+    }
+    if (match[0] === e.value) {
+        $.ajax({
+            url: "/search",
+            type: "POST",
+            data: {
+                payload: e.value
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.products.length < 1)
+                    containerProduct.style.display = 'none'
+                else {
+                    containerProduct.style.display = 'block'
+                    containerProduct.innerHTML = '<div class="suggestion-title">Products</div>'
+                    res.products.forEach(prod => {
+                        containerProduct.innerHTML += '<li onclick="openResult(this,1)" data-resId=' + prod._id + '>' + prod.productName + '<span>' + prod.category + '</span></li>'
+                    });
+                }
+
+                if (res.sellers.length < 1)
+                    containerSeller.style.display = 'none'
+                else {
+                    containerSeller.style.display = 'block'
+                    containerSeller.innerHTML = '<div class="suggestion-title">Sellers</div>'
+                    res.sellers.forEach(seller => {
+                        containerSeller.innerHTML += '<li onclick="openResult(this,2)" data-resId=' + seller._id + '>' + seller.busName + '</li>'
+                    });
+                }
+
+                if (containerSeller.style.display == 'block' || containerProduct.style.display == 'block') {
+                    container.style.display = 'block'
+                    searchField.style.borderRadius = '10px 0 0 0'
+                    searchBtn.style.borderRadius = '0 10px 0 0'
+                } else {
+                    searchField.style.borderRadius = '10px 0 0 10px'
+                    searchBtn.style.borderRadius = '0 10px 10px 0'
+                }
+            }
+        })
+    }
+}
+function openResult(element, type) {
+    var resId = element.getAttribute("data-resId")
+    if (type == 1)
+        location.href = '/product/view-product/' + resId
+    else
+        location.href = '/seller-profile/' + resId
 }
 
 $("#navbar-menu").on("shown.bs.collapse", function () {

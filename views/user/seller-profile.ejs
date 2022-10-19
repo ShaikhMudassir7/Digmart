@@ -8,14 +8,21 @@
 
   <link rel="icon" type="image/png" href="/img/favicon.png" />
   <title>DigMart - Seller Profile</title>
+  <style>
+    #overview-navbar .nav-link:hover {
+        transform: scale(1.1);
+    }
+    #myTab .nav-link:hover {
+        transform: scale(1);
+    }
+
+</style>
   <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
   <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet" />
   <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet" />
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/css/user/seller-profile.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-  <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet" />
+  <!-- <link href="/css/seller-profile.css" rel="stylesheet" /> -->
   <link href="/css/user/shop-by-category.css" rel="stylesheet">
 
 </head>
@@ -107,7 +114,7 @@
   </div>
 
   <!--this is the category and product section-->
-  <div class="container shadow">
+  <div class="container shadow p-0">
     <div class="page-title mt-2 mb-4">
       <ul class="nav nav-justified nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -117,14 +124,14 @@
           </button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link text-success" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+          <button class="nav-link text-success"  id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
             type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
             Photos
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link text-success" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
-            type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+            type="button"  role="tab" aria-controls="contact-tab-pane" aria-selected="false">
             Products
           </button>
         </li>
@@ -133,22 +140,22 @@
         <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
           tabindex="0">
           <div class="row">
-            <div class="col-4 p-0">
-              <nav id="navbar-example3" class="h-100 flex-column align-items-stretch shadow pe-4 border-end">
+            <div class="col-4 p-2">
+              <nav id="overview-navbar" class="ms-3 mt-2  h-100 flex-column align-items-stretch  pe-4 border-end">
                 <nav class="nav nav-pill flex-column">
-                  <a class="nav-link btn-outline-light text-dark btn-rounded" href="#item-1">Elecrtonic Devices</a>
+                  <a class="nav-link btn-outline-light btn-rounded" style="background-color: #3d7b7ffa;" href="#item-1">Elecrtonic Devices</a>
                   <nav class="nav nav-pill flex-column">
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1" href="#item-1-1">Smart
+                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1" style="background-color: #f1f2f2fa;" href="#item-1-1">Smart
                       Phones</a>
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1" href="#item-1-2">Smart
+                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1" style="background-color: #f1f2f2fa;" href="#item-1-2">Smart
                       Watches</a>
                   </nav>
-                  <a class="nav-link btn-outline-light text-dark btn-rounded" href="#item-2">Mens Accessories</a>
-                  <a class="nav-link btn-outline-light text-dark btn-rounded" href="#item-3">Electronic Accessories</a>
+                  <a class="nav-link btn-outline-light  btn-rounded" style="background-color: #3d7b7ffa;" href="#item-2">Mens Accessories</a>
+                  <a class="nav-link btn-outline-light  btn-rounded" style="background-color: #3d7b7ffa;" href="#item-3">Electronic Accessories</a>
                   <nav class="nav nav-pill flex-column">
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1" href="#item-3-1">Ear
+                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1"  style="background-color: #f1f2f2fa;" href="#item-3-1">Ear
                       Phones</a>
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1" href="#item-3-2">Chargers</a>
+                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1" style="background-color: #f1f2f2fa;" href="#item-3-2">Chargers</a>
                   </nav>
                 </nav>
               </nav>
@@ -372,6 +379,7 @@
   </div>
   <%- include('footer') %>
 </body>
-
-<script src="/js/user/shop-by-category.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/js/user/seller-profile.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
 </html>

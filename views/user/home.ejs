@@ -28,8 +28,9 @@
                     <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
                 </a>
                 <button
-                    class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around me-1 position-relative" id="navbar-toggler">
-                    <span class="fas fa-bars fs-4 text-white"></span>                
+                    class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around me-1 position-relative"
+                    id="navbar-toggler">
+                    <span class="fas fa-bars fs-4 text-white"></span>
                 </button>
                 <div class="collapse navbar-collapse " id="navbar-menu">
                     <ul class="navbar-nav ms-auto me-2 me-lg-4 mb-2 mb-md-0">
@@ -158,30 +159,22 @@
                 <h2 class="fs-2" style="letter-spacing: 1.75px;">Discover the best in your Locality</h2>
             </div>
             <div class="search-wrapper pt-4  mx-auto">
-                <div class="d-flex search-field justify-content-center align-items-center" role="search">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn" type="button"><i class="fas fa-search"></i></button>
+                <form class="d-flex search-container justify-content-center align-items-center" role="search" method="post" action="/search-results">
+                    <input id="searchField" class="form-control" type="search" placeholder="Search" aria-label="Search"
+                        onkeyup="searchData(this)" required>
+                    <button id="searchBtn" class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div id="search-results">
+                    <ul id="results-products">
+                    </ul>
+                    <ul id="results-sellers">
+                    </ul>
                 </div>
             </div>
 
         </div>
     </section>
-    <!-- <div class="search-results position-absolute" >
-        <div id="results-products" style="background-color: rgb(92, 90, 90); color: black;">
-            hi
-        </div>
-        <div id="results-sellers" style="background-color: rgb(92, 90, 90); color: black; display: block;">
-           <p>1</p>
-           <p>1</p>
-           <p>1</p>
-           <p>1</p>
-           <p>1</p>
-           <p>1</p>
-           <p>1</p>
-           <p>1</p>
-           <p>1</p>
-        </div>
-    </div> -->
+
     <!-- CATEGORIES -->
     <section id="Categories" style="margin-top: 4rem; margin-bottom: 4rem;">
         <div class="headline text-center m-4">
@@ -223,23 +216,19 @@
             <div class="swiper sellerSwiper">
                 <div id="seller1" class="swiper-wrapper">
                     <% if(selData.length!=0){ selData.forEach(function(data){ %>
-                        <div class="sel swiper-slide">
+                        <div class="sel swiper-slide" onclick="openSeller('<%=data._id%>')">
                             <div class="imgDiv">
-                                <a href="">
-                                    <img src="<%=data.busLogo%>" class="rounded-circle" alt="<%=data.busName%>">
-                                </a>
+                                <img src="<%=data.busLogo%>" class="rounded-circle" alt="<%=data.busName%>">
                             </div>
                             <div class="des px-2 text-center">
-                                <a href="">
-                                    <span class="selName fs-5 d-block"><b>
-                                            <%=data.busName%>
-                                        </b></span>
-                                    <span class="selCat text-muted d-block">
-                                        <%data.busCat.forEach(function(cat){%>
-                                            <%=cat.catName%>,
-                                                <% })%>
-                                    </span>
-                                </a>
+                                <span class="selName fs-5 d-block"><b>
+                                        <%=data.busName%>
+                                    </b></span>
+                                <span class="selCat text-muted d-block">
+                                    <%data.busCat.forEach(function(cat){%>
+                                        <%=cat.catName%>,
+                                            <% })%>
+                                </span>
                             </div>
                         </div>
                         <% }) } %>
@@ -260,41 +249,38 @@
                     <div class="pro swiper-slide">
                         <%if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
                             if(varDocs[j].prodID.equals(product._id)){ %>
-                                <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                            <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                                <%if(varDocs[j].sizes[0].discount){%>
+                                    <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
+                                    <%}%>
+                                        <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
+                            </div>
+                            <div class="des px-2 text-start"
+                                onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                                <span class="prodCat d-block">
+                                    <%=product.category%>
+                                </span>
+                                <span class="prodName d-block">
+                                    <%=product.productName%>
+                                </span>
+                                <div class="prodRating"><i class="fa fa-star"> 4.2</i></div>
+                                <div>
+                                    <span class="prodPrice">
+                                        <%=varDocs[j].sizes[0].finalPrice%>
+                                    </span>
                                     <%if(varDocs[j].sizes[0].discount){%>
-                                        <div class="prodDiscount">
-                                            <%=varDocs[j].sizes[0].discount%>
-                                        </div>
-                                        <%}%>
-                                            <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
-                                </div>
-                                <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
-                                    <span class="prodCat d-block">
-                                        <%=product.category%>
-                                    </span>
-                                    <span class="prodName d-block">
-                                        <%=product.productName%>
-                                    </span>
-                                    <div class="prodRating"><i class="fa fa-star"> 4.2</i></div>
-                                    <div>
-                                        <span class="prodPrice">
-                                            <%=varDocs[j].sizes[0].finalPrice%>
+                                        <span class="discPrice text-muted px-2">
+                                            <%=varDocs[j].sizes[0].actualPrice%>
                                         </span>
-                                        <%if(varDocs[j].sizes[0].discount){%>
-                                            <span class="discPrice text-muted px-2">
-                                                <%=varDocs[j].sizes[0].actualPrice%>
-                                            </span>
-                                            <%}%>
-                                    </div>
+                                        <%}%>
                                 </div>
-                                <i class="fa fa-heart"
-                                    onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
+                            </div>
+                            <i class="fa fa-heart"
+                                onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                             <%}}} else {%>
                                 <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
                                     <%if(product.discount){%>
-                                        <div class="prodDiscount">
-                                            <%=product.discount%>
-                                        </div>
+                                        <div class="prodDiscount"><%=product.discount%></div>
                                         <%}%>
                                             <img src="<%=product.images%>" alt="<%=product.productName%>">
                                 </div>
@@ -319,7 +305,7 @@
                                 </div>
                                 <i class="fa fa-heart"
                                     onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
-                            <%}%>
+                                <%}%>
                     </div>
                     <%})%>
             </div>

@@ -50,7 +50,7 @@ router.post('/add-to-wishlist', async (req, res) => {
             productID: req.body.productID,
             size: req.body.size,
         })
-        await Wishlist.find({ variantID:  req.body.variantID,userID: req.session.userid}).then(doc => {
+        await Wishlist.find({ variantID:  req.body.variantID,userID: req.session.userid, size: req.body.size}).then(doc => {
             if(doc.length!=0){
                 status=false;
                 res.json({ status: status });
