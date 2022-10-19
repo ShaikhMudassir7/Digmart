@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-    
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,8 +18,8 @@
         <div class="container pt-4">
             <div class="row">
                 <div class="col-12 col-md-9 col-lg-9" id="address">
-                    <form action="/checkout/checkout/<%= userID %>" id="addAddressForm" method="post"
-                        class="needs-validation" novalidate accept-charset="utf-8">
+                    <form action="/checkout/checkout" id="addAddressForm" method="post" class="needs-validation"
+                        novalidate accept-charset="utf-8">
                         <div class="card p-2 mb-0" style="background-color:#1e686dfa">
                             <strong style="color: #FAFFFF; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
                                 DELIVERY ADDRESS</strong>
@@ -39,15 +39,11 @@
                                             <%=data.mobileNumber %></br>
                                                 <%=data.address %> - <%=data.pinCode %>
                                         </label>
-
                                     </div>
                                     <div class="col-2 col-md-2">
                                         <button type="button" class="btn btn-outline-primary btn-sm"
-                                            onclick="sweetAlertTrigger('<%=data._id %>' , '<%=userID %>')"
+                                            onclick="sweetAlertTrigger('<%=data._id %>')"
                                             style="float:right;">Remove</button>
-                                        <!--                                         
-                                        <a href="/checkout/delete-address/<%=data._id%>/<%=userID%>"
-                                            class="btn btn-outline-primary btn-sm" style="float:right;">Remove</a> -->
                                         <button type="button" id="editAddressBtn<%=data._id %>"
                                             onclick="editAddressFunc('<%=data._id %>')" style="float:right"
                                             class="btn btn-outline-primary btn-sm">
@@ -55,7 +51,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <% i++; }) %>
                                 <% } %>
 
@@ -72,7 +67,6 @@
                                         style="background-color:#FAFFFF; display:none">
                                         <div class="row">
                                             <div class="col-12 col-md-12 mb-3">
-
                                                 <label class="form-label fw-bold" for="newAddress" id="newAddressLabel">
                                                     Add a new Address
                                                 </label>
@@ -117,26 +111,30 @@
                                             </div>
 
                                             <div class="col-6 col-md-4 mb-3">
-                                                <label for="country" class="form-label">Country</label>
-                                                <div class="btn-group  w-100">
-                                                    <select type="button" id="country" name="country[]"
-                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <option class="dropdown-item" value="India">India</option>
-                                                    </select>
-                                                </div>
+                                                <label for="state" class="form-label">State</label>
+                                                <select name="state[]" class="form-select" id="state" required>
+                                                    <option value="">
+                                                        ---Choose State---
+                                                    </option>
+                                                    <option value="Maharashtra">
+                                                        Maharashtra
+                                                    </option>
+                                                </select>
                                             </div>
 
                                             <div class="col-6 col-md-4 mb-3">
                                                 <label for="city" class="form-label">City</label>
                                                 <div class="btn-group  w-100">
-                                                    <select type="button" id="city" name="city[]"
-                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <option class="dropdown-item" value="Mumbai">Mumbai</option>
-                                                        <option class="dropdown-item" value="Aurangabad">Aurangabad
+                                                    <select name="city[]" class="form-select" id="city" required>
+                                                        <option value="">
+                                                            ---Choose City---
                                                         </option>
-                                                        <option class="dropdown-item" value="Pune">Pune</option>
+                                                        <option value="Mumbai">
+                                                            Mumbai
+                                                        </option>
+                                                        <option value="Pune">
+                                                            Pune
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -161,14 +159,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12 mb-3">
-                                                <label for="ordernotes" class="form-label">Order Notes
-                                                    <span class="text-muted"> (Optional)</span>
-                                                </label>
-                                                <textarea type="input" id="ordernotes" name="orderNotes[]"
-                                                    class="form-control"
-                                                    placeholder="Notes about your order. e.g. special notes for delivery"></textarea>
-                                            </div>
                                             <div class="col-12 mb-3  text-center">
                                                 <button type="submit" class="btn btn-outline-primary"><i
                                                         class="fas fa-save"> </i>
@@ -178,7 +168,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card p-4" id="editAddressCard" for="editFirstName"
+                                    <div class="card p-4" id="editAddressCard" for="editFirstName" class="editAddresses"
                                         style="background-color:#FAFFFF; display:none">
                                         <div class="row">
 
@@ -221,28 +211,24 @@
                                             </div>
 
                                             <div class="col-6 col-md-4 mb-3">
-                                                <label for="editCountry" class="form-label">Country</label>
-                                                <div class="btn-group  w-100">
-                                                    <select type="button" id="editCountry" name="country[]"
-                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <option class="dropdown-item" value="India">India</option>
-                                                    </select>
-                                                </div>
+                                                <label for="editState" class="form-label">State</label>
+                                                <select name="state[]" class="form-select" id="editState">
+                                                    <option value="">
+                                                        ---Choose State---
+                                                    </option>
+                                                    <option value="Maharashtra">
+                                                        Maharashtra
+                                                    </option>
+                                                </select>
                                             </div>
 
                                             <div class="col-6 col-md-4 mb-3">
                                                 <label for="editCity" class="form-label">City</label>
-                                                <div class="btn-group  w-100">
-                                                    <select type="button" id="editCity" name="city[]"
-                                                        class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <option class="dropdown-item" value="Mumbai">Mumbai</option>
-                                                        <option class="dropdown-item" value="Aurangabad">Aurangabad
-                                                        </option>
-                                                        <option class="dropdown-item" value="Pune">Pune</option>
-                                                    </select>
-                                                </div>
+                                                <select name="city[]" class="form-select" id="editCity">
+                                                    <option value="">---Choose City---</option>
+                                                    <option value="Mumbai">Mumbai</option>
+                                                    <option value="Pune">Pune</option>
+                                                </select>
                                             </div>
 
                                             <div class="col-6 col-md-4 mb-3">
@@ -265,14 +251,6 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12 mb-3">
-                                                <label for="editOrderNotes" class="form-label">Order Notes
-                                                    <span class="text-muted"> (Optional)</span>
-                                                </label>
-                                                <textarea type="input" id="editOrderNotes" name="orderNotes[]"
-                                                    class="form-control"
-                                                    placeholder="Notes about your order. e.g. special notes for delivery"></textarea>
-                                            </div>
                                             <div class="col-12 mb-3  text-center">
                                                 <button type="button" class="btn btn-outline-primary"
                                                     id="saveChangesBtn"><i class="fas fa-save"></i>
@@ -287,102 +265,127 @@
                         <strong style="color: #faffff; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
                             ORDER SUMMARY</strong>
                     </div>
-                    <div class="card p-4 mb-3" id="orderCard" style="background-color:#faffff;">
+                    <div class="card p-4" id="orderCard" style="background-color:#faffff;">
                         <% if(cartData.length!=0) { var i=0; cartData.forEach(function(data){ %>
                             <div class="row">
                                 <div class="card col-12 col-md-12">
                                     <div class="row">
-
-                                        <div class="col-3 col-md-3 mt-3 mb-3">
-                                            <%if(data.variantID){%>
-                                                <img src="<%=data.variantID.images[0] %>" style="width: 100%; ">
-                                                <%}else{%>
-                                                    <img src="<%=data.productID.images[0] %>" style="width: 100%; ">
-                                                    <%}%>
+                                        <div class="col-12 col-md-12  mt-2">
+                                            <label class="form-label mb-0" style="float:right; font-style: italic;">
+                                                Delivery By Saturday, 8 October |
+                                                <% if(deliveryFee=="FREE" ){ %>
+                                                    FREE <strike style="color:gray">₹ 99</strike>
+                                                    <%}else{%>
+                                                        ₹ 99
+                                                        <% } %>
+                                            </label>
                                         </div>
 
-                                        <div class="col-9 col-md-9">
-                                            <div class="col-12 col-md-12  mt-3">
-                                                <label class="form-label mb-0" style="float:right; font-style: italic;">
-                                                    Delivery By Saturday, 8 October |
-                                                    <% if(deliveryFee=="FREE" ){ %>
-                                                        FREE <strike style="color:gray">₹ 99</strike>
+                                        <div class="col-12 col-md-10">
+                                            <div class="row">
+                                                <div class="col-6 col-md-2 mt-2">
+                                                    <%if(data.variantID){%>
+                                                        <img src="<%=data.variantID.images[0] %>" class="w-100">
                                                         <%}else{%>
-                                                            ₹ 99
-                                                            <% } %>
-
-                                                </label>
-                                            </div>
-
-                                            <div class="col-12 col-md-12">
-                                                <label class="form-label fs-5 mb-2" for="prodName">
-                                                    <b>
-                                                        <%=data.productID.productName %>
-                                                    </b>
-                                                </label>
-                                            </div>
-                                            <div class="col-12 col-md-12">
-                                                <label class="form-label" for="prodName">
-                                                    Sold By: <b>
-                                                        <%=data.sellerID.busName %>
-                                                    </b>
-                                                </label>
-                                            </div>
-                                            <%if(data.variantID){%>
-                                                <div class="col-12 col-md-12">
-                                                    <label class="form-label" for="prodName">
-                                                        Size: <b>
-                                                            <%=data.size%>
-                                                        </b> | Colour: <b>
-                                                            <%=data.colour%>
-                                                        </b>
-                                                    </label>
+                                                            <img src="<%=data.productID.images[0] %>" class="w-100">
+                                                            <%}%>
                                                 </div>
-                                                <% } %>
-                                                    <div class="col-12 col-md-12">
-                                                        <label class="form-label" for="prodName">
-                                                            Quantity: <b>
-                                                                <%=data.quantity%>
-                                                            </b>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-12 col-md-12 mt-2">
+                                                <div class="col-12 col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-12">
+                                                            <label class="form-label mt-1 mb-0"
+                                                                style="text-align:justify">
+                                                                <h5><b>
+                                                                        <%=data.productID.productName %>
+                                                                    </b></h5>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-12 col-md-12">
+                                                            <label class="form-label">
+                                                                Sold By: <b>
+                                                                    <%=data.sellerID.busName %>
+                                                                </b>
+                                                            </label>
+                                                        </div>
                                                         <%if(data.variantID){%>
-                                                            <label class="form-label fs-5" for="prodName">
-                                                                <b>₹ <%=data.variantID.sizes[0]["finalPrice"]%>
-                                                                </b></label>
-                                                            <%if(data.variantID.sizes[0]["discount"]!=null){%>
-                                                                <label class="form-label fs-6" style="color: gray">
-                                                                    <strike>₹
-                                                                        <%=data.variantID.sizes[0]["actualPrice"]%>
-                                                                    </strike>
-                                                                </label>
-                                                                <label class="form-label fs-5" style="color: #249c50fa">
-                                                                    <%=data.variantID.sizes[0]["discount"]%>% off
-                                                                </label>
-                                                                <%}%>
-                                                                    <%}else{%>
-                                                                        <label class="form-label fs-5" for="prodName">
-                                                                            <b>₹ <%=data.productID.finalPrice%>
-                                                                            </b></label>
-                                                                        <%if(data.productID.discount!=null){%>
-                                                                            <label class="form-label fs-6"
-                                                                                style="color: gray">
-                                                                                <strike>₹
-                                                                                    <%=data.productID.actualPrice%>
-                                                                                </strike>
-                                                                            </label>
-                                                                            <label class="form-label fs-5"
-                                                                                style="color: #249c50fa">
-                                                                                <%=data.productID.discount%>% off
-                                                                            </label>
-                                                                            <%}%>
-                                                                                <%}%>
-                                                    </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
+                                                            <div class="col-12 col-md-12">
+                                                                <div class="row">
+                                                                    <div class="col-6 col-md-3">
+                                                                        <label class="form-label">
+                                                                            Size: <b>
+                                                                                <%=data.size%>
+                                                                            </b>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-md-3">
+                                                                        <label class="form-label">
+                                                                            Colour: <b>
+                                                                                <%=data.colour%>
+                                                                            </b>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-3">
+                                                                        <label class="form-label">
+                                                                            Quantity: <b>
+                                                                                <%=data.quantity%>
+                                                                            </b>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <% }else{ %>
+                                                                <div class="col-12 col-md-12">
+                                                                    <label class="form-label">
+                                                                        Quantity: <b>
+                                                                            <%=data.quantity%>
+                                                                        </b>
+                                                                    </label>
+                                                                </div>
+                                                                <% } %>
 
+                                                                    <div class="col-12 col-md-12">
+                                                                        <%if(data.variantID){%>
+                                                                            <label class="form-label fs-5">
+                                                                                <b>₹ <%=data.variantID.sizes[0]["finalPrice"]%>
+                                                                                </b></label>
+                                                                            <%if(data.variantID.sizes[0]["discount"]!=null){%>
+                                                                                <label class="form-label fs-6"
+                                                                                    style="color: gray">
+                                                                                    <strike>₹
+                                                                                        <%=data.variantID.sizes[0]["actualPrice"]%>
+                                                                                    </strike>
+                                                                                </label>
+                                                                                <label class="form-label fs-5"
+                                                                                    style="color: #249c50fa">
+                                                                                    <%=data.variantID.sizes[0]["discount"]%>
+                                                                                        % off
+                                                                                </label>
+                                                                                <%}%>
+                                                                                    <%}else{%>
+                                                                                        <label class="form-label fs-5">
+                                                                                            <b>₹ <%=data.productID.finalPrice%>
+                                                                                            </b></label>
+                                                                                        <%if(data.productID.discount!=null){%>
+                                                                                            <label
+                                                                                                class="form-label fs-6"
+                                                                                                style="color: gray">
+                                                                                                <strike>₹
+                                                                                                    <%=data.productID.actualPrice%>
+                                                                                                </strike>
+                                                                                            </label>
+                                                                                            <label
+                                                                                                class="form-label fs-5"
+                                                                                                style="color: #249c50fa">
+                                                                                                <%=data.productID.discount%>
+                                                                                                    % off
+                                                                                            </label>
+                                                                                            <%}%>
+                                                                                                <%}%>
+                                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -510,7 +513,8 @@
                             You should receive your order within 7-10 working days from dispatch.
                             In situations beyond DigMart's control, there may be circumstances which cause a
                             delay.
-                            In such cases, DigMart's will strive to ensure delivery in the earliest timeframe
+                            In such cases, DigMart's will strive to ensure delivery in the earliest
+                            timeframe
                             possible.</p>
                         <p>Free shipping on
                             <strong>PREPAID</strong> orders when u shop for <strong>INR : 590/-</strong> or
@@ -539,7 +543,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-
                     </div>
                 </div>
             </div>
@@ -554,7 +557,6 @@
                 document.getElementById("addAddressButton").style.display = "none"
                 defaultAddressCard.style.backgroundColor = "white"
                 document.getElementById("editAddressCard").style.display = "none"
-
             }
 
             function radioSelected() {
@@ -564,10 +566,10 @@
             }
 
             function editAddressFunc(addressID) {
-                document.getElementById("addAddress").style.display = "none"
-                document.getElementById("addAddressButton").style.display = "block"
                 var editAddressBtn = document.getElementById("editAddressBtn" + addressID);
                 var editAddressCard = document.getElementById("editAddressCard")
+                document.getElementById("addAddress").style.display = "none"
+                document.getElementById("addAddressButton").style.display = "block"
                 let row_item = $(editAddressBtn).parent().parent().parent();
                 $(row_item).append($(editAddressCard).show())
                 editAddressShowDetails(addressID)
@@ -578,15 +580,18 @@
                 var editLastName = document.getElementById("editLastName")
                 var editEmail = document.getElementById("editEmail")
                 var editAddress = document.getElementById("editAddress")
+                var editState = document.getElementById("editState")
+                var editCity = document.getElementById("editCity")
                 var editPinCode = document.getElementById("editPinCode")
                 var editMobileNo = document.getElementById("editMobileNo")
-                var editOrderNotes = document.getElementById("editOrderNotes")
                 var saveChangesBtn = document.getElementById("saveChangesBtn")
 
                 editFirstName.setAttribute('required', "")
                 editLastName.setAttribute('required', "")
                 editEmail.setAttribute('required', "")
                 editAddress.setAttribute('required', "")
+                editState.setAttribute('required', "")
+                editCity.setAttribute('required', "")
                 editPinCode.setAttribute('required', "")
                 editMobileNo.setAttribute('required', "")
 
@@ -599,11 +604,10 @@
                         editLastName.value = res.lastName
                         editEmail.value = res.email
                         editAddress.value = res.address
-                        editCountry.value = res.country
+                        editState.value = res.state
                         editCity.value = res.city
                         editPinCode.value = res.pinCode
                         editMobileNo.value = res.mobileNumber
-                        editOrderNotes.value = res.orderNotes
                     }
                 })
 
@@ -613,6 +617,8 @@
                         $(editLastName)[0].validity.valid &&
                         $(editEmail)[0].validity.valid &&
                         $(editAddress)[0].validity.valid &&
+                        $(editState)[0].validity.valid &&
+                        $(editCity)[0].validity.valid &&
                         $(editPinCode)[0].validity.valid &&
                         $(editMobileNo)[0].validity.valid) {
                         $.ajax({
@@ -624,14 +630,13 @@
                                 lastName: editLastName.value,
                                 email: editEmail.value,
                                 address: editAddress.value,
-                                country: editCountry.value,
+                                state: editState.value,
                                 city: editCity.value,
                                 pinCode: editPinCode.value,
-                                mobileNumber: editMobileNo.value,
-                                orderNotes: editOrderNotes.value
+                                mobileNumber: editMobileNo.value
                             }),
                             success: function (res) {
-                                window.location = "/checkout/" + '<%= userID %>'
+                                window.location = "/checkout"
                             }
                         })
                     }
@@ -642,7 +647,7 @@
                 })
             }
 
-            function sweetAlertTrigger(dataID, userID) {
+            function sweetAlertTrigger(dataID) {
                 swal({
                     title: "Are you sure?",
                     text: "Once deleted, you will not be able to recover this address!",
@@ -652,14 +657,19 @@
                 })
                     .then((willDelete) => {
                         if (willDelete) {
-                            window.location = "/checkout/delete-address/" + dataID + "/" + userID
+                            window.location = "/checkout/delete-address/" + dataID
                         }
                     });
             }
 
             function continueToPayment() {
                 var selectedRadio = $('input[name=defaultAddress]:checked').attr('id');
-                alert(selectedRadio)
+                if (selectedRadio) {
+                    alert(selectedRadio)
+                }
+                else {
+                    alert("You need to add an address first")
+                }
             }
         </script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

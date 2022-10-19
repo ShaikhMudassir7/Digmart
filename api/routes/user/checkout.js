@@ -8,9 +8,9 @@ const Seller = require("../../models/seller/seller");
 const Products = require("../../models/seller/product");
 
 
-router.get('/(:userID)', async (req, res) => {
+router.get('/', async (req, res) => {
     var docs = await Address.find().select().exec()
-    var doc = await Cart.find({ userID: req.params.userID }).populate('sellerID productID variantID').exec();
+    var doc = await Cart.find({ userID: req.session.userid }).populate('sellerID productID variantID').exec();
     var i = 0;
     var totalMRP = 0;
     var finalPrice = 0;
@@ -35,10 +35,10 @@ router.get('/(:userID)', async (req, res) => {
     if(deliveryFee != "FREE"){
         finalPrice += 99
     }
-    res.render('./user/checkout', {addressData: docs, cartData: doc, totalMRP: totalMRP, discountOnMRP: discountOnMRP, couponDiscount: couponDiscount, deliveryFee: deliveryFee, finalPrice: finalPrice, userID : req.params.userID })
+    res.render('./user/checkout', {addressData: docs, cartData: doc, totalMRP: totalMRP, discountOnMRP: discountOnMRP, couponDiscount: couponDiscount, deliveryFee: deliveryFee, finalPrice: finalPrice, userID : req.session.userid })
 })
 
-router.post('/checkout/(:userID)', async (req, res, next) => {
+router.post('/checkout', async (req, res, next) => {
     try {
         var addressData = new Address({
             _id: mongoose.Types.ObjectId(),
@@ -46,14 +46,13 @@ router.post('/checkout/(:userID)', async (req, res, next) => {
             lastName: req.body.lastName[0],
             email: req.body.email[0],
             address: req.body.address[0],
-            country: req.body.country[0],
+            state: req.body.state[0],
             city: req.body.city[0],
             pinCode: req.body.pinCode[0],
-            mobileNumber: req.body.mobileNumber[0],
-            orderNotes: req.body.orderNotes[0]
+            mobileNumber: req.body.mobileNumber[0]
         })
         await addressData.save();
-        res.redirect('/checkout/'+req.params.userID)
+        res.redirect('/checkout')
     } catch (err) {
         console.log("Error Occurred while adding address to Database. "+err);
     }
@@ -67,18 +66,16 @@ router.get("/edit-address/(:addressID)", async (req, res) => {
 
 router.post("/edit-address/(:addressID)", (req, res) => {
     var id = req.params.addressID;
-
     Address.findByIdAndUpdate({ _id: id }, {
         $set: {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
             address: req.body.address,
-            country: req.body.country,
+            state: req.body.state,
             city: req.body.city,
             pinCode: req.body.pinCode,
-            mobileNumber: req.body.mobileNumber,
-            orderNotes: req.body.orderNotes
+            mobileNumber: req.body.mobileNumber
         }
     })
         .exec()
@@ -93,10 +90,10 @@ router.post("/edit-address/(:addressID)", (req, res) => {
         })
 });
 
-router.get("/delete-address/(:addressID)/(:userID)", async (req, res, next) => {
+router.get("/delete-address/(:addressID)", async (req, res, next) => {
     var id = req.params.addressID;
     await Address.findByIdAndRemove(id).exec()
-    res.redirect('/checkout/'+ req.params.userID);
+    res.redirect('/checkout');
 });
 
 module.exports = router
