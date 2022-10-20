@@ -8,9 +8,7 @@
 
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <title>DigMart</title>
-    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/user/range-slider.css" rel="stylesheet">
     <link href="/css/user/shop-by-category.css" rel="stylesheet">
@@ -83,9 +81,7 @@
                         if(varDocs[j].prodID.equals(product._id)){ %>
                         <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
                             <%if(varDocs[j].sizes[0].discount){%>
-                                <div class="prodDiscount">
-                                    <%=varDocs[j].sizes[0].discount%>
-                                </div>
+                                <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
                                 <%}%>
                                     <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                         </div>
@@ -94,17 +90,15 @@
                             <span class="prodCat d-block">
                                 <%=product.subcategory%>
                             </span>
-                            <span class="prodName d-block">
+                            <span class="prodName">
                                 <%=product.productName%>
                             </span>
                             <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
                             <div>
-                                <span class="prodPrice">
-                                    <%=varDocs[j].sizes[0].finalPrice%>
+                                <span class="prodPrice"><%=varDocs[j].sizes[0].finalPrice%>
                                 </span>
                                 <%if(varDocs[j].sizes[0].discount){%>
-                                    <span class="discPrice text-muted px-2">
-                                        <%=varDocs[j].sizes[0].actualPrice%>
+                                    <span class="discPrice text-muted px-2"><%=varDocs[j].sizes[0].actualPrice%>
                                     </span>
                                     <%}%>
                             </div>
@@ -114,9 +108,7 @@
                         <%}}} else {%>
                             <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
                                 <%if(product.discount){%>
-                                    <div class="prodDiscount">
-                                        <%=product.discount%>
-                                    </div>
+                                    <div class="prodDiscount"><%=product.discount%></div>
                                     <%}%>
                                         <img src="<%=product.images%>" alt="<%=product.productName%>">
                             </div>
@@ -124,17 +116,15 @@
                                 <span class="prodCat d-block">
                                     <%=product.subcategory%>
                                 </span>
-                                <span class="prodName d-block">
+                                <span class="prodName">
                                     <%=product.productName%>
                                 </span>
                                 <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
                                 <div>
-                                    <span class="prodPrice">
-                                        <%=product.finalPrice%>
+                                    <span class="prodPrice"><%=product.finalPrice%>
                                     </span>
                                     <%if(product.discount){%>
-                                        <span class="discPrice text-muted px-2">
-                                            <%=product.actualPrice%>
+                                        <span class="discPrice text-muted px-2"><%=product.actualPrice%>
                                         </span>
                                         <%}%>
                                 </div>

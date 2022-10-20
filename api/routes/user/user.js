@@ -98,6 +98,19 @@ router.post('/search', async (req, res) => {
 })
 
 router.post('/search-results', async (req, res) => {
+    let payload = req.body.payload.trim()
+    if (req.session.pincode) {
+        var covDocs = await Coverage.find({ pin: { pincode: req.session.pincode } }).select('sellerID')
+        var selArr = []
+        for (let i = 0; i < covDocs.length; i++)
+            selArr.push(covDocs[i].sellerID)
+        var proDocs = await Products.find({  productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, sellerID: { $in: selArr }, status: 'Verified' })
+    } else {
+        var proDocs = await Products.find({  productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' })
+    }
+
+
+
     res.render('./user/search-results', { user: req.session.userid })
 })
 
