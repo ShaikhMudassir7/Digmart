@@ -5,6 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 require("firebase/storage");
 
+const Category = require('../../models/admin/categorySchema')
 const Seller = require("../../models/seller/seller");
 const SellerGall = require("../../models/seller/gallery");
 const Products = require('../../models/seller/product')
@@ -15,6 +16,7 @@ router.get("/(:sellerID)", async (req, res, next) => {
   var id = req.params.sellerID;
   const images = await SellerGall.findOne({ sellerID: id }).select("images");
   var varDocs = []
+  var catDocs = await Category.find()
   const element = await Seller.findById(id);
   var proDocs = await Products.find({ sellerID: id, status: 'Verified' })
   for (let i = 0; i < proDocs.length; i++) {
@@ -31,6 +33,7 @@ router.get("/(:sellerID)", async (req, res, next) => {
         galleryData: images,
         sellerID: id,
         sellerData: element,
+        catData : catDocs,
         user: req.session.userid, proDocs: proDocs, varDocs: varDocs
       });
     })

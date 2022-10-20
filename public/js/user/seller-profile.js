@@ -1,3 +1,17 @@
+
+var count=0;
+var count2=0;
+function selectedsubcat(a){
+    if(count!=0){
+        var rem = document.querySelector('.selected').id;
+        var remID = document.getElementById(rem);
+        $(remID).removeClass("selected active");
+    }
+    var tabID = document.getElementById(a.id);
+    $(tabID).addClass('selected');
+    count++;
+}
+
 function wishlist(element, sellerID, productID, variantID, size) {
     if ($("#hidLogin").val()) {
         if (!element.classList.contains('i-red'))
@@ -36,3 +50,12 @@ function wishlist(element, sellerID, productID, variantID, size) {
         $('#loginpopup').modal('show');
     }
 }
+
+function openProduct(productID, variantID) {
+    if (variantID) {
+        location.href = '/product/variant/'+productID+'/'+variantID
+    } else {
+        location.href = '/product/view-product/'+productID
+    }
+}
+
