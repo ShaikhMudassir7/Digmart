@@ -15,19 +15,18 @@
         @media screen and (min-width: 767px) {
             .chgsize {
                 height: 100%;
-                width: 70%;
-                margin-left: 30px;
+                width: 85%;
             }
 
             .chgpar {
-                max-height: 150px;
+                max-height: 170px;
             }
         }
 
         @media screen and (max-width: 766px) {
             .chgsize {
                 height: 100%;
-                width: 100%;
+                width: 50%;
             }
 
             .chgpar {
@@ -51,7 +50,7 @@
                             </h3>
                             <% if(seller.length!=0) {var i=0; seller.forEach(function(data){ %>
                                 <div class="parent ">
-                                    <div class="card p-1 mb-4" style="background-color: rgb(247, 248, 249); ">
+                                    <div class="card p-2 mb-4" style="background-color: rgb(247, 248, 249); ">
                                         <label style="color: black;">
                                             <h5><b>
                                                     <%= data.busName %>
@@ -69,20 +68,20 @@
                                                                     aria-hidden="true"></i></a>
                                                         </h4>
                                                     </div>
-                                                    <div class=" ms-1 row  p-0 w-100">
+                                                    <div class=" ms-0 row  p-0 ">
                                                         <%if(cartData.variantID){%>
-                                                            <div class="image col-md-3 mt-2 chgpar">
+                                                            <div class="image col-md-3 p-1 mt-2 chgpar">
                                                                 <img src=" <%= cartData.variantID.images[0] %>"
-                                                                    class="img-fluid chgsize rounded-start border-3 border mb-1">
+                                                                    class="img-fluid chgsize rounded-start mx-auto d-block border-2 border mb-1">
                                                             </div>
                                                             <%}else{%>
-                                                                <div class="image col-md-3 mt-2 chgpar">
+                                                                <div class="image col-md-3 p-0 mt-2 chgpar">
                                                                     <img src=" <%= cartData.productID.images[0] %>"
-                                                                        class="chgsize img-fluid rounded-start border-1 border mb-1" ">
+                                                                        class="chgsize img-fluid rounded-start mx-auto d-block border-2 border mb-1">
                                                                 </div>
                                                                 <%}%>
                                                                     <div class=" col-md-9 p-0">
-                                                                    <div class="row col-md-12">
+                                                                    <div class="row ">
                                                                         <div
                                                                             class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
                                                                             <div class="row p-1 ms-0">

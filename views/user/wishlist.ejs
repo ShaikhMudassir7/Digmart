@@ -12,22 +12,21 @@
     <link href="/css/user/login.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/user/home.css">
     <style>
-          @media screen and (min-width: 767px) {
+         @media screen and (min-width: 767px) {
             .chgsize {
                 height: 100%;
-                width: 70%;
-                margin-left: 30px;
+                width: 85%;
             }
 
             .chgpar {
-                max-height: 150px;
+                max-height: 170px;
             }
         }
 
         @media screen and (max-width: 766px) {
             .chgsize {
                 height: 100%;
-                width: 100%;
+                width: 50%;
             }
 
             .chgpar {
@@ -52,7 +51,7 @@
 
                             <% if(seller.length!=0) {var i=0; seller.forEach(function(data){ %>
                                 <div class="parent">
-                                    <div class="card p-3 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
+                                    <div class="card p-2 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
                                         <label style="color: black;">
                                             <h5><b>
                                                     <%= data.busName %>
@@ -61,7 +60,7 @@
                                         <hr class="mt-0" style="color: black; height: 2px;">
                                         <% wishlistData.forEach(function(wishlistData){%>
                                             <% if(wishlistData.sellerID._id.toString()==data._id.toString()) { %>
-                                                <div class="card p-0 " style="box-shadow: 2px 2px rgb(136, 136, 138);">
+                                                <div class="card p-0 mb-4 " style="box-shadow: 2px 2px rgb(136, 136, 138);">
                                                     <div class="card-header p-1 bg-white">
                                                         <h4><a href="/wishlist/delete-wishlist/<%= wishlistData._id %>"><i
                                                                     class="fa fa fa-times ms-2 mt-1"
@@ -73,16 +72,16 @@
                                                         <%if(wishlistData.variantID){%>
                                                             <div class="image col-md-3 mt-2 chgpar">
                                                                 <img src=" <%= wishlistData.variantID.images[0] %>"
-                                                                    class="chgsize img-fluid rounded-start border-1 border">
+                                                                    class="chgsize img-fluid mx-auto d-block rounded-start border-1 border">
                                                             </div>
                                                             <%}else{%>
                                                                 <div class="image col-md-3 mt-2 chgpar">
                                                                     <img src=" <%= wishlistData.productID.images[0] %>"
-                                                                        class="chgsize img-fluid rounded-start border-1 border">
+                                                                        class="chgsize img-fluid mx-auto d-block rounded-start border-1 border">
                                                                 </div>
                                                                 <%}%>
                                                                     <div class="col-md-9 p-0">
-                                                                        <div class="row col-md-12 ms-1">
+                                                                        <div class="row ms-1">
                                                                             <div
                                                                                 class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
                                                                                 <div class="row p-1">

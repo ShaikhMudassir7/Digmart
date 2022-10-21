@@ -54,17 +54,17 @@ function sendOTP() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             success: function (res) {
-                    cred.classList.remove('is-invalid')
-                    cred.classList.add('is-valid')
-                    err.style.display = "block"
-                    document.getElementById('usermobile').innerHTML = "+91 " + credVal;
-                    document.getElementById('hidMobile').value = credVal;
-                    mobileotp.style.display = "inline"
-                    loginotp.style.display = "none"
-                    mobTimer.style.display = "inline"
-                    mobResend.classList.remove('timer-active')
-                    mobResend.classList.add('timer-inactive')
-                    timer(30);
+                cred.classList.remove('is-invalid')
+                cred.classList.add('is-valid')
+                err.style.display = "block"
+                document.getElementById('usermobile').innerHTML = "+91 " + credVal;
+                document.getElementById('hidMobile').value = credVal;
+                mobileotp.style.display = "inline"
+                loginotp.style.display = "none"
+                mobTimer.style.display = "inline"
+                mobResend.classList.remove('timer-active')
+                mobResend.classList.add('timer-inactive')
+                timer(30);
             }
         })
     } else {
@@ -78,7 +78,7 @@ function checkMobileOtp() {
     var otp = mobOtp1.value + mobOtp2.value + mobOtp3.value + mobOtp4.value
     if (otp.length == 4) {
         var elements = [mobOtp1, mobOtp2, mobOtp3, mobOtp4]
-        
+
         $.ajax({
             url: "/login/checkMobileOtp?mobile=" + mobile + "&otp=" + otp,
             method: 'POST',
@@ -121,5 +121,17 @@ function timer(remaining) {
         mobResend.classList.remove('timer-inactive')
         mobResend.classList.add('timer-active')
     }
+}
+
+function closemodal() {
+    cred=document.getElementById('mobile')
+    cred.value = '';
+    cred.classList.remove('is-valid')
+    mobileotp.style.display = "none"
+    loginotp.style.display = "inline"
+    mobTimer.style.display = "none"
+    mobResend.classList.remove('timer-inactive')
+    mobResend.classList.add('timer-active')
+
 }
 
