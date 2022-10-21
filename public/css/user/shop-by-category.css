@@ -110,7 +110,7 @@ body {
     background-color: #ced4da;
     text-align: center;
     line-height: 38px;
-    min-width: 53px;
+    min-width: 57px;
     font-size: .75rem;
     font-weight: bold;
 }
@@ -248,7 +248,7 @@ body {
 /* FILTER MODAL */
 
 @media screen and (min-width: 576px) {
-    .modal-content {
+    #modal-content-filter {
         height: 90vh;
     }
 }
