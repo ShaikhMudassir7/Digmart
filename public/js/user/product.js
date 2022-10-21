@@ -68,3 +68,18 @@ function addwishlist(sellerID, productID, variantID) {
         }
       })
     }
+
+
+    var swiper = new Swiper(".swiper", {
+      slidesPerView: 5,
+      spaceBetween: 20,
+      slidesPerGroup: 1,
+      fade: 'true',
+      keyboard: {
+          enabled: true,
+      },
+      navigation: {
+          nextEl: "#nextProductBtn",
+          prevEl: "#prevProductBtn",
+      },
+  });
