@@ -42,26 +42,46 @@
   <div class="container shadow-">
     <div class="page-title mt-2 mb-4 shadow-lg">
       <div class="card w-100 m-14 align-middl">
-        <a href="#profile-tab">
+        <a data-bs-toggle="modal" data-bs-target="#exampleModal">
           <div class="gallery">
+            <%if(galleryData) { %>
             <figure class="gallery__item gallery__item--1">
-              <img src="<%=galleryData.images[0]%>" alt="" id="gallImage" class="gallery__img" />
+              <img src="<%=sellerData.busLogo%>" alt="" id="gallImage" class="gallery__img" />
             </figure>
             <figure class="gallery__item gallery__item--2">
-              <img src="<%=galleryData.images[1]%>" alt="Gallery image 2" id="gallImage" class="gallery__img" />
+              <img src="<%=galleryData.images[0]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
             </figure>
             <figure class="gallery__item gallery__item--3">
-              <img src="<%=galleryData.images[2]%>" alt="Gallery image 3" id="gallImage" class="gallery__img" />
+              <img src="<%=galleryData.images[1]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
             </figure>
             <figure class="gallery__item gallery__item--4">
-              <img src="<%=galleryData.images[3]%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
+              <img src="<%=galleryData.images[2]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
             </figure>
+            <figure class="gallery__item gallery__item--5">
+              <img src="<%=galleryData.images[3]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
+            </figure>
+            <%}else{%>
+              <figure class="gallery__item gallery__item--1">
+                <img src="<%=sellerData.busLogo%>" alt="" id="gallImage" class="gallery__img" />
+              </figure>
+              <figure class="gallery__item gallery__item--2">
+                <img src="<%=sellerData.busLogo%>" alt="Gallery image 2" id="gallImage" class="gallery__img" />
+              </figure>
+              <figure class="gallery__item gallery__item--3">
+                <img src="<%=sellerData.busLogo%>" alt="Gallery image 3" id="gallImage" class="gallery__img" />
+              </figure>
+              <figure class="gallery__item gallery__item--4">
+                <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
+              </figure>
+              <figure class="gallery__item gallery__item--5">
+                <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
+              </figure>
+                <%}%>
           </div>
         </a>
 
         <span class="p-4">
           <p class="fs-2">
-            <img src="<%=sellerData.busLogo%>" id="BrandLogo" class="rounded-circle" width="200px" />
             <%=sellerData.busName%> <br />
               <span class="fs-4 text-warning">
                 <%=sellerData.busType%>
@@ -75,6 +95,8 @@
       </div>
     </div>
   </div>
+
+  <!-- gallery slide show -->
   <div class="modal modal-fullscreen-sm-down fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <button type="button" class="fs-1 opacity-25 btn btn-dark text-light position-absolute top-0 start-0"
@@ -83,24 +105,28 @@
     </button>
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
+        <%if(galleryData) { %>
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
           <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
               aria-current="true" aria-label="Slide 1"></button>
+              
             <% for (let b=1; b < galleryData.images.length ; b++){ var c=b+1; %>
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>"
                 aria-label="Slide <%=c%>"></button>
-              <% } %>
+              <% }%>
           </div>
           <div class="carousel-inner">
+            <%if(galleryData) { %>
             <div class="carousel-item active">
               <img src="<%=galleryData.images[0]%>" class="d-block w-100" style="max-height: 600px;" alt="..." />
             </div>
+            
             <% for (let b=1; b < galleryData.images.length ; b++){ %>
               <div class="carousel-item">
                 <img src="<%=galleryData.images[b]%>" class="d-block w-100" style="max-height: 600px;" alt="..." />
               </div>
-              <% } %>
+              <% }} %>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
@@ -115,6 +141,23 @@
             <span class="visually-hidden">Next</span>
           </button>
         </div>
+      <%}else{%>
+        <img src="<%=sellerData.busLogo%>" class="d-block w-100" style="max-height: 600px;" alt="..." />
+      <%}%>
+      </div>
+    </div>
+  </div>
+
+  <!-- single image modal -->
+  <div class="modal modal-fullscreen-sm-down fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
+    aria-hidden="true">
+    <button type="button" class="fs-1 opacity-25 btn btn-dark text-light position-absolute top-0 start-0"
+      data-bs-dismiss="modal" aria-label="Close">
+      <i class="fa fa-times"></i>
+    </button>
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <img src="" id="singleimg" class="d-block w-100" style="max-height: 600px;" alt="..." />
       </div>
     </div>
   </div>
@@ -132,7 +175,7 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link text-success" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
             type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-            Photos
+            Gallery
           </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -304,14 +347,16 @@
         <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="container text-center">
             <div class="row g-3 p-3">
+              <%if(galleryData) { %>
               <% for (let a=0; a < galleryData.images.length ; a++){ %>
                 <div class="col-md-4">
-                  <a data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img id="myImg<%=a%>" class="shadow" src="<%=galleryData.images[a]%>"
+                    <img id="myImg<%=a%>" onclick="showmodal('<%=galleryData.images[a]%>')" class="shadow" src="<%=galleryData.images[a]%>"
                       style="width: 100%; max-height: 200px;" />
-                  </a>
                 </div>
-                <%}%>
+                <%}}else{%>
+                  <h3><p>NO IMAGES FOUND !</p></h3>
+                  <%}%>
+
             </div>
           </div>
         </div>
@@ -351,7 +396,6 @@
         <% proDocs.forEach(function(product){%> 
           <%if(product.category==data.catName){%>
           <%if(product.subcategory==catArr[i]){ %>
-            
             <div class="prodContainer col-6 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">
               <div class="pro ms-auto me-auto">
                   <% if(product.hasVariant){ for(j=0; j < varDocs.length; j++){

@@ -59,3 +59,7 @@ function openProduct(productID, variantID) {
     }
 }
 
+function showmodal(imgsrc){
+    $('#singleimg').attr('src', imgsrc)
+    $('#imageModal').modal('show');
+}

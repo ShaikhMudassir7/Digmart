@@ -3,7 +3,7 @@
 
 <head>
   <style>
-  
+
     @media screen and (min-width: 767px) {
       .imgchgsize {
         min-height: 450px;
@@ -29,7 +29,7 @@
       }
     }
 
-   
+
 
     @media screen and (max-width: 766px) {}
 
@@ -113,10 +113,9 @@
           <div class="container p-3">
             <div class="row">
               <% if(variantsData.length!=0){ %>
-                <div class="col-md-12 p-0">
-                  <!-- Slider main container -->
-                  <div class="swiper">
-                    <!-- Additional required wrapper -->
+                <div class="col-md-12 p-0 d-flex">
+                  <div id="prevProductBtn" class="fas fa-chevron-left fa-2x align-self-center"></div>
+                  <div class="swiper flex-fill" >
                     <div class="swiper-wrapper mt-2">
                       <% for (let b=0; b < variantData.images.length; b++){ %>
                         <div class=" swiper-slide  ms-1 p-1 imgslidechgsize border border-dark">
@@ -126,10 +125,8 @@
                         </div>
                         <%}%>
                     </div>
-                    <!-- If we need navigation buttons -->
-                    <div id="prevProductBtn" class="swiper-button-prev px-2 fas fa-chevron-left fa-2x"></div>
-                    <div id="nextProductBtn" class="swiper-button-next px-2 fas fa-chevron-right fa-2x"></div>
                   </div>
+                  <div id="nextProductBtn" class="fas fa-chevron-right fa-2x align-self-center"></div>
                 </div>
                 <%}else{%>
                   <div class="col-md-12 p-0">
@@ -139,18 +136,19 @@
                       <div class="swiper-wrapper mt-2">
                         <% for (let b=0; b < productData.images.length; b++){ %>
                           <div class=" swiper-slide  ms-1 p-1 imgslidechgsize border border-dark">
-                            <img src="<%= productData.images[b]%>" width="100%" data-bs-target="#carouselExampleIndicators"
-                            data-bs-slide-to="<%=b%>" class="img-fluid img-thumbnail border border-dark" aria-current="true"
-                            aria-label="Slide <%=b%>">
+                            <img src="<%= productData.images[b]%>" width="100%"
+                              data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>"
+                              class="img-fluid img-thumbnail border border-dark" aria-current="true"
+                              aria-label="Slide <%=b%>">
                           </div>
                           <%}%>
                       </div>
                       <!-- If we need navigation buttons -->
-                      <div id="prevProductBtn" class="swiper-button-prev px-2 fas fa-chevron-left fa-2x"></div>
-                      <div id="nextProductBtn" class="swiper-button-next px-2 fas fa-chevron-right fa-2x"></div>
+                      <div id="prevProductBtn" class="fas fa-chevron-left fa-2x"></div>
+                      <div id="nextProductBtn" class="fas fa-chevron-right fa-2x"></div>
                     </div>
                   </div>
-                    <%}%>
+                  <%}%>
 
             </div>
           </div>
@@ -404,7 +402,7 @@
                                   <td class="text-muted">
                                     <%=productData.brand%>
                                   </td>
-                                <%}%>
+                                  <%}%>
                               </tr>
                               <% for (let i in productData.specifications){ %>
                                 <tr>
