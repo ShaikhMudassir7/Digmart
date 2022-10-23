@@ -107,11 +107,11 @@ body {
 }
 
 .sortSelect div {
-    background-color: #ced4da;
+    background-color: #e5ebf1;
     text-align: center;
     line-height: 38px;
     min-width: 57px;
-    font-size: .75rem;
+    font-size: var(--fs-075);
     font-weight: bold;
 }
 
@@ -122,7 +122,7 @@ body {
     background-position: right .5rem center;
     background-size: 12px 10px;
     padding-right: 1.3rem;
-    font-size: var(--fs-100);
+    font-size: var(--fs-085);
 }
 
 .pro {

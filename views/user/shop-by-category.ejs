@@ -47,18 +47,18 @@
                 <div class="tab-pane fade" id="tab-<%=catArr2[i]%>" role="tabpanel"
                     aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
                         <div class="row justify-content-evenly ps-auto pe-auto">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
+                            <div class="col-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
                                 <div id="searchDiv" class="form-control p-0 d-flex align-items-center">
                                     <i class="fas fa-search px-2"></i>
                                     <input class="flex-fill" type="search" placeholder="Search" aria-label="Search" onkeyup="searchProd(this,'#tab-<%=catArr2[i]%>')">
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
+                            <div class="col-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
                                 <div class="sortSelect d-flex">
                                     <div class="align-self-stretch px-1">Sort by:</div>
                                     <select name="sortCriteria" class="form-select flex-fill"
                                     onchange="sortProd(this.value, '#tab-<%=catArr2[i]%>')">
-                                        <option value="" selected></option>
+                                        <option value="" selected>Recommended</option>
                                         <option value="Price Low to High">Price Low to high</option>
                                         <option value="Price High to Low">Price High to Low</option>
                                         <option value="Discounts">Discounts</option>
@@ -66,7 +66,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
+                            <div class="col-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
                                 <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal"
                                 data-bs-target="#filterModal">
                                 <i class="fas fa-filter"></i> Filters
