@@ -101,6 +101,10 @@ body {
 
 #seller1 .sel .des .selCat {
     font-size: .9rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 #seller1 .sel .des a {

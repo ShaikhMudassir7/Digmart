@@ -1,4 +1,11 @@
 const mongoose = require("mongoose");
+
+const imageSchema = new mongoose.Schema({
+    url: { type: String, required: true },
+    date: { type: String, required: true },
+    status: { type: String, default: 'Pending' }
+});
+
 const gallerySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     sellerID: {
@@ -6,7 +13,7 @@ const gallerySchema = mongoose.Schema({
         ref: 'sellers',
         required: true
     },
-    images: [{type: String}],
+    images: [imageSchema],
 })
-const gallery = new mongoose.model("gallery", gallerySchema)
-module.exports = gallery;
+
+module.exports = mongoose.model("gallery", gallerySchema)
