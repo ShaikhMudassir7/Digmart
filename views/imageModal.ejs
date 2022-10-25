@@ -1,0 +1,22 @@
+<style>
+    #imageModal {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+</style>
+<div id="imageModal" class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
+    aria-hidden="true">
+    <button type="button" class="btn-close btn-close-white fs-5 position-absolute" style="top: 10px; right: 10px;"
+        data-bs-dismiss="modal" aria-label="Close">
+    </button>
+    <div class="modal-dialog modal-sm modal-dialog-centered mx-auto" style="max-width: 300px;">
+        <div class="modal-content">
+            <img src="" id="singleimg" class="d-block w-100" style="max-height: 400px;" alt="..." />
+        </div>
+    </div>
+</div>
+<script>
+    function imageModal(imgsrc) {
+        $('#singleimg').attr('src', imgsrc)
+        $('#imageModal').modal('show');
+    }
+</script>

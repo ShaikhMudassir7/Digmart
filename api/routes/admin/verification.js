@@ -5,21 +5,23 @@ const Products = require("../../models/seller/product")
 const Seller = require('../../models/seller/seller');
 const Variants = require('../../models/seller/variants');
 const checkAuth = require("../../middleware/admin/checkAuth")
+const Gallery = require('../../models/seller/gallery');
 
 
 router.get('/product', checkAuth, async (req, res) => {
-    prodID=[];
+    prodID = [];
     await Variants.find({
         status: "Pending",
     }).then(docs => {
         docs.forEach(data => {
             prodID.push(data.prodID);
-        })})
-    await Products.find({
-        $or: [{ _id: { $in: prodID} }, { status: "Pending" }]
-    }).then(docs => {
-            res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
         })
+    })
+    await Products.find({
+        $or: [{ _id: { $in: prodID } }, { status: "Pending" }]
+    }).then(docs => {
+        res.render('./admin/verification/products/products', { productsData: docs, userType: req.session.type, userName: req.session.name })
+    })
 })
 
 router.get('/viewProduct/(:id)/', checkAuth, (req, res) => {
@@ -45,11 +47,11 @@ router.get('/viewproductStatus/(:id)/(:status)', checkAuth, (req, res) => {
     const allImages = Variants.find().select("images")
     var id = req.params.id;
     var status = req.params.status;
-    if(status == "Verified"){
+    if (status == "Verified") {
         Products.findById(id,
             (err, element) => {
                 if (!err) {
-                    Variants.find({ 'prodID': id,status: "Verified" })
+                    Variants.find({ 'prodID': id, status: "Verified" })
                         .then(docs => {
                             if (!err) {
                                 res.render('./admin/verification/products/viewproductStatus', { images: allImages, variantsData: docs, productData: element, userType: req.session.type, userName: req.session.name });
@@ -58,14 +60,14 @@ router.get('/viewproductStatus/(:id)/(:status)', checkAuth, (req, res) => {
                 } else {
                     res.send('try-again')
                 }
-    
+
             })
     }
-    else if(status == "Total"){
+    else if (status == "Total") {
         Products.findById(id,
             (err, element) => {
                 if (!err) {
-                    Variants.find({ 'prodID': id})
+                    Variants.find({ 'prodID': id })
                         .then(docs => {
                             if (!err) {
                                 res.render('./admin/verification/products/viewproductStatus', { images: allImages, variantsData: docs, productData: element, userType: req.session.type, userName: req.session.name });
@@ -74,14 +76,14 @@ router.get('/viewproductStatus/(:id)/(:status)', checkAuth, (req, res) => {
                 } else {
                     res.send('try-again')
                 }
-    
+
             })
     }
-    else{ 
+    else {
         Products.findById(id,
             (err, element) => {
                 if (!err) {
-                    Variants.find({ 'prodID': id, $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }]})
+                    Variants.find({ 'prodID': id, $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
                         .then(docs => {
                             if (!err) {
                                 res.render('./admin/verification/products/viewproductStatus', { images: allImages, variantsData: docs, productData: element, userType: req.session.type, userName: req.session.name });
@@ -90,7 +92,7 @@ router.get('/viewproductStatus/(:id)/(:status)', checkAuth, (req, res) => {
                 } else {
                     res.send('try-again')
                 }
-    
+
             })
     }
 })
@@ -212,21 +214,22 @@ router.post('/check-variant', (req, res) => {
     })
 })
 
-router.get('/productStatus', checkAuth, async(req, res) => {
+router.get('/productStatus', checkAuth, async (req, res) => {
     var status = req.query.status
     if (status == "Rejected") {
-        rejectprodID=[];
+        rejectprodID = [];
         await Variants.find({
             $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }]
         }).then(docs => {
             docs.forEach(data => {
                 rejectprodID.push(data.prodID);
-            })})
+            })
+        })
         await Products.find({
-            $or: [{ _id: { $in: rejectprodID} }, { $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] }]
+            $or: [{ _id: { $in: rejectprodID } }, { $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] }]
         }).then(docs => {
             res.render('./admin/verification/products/rejectedproductStatus', { productsData: docs, userType: req.session.type, userName: req.session.name })
-             })
+        })
     } else {
         if (!status) {
             Products.find({ $nor: [{ status: "Incomplete" }] })
@@ -303,6 +306,18 @@ router.get('/viewsellerStatus/(:id)', checkAuth, (req, res) => {
             }
 
         })
+})
+
+router.get('/gallery', checkAuth, async (req, res) => {
+    var galDocs = await Gallery.find({ images: { $elemMatch: { status: 'Pending' } } })
+    res.render('./admin/verification/gallery', { galDocs: galDocs, userType: req.session.type, userName: req.session.name })
+})
+
+router.post('/gallery-status', checkAuth, async (req, res) => {
+    var query = {}
+    query['images.' + req.body.index + '.status'] = req.body.val
+    await Gallery.findOneAndUpdate({ sellerID: req.body.sellerID }, { $set: query })
+    res.json({ status: req.body.val })
 })
 
 module.exports = router

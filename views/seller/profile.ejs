@@ -7,12 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <title>Profile | DigMart</title>
-    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
     <link href="/css/seller/profile.css" rel="stylesheet">
 
+    <style>
+        #busLogo {
+            position: absolute;
+            width: 100%;
+            padding-right: 30px;
+            transform: translateY(-65%);
+        }
+
+        #busLogo img {
+            width: 15%;
+            height: 15%;
+            min-width: 120px;
+            box-shadow: 3px 3px 3px #868686;
+            cursor: pointer;
+        }
+
+        input[type="text"]:disabled {
+            background-color: transparent;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,9 +44,9 @@
                             <div class="card" style="margin-top: 6rem;">
                                 <div class="content">
 
-                                    <div class="busLogo text-center">
-                                        <img id="busLogo" src="<%= sellerData.busLogo %>" class="rounded-circle"
-                                            alt="Profile Image">
+                                    <div id="busLogo" class="text-center">
+                                        <img src="<%= sellerData.busLogo %>" class="rounded-circle" alt="Profile Image"
+                                            onclick="imageModal('<%= sellerData.busLogo %>')">
                                     </div>
                                     <h1 class="mt-5 p-3 text-center">
                                         <%= sellerData.busName %>
@@ -148,12 +167,15 @@
                     </div>
             </div>
     </div>
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/script.js"></script>
-    <script>
-        $('#busCat').val($('#busCat').val().replace(/,\s*/g, ', '))
-    </script>
+
+    <%- include('../imageModal') %>
 </body>
+
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/script.js"></script>
+<script>
+    $('#busCat').val($('#busCat').val().replace(/,\s*/g, ', '))
+</script>
 
 </html>

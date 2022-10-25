@@ -6,15 +6,25 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <title>Gallery | DigMart</title>
-
   <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/vendor/Datatables/datatables.min.css" rel="stylesheet" />
   <link href="/css/master.css" rel="stylesheet" />
-  <link href="/css/seller/gallery.css" rel="stylesheet" />
+  <style>
+    .gallImg {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+
+    .gallImg:hover {
+      scale: 1.1;
+      transition: all 0.3s;
+    }
+  </style>
 </head>
 
 <body>
@@ -37,7 +47,6 @@
                     <input type="file" class="d-none" id="images" name="images" multiple='multiple' accept="image/*"
                       required>
                   </form>
-
                 </h3>
               </div>
 
@@ -56,7 +65,7 @@
                       <% if(galDocs) { if(galDocs.images.length!=0){ galDocs.images.forEach(function(image, index){ %>
                         <tr>
                           <td>
-                            <img src="<%=image.url%>" class="gallImg" onclick="showModal('<%=image.url%>')"/>
+                            <img src="<%=image.url%>" class="gallImg" onclick="imageModal('<%=image.url%>')" />
                           </td>
                           <td>
                             <%=image.date%>
@@ -65,7 +74,7 @@
                             <%=image.status%>
                           </td>
                           <td class="text-end">
-                            <button onclick="showModal('<%=image.url%>')" class="btn btn-outline-info btn-rounded">
+                            <button onclick="imageModal('<%=image.url%>')" class="btn btn-outline-info btn-rounded">
                               <i class="fas fa-eye"></i>
                             </button>
 
@@ -75,12 +84,10 @@
                         </tr>
                         <% })}} if(!galDocs || galDocs.images.length==0){ %>
                           <tr>
-
                             <td colspan="12" class="fs-1">
                               <img src="/img/nothing.png" width="50%" />
                               No Image Found
                             </td>
-
                           </tr>
                           <% } %>
                     </tbody>
@@ -92,18 +99,7 @@
       </div>
   </div>
 
-  <!-- single image modal -->
-  <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <button type="button" class="btn-close btn-close-white fs-5 position-absolute" style="top: 10px; right: 10px;"
-      data-bs-dismiss="modal" aria-label="Close">
-    </button>
-    <div class="modal-dialog modal-sm modal-dialog-centered mx-auto" style="max-width: 300px;">
-      <div class="modal-content">
-        <img src="" id="singleimg" class="d-block w-100" style="max-height: 400px;" alt="..." />
-      </div>
-    </div>
-  </div>
-
+  <%- include('../../imageModal') %>
 
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
@@ -113,7 +109,6 @@
 <script src="/js/script.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-
   $("#addBtn").on("click", function () {
     $("#images").click()
   });
@@ -129,10 +124,9 @@
       .then((willDelete) => {
         if (willDelete) {
           location.href = 'gallery/delete-gallery'
-        } 
+        }
       });
   });
-
 
   $("#images").on("change", function () {
     const isImage = (file) => file['type'].includes('image');
@@ -151,13 +145,6 @@
       $("#imageUploadForm").submit();
     }
   });
-
-  function showModal(imgsrc) {
-    $('#singleimg').attr('src', imgsrc)
-    $('#imageModal').modal('show');
-  }
-
 </script>
-
 
 </html>
