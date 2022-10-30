@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
     if(deliveryFee != "FREE"){
         finalPrice += 99
     }
-    res.render('./user/checkout', {addressData: docs, cartData: doc, totalMRP: totalMRP, discountOnMRP: discountOnMRP, couponDiscount: couponDiscount, deliveryFee: deliveryFee, finalPrice: finalPrice, userID : req.session.userid })
+    res.render('./user/checkout', {addressData: docs, cartData: doc, totalMRP: totalMRP, discountOnMRP: discountOnMRP, couponDiscount: couponDiscount, deliveryFee: deliveryFee, finalPrice: finalPrice, user : req.session.userid })
 })
 
 router.post('/checkout', async (req, res, next) => {
