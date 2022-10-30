@@ -4,9 +4,6 @@ const mongoose = require('mongoose')
 
 const Cart = require('../../models/user/cart');
 const Address = require("../../models/user/address");
-const Seller = require("../../models/seller/seller");
-const Products = require("../../models/seller/product");
-
 
 router.get('/', async (req, res) => {
     var docs = await Address.find().select().exec()
@@ -35,7 +32,7 @@ router.get('/', async (req, res) => {
     if(deliveryFee != "FREE"){
         finalPrice += 99
     }
-    res.render('./user/checkout', {addressData: docs, cartData: doc, totalMRP: totalMRP, discountOnMRP: discountOnMRP, couponDiscount: couponDiscount, deliveryFee: deliveryFee, finalPrice: finalPrice, user : req.session.userid })
+    res.render('./user/checkout', {addressData: docs, cartData: doc, totalMRP: totalMRP, discountOnMRP: discountOnMRP, couponDiscount: couponDiscount, deliveryFee: deliveryFee, finalPrice: finalPrice, user : req.session.userid, noSearch: true })
 })
 
 router.post('/checkout', async (req, res, next) => {

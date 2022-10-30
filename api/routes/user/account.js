@@ -7,7 +7,7 @@ const Seller = require("../../models/seller/seller");
 const Products = require("../../models/seller/product");
 
 router.get('/', async (req, res) => {
-    res.render('./user/account')
+    res.render('./user/account', {user : req.session.userid})
 })
 
 module.exports = router

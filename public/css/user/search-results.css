@@ -1,0 +1,115 @@
+:root {
+    --bg-dark: #1e686dfa;
+}
+
+body {
+    font-family: Okra, Helvetica, sans-serif;
+    width: 100%;
+    padding: 0;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+#productTitle{
+    color: var(--bg-dark);
+    font-weight: bolder;
+    text-shadow: 1px 1px 2px rgb(194, 193, 193);
+}
+
+#filter-col {
+    max-width: 244px;
+}
+
+#filter-card {
+    width: 220px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10px;
+}
+
+
+#filter-card .card-header {
+    background-color: #e5ebf1;
+}
+
+/* SWIPER CONFIG */
+
+.swiper {
+    width: 98%;
+    height: 350px;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.slide-container {
+    max-width: 1250px;
+    width: 100%;
+}
+
+.slide-content {
+    overflow: hidden;
+}
+
+/* END OF SWIPER CONFIG */
+
+/* SELLER SWIPER */
+
+.sellerSwiper {
+    height: 240px;
+}
+
+#seller1 .sel {
+    min-width: 150px;
+    min-height: 250px;
+    padding-bottom: 0.75rem;
+    position: relative;
+    display: block;
+}
+
+#seller1 .sel .imgDiv {
+    background-color: transparent;
+    height: 60%;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 1.5rem 1.5rem 0px 0px;
+}
+
+#seller1 .sel img {
+    height: 100%;
+    /* object-fit: contain; */
+    aspect-ratio: 1 / 1;
+    box-shadow: 1px 1px 1px #35363636;
+    cursor: pointer;
+}
+
+#seller1 .sel .des .selCat {
+    font-size: .9rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+#seller1 .sel .des a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* END OF SELLER SWIPER */

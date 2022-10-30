@@ -8,12 +8,12 @@
 
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <title>DigMart</title>
-    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/user/range-slider.css" rel="stylesheet">
+    <link href="/css/user/swiper-bundle.min.css" rel="stylesheet">
     <link href="/css/user/shop-by-category.css" rel="stylesheet">
+    <link href="/css/user/range-slider.css" rel="stylesheet">
+    <link href="/css/user/search-results.css" rel="stylesheet">
 
 </head>
 
@@ -23,9 +23,472 @@
         <%- include('navbar') %>
     </section>
 
-    <h3 class="px-5 py-5">No search results found for ' ' !</h3>
+    <div class="card">
+        <div class="card-body">
+            <% if(selDocs.length!=0){ %>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div id="prevSellerBtn" class="px-2 fas fa-chevron-left fa-2x"></div>
+                    <div class="swiper sellerSwiper">
+                        <div id="seller1" class="swiper-wrapper">
+                            <% selDocs.forEach(function(data){ %>
+                                <div class="sel swiper-slide" onclick="openSeller('<%=data._id%>')">
+                                    <div class="imgDiv">
+                                        <img src="<%=data.busLogo%>" class="rounded-circle" alt="<%=data.busName%>">
+                                    </div>
+                                    <div class="des px-2 text-center">
+                                        <span class="selName fs-5 d-block"><b>
+                                                <%=data.busName%>
+                                            </b></span>
+                                        <span class="selCat text-muted">
+                                            <%data.busCat.forEach(function(cat){%>
+                                                <%=cat.catName%>,
+                                                    <% })%>
+                                        </span>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div id="nextSellerBtn" class="px-2 fas fa-chevron-right fa-2x"></div>
+                </div>
+            <% } if(proDocs.length!=0) { %>
+                <div class="row mt-2">
+                    <div class="col-12 col-md-7 col-lg-9 col-xxl-10 text-center text-md-start align-self-center mb-3 mb-md-0">
+                        <span id="productTitle" class="mb-0 d-block d-md-inline fs-4 mx-md-2">Products</span> <span>(<%=proDocs.length%> results related to '<%=payload%>')</span>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-3 col-xl-3 col-xxl-2 px-md-0 px-lg-3">
+                        <div class="sortSelect d-flex">
+                            <div class="align-self-stretch px-1">Sort by:</div>
+                            <select name="sortCriteria" class="form-select flex-fill" onchange="sortProd(this.value)">
+                                <option value="" selected>Recommended</option>
+                                <option value="Price Low to High">Price Low to high</option>
+                                <option value="Price High to Low">Price High to Low</option>
+                                <option value="Discounts">Discounts</option>
+                                <option value="Ratings">Ratings</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2 d-block d-lg-none">
+                        <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal"
+                            data-bs-target="#filterModal" style="height: 39.5px;">
+                            <i class="fas fa-filter"></i> Filters
+                        </button>
+                    </div>
+                </div>
+                <hr class="my-0 d-none d-md-block me-2">
+                <div class="row">
+                    <div id="filter-col" class="col d-none d-lg-block">
+                        <div id="filter-card" class="card mt-3">
+                            <div class="card-header">
+                                <span>Filters</span>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingOne">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                                aria-expanded="false" aria-controls="flush-collapseOne">
+                                                Price
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                            aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="container px-0">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div id="slider-range"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row slider-labels">
+                                                        <div class="col-xs-6 caption">
+                                                            <strong>Min:</strong> <span id="slider-range-value1"></span>
+                                                        </div>
+                                                        <div class="col-xs-6 text-right caption">
+                                                            <strong>Max:</strong> <span id="slider-range-value2"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <form>
+                                                                <input type="hidden" name="min-value" value="">
+                                                                <input type="hidden" name="max-value" value="">
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingTwo">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                                aria-expanded="false" aria-controls="flush-collapseTwo">
+                                                Ratings
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                            aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ratingRadios"
+                                                        id="ratingRadios1" value="1" checked>
+                                                    <label class="form-check-label" for="ratingRadios1">
+                                                        All
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ratingRadios"
+                                                        id="ratingRadios2" value="2">
+                                                    <label class="form-check-label" for="ratingRadios2">
+                                                        4 <i class="fa fa-star"></i> & above
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ratingRadios"
+                                                        id="ratingRadios3" value="3">
+                                                    <label class="form-check-label" for="ratingRadios3">
+                                                        3 <i class="fa fa-star"></i> & above
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ratingRadios"
+                                                        id="ratingRadios4" value="4">
+                                                    <label class="form-check-label" for="ratingRadios4">
+                                                        2 <i class="fa fa-star"></i> & above
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="ratingRadios"
+                                                        id="ratingRadios5" value="5">
+                                                    <label class="form-check-label" for="ratingRadios5">
+                                                        1 <i class="fa fa-star"></i> & above
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingThree">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
+                                                aria-expanded="false" aria-controls="flush-collapseThree">
+                                                Availability
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                            aria-labelledby="flush-headingThree"
+                                            data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="availability">
+                                                    <label class="form-check-label" for="availability">Include Out of
+                                                        Stock</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingFour">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseFour"
+                                                aria-expanded="false" aria-controls="flush-collapseFour">
+                                                Discounts
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseFour" class="accordion-collapse collapse"
+                                            aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="discountRadios"
+                                                        id="discountRadios1" value="1">
+                                                    <label class="form-check-label" for="discountRadios1">
+                                                        75% or more
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="discountRadios"
+                                                        id="discountRadios2" value="2">
+                                                    <label class="form-check-label" for="discountRadios2">
+                                                        50% or more
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="discountRadios"
+                                                        id="discountRadios3" value="3">
+                                                    <label class="form-check-label" for="discountRadios3">
+                                                        25% or more
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="discountRadios"
+                                                        id="discountRadios4" value="4">
+                                                    <label class="form-check-label" for="discountRadios4">
+                                                        10% or more
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 flex-fill">
+                        <div id="product-section" class="row justify-content-start ps-auto pe-auto">
+                            <% proDocs.forEach(function(product){ %>
+                                <div class="prodContainer col-6 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">
+                                    <div class="pro ms-auto me-auto">
+                                        <% if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
+                                            if(varDocs[j].prodID.equals(product._id)){ %>
+                                            <div class="imgDiv"
+                                                onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                                                <%if(varDocs[j].sizes[0].discount){%>
+                                                    <div class="prodDiscount">
+                                                        <%=varDocs[j].sizes[0].discount%>
+                                                    </div>
+                                                    <%}%>
+                                                        <img src="<%=varDocs[j].images%>"
+                                                            alt="<%=product.productName%>">
+                                            </div>
+                                            <div class="des px-2 text-start"
+                                                onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                                                <span class="prodCat d-block">
+                                                    <%=product.subcategory%>
+                                                </span>
+                                                <span class="prodName">
+                                                    <%=product.productName%>
+                                                </span>
+                                                <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
+                                                <div>
+                                                    <span class="prodPrice">
+                                                        <%=varDocs[j].sizes[0].finalPrice%>
+                                                    </span>
+                                                    <%if(varDocs[j].sizes[0].discount){%>
+                                                        <span class="discPrice text-muted px-2">
+                                                            <%=varDocs[j].sizes[0].actualPrice%>
+                                                        </span>
+                                                        <%}%>
+                                                </div>
+                                            </div>
+                                            <i class="fa fa-heart"
+                                                onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
+                                            <%}}} else {%>
+                                                <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
+                                                    <%if(product.discount){%>
+                                                        <div class="prodDiscount">
+                                                            <%=product.discount%>
+                                                        </div>
+                                                        <%}%>
+                                                            <img src="<%=product.images%>"
+                                                                alt="<%=product.productName%>">
+                                                </div>
+                                                <div class="des px-2 text-start"
+                                                    onclick="openProduct('<%=product._id%>', null)">
+                                                    <span class="prodCat d-block">
+                                                        <%=product.subcategory%>
+                                                    </span>
+                                                    <span class="prodName">
+                                                        <%=product.productName%>
+                                                    </span>
+                                                    <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
+                                                    <div>
+                                                        <span class="prodPrice">
+                                                            <%=product.finalPrice%>
+                                                        </span>
+                                                        <%if(product.discount){%>
+                                                            <span class="discPrice text-muted px-2">
+                                                                <%=product.actualPrice%>
+                                                            </span>
+                                                            <%}%>
+                                                    </div>
+                                                </div>
+                                                <i class="fa fa-heart"
+                                                    onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
+                                                <%}%>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                </div>
+            <% } if(proDocs.length==0) { %>    
+                <h3 class="px-5 py-5">No search results found for ' ' !</h3>
+            <% } %>
+        </div>
+    </div>
 
     <input type="hidden" id="hidLogin" value="<%=user%>">
+
+    <!-- FilterModal -->
+    <div class="modal fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
+            <div id="modal-content-filter" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Filters
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    Price
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div id="slider-range"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row slider-labels">
+                                            <div class="col-xs-6 caption">
+                                                <strong>Min:</strong> <span id="slider-range-value1"></span>
+                                            </div>
+                                            <div class="col-xs-6 text-right caption">
+                                                <strong>Max:</strong> <span id="slider-range-value2"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <form>
+                                                    <input type="hidden" name="min-value" value="">
+                                                    <input type="hidden" name="max-value" value="">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                    aria-controls="flush-collapseTwo">
+                                    Ratings
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ratingRadios"
+                                            id="ratingRadios1" value="1" checked>
+                                        <label class="form-check-label" for="ratingRadios1">
+                                            All
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ratingRadios"
+                                            id="ratingRadios2" value="2">
+                                        <label class="form-check-label" for="ratingRadios2">
+                                            4 <i class="fa fa-star"></i> & above
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ratingRadios"
+                                            id="ratingRadios3" value="3">
+                                        <label class="form-check-label" for="ratingRadios3">
+                                            3 <i class="fa fa-star"></i> & above
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ratingRadios"
+                                            id="ratingRadios4" value="4">
+                                        <label class="form-check-label" for="ratingRadios4">
+                                            2 <i class="fa fa-star"></i> & above
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ratingRadios"
+                                            id="ratingRadios5" value="5">
+                                        <label class="form-check-label" for="ratingRadios5">
+                                            1 <i class="fa fa-star"></i> & above
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                    aria-controls="flush-collapseThree">
+                                    Availability
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="availability">
+                                        <label class="form-check-label" for="availability">Include Out of
+                                            Stock</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseFour" aria-expanded="false"
+                                    aria-controls="flush-collapseFour">
+                                    Discounts
+                                </button>
+                            </h2>
+                            <div id="flush-collapseFour" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="discountRadios"
+                                            id="discountRadios1" value="1">
+                                        <label class="form-check-label" for="discountRadios1">
+                                            75% or more
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="discountRadios"
+                                            id="discountRadios2" value="2">
+                                        <label class="form-check-label" for="discountRadios2">
+                                            50% or more
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="discountRadios"
+                                            id="discountRadios3" value="3">
+                                        <label class="form-check-label" for="discountRadios3">
+                                            25% or more
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="discountRadios"
+                                            id="discountRadios4" value="4">
+                                        <label class="form-check-label" for="discountRadios4">
+                                            10% or more
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <%- include('footer') %>
@@ -35,8 +498,151 @@
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/user/swiper-bundle.min.js"></script>
 <script src="/js/user/range-slider.js"></script>
-<script src="/js/user/shop-by-category.js"></script>
 <script src="/js/user/login.js"></script>
+
+<script>
+
+    var swiper = new Swiper(".sellerSwiper", {
+    slidesPerView: 6,
+    spaceBetween: 20,
+    slidesPerGroup: 1,
+    fade: 'true',
+    keyboard: {
+        enabled: true,
+    },
+    navigation: {
+        nextEl: "#nextSellerBtn",
+        prevEl: "#prevSellerBtn",
+    },
+
+    breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+        },
+        360: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+        },
+        575: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+        },
+        730: {
+            slidesPerView: 4,
+        },
+        992: {
+            slidesPerView: 5,
+        },
+        1175: {
+            slidesPerView: 6,
+        },
+    },
+});
+
+    function sortProd(val, tab) {
+        var products = Array.from(document.querySelectorAll('#product-section .prodContainer'))
+        switch (val) {
+            case 'Price Low to High':
+                prodSort('.prodPrice', 'ascend')
+                break
+            case 'Price High to Low':
+                prodSort('.prodPrice', 'descend')
+                break
+            case 'Discounts':
+                prodSort('.prodDiscount', 'descend')
+                break
+            default:
+                products.forEach((prod) => {
+                    prod.style.order = ''
+                })
+                break
+        }
+
+        function prodSort(selector, type) {
+            var productsWithout = []
+            var productsWith = []
+            if (selector == '.prodDiscount') {
+                products.forEach((prod) => {
+                    if (prod.querySelector(selector) == null) {
+                        productsWithout.push(prod)
+                        prod.style.order = products.length
+                    } else
+                        productsWith.push(prod)
+                })
+                products = productsWith
+            }
+
+            products.sort(function (a, b) {
+                a = a.querySelector(selector).innerHTML
+                b = b.querySelector(selector).innerHTML
+                if (type == 'ascend')
+                    return a - b
+                else
+                    return b - a
+            })
+
+            var i = 1
+            products.forEach((prod) => {
+                prod.style.order = i
+                i++
+            })
+        }
+    }
+
+    function openSeller(sellerID) {
+    location.href = '/seller-profile/' + sellerID
+}
+
+    function openProduct(productID, variantID) {
+    if (variantID) {
+        location.href = '/product/variant/'+productID+'/'+variantID
+    } else {
+        location.href = '/product/view-product/'+productID
+    }
+}
+
+    function wishlist(element, sellerID, productID, variantID, size) {
+    if ($("#hidLogin").val()) {
+        if (!element.classList.contains('i-red'))
+            $.ajax({
+                url: "/wishlist/add-product",
+                type: "POST",
+                data: {
+                    sellerID: sellerID,
+                    productID: productID,
+                    variantID: variantID,
+                    size: size,
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status)
+                        element.classList.add('i-red')
+                }
+            })
+        else
+            $.ajax({
+                url: "/wishlist/remove-product",
+                type: "POST",
+                data: {
+                    sellerID: sellerID,
+                    productID: productID,
+                    variantID: variantID,
+                    size: size,
+                },
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status)
+                        element.classList.remove('i-red');
+                }
+            })
+    } else {
+        $('#loginpopup').modal('show');
+    }
+}
+
+</script>
 
 </html>

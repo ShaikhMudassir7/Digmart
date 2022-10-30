@@ -8,9 +8,7 @@
 
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <title>DigMart</title>
-    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/user/range-slider.css" rel="stylesheet">
     <link href="/css/user/shop-by-category.css" rel="stylesheet">
@@ -49,18 +47,18 @@
                 <div class="tab-pane fade" id="tab-<%=catArr2[i]%>" role="tabpanel"
                     aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
                         <div class="row justify-content-evenly ps-auto pe-auto">
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
+                            <div class="col-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
                                 <div id="searchDiv" class="form-control p-0 d-flex align-items-center">
                                     <i class="fas fa-search px-2"></i>
                                     <input class="flex-fill" type="search" placeholder="Search" aria-label="Search" onkeyup="searchProd(this,'#tab-<%=catArr2[i]%>')">
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
+                            <div class="col-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
                                 <div class="sortSelect d-flex">
                                     <div class="align-self-stretch px-1">Sort by:</div>
                                     <select name="sortCriteria" class="form-select flex-fill"
                                     onchange="sortProd(this.value, '#tab-<%=catArr2[i]%>')">
-                                        <option value="" selected></option>
+                                        <option value="" selected>Recommended</option>
                                         <option value="Price Low to High">Price Low to high</option>
                                         <option value="Price High to Low">Price High to Low</option>
                                         <option value="Discounts">Discounts</option>
@@ -68,7 +66,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
+                            <div class="col-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
                                 <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal"
                                 data-bs-target="#filterModal">
                                 <i class="fas fa-filter"></i> Filters
@@ -83,9 +81,7 @@
                         if(varDocs[j].prodID.equals(product._id)){ %>
                         <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
                             <%if(varDocs[j].sizes[0].discount){%>
-                                <div class="prodDiscount">
-                                    <%=varDocs[j].sizes[0].discount%>
-                                </div>
+                                <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
                                 <%}%>
                                     <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                         </div>
@@ -94,17 +90,15 @@
                             <span class="prodCat d-block">
                                 <%=product.subcategory%>
                             </span>
-                            <span class="prodName d-block">
+                            <span class="prodName">
                                 <%=product.productName%>
                             </span>
                             <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
                             <div>
-                                <span class="prodPrice">
-                                    <%=varDocs[j].sizes[0].finalPrice%>
+                                <span class="prodPrice"><%=varDocs[j].sizes[0].finalPrice%>
                                 </span>
                                 <%if(varDocs[j].sizes[0].discount){%>
-                                    <span class="discPrice text-muted px-2">
-                                        <%=varDocs[j].sizes[0].actualPrice%>
+                                    <span class="discPrice text-muted px-2"><%=varDocs[j].sizes[0].actualPrice%>
                                     </span>
                                     <%}%>
                             </div>
@@ -114,9 +108,7 @@
                         <%}}} else {%>
                             <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
                                 <%if(product.discount){%>
-                                    <div class="prodDiscount">
-                                        <%=product.discount%>
-                                    </div>
+                                    <div class="prodDiscount"><%=product.discount%></div>
                                     <%}%>
                                         <img src="<%=product.images%>" alt="<%=product.productName%>">
                             </div>
@@ -124,17 +116,15 @@
                                 <span class="prodCat d-block">
                                     <%=product.subcategory%>
                                 </span>
-                                <span class="prodName d-block">
+                                <span class="prodName">
                                     <%=product.productName%>
                                 </span>
                                 <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
                                 <div>
-                                    <span class="prodPrice">
-                                        <%=product.finalPrice%>
+                                    <span class="prodPrice"><%=product.finalPrice%>
                                     </span>
                                     <%if(product.discount){%>
-                                        <span class="discPrice text-muted px-2">
-                                            <%=product.actualPrice%>
+                                        <span class="discPrice text-muted px-2"><%=product.actualPrice%>
                                         </span>
                                         <%}%>
                                 </div>
@@ -158,7 +148,7 @@
     <div class="modal fade" id="filterModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
-        <div class="modal-content">
+        <div id="modal-content-filter" class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Filters
                 </h5>
