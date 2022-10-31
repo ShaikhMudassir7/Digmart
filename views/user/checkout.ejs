@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CheckOut Page</title>
+    <title>Checkout</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png">
     <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
@@ -14,10 +15,10 @@
 <body class="bg-light">
     <%- include('navbar') %>
         <div class="container pt-4">
-            <div class="row">
-                <div class="col-12 col-md-9 col-lg-9" id="address">
-                    <form action="/checkout/checkout" id="addAddressForm" method="post" class="needs-validation"
-                        novalidate accept-charset="utf-8">
+            <form action="/checkout/paynow" onsubmit="return checkForAddress()" method="post">
+                <div class="row">
+                    <div class="col-12 col-md-9 col-lg-9" id="address">
+
                         <div class="card p-2 mb-0" style="background-color:#1e686dfa">
                             <strong style="color: #FAFFFF; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
                                 DELIVERY ADDRESS</strong>
@@ -27,8 +28,7 @@
                             <div class="card p-4 mb-0" id="defaultAddressCard" style="background-color:#FAFFFF;">
                                 <div class="row">
                                     <div class="col-10 col-md-10">
-                                        <input class="form-check-input" id="<%=data._id %>" type="radio"
-                                            onclick="radioSelected()" name="defaultAddress" checked>
+                                        <input class="form-check-input" id="<%=data._id %>" type="radio" onclick="radioSelected()" name="defaultAddress" checked>
                                         <label class="form-label">
                                             <b>
                                                 <%=data.firstName %>
@@ -39,12 +39,8 @@
                                         </label>
                                     </div>
                                     <div class="col-2 col-md-2">
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
-                                            onclick="sweetAlertTrigger('<%=data._id %>')"
-                                            style="float:right;">Remove</button>
-                                        <button type="button" id="editAddressBtn<%=data._id %>"
-                                            onclick="editAddressFunc('<%=data._id %>')" style="float:right"
-                                            class="btn btn-outline-primary btn-sm">
+                                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="sweetAlertTrigger('<%=data._id %>')" style="float:right;">Remove</button>
+                                        <button type="button" id="editAddressBtn<%=data._id %>" onclick="editAddressFunc('<%=data._id %>')" style="float:right" class="btn btn-outline-primary btn-sm">
                                             Edit</button>
                                     </div>
                                 </div>
@@ -52,17 +48,13 @@
                             <% i++; }) %>
                                 <% } %>
 
-                                    <div class="card" id="addAddressButton"
-                                        style="background-color: white; padding-left: 2%">
+                                    <div class="card" id="addAddressButton" style="background-color: white; padding-left: 2%">
                                         <div class="col-12 col-md-6 p-2">
-                                            <div onclick="showAddressDetails()" style="cursor: pointer"><i
-                                                    class="fas fa-plus-circle"></i>
-                                                Add a new address</div>
+                                            <div onclick="showAddressDetails()" style="cursor: pointer"><i class="fas fa-plus-circle"></i> Add a new address</div>
                                         </div>
                                     </div>
 
-                                    <div class="card p-4" id="addAddress" for="newAddress"
-                                        style="background-color:#FAFFFF; display:none">
+                                    <div class="card p-4" id="addAddress" for="newAddress" style="background-color:#FAFFFF; display:none">
                                         <div class="row">
                                             <div class="col-12 col-md-12 mb-3">
                                                 <label class="form-label fw-bold" for="newAddress" id="newAddressLabel">
@@ -72,8 +64,7 @@
 
                                             <div class="col-12 col-md-6 mb-3">
                                                 <label for="firstName" class="form-label">First Name</label>
-                                                <input type="text" id="firstName" name="firstName[]"
-                                                    class="form-control" placeholder="e.g. John" required>
+                                                <input type="text" id="addfirstName" name="firstName[]" class="form-control" placeholder="e.g. John">
                                                 <div class="invalid-feedback">
                                                     Please enter your first name.
                                                 </div>
@@ -81,18 +72,15 @@
 
                                             <div class="col-12 col-md-6 mb-3">
                                                 <label for="lname" class="form-label">Last Name</label>
-                                                <input type="text" id="lname" name="lastName[]" class="form-control"
-                                                    placeholder="e.g. Smith" required>
+                                                <input type="text" id="addlastName" name="lastName[]" class="form-control" placeholder="e.g. Smith">
                                                 <div class="invalid-feedback">
                                                     Please enter your last name.
                                                 </div>
                                             </div>
 
                                             <div class="col-12 mb-3">
-                                                <label for="email" class="form-label">Email Id</label>
-                                                <input type="email" id="email" name="email[]" class="form-control"
-                                                    value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                                    placeholder="e.g. johnsmith123@gmail.com" required>
+                                                <label for="email" class="form-label">Email Address</label>
+                                                <input type="email" id="addemail" name="email[]" class="form-control" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="e.g. johnsmith123@gmail.com">
                                                 <div class="invalid-feedback">
                                                     Please enter valid email id.
                                                 </div>
@@ -100,9 +88,7 @@
 
                                             <div class="col-12 mb-3">
                                                 <label for="address" class="form-label">Address</label>
-                                                <input type="text" id="address" name="address[]" class="form-control"
-                                                    placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert"
-                                                    required>
+                                                <input type="text" id="addaddress" name="address[]" class="form-control" placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
                                                 <div class="invalid-feedback">
                                                     Please enter your address.
                                                 </div>
@@ -110,7 +96,7 @@
 
                                             <div class="col-6 col-md-4 mb-3">
                                                 <label for="state" class="form-label">State</label>
-                                                <select name="state[]" class="form-select" id="state" required>
+                                                <select name="state[]" class="form-select" id="addstate">
                                                     <option value="">
                                                         ---Choose State---
                                                     </option>
@@ -123,7 +109,7 @@
                                             <div class="col-6 col-md-4 mb-3">
                                                 <label for="city" class="form-label">City</label>
                                                 <div class="btn-group  w-100">
-                                                    <select name="city[]" class="form-select" id="city" required>
+                                                    <select name="city[]" class="form-select" id="addcity">
                                                         <option value="">
                                                             ---Choose City---
                                                         </option>
@@ -139,9 +125,7 @@
 
                                             <div class="col-6 col-md-4 mb-3">
                                                 <label for="pinCode" class="form-label">Pin Code</label>
-                                                <input type="text" maxlength="6" id="pinCode" name="pinCode[]"
-                                                    pattern="[1-9]{1}[0-9]{5}" class="form-control"
-                                                    placeholder="e.g. 400029" required>
+                                                <input type="text" maxlength="6" id="addpinCode" name="pinCode[]" pattern="[1-9]{1}[0-9]{5}" class="form-control" placeholder="e.g. 400029">
                                                 <div class="invalid-feedback">
                                                     Please enter correct pin code.
                                                 </div>
@@ -149,31 +133,24 @@
 
                                             <div class="col-12 mb-3">
                                                 <label for="mobileNo" class="form-label">Mobile Number</label>
-                                                <input type="text" id="mobileNo" name="mobileNumber[]" maxlength="10"
-                                                    pattern="[6789][0-9]{9}" class="form-control"
-                                                    placeholder="e.g. 9898989898" required>
+                                                <input type="text" id="addmobileNumber" name="mobileNumber[]" maxlength="10" pattern="[6789][0-9]{9}" class="form-control" placeholder="e.g. 9898989898">
                                                 <div class="invalid-feedback">
                                                     Please enter valid Mobile number.
                                                 </div>
                                             </div>
 
                                             <div class="col-12 mb-3  text-center">
-                                                <button type="submit" class="btn btn-outline-primary"><i
-                                                        class="fas fa-save"> </i>
-                                                    Save
-                                                    Address</button>
+                                                <button type="button" id="addAddressBtn" class="btn btn-outline-primary"><i class="fas fa-save"> </i> Save Address</button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="card p-4" id="editAddressCard" for="editFirstName" class="editAddresses"
-                                        style="background-color:#FAFFFF; display:none">
+                                    <div class="card p-4" id="editAddressCard" for="editFirstName" class="editAddresses" style="background-color:#FAFFFF; display:none">
                                         <div class="row">
 
                                             <div class="col-12 col-md-6 mb-3">
                                                 <label for="editFirstName" class="form-label">First Name</label>
-                                                <input type="text" id="editFirstName" name="firstName[]"
-                                                    class="form-control" placeholder="e.g. John">
+                                                <input type="text" id="editFirstName" name="firstName[]" class="form-control" placeholder="e.g. John">
                                                 <div class="invalid-feedback">
                                                     Please enter your first name.
                                                 </div>
@@ -181,18 +158,15 @@
 
                                             <div class="col-12 col-md-6 mb-3">
                                                 <label for="editLastName" class="form-label">Last Name</label>
-                                                <input type="text" id="editLastName" name="lastName[]"
-                                                    class="form-control" placeholder="e.g. Smith">
+                                                <input type="text" id="editLastName" name="lastName[]" class="form-control" placeholder="e.g. Smith">
                                                 <div class="invalid-feedback">
                                                     Please enter your last name.
                                                 </div>
                                             </div>
 
                                             <div class="col-12 mb-3">
-                                                <label for="editEmail" class="form-label">Email Id</label>
-                                                <input type="email" id="editEmail" name="email[]" class="form-control"
-                                                    value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                                    placeholder="e.g. johnsmith123@gmail.com">
+                                                <label for="editEmail" class="form-label">Email Address</label>
+                                                <input type="email" id="editEmail" name="email[]" class="form-control" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="e.g. johnsmith123@gmail.com">
                                                 <div class="invalid-feedback">
                                                     Please enter valid email id.
                                                 </div>
@@ -200,9 +174,7 @@
 
                                             <div class="col-12 mb-3">
                                                 <label for="editAddress" class="form-label">Address</label>
-                                                <input type="text" id="editAddress" name="address[]"
-                                                    class="form-control"
-                                                    placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
+                                                <input type="text" id="editAddress" name="address[]" class="form-control" placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
                                                 <div class="invalid-feedback">
                                                     Please enter your address.
                                                 </div>
@@ -231,9 +203,7 @@
 
                                             <div class="col-6 col-md-4 mb-3">
                                                 <label for="editPinCode" class="form-label">Pin Code</label>
-                                                <input type="text" maxlength="6" id="editPinCode" name="pinCode[]"
-                                                    pattern="[1-9]{1}[0-9]{5}" class="form-control"
-                                                    placeholder="e.g. 400029">
+                                                <input type="text" maxlength="6" id="editPinCode" name="pinCode[]" pattern="[1-9]{1}[0-9]{5}" class="form-control" placeholder="e.g. 400029">
                                                 <div class="invalid-feedback">
                                                     Please enter your pin code.
                                                 </div>
@@ -241,35 +211,30 @@
 
                                             <div class="col-12 mb-3">
                                                 <label for="editMobileNo" class="form-label">Mobile Number</label>
-                                                <input type="text" id="editMobileNo" name="mobileNumber[]"
-                                                    maxlength="10" pattern="[6789][0-9]{9}" class="form-control"
-                                                    placeholder="e.g. 9898989898">
+                                                <input type="text" id="editMobileNo" name="mobileNumber[]" maxlength="10" pattern="[6789][0-9]{9}" class="form-control" placeholder="e.g. 9898989898">
                                                 <div class="invalid-feedback">
                                                     Please enter valid Mobile number.
                                                 </div>
                                             </div>
 
                                             <div class="col-12 mb-3  text-center">
-                                                <button type="button" class="btn btn-outline-primary"
-                                                    id="saveChangesBtn"><i class="fas fa-save"></i>
-                                                    Save
-                                                    Changes</button>
+                                                <button type="button" class="btn btn-outline-primary" id="saveChangesBtn"><i class="fas fa-save"></i> Save Changes</button>
                                             </div>
                                         </div>
                                     </div>
-                    </form>
 
-                    <div class="card p-2 mb-0" style="background-color:#1e686dfa">
-                        <strong style="color: #faffff; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
+                                    <div class="card p-2 mb-0" style="background-color:#1e686dfa">
+                                        <strong style="color: #faffff; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
                             ORDER SUMMARY</strong>
-                    </div>
-                    <div class="card p-4" id="orderCard" style="background-color:#faffff;">
-                        <% if(cartData.length!=0) { var i=0; cartData.forEach(function(data){ %>
-                            <div class="row">
-                                <div class="card col-12 col-md-12">
-                                    <div class="row">
-                                        <div class="col-12 col-md-12  mt-2">
-                                            <label class="form-label mb-0" style="float:right; font-style: italic;">
+                                    </div>
+
+                                    <div class="card p-4" id="orderCard" style="background-color:#faffff;">
+                                        <% if(cartData.length!=0) { var i=0; cartData.forEach(function(data){ %>
+                                            <div class="row">
+                                                <div class="card col-12 col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-12  mt-2">
+                                                            <label class="form-label mb-0" style="float:right; font-style: italic;">
                                                 Delivery By Saturday, 8 October |
                                                 <% if(deliveryFee=="FREE" ){ %>
                                                     FREE <strike style="color:gray">₹ 99</strike>
@@ -277,124 +242,116 @@
                                                         ₹ 99
                                                         <% } %>
                                             </label>
-                                        </div>
+                                                        </div>
 
-                                        <div class="col-12 col-md-10">
-                                            <div class="row">
-                                                <div class="col-6 col-md-2 mt-2">
-                                                    <%if(data.variantID){%>
-                                                        <img src="<%=data.variantID.images[0] %>" class="w-100">
-                                                        <%}else{%>
-                                                            <img src="<%=data.productID.images[0] %>" class="w-100">
-                                                            <%}%>
-                                                </div>
-                                                <div class="col-12 col-md-10">
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-12">
-                                                            <label class="form-label mt-1 mb-0"
-                                                                style="text-align:justify">
+                                                        <div class="col-12 col-md-10">
+                                                            <div class="row">
+                                                                <div class="col-6 col-md-2 mt-2">
+                                                                    <%if(data.variantID){%>
+                                                                        <img src="<%=data.variantID.images[0] %>" class="w-100">
+                                                                        <%}else{%>
+                                                                            <img src="<%=data.productID.images[0] %>" class="w-100">
+                                                                            <%}%>
+                                                                </div>
+                                                                <div class="col-12 col-md-10">
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-md-12">
+                                                                            <label class="form-label mt-1 mb-0" style="text-align:justify">
                                                                 <h5><b>
                                                                         <%=data.productID.productName %>
                                                                     </b></h5>
                                                             </label>
-                                                        </div>
-                                                        <div class="col-12 col-md-12">
-                                                            <label class="form-label">
+                                                                        </div>
+                                                                        <div class="col-12 col-md-12">
+                                                                            <label class="form-label">
                                                                 Sold By: <b>
                                                                     <%=data.sellerID.busName %>
                                                                 </b>
                                                             </label>
-                                                        </div>
-                                                        <%if(data.variantID){%>
-                                                            <div class="col-12 col-md-12">
-                                                                <div class="row">
-                                                                    <div class="col-6 col-md-3">
-                                                                        <label class="form-label">
+                                                                        </div>
+                                                                        <%if(data.variantID){%>
+                                                                            <div class="col-12 col-md-12">
+                                                                                <div class="row">
+                                                                                    <div class="col-6 col-md-3">
+                                                                                        <label class="form-label">
                                                                             Size: <b>
                                                                                 <%=data.size%>
                                                                             </b>
                                                                         </label>
-                                                                    </div>
-                                                                    <div class="col-6 col-md-3">
-                                                                        <label class="form-label">
+                                                                                    </div>
+                                                                                    <div class="col-6 col-md-3">
+                                                                                        <label class="form-label">
                                                                             Colour: <b>
                                                                                 <%=data.colour%>
                                                                             </b>
                                                                         </label>
-                                                                    </div>
-                                                                    <div class="col-12 col-md-3">
-                                                                        <label class="form-label">
+                                                                                    </div>
+                                                                                    <div class="col-12 col-md-3">
+                                                                                        <label class="form-label">
                                                                             Quantity: <b>
                                                                                 <%=data.quantity%>
                                                                             </b>
                                                                         </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <% }else{ %>
-                                                                <div class="col-12 col-md-12">
-                                                                    <label class="form-label">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <% }else{ %>
+                                                                                <div class="col-12 col-md-12">
+                                                                                    <label class="form-label">
                                                                         Quantity: <b>
                                                                             <%=data.quantity%>
                                                                         </b>
                                                                     </label>
-                                                                </div>
-                                                                <% } %>
+                                                                                </div>
+                                                                                <% } %>
 
-                                                                    <div class="col-12 col-md-12">
-                                                                        <%if(data.variantID){%>
-                                                                            <label class="form-label fs-5">
+                                                                                    <div class="col-12 col-md-12">
+                                                                                        <%if(data.variantID){%>
+                                                                                            <label class="form-label fs-5">
                                                                                 <b>₹ <%=data.variantID.sizes[0]["finalPrice"]%>
                                                                                 </b></label>
-                                                                            <%if(data.variantID.sizes[0]["discount"]!=null){%>
-                                                                                <label class="form-label fs-6"
-                                                                                    style="color: gray">
+                                                                                            <%if(data.variantID.sizes[0]["discount"]!=null){%>
+                                                                                                <label class="form-label fs-6" style="color: gray">
                                                                                     <strike>₹
                                                                                         <%=data.variantID.sizes[0]["actualPrice"]%>
                                                                                     </strike>
                                                                                 </label>
-                                                                                <label class="form-label fs-5"
-                                                                                    style="color: #249c50fa">
+                                                                                                <label class="form-label fs-5" style="color: #249c50fa">
                                                                                     <%=data.variantID.sizes[0]["discount"]%>
                                                                                         % off
                                                                                 </label>
-                                                                                <%}%>
-                                                                                    <%}else{%>
-                                                                                        <label class="form-label fs-5">
+                                                                                                <%}%>
+                                                                                                    <%}else{%>
+                                                                                                        <label class="form-label fs-5">
                                                                                             <b>₹ <%=data.productID.finalPrice%>
                                                                                             </b></label>
-                                                                                        <%if(data.productID.discount!=null){%>
-                                                                                            <label
-                                                                                                class="form-label fs-6"
-                                                                                                style="color: gray">
+                                                                                                        <%if(data.productID.discount!=null){%>
+                                                                                                            <label class="form-label fs-6" style="color: gray">
                                                                                                 <strike>₹
                                                                                                     <%=data.productID.actualPrice%>
                                                                                                 </strike>
                                                                                             </label>
-                                                                                            <label
-                                                                                                class="form-label fs-5"
-                                                                                                style="color: #249c50fa">
+                                                                                                            <label class="form-label fs-5" style="color: #249c50fa">
                                                                                                 <%=data.productID.discount%>
                                                                                                     % off
                                                                                             </label>
-                                                                                            <%}%>
-                                                                                                <%}%>
+                                                                                                            <%}%>
+                                                                                                                <%}%>
+                                                                                    </div>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <% i++; }) %>
+                                                <% } %>
                                     </div>
-                                </div>
-                            </div>
-                            <% i++; }) %>
-                                <% } %>
                     </div>
-                </div>
 
-
-                <div class="col-12 col-md-3 col-lg-3">
-                    <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
+                    <div class="col-12 col-md-3 col-lg-3">
+                        <!-- <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
                         <strong style="text-align: center;">
                             <i class="fas fa-tag"></i> COUPONS
                         </strong>
@@ -407,38 +364,36 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
-                        <strong style="text-align: center;">
-                            PRICE DETAILS
-                        </strong>
-                        <div id="bill">
-                            <div class="row mt-4">
-                                <div class="col-md-6 col-sm-8 col-8">
-                                    Total MRP
-                                </div>
-                                <div class="col-md-6 col-sm-4 col-4">
-                                    <label id="totalMRP" style="float:right">
+                        <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%">
+                            <strong style="text-align: center;">PRICE DETAILS</strong>
+                            <div id="bill">
+                                <div class="row mt-4">
+                                    <div class="col-md-6 col-sm-8 col-8">
+                                        Total MRP
+                                    </div>
+                                    <div class="col-md-6 col-sm-4 col-4">
+                                        <label id="totalMRP" style="float:right">
                                         <small>₹</small>
                                         <%= totalMRP %>
                                     </label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-7 col-sm-7 col-7">
-                                    Discount on MRP
-                                </div>
-                                <div class="col-md-5 col-sm-5 col-5">
-                                    <label id="subtotal" style="float:right; color: #189ca5fa;">
+                                <div class="row mt-2">
+                                    <div class="col-md-7 col-sm-7 col-7">
+                                        Discount on MRP
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-5">
+                                        <label id="subtotal" style="float:right; color: #189ca5fa;">
                                         -<small>₹</small>
                                         <%= discountOnMRP %>
                                     </label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row mt-2">
+                                <!-- <div class="row mt-2">
                                 <div class="col-md-7 col-sm-9 col-9">
                                     Coupon Discount
                                 </div>
@@ -448,46 +403,44 @@
                                         <%= couponDiscount %>
                                     </label>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="row mt-2">
-                                <div class="col-md-6 col-sm-8 col-8">
-                                    Delivery
-                                    <svg class="secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-question-circle" viewBox="0 0 16 16">
+                                <div class="row mt-2">
+                                    <div class="col-md-6 col-sm-8 col-8">
+                                        Delivery
+                                        <svg class="secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
                                         <path
                                             d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                                         <path
                                             d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
                                     </svg>
-                                </div>
-                                <div class="col-md-6 col-sm-4 col-4">
-                                    <label id="delivery" style="float:right">
+                                    </div>
+                                    <div class="col-md-6 col-sm-4 col-4">
+                                        <label id="delivery" style="float:right">
                                         <%= deliveryFee %>
                                     </label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row mt-4">
-                                <div class="col-md-6 col-sm-8 col-8 fw-bold">
-                                    Total Amount
-                                </div>
-                                <div class="col-md-6 col-sm-4 col-4 fw-bold">
-                                    <label id="subtotal" style="float:right">
+                                <div class="row mt-4">
+                                    <div class="col-md-6 col-sm-8 col-8 fw-bold">
+                                        Total Amount
+                                    </div>
+                                    <div class="col-md-6 col-sm-4 col-4 fw-bold">
+                                        <label id="subtotal" style="float:right">
                                         <small>₹</small>
                                         <%= finalPrice %>
                                     </label>
+                                    </div>
                                 </div>
                             </div>
+                            <input type="hidden" name="amount" value="<%= finalPrice %>">
+                            <input type="hidden" id="addressID" name="addressID" value="<%= finalPrice %>">
+                            <button type="submit" class="btn btn-outline-dark mt-4"><b>CONTINUE TO PAYMENT</b></button>
                         </div>
-                        <button type="button" class="btn btn-outline-dark mt-4" id="buy"
-                            onclick="continueToPayment()"><b>CONTINUE TO
-                                PAYMENT</b>
-                        </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <!-- Modal -->
@@ -505,18 +458,11 @@
                             </span>
                         </p>
                         <p>We ship all over India.</p>
-                        <p>Once we receive your order, we ship your product(s) within 2-3 working days using
-                            some of the best courier
-                            services available.
-                            You should receive your order within 7-10 working days from dispatch.
-                            In situations beyond DigMart's control, there may be circumstances which cause a
-                            delay.
-                            In such cases, DigMart's will strive to ensure delivery in the earliest
-                            timeframe
-                            possible.</p>
+                        <p>Once we receive your order, we ship your product(s) within 2-3 working days using some of the best courier services available. You should receive your order within 7-10 working days from dispatch. In situations beyond DigMart's
+                            control, there may be circumstances which cause a delay. In such cases, DigMart's will strive to ensure delivery in the earliest timeframe possible.
+                        </p>
                         <p>Free shipping on
-                            <strong>PREPAID</strong> orders when u shop for <strong>INR : 590/-</strong> or
-                            Above within
+                            <strong>PREPAID</strong> orders when u shop for <strong>INR : 590/-</strong> or Above within
                             <strong>INDIA.</strong>
                         </p>
 
@@ -532,11 +478,8 @@
                         <p><strong>We are shipping worldwide.</strong></p>
 
                         <p>Note :- Standard and Free Shipping Deliveries to <strong>Jammu and
-                                Kashmir</strong>
-                            takes 20 days or more. So we
-                            always recommend customers from <strong>Jammu and Kashmir</strong> to choose
-                            <strong>Speed-post</strong> option
-                            to get their order delivered within 12 days approx.
+                                Kashmir</strong> takes 20 days or more. So we always recommend customers from <strong>Jammu and Kashmir</strong> to choose
+                            <strong>Speed-post</strong> option to get their order delivered within 12 days approx.
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -545,6 +488,7 @@
                 </div>
             </div>
         </div>
+
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script>
             var newAddressRadio = document.getElementById("newAddress")
@@ -596,8 +540,10 @@
                 $.ajax({
                     url: "/checkout/edit-address/" + addressID,
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    success: function (res) {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(res) {
                         editFirstName.value = res.firstName
                         editLastName.value = res.lastName
                         editEmail.value = res.email
@@ -609,7 +555,7 @@
                     }
                 })
 
-                $("#saveChangesBtn").click(function (e) {
+                $("#saveChangesBtn").click(function(e) {
                     e.preventDefault()
                     if ($(editFirstName)[0].validity.valid &&
                         $(editLastName)[0].validity.valid &&
@@ -622,7 +568,9 @@
                         $.ajax({
                             url: "/checkout/edit-address/" + addressID,
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
                             data: JSON.stringify({
                                 firstName: editFirstName.value,
                                 lastName: editLastName.value,
@@ -633,26 +581,78 @@
                                 pinCode: editPinCode.value,
                                 mobileNumber: editMobileNo.value
                             }),
-                            success: function (res) {
+                            success: function(res) {
                                 window.location = "/checkout"
                             }
                         })
-                    }
-                    else {
-                        var form = $("#addAddressForm")
-                        form.addClass('was-validated');
+                    } else {
+                        swal("Please Enter Valid Details!")
                     }
                 })
             }
 
+            $("#addAddressBtn").click(function(e) {
+                e.preventDefault()
+
+                var addFirstName = document.getElementById("addfirstName")
+                var addLastName = document.getElementById("addlastName")
+                var addEmail = document.getElementById("addemail")
+                var addAddress = document.getElementById("addaddress")
+                var addState = document.getElementById("addstate")
+                var addCity = document.getElementById("addcity")
+                var addPinCode = document.getElementById("addpinCode")
+                var addMobileNo = document.getElementById("addmobileNumber")
+
+                addFirstName.setAttribute('required', "")
+                addLastName.setAttribute('required', "")
+                addEmail.setAttribute('required', "")
+                addAddress.setAttribute('required', "")
+                addState.setAttribute('required', "")
+                addCity.setAttribute('required', "")
+                addPinCode.setAttribute('required', "")
+                addMobileNo.setAttribute('required', "")
+
+                if ($(addFirstName)[0].validity.valid &&
+                    $(addLastName)[0].validity.valid &&
+                    $(addEmail)[0].validity.valid &&
+                    $(addAddress)[0].validity.valid &&
+                    $(addState)[0].validity.valid &&
+                    $(addCity)[0].validity.valid &&
+                    $(addPinCode)[0].validity.valid &&
+                    $(addMobileNo)[0].validity.valid) {
+                    $.ajax({
+                        url: "/checkout/add-address",
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data: JSON.stringify({
+                            firstName: addFirstName.value,
+                            lastName: addLastName.value,
+                            email: addEmail.value,
+                            address: addAddress.value,
+                            state: addState.value,
+                            city: addCity.value,
+                            pinCode: addPinCode.value,
+                            mobileNumber: addMobileNo.value
+                        }),
+                        success: function(res) {
+                            window.location = "/checkout"
+                        }
+                    })
+                } else {
+                    swal("Please Enter Valid Details!")
+                }
+            })
+
             function sweetAlertTrigger(dataID) {
                 swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this address!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this address!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
                     .then((willDelete) => {
                         if (willDelete) {
                             window.location = "/checkout/delete-address/" + dataID
@@ -660,16 +660,18 @@
                     });
             }
 
-            function continueToPayment() {
+            function checkForAddress() {
                 var selectedRadio = $('input[name=defaultAddress]:checked').attr('id');
-                if (selectedRadio) {
-                    alert(selectedRadio)
-                }
-                else {
+                if (!selectedRadio) {
                     alert("You need to add an address first")
+                    return false;
+                } else {
+                    document.getElementById('addressID').value = selectedRadio;
+                    return true;
                 }
             }
         </script>
+
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/js/form-validator.js"></script>
