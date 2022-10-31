@@ -654,7 +654,7 @@
       }
     })
   }
-  if ('<%=variantData.sizes[0].discount%>==null') {
+  if ('<% variantData.sizes[0].discount==null %>') {
     withDiscount.style.display = "none"
     noDiscount.style.display = "inline"
     noDiscount.innerText = '₹ <%=variantData.sizes[0].finalPrice%>'

@@ -1,4 +1,30 @@
 
+#overview-navbar .nav-link:hover {
+  transform: scale(1);
+}
+
+#sidebar .nav-link:hover {
+  transform: scale(1);
+  background-color: rgb(232, 230, 227);
+}
+
+#myTab .nav-link:hover {
+  transform: scale(1);
+}
+
+.gallery__img:hover {
+  transform: scale(1.25);
+}
+
+.caretup {
+  transform: rotate(180deg);
+}
+
+.selected{
+  background-image: linear-gradient(to right,rgb(255, 255, 255), #9ad2d6fa);
+  border-right: 2mm solid #3d7b7ffa;
+}
+
 #myImg {
   border-radius: 5px;
   cursor: pointer;
@@ -16,7 +42,6 @@
 
 .modal {
   background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.9);
 }
 
 @keyframes zoom {
@@ -32,9 +57,24 @@
   position: relative;
 }
 
+.imgchgsize {
+  min-height: 200px;
+  max-height: 200px;
+  min-width: 250px;
+  max-width: 250px;
+  padding: 10px; 
+  margin-right: 10px;
+}
+
+.imgchgsize img {
+  height: 180px
+}
+
 .gallery {
   display: grid;
   grid-gap: 1.5mm;
+  grid-template-rows: 200px 200px;
+  border: 2px solid rgb(9, 9, 9);
 }
 
 .gallery__img {
@@ -42,7 +82,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border: 2px solid rgb(9, 9, 9);
+ 
 }
 
 .gallery__item--1 {
@@ -50,6 +90,9 @@
   grid-column-end: 6;
   grid-row-start: 1;
   grid-row-end: 4;
+  margin-bottom: 0px;
+  overflow:hidden;
+  transition: all 1s ease;
 }
 
 .gallery__item--2 {
@@ -57,7 +100,9 @@
   grid-column-end: 8;
   grid-row-start: 1;
   grid-row-end: 2;
-
+  margin-bottom: 0px;
+  overflow:hidden;
+  transition: all 1s ease;
 }
 
 .gallery__item--3 {
@@ -65,6 +110,9 @@
   grid-column-end: 10;
   grid-row-start: 1;
   grid-row-end: 2;
+  margin-bottom: 0px;
+  overflow:hidden;
+  transition: all 1s ease;
 
 }
 
@@ -73,6 +121,9 @@
   grid-column-end: 8;
   grid-row-start: 2;
   grid-row-end: 4;
+  margin-bottom: 0px;
+  overflow:hidden;
+  transition: all 1s ease;
 }
 
 .gallery__item--5 {
@@ -80,6 +131,27 @@
   grid-column-end: 10;
   grid-row-start: 2;
   grid-row-end: 4;
+  margin-bottom: 0px;
+  overflow:hidden;
+  transition: none;
+}
+.image_overlay:hover{
+  opacity: 1;
+}
+
+.image_overlay{
+  opacity: 0;
+  display: flex;
+  grid-column-start: 8;
+  grid-column-end: 10;
+  grid-row-start: 2;
+  grid-row-end: 4;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 
