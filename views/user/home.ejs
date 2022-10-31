@@ -24,9 +24,7 @@
                 <a class="navbar-brand px-3" href="/">
                     <img id="BrandLogo" src="/img/DigMart.png" class="img-fluid">
                 </a>
-                <button
-                    class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around me-1 position-relative"
-                    id="navbar-toggler">
+                <button class="navbar-toggler collapsed d-flex d-md-none flex-column justify-content-around me-1 position-relative" id="navbar-toggler">
                     <span class="fas fa-bars fs-4 text-white"></span>
                 </button>
                 <div class="collapse navbar-collapse " id="navbar-menu">
@@ -45,21 +43,18 @@
                         </li>
                         <li class="nav-item mx-2 text-center">
                             <div class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-md-end"
-                                    aria-labelledby="navbarScrollingDropdown2">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-md-end" aria-labelledby="navbarScrollingDropdown2">
                                     <% if (!user) { %>
-                                        <li><a class="dropdown-item" data-bs-target="#loginpopup"
-                                                data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i> Sign in</a>
+                                        <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i> Sign in</a>
                                         </li>
                                         <% } else{%>
                                             <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My
                                                     Orders</a></li>
-                                            <li><a class="dropdown-item" href="/wishlist/<%=user%>"><i
+                                            <li><a class="dropdown-item" href="/wishlist"><i
                                                         class="fas fa-heart"></i> Wishlist</a></li>
 
-                                            <li><a class="dropdown-item" href="/cart/<%=user%>"><i
+                                            <li><a class="dropdown-item" href="/cart"><i
                                                         class="fas fa-shopping-cart"></i>
                                                     View
                                                     Cart</a></li>
@@ -75,8 +70,7 @@
                     </ul>
                 </div>
 
-                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="homeOffCanvas"
-                    aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="homeOffCanvas" aria-labelledby="offcanvasDarkNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Welcome Back!</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -85,35 +79,30 @@
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <% if (!user) { %>
                                 <li class="nav-item">
-                                    <a class="nav-link p-3" data-bs-dismiss="offcanvas" data-bs-target="#loginpopup"
-                                        data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i>
+                                    <a class="nav-link p-3" data-bs-dismiss="offcanvas" data-bs-target="#loginpopup" data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i>
                                         Login</a>
                                 </li>
                                 <% } else { %>
                                     <div class="accordion accordion-flush nav-item" id="accordionFlushExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header nav-link p-3" id="flush-headingOne">
-                                                <button class="accordion-button collapsed p-0" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                                    aria-expanded="false" aria-controls="flush-collapseOne">
+                                                <button class="accordion-button collapsed p-0" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                                                     <i class="fas fa-user-circle"></i>&nbsp;Profile
                                                 </button>
                                             </h2>
-                                            <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                                aria-labelledby="flush-headingOne"
-                                                data-bs-parent="#accordionFlushExample">
+                                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body py-0">
                                                     <li class="nav-item">
                                                         <a class="nav-link p-3" href="#"><i class="fas fa-list"></i> My
                                                             Orders</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link p-3" href="/wishlist/<%=user%>"><i
+                                                        <a class="nav-link p-3" href="/wishlist"><i
                                                                 class="fas fa-heart"></i>
                                                             Wishlist</a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link p-3" href="/cart/<%=user%>"><i
+                                                        <a class="nav-link p-3" href="/cart"><i
                                                                 class="fas fa-shopping-cart"></i>
                                                             View Cart</a>
                                                     </li>
@@ -142,9 +131,9 @@
                                                 </li>
                                                 <%}%>
                         </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
         </nav>
     </section>
 
@@ -157,8 +146,7 @@
             </div>
             <div class="search-wrapper pt-4  mx-auto">
                 <form class="d-flex search-container justify-content-center align-items-center" role="search" method="post" action="/search-results">
-                    <input id="searchField" class="form-control" type="search" placeholder="Search" aria-label="Search"
-                        onkeyup="searchData(this)" required name="payload">
+                    <input id="searchField" class="form-control" type="search" placeholder="Search" aria-label="Search" onkeyup="searchData(this)" required name="payload">
                     <button id="searchBtn" class="btn" type="submit"><i class="fas fa-search"></i></button>
                 </form>
                 <div id="search-results">
@@ -248,12 +236,13 @@
                             if(varDocs[j].prodID.equals(product._id)){ %>
                             <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
                                 <%if(varDocs[j].sizes[0].discount){%>
-                                    <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
+                                    <div class="prodDiscount">
+                                        <%=varDocs[j].sizes[0].discount%>
+                                    </div>
                                     <%}%>
                                         <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                             </div>
-                            <div class="des px-2 text-start"
-                                onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                            <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
                                 <span class="prodCat d-block">
                                     <%=product.category%>
                                 </span>
@@ -269,12 +258,13 @@
                                         <%}%>
                                 </div>
                             </div>
-                            <i class="fa fa-heart"
-                                onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
+                            <i class="fa fa-heart" onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                             <%}}} else {%>
                                 <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
                                     <%if(product.discount){%>
-                                        <div class="prodDiscount"><%=product.discount%></div>
+                                        <div class="prodDiscount">
+                                            <%=product.discount%>
+                                        </div>
                                         <%}%>
                                             <img src="<%=product.images%>" alt="<%=product.productName%>">
                                 </div>
@@ -293,8 +283,7 @@
                                             <%}%>
                                     </div>
                                 </div>
-                                <i class="fa fa-heart"
-                                    onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
+                                <i class="fa fa-heart" onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
                                 <%}%>
                     </div>
                     <%})%>

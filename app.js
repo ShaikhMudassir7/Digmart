@@ -24,6 +24,7 @@ const userWishlistRoute = require("./api/routes/user/wishlist");
 const userProductRoute = require("./api/routes/user/product");
 const userSellerRoute = require("./api/routes/user/seller-profile");
 const userCheckoutRoute = require("./api/routes/user/checkout");
+const userAccountRoute = require("./api/routes/user/account");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -75,6 +76,7 @@ app.use("/cart", userCartRoute);
 app.use("/wishlist", userWishlistRoute);
 app.use("/login", userLoginRoute);
 app.use("/checkout", userCheckoutRoute);
+app.use("/account", userAccountRoute);
 
 const server = http.createServer(app);
 server.listen(port, () => {

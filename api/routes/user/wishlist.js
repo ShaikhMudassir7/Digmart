@@ -4,21 +4,19 @@ const mongoose = require('mongoose')
 
 const Wishlist = require('../../models/user/wishlist');
 const Seller = require("../../models/seller/seller");
-const wishlist = require("../../models/user/wishlist");
 
-
-router.get('/(:userID)', async (req, res) => {
+router.get('/', async(req, res) => {
     var seller;
     var sellerdoc;
     var size = [];
-    await Wishlist.find({ userID: req.params.userID }).distinct('sellerID').then(doc => {
+    await Wishlist.find({ userID: req.session.userID }).distinct('sellerID').then(doc => {
         sellerdoc = doc
     })
 
     await Seller.find({ _id: { $in: sellerdoc } }).then(rdoc => {
         seller = rdoc;
     });
-    await Wishlist.find({ userID: req.params.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
+    await Wishlist.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function(err, docs) {
         if (err) {
             console.log(err)
         } else {
@@ -29,60 +27,58 @@ router.get('/(:userID)', async (req, res) => {
                             size.push(j);
                         }
                     }
-                }
-                else {
+                } else {
                     size.push(0);
                 }
             }
-            res.render('user/wishlist', { seller: seller, wishlistData: docs, size: size, user: req.session.userid })
+            res.render('user/wishlist', { seller: seller, wishlistData: docs, size: size, user: req.session.userID })
         }
     });
 })
 
-router.post('/add-to-wishlist', async (req, res) => {
-   var status = true;
+router.post('/add-to-wishlist', async(req, res) => {
+    var status = true;
     if (req.body.variantID) {
         var wishlistdata = new Wishlist({
             _id: mongoose.Types.ObjectId(),
-            userID: req.session.userid,
+            userID: req.session.userID,
             sellerID: req.body.sellerID,
             variantID: req.body.variantID,
             productID: req.body.productID,
             size: req.body.size,
         })
-        await Wishlist.find({ variantID:  req.body.variantID,userID: req.session.userid, size: req.body.size}).then(doc => {
-            if(doc.length!=0){
-                status=false;
+        await Wishlist.find({ variantID: req.body.variantID, userID: req.session.userid, size: req.body.size }).then(doc => {
+            if (doc.length != 0) {
+                status = false;
                 res.json({ status: status });
             }
         })
-    }
-    else {
+    } else {
         var wishlistdata = new Wishlist({
             _id: mongoose.Types.ObjectId(),
-            userID: req.session.userid,
+            userID: req.session.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
         })
-        await Wishlist.find({ productID:  req.body.productID,userID: req.session.userid}).then(doc => {
-            if(doc.length!=0){
-                status=false;
+        await Wishlist.find({ productID: req.body.productID, userID: req.session.userID }).then(doc => {
+            if (doc.length != 0) {
+                status = false;
                 res.json({ status: status });
             }
         })
     }
-    if(status){
+    if (status) {
         await wishlistdata.save().then(result => {
             res.json({ status: true });
         })
     }
-    
+
 })
 
-router.post('/add-product', async (req, res) => {
+router.post('/add-product', async(req, res) => {
     if (req.body.variantID)
         var wishDocs = await Wishlist.find({
-            userID: req.session.userid,
+            userID: req.session.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
             variantID: req.body.variantID,
@@ -90,7 +86,7 @@ router.post('/add-product', async (req, res) => {
         })
     else
         var wishDocs = await Wishlist.find({
-            userID: req.session.userid,
+            userID: req.session.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
         })
@@ -98,7 +94,7 @@ router.post('/add-product', async (req, res) => {
         if (req.body.variantID)
             var wishlistdata = new Wishlist({
                 _id: mongoose.Types.ObjectId(),
-                userID: req.session.userid,
+                userID: req.session.userID,
                 sellerID: req.body.sellerID,
                 productID: req.body.productID,
                 variantID: req.body.variantID,
@@ -107,7 +103,7 @@ router.post('/add-product', async (req, res) => {
         else
             var wishlistdata = new Wishlist({
                 _id: mongoose.Types.ObjectId(),
-                userID: req.session.userid,
+                userID: req.session.userID,
                 sellerID: req.body.sellerID,
                 productID: req.body.productID,
             })
@@ -116,17 +112,17 @@ router.post('/add-product', async (req, res) => {
     res.json({ status: true });
 })
 
-router.post('/remove-product', async (req, res) => {
+router.post('/remove-product', async(req, res) => {
     if (req.body.variantID) {
         await Wishlist.deleteOne({
-            userID: req.session.userid,
+            userID: req.session.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
             variantID: req.body.variantID,
             size: req.body.size,
         })
     } else {
-        await Wishlist.deleteOne({ userID: req.session.userid, sellerID: req.body.sellerID, productID: req.body.productID })
+        await Wishlist.deleteOne({ userID: req.session.userID, sellerID: req.body.sellerID, productID: req.body.productID })
     }
     res.json({ status: true });
 })
@@ -134,9 +130,8 @@ router.post('/remove-product', async (req, res) => {
 router.get('/delete-wishlist/(:wishlistID)', (req, res) => {
     Wishlist.findByIdAndRemove(req.params.wishlistID, (err, doc) => {
         if (!err) {
-            res.redirect('/wishlist/' + req.session.userid)
-        }
-        else {
+            res.redirect('/wishlist/' + req.session.userID)
+        } else {
             res.status(500).send(err)
         }
     })

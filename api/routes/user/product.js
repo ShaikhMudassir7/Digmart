@@ -15,7 +15,7 @@ router.get('/view-product/(:id)', (req, res) => {
                 Variants.find({ prodID: id }).exec()
                     .then(docs => {
                         if (!err) {
-                            res.render('./user/product', { images: allImages, variantData: docs[0], variantsData: docs, productData: element, user: req.session.userid });
+                            res.render('./user/product', { images: allImages, variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
                         }
                     })
             } else {
@@ -29,15 +29,15 @@ router.get('/variant/(:id)/(:variantID)', (req, res) => {
     var id = req.params.id;
     var vd;
     Products.findById(id,
-        async (err, element) => {
+        async(err, element) => {
             if (!err) {
                 await Variants.find({ prodID: id })
                     .then(docs => {
                         vd = docs;
                     })
-                await Variants.findOne({ _id: req.params.variantID})
+                await Variants.findOne({ _id: req.params.variantID })
                     .then(doc => {
-                        res.render('./user/product', { images: allImages, variantData: doc, variantsData: vd, productData: element, user: req.session.userid });
+                        res.render('./user/product', { images: allImages, variantData: doc, variantsData: vd, productData: element, user: req.session.userID });
                     })
             } else {
                 res.send('try-again')
@@ -55,7 +55,7 @@ router.get('/findsize/(:id)/(:size)', (req, res) => {
                     break;
                 }
             }
-           
+
         })
 })
 

@@ -9,7 +9,7 @@ const Coverage = require("../../models/seller/coverage")
 const Products = require('../../models/seller/product')
 const Variants = require('../../models/seller/variants')
 
-router.get('/', async (req, res) => {
+router.get('/', async(req, res) => {
     var varDocs = []
     var catDocs = await Category.find()
     var selDocs = await Seller.find({ featured: true, status: 'Verified' }).populate('busCat')
@@ -20,10 +20,10 @@ router.get('/', async (req, res) => {
             varDocs.push(doc[0])
         }
     }
-    res.render('./user/home', { proDocs: proDocs, catData: catDocs, selData: selDocs, varDocs: varDocs, user: req.session.userid })
+    res.render('./user/home', { proDocs: proDocs, catData: catDocs, selData: selDocs, varDocs: varDocs, user: req.session.userID })
 })
 
-router.get('/shop-by-category', async (req, res) => {
+router.get('/shop-by-category', async(req, res) => {
     var varDocs = []
     var catDocs = await Category.findOne({ catName: req.query.cat })
     if (req.session.pincode) {
@@ -41,7 +41,7 @@ router.get('/shop-by-category', async (req, res) => {
             varDocs.push(doc[0])
         }
     }
-    res.render('./user/shop-by-category', { catDocs: catDocs, proDocs: proDocs, varDocs: varDocs, user: req.session.userid })
+    res.render('./user/shop-by-category', { catDocs: catDocs, proDocs: proDocs, varDocs: varDocs, user: req.session.userID })
 })
 
 router.post('/api/pincode', (req, res) => {
@@ -71,7 +71,7 @@ router.post('/api/pincode', (req, res) => {
     });
 })
 
-router.post('/search', async (req, res) => {
+router.post('/search', async(req, res) => {
     let payload = req.body.payload.trim()
     let products = await Products.find({ productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' }).select('_id productName category')
 
@@ -81,8 +81,9 @@ router.post('/search', async (req, res) => {
     var prod = []
     products = products.filter((product) => {
         if (!prod.some(e => isEqual(e, {
-            productName: product.productName, category: product.category
-        }))) {
+                productName: product.productName,
+                category: product.category
+            }))) {
             prod.push({ productName: product.productName, category: product.category })
             return product
         }
@@ -97,7 +98,7 @@ router.post('/search', async (req, res) => {
     })
 })
 
-router.post('/search-results', async (req, res) => {
+router.post('/search-results', async(req, res) => {
     var varDocs = []
     let payload = req.body.payload.trim()
     if (req.session.pincode) {
@@ -105,11 +106,11 @@ router.post('/search-results', async (req, res) => {
         var selArr = []
         for (let i = 0; i < covDocs.length; i++)
             selArr.push(covDocs[i].sellerID)
-        var proDocs = await Products.find({  productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, sellerID: { $in: selArr }, status: 'Verified' })
+        var proDocs = await Products.find({ productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, sellerID: { $in: selArr }, status: 'Verified' })
         var selDoc1 = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, sellerID: { $in: selArr }, status: 'Verified', featured: true }).populate('busCat')
-        var selDoc2 = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, sellerID: { $in: selArr }, status: 'Verified', featured: false }).populate('busCat') 
+        var selDoc2 = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, sellerID: { $in: selArr }, status: 'Verified', featured: false }).populate('busCat')
     } else {
-        var proDocs = await Products.find({  productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' })
+        var proDocs = await Products.find({ productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' })
         var selDoc1 = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified', featured: true }).populate('busCat')
         var selDoc2 = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified', featured: false }).populate('busCat')
     }
@@ -120,7 +121,7 @@ router.post('/search-results', async (req, res) => {
         varDocs.push(doc[0])
     }
 
-    res.render('./user/search-results', { payload:payload, selDocs: selDocs, proDocs: proDocs, varDocs: varDocs, user: req.session.userid })
+    res.render('./user/search-results', { payload: payload, selDocs: selDocs, proDocs: proDocs, varDocs: varDocs, user: req.session.userID })
 })
 
 module.exports = router
