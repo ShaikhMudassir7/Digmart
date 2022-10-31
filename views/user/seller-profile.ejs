@@ -25,7 +25,7 @@
   </section>
 
   <div class="container bg-white p-3 mt-3">
-    <div class="page-title mb-4">
+    <div class="page-title">
       <div class="card w-100  align-middl">
           <div class="gallery">
             <% if(galleryData){%>
@@ -86,7 +86,7 @@
     </div>
 
 
-    <div class="page-title mt-2 border-1 border-dark border">
+    <div class="page-title" style="border-style: solid;  border-color: #3d7b7ffa;">
       <ul class="nav nav-justified nav-tabs" id="myTab" role="tablist">
         <li class="nav-item shadow-sm" role="presentation">
           <button class="nav-link text-success active" id="home-tab" data-bs-toggle="tab"
@@ -401,6 +401,7 @@
    <!-- Login Modal -->
    <%- include('login') %>
 </body>
+
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/js/user/seller-profile.js"></script>
 <script src="/js/user/login.js"></script>

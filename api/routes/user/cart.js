@@ -7,14 +7,14 @@ const Seller = require("../../models/seller/seller");
 
 const checkAuth = require("../../middleware/user/checkAuth")
 
-router.get('/', checkAuth, async(req, res) => {
+router.get('/', checkAuth, async (req, res) => {
     var subtotal = 0;
     var size = [];
     var sellerdoc = await Cart.find({ userID: req.session.userID }).distinct('sellerID')
     var seller = await Seller.find({ _id: { $in: sellerdoc } })
 
-    await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function(err, docs) {
-        if (err) {} else {
+    await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
+        if (err) { } else {
             for (let i = 0; i < docs.length; i++) {
                 if (docs[i].variantID) {
                     for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
@@ -33,45 +33,51 @@ router.get('/', checkAuth, async(req, res) => {
     });
 })
 
-router.post('/add-to-cart', async(req, res) => {
-    var status = true;
-    if (req.body.variantID) {
-        var cartdata = new Cart({
-            _id: mongoose.Types.ObjectId(),
-            userID: req.session.userID,
-            sellerID: req.body.sellerID,
-            variantID: req.body.variantID,
-            productID: req.body.productID,
-            colour: req.body.colour,
-            size: req.body.size,
-            quantity: "1"
-        })
+router.post('/add-to-cart', async (req, res) => {
+    
+    if (req.session.userID) {
+        var status = true;
+        if (req.body.variantID) {
+            var cartdata = new Cart({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.session.userID,
+                sellerID: req.body.sellerID,
+                variantID: req.body.variantID,
+                productID: req.body.productID,
+                colour: req.body.colour,
+                size: req.body.size,
+                quantity: "1"
+            })
 
-        await Cart.find({ variantID: req.body.variantID, userID: req.session.userID, size: req.body.size }).then(doc => {
-            if (doc.length != 0) {
-                status = false;
-                res.json({ status: status });
-            }
-        })
-    } else {
-        var cartdata = new Cart({
-            _id: mongoose.Types.ObjectId(),
-            userID: req.session.userID,
-            sellerID: req.body.sellerID,
-            productID: req.body.productID,
-            quantity: "1"
-        })
-        await Cart.find({ productID: req.body.productID, userID: req.session.userID }).then(doc => {
-            if (doc.length != 0) {
-                status = false;
-                res.json({ status: status });
-            }
-        })
+            await Cart.find({ variantID: req.body.variantID, userID: req.session.userID, size: req.body.size }).then(doc => {
+                if (doc.length != 0) {
+                    status = false;
+                    res.json({ status: status });
+                }
+            })
+        } else {
+            var cartdata = new Cart({
+                _id: mongoose.Types.ObjectId(),
+                userID: req.session.userID,
+                sellerID: req.body.sellerID,
+                productID: req.body.productID,
+                quantity: "1"
+            })
+            await Cart.find({ productID: req.body.productID, userID: req.session.userID }).then(doc => {
+                if (doc.length != 0) {
+                    status = false;
+                    res.json({ status: status });
+                }
+            })
+        }
+        if (status) {
+            await cartdata.save().then(result => {
+                res.json({ status: true });
+            })
+        }
     }
-    if (status) {
-        await cartdata.save().then(result => {
-            res.json({ status: true });
-        })
+    else{
+        res.json({ status: 'login' });
     }
 
 })

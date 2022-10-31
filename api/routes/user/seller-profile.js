@@ -12,20 +12,20 @@ const Products = require('../../models/seller/product')
 const Variants = require('../../models/seller/variants')
 
 // Route of product page
-router.get("/(:sellerID)", async(req, res, next) => {
-    var id = req.params.sellerID;
-    const images = await SellerGall.findOne({ sellerID: id }).select("images");
+router.get("/(:sellerslugID)", async(req, res, next) => {
+    var id = req.params.sellerslugID;
+    const element = await Seller.findOne({ slugId: id});
+    const images = await SellerGall.findOne({ sellerID: element._id }).select("images");
     var varDocs = []
     var catDocs = await Category.find()
-    const element = await Seller.findById(id);
-    var proDocs = await Products.find({ sellerID: id, status: 'Verified' })
+    var proDocs = await Products.find({ sellerID: element._id, status: 'Verified' })
     for (let i = 0; i < proDocs.length; i++) {
         if (proDocs[i].hasVariant) {
             var doc = await Variants.find({ prodID: proDocs[i]._id })
             varDocs.push(doc[0])
         }
     }
-    SellerGall.find({ sellerID: id })
+    SellerGall.find({ sellerID: element._id })
         .select()
         .exec()
         .then((docs) => {

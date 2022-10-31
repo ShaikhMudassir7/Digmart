@@ -5,7 +5,6 @@ $('#nav-0').addClass("show");
 $('#nav-0').addClass("show");
 $('#nav-0-0').addClass("active selected");
 $('#tab-0-0').addClass("active show");
-
 function selectedsubcat(a) {
     var rem = document.querySelector('.selected').id;
     var remID = document.getElementById(rem);
@@ -81,7 +80,7 @@ $(function () {
         $(this).addClass("down");
         var rem = document.querySelector('.down').id;
         var navID = document.getElementById(rem);
-        if(this != navID){
+        if (this != navID) {
             $(navID).removeClass("down");
             $(navID).addClass("collapsed");
             $(navID).find(".toggleicon").toggleClass("caretup");

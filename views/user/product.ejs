@@ -171,7 +171,7 @@
               <div id="withDiscount" style="display: none;">
                 <p class="card-text fs-2 text-dark mb-0">
                   <strong id="finalPrice">
-                  </strong><span class="fs-6 text-black-20"><strike id="actualPrice">
+                  </strong>&nbsp<span class="fs-6 text-black-20"><strike id="actualPrice">
                     </strike>
                   </span><span class="text-success fs-5" id="discount">
 
@@ -664,7 +664,7 @@
     noDiscount.style.display = "none"
     finalPrice.innerText = '₹ <%=variantData.sizes[0].finalPrice%>'
     actualPrice.innerText = "₹ <%=variantData.sizes[0].actualPrice%>"
-    discount.innerHTML = '<%=variantData.sizes[0].discount%>'
+    discount.innerHTML = '<%=variantData.sizes[0].discount%>' + " off"
   }
   '<%variantsData.forEach(function(data){ %>'
   ' <%if(data.colours==variantData.colours){%>'

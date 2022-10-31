@@ -201,7 +201,7 @@
             <div class="swiper sellerSwiper">
                 <div id="seller1" class="swiper-wrapper">
                     <% if(selData.length!=0){ selData.forEach(function(data){ %>
-                        <div class="sel swiper-slide" onclick="openSeller('<%=data._id%>')">
+                        <div class="sel swiper-slide" onclick="openSeller('<%=data.slugId%>')">
                             <div class="imgDiv">
                                 <img src="<%=data.busLogo%>" class="rounded-circle" alt="<%=data.busName%>">
                             </div>

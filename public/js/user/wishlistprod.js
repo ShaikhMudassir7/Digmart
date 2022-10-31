@@ -13,10 +13,15 @@ function addcart(sellerID, productID, variantID,colour,size) {
         dataType: 'json',
         success: function (result) {
           if (result.status){
-          swal({
-            title: "Added to Cart Successfully",
-            icon: "success",
-        })}
+            if(result.status=='login'){
+              $('#loginpopup').modal('show');
+            }else{
+              swal({
+                title: "Added to Cart Successfully",
+                icon: "success",
+            })
+            }
+         }
         else{
           swal({
             title: "Already in the Cart",
