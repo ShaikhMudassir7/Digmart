@@ -98,7 +98,7 @@ router.post('/add-seller', middleware, async (req, res) => {
 
     var sellerAcc = new Seller({
         _id: new mongoose.Types.ObjectId(),
-        slugId: slugId,
+        slugID: slugId,
         pFname: req.body.pFname,
         pLname: req.body.pLname,
         pMobile: req.body.pMobile,

@@ -14,7 +14,7 @@ const Variants = require('../../models/seller/variants')
 // Route of product page
 router.get("/(:sellerslugID)", async(req, res, next) => {
     var id = req.params.sellerslugID;
-    const element = await Seller.findOne({ slugId: id});
+    const element = await Seller.findOne({ slugID: id});
     const images = await SellerGall.findOne({ sellerID: element._id }).select("images");
     var varDocs = []
     var catDocs = await Category.find()

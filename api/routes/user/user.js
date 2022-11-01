@@ -73,7 +73,7 @@ router.post('/api/pincode', (req, res) => {
 
 router.post('/search', async(req, res) => {
     let payload = req.body.payload.trim()
-    let products = await Products.find({ productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' }).select('_id productName category')
+    let products = await Products.find({ productName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' }).select('_id slugID productName category')
 
     const isEqual = (first, second) => {
         return JSON.stringify(first) === JSON.stringify(second);
@@ -90,7 +90,7 @@ router.post('/search', async(req, res) => {
     })
     products = products.slice(0, 7)
 
-    let sellers = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' }).select('_id busName')
+    let sellers = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified' }).select('_id slugID busName')
     sellers = sellers.slice(0, 3)
     res.json({
         products: products,

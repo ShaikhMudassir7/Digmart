@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const sellerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    slugId: { type: String, required: false },
+    slugID: { type: String, required: false },
     
     status: { type: String, default: "Authentication" },
 

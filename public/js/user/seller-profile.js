@@ -54,7 +54,7 @@ function wishlist(element, sellerID, productID, variantID, size) {
 
 function openProduct(productID, variantID) {
     if (variantID) {
-        location.href = '/product/variant/' + productID + '/' + variantID
+        location.href = '/product/variant/' + variantID
     } else {
         location.href = '/product/view-product/' + productID
     }

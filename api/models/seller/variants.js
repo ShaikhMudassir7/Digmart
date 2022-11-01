@@ -10,6 +10,7 @@ const sizeSchema = new mongoose.Schema({
 
 const variantSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    slugID: { type: String, required: false},
     prodID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'products'

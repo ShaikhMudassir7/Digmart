@@ -201,7 +201,7 @@
             <div class="swiper sellerSwiper">
                 <div id="seller1" class="swiper-wrapper">
                     <% if(selData.length!=0){ selData.forEach(function(data){ %>
-                        <div class="sel swiper-slide" onclick="openSeller('<%=data.slugId%>')">
+                        <div class="sel swiper-slide" onclick="openSeller('<%=data.slugID%>')">
                             <div class="imgDiv">
                                 <img src="<%=data.busLogo%>" class="rounded-circle" alt="<%=data.busName%>">
                             </div>
@@ -234,7 +234,7 @@
                     <div class="pro swiper-slide">
                         <%if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
                             if(varDocs[j].prodID.equals(product._id)){ %>
-                            <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                            <div class="imgDiv" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
                                 <%if(varDocs[j].sizes[0].discount){%>
                                     <div class="prodDiscount">
                                         <%=varDocs[j].sizes[0].discount%>
@@ -242,7 +242,7 @@
                                     <%}%>
                                         <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                             </div>
-                            <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                            <div class="des px-2 text-start" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
                                 <span class="prodCat d-block">
                                     <%=product.category%>
                                 </span>
@@ -260,7 +260,7 @@
                             </div>
                             <i class="fa fa-heart" onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                             <%}}} else {%>
-                                <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
+                                <div class="imgDiv" onclick="openProduct('<%=product.slugID%>', null)">
                                     <%if(product.discount){%>
                                         <div class="prodDiscount">
                                             <%=product.discount%>
@@ -268,7 +268,7 @@
                                         <%}%>
                                             <img src="<%=product.images%>" alt="<%=product.productName%>">
                                 </div>
-                                <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', null)">
+                                <div class="des px-2 text-start" onclick="openProduct('<%=product.slugID%>', null)">
                                     <span class="prodCat d-block">
                                         <%=product.category%>
                                     </span>
