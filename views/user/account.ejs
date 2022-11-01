@@ -5,43 +5,167 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Account</title>
-    <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
-    <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/vendor/datatables/datatables.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
     <%- include('navbar') %>
         <div class="container pt-4">
-            <div class="col-12 col-md-3">
-                <div class="card mb-3 p-2 bg-white border rounded"
-                    style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+            <div class="row">
+                <div class="col-12 col-md-3">
                     <div class="row">
-                        <div class="col-12 col-md-3">
-                            <img src="/img/DigMart.png" style="width:100%">
+                        <div class="card mb-3 p-2 bg-white border rounded"
+                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                            <div class="row">
+                                <div class="col-12 col-md-3">
+                                    <img src="/img/DigMart.png" style="width:100%">
+                                </div>
+                                <div class="col-12 col-md-9 mt-3">
+                                    <label style="text-align: center;">
+                                        <b> Hawaiza Siddiqui </b>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-12 col-md-9 mt-2">
-                            <label style="text-align: center;">
-                                <b> Hawaiza Siddiqui </b>
-                            </label>
+                    </div>
+
+                    <div class="row">
+                        <div class="card mb-3 p-3 bg-white border rounded"
+                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                            <div class="row">
+                                <div class="col-3 col-md-3 mt-1">
+                                    <i class="fas fa-box-open fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
+                                </div>
+                                <div class="col-9 col-md-9 mt-1">
+                                    <a href="#" style="text-align: center; color: gray;">
+                                        <b> MY ORDERS </b>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card mb-3 p-3 bg-white border rounded"
+                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                            <div class="row">
+                                <div class="col-3 col-md-3 mt-1">
+                                    <i class="fas fa-user-alt fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
+                                </div>
+                                <div class="col-9 col-md-9 mt-1 mb-4">
+                                    <label style="text-align: center; color: gray;">
+                                        <b> ACCOUNT SETTINGS </b>
+                                    </label>
+                                    <div class="mt-3">
+                                        <a href="#">Profile Information</a>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a href="#">Manage Addresses</a>
+                                    </div>
+                                </div>
+                                <div class="col-3 col-md-3 mt-1">
+                                    <i class="fas fa-folder-open fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
+                                </div>
+                                <div class="col-9 col-md-9 mt-1 ">
+                                    <label style="text-align: center; color: gray;">
+                                        <b> MY STUFF </b>
+                                    </label>
+                                    <div class="mt-3">
+                                        <a href="#">My Wishlist</a>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a href="#">My Coupons</a>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a href="#">My Reviews & Ratings</a>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a href="#">All Notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="card mb-3 p-3 bg-white border rounded"
+                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                            <div class="row">
+                                <div class="col-3 col-md-3 mt-1">
+                                    <i class="fas fa-sign-out-alt fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
+                                </div>
+                                <div class="col-9 col-md-9 mt-1">
+                                    <label style="text-align: center; color: gray;">
+                                        <b> LOGOUT </b>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-3">
-                <div class="card mb-3 p-2 bg-white border rounded"
-                    style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
-                    <div class="row">
-                        <div class="col-12 col-md-3">
-                            <img src="/img/DigMart.png" style="width:100%">
-                        </div>
-                        <div class="col-12 col-md-9 mt-2">
-                            <label style="text-align: center;">
-                                <b> Hawaiza Siddiqui </b>
-                            </label>
+
+                <div class="col-12 col-md-9">
+                    <div class="card mb-3 p-2 bg-white border rounded"
+                        style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                        <div class="row" style="margin-left:0%; margin-right: 0%;">
+                            <div class="col-12 col-md-12 mt-2 mb-3">
+                                <label style="text-align: center;">
+                                    <b> Personal Information </b>
+                                </label>
+                                <button type="button" style="margin-left: 5%;"
+                                    class="btn btn-outline-primary btn-sm">Edit</button>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label for="firstName" class="form-label mb-0">First Name</label>
+                                <input type="text" id="firstName" name="firstName[]"
+                                    class="form-control" placeholder="e.g. John" required>
+                                <div class="invalid-feedback">
+                                    Please enter your first name.
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label for="lname" class="form-label mb-0">Last Name</label>
+                                <input type="text" id="lname" name="lastName[]" class="form-control"
+                                    placeholder="e.g. Smith" required>
+                                <div class="invalid-feedback">
+                                    Please enter your last name.
+                                </div>
+                            </div>                            
+                            <div class="col-12 col-md-12 mb-3">
+                                <label for="email" class="form-label mb-0">Email Id</label>
+                                <input type="email" id="email" name="email[]" class="form-control"
+                                    value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                    placeholder="e.g. johnsmith123@gmail.com" required>
+                                <div class="invalid-feedback">
+                                    Please enter valid email id.
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 mb-3">
+                                <label for="mobileNo" class="form-label mb-0">Mobile Number</label>
+                                <input type="text" id="mobileNo" name="mobileNumber[]" maxlength="10"
+                                    pattern="[6789][0-9]{9}" class="form-control"
+                                    placeholder="e.g. 9898989898" required>
+                                <div class="invalid-feedback">
+                                    Please enter valid Mobile number.
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 mt-2 mb-3">
+                                <label style="text-align: center;">
+                                    <b> Your Gender </b>
+                                </label>
+                            </div>
+                            <div class="col-12 col-md-3 mb-3">
+                                <input type="radio" id="male" name="gender" class="form-check-input">
+                                <label for="male" class="form-label mb-0">Male</label>
+                            </div>
+                            <div class="col-12 col-md-3 mb-3">
+                                <input type="radio" id="female" name="gender" class="form-check-input">
+                                <label for="female" class="form-label mb-0">Female</label>
+                            </div>
+                            <div class="col-12 col-md-12 mb-3 mt-3">
+                                <a href="#" style="color:dodgerblue; font-style: italic;">Change Password ?</a>
+                            </div>
                         </div>
                     </div>
                 </div>
