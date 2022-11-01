@@ -207,7 +207,7 @@ function showError(error) {
 
 function openProduct(productID, variantID) {
     if (variantID) {
-        location.href = '/product/variant/' + productID + '/' + variantID
+        location.href = '/product/variant/' + variantID
     } else {
         location.href = '/product/view-product/' + productID
     }
@@ -250,7 +250,7 @@ function searchData(e) {
                     containerProduct.style.display = 'block'
                     containerProduct.innerHTML = '<div class="suggestion-title">Products</div>'
                     res.products.forEach(prod => {
-                        containerProduct.innerHTML += '<li onclick="openResult(this,1)" data-resId=' + prod._id + '>' + prod.productName + '<span>' + prod.category + '</span></li>'
+                        containerProduct.innerHTML += '<li onclick="openResult(this,1)" data-resId=' + prod.slugID + '>' + prod.productName + '<span>' + prod.category + '</span></li>'
                     });
                 }
 
@@ -260,7 +260,7 @@ function searchData(e) {
                     containerSeller.style.display = 'block'
                     containerSeller.innerHTML = '<div class="suggestion-title">Sellers</div>'
                     res.sellers.forEach(seller => {
-                        containerSeller.innerHTML += '<li onclick="openResult(this,2)" data-resId=' + seller._id + '>' + seller.busName + '</li>'
+                        containerSeller.innerHTML += '<li onclick="openResult(this,2)" data-resId=' + seller.slugID + '>' + seller.busName + '</li>'
                     });
                 }
 

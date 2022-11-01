@@ -9,22 +9,7 @@
   <link rel="icon" type="image/png" href="/img/favicon.png" />
   <title>DigMart - Seller Profile</title>
   <style>
-    #overview-navbar .nav-link:hover {
-      transform: scale(1.1);
-    }
-
-    #sidebar .nav-link:hover {
-      transform: scale(1);
-    }
-
-    .selected{
-      background-image: linear-gradient(to right,rgb(255, 255, 255), #9ad2d6fa);
-      border-right: 2mm solid #3d7b7ffa;
-    }
-
-    #myTab .nav-link:hover {
-      transform: scale(1);
-    }
+  
   </style>
   <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -33,52 +18,57 @@
 
 </head>
 
-<body>
+<body style="background-color:  rgb(234, 229, 229);">
   <!--header-->
   <section id="header">
     <%- include('navbar') %>
   </section>
 
-  <div class="container shadow-">
-    <div class="page-title mt-2 mb-4 shadow-lg">
-      <div class="card w-100 m-14 align-middl">
-        <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <div class="container bg-white p-3 mt-3">
+    <div class="page-title">
+      <div class="card w-100  align-middl">
           <div class="gallery">
-            <%if(galleryData) { %>
-            <figure class="gallery__item gallery__item--1">
+            <% if(galleryData){%>
+            <%if(galleryData.images.length!=0) { %>
+            <div class="gallery__item gallery__item--1">
               <img src="<%=sellerData.busLogo%>" alt="" id="gallImage" class="gallery__img" />
-            </figure>
-            <figure class="gallery__item gallery__item--2">
-              <img src="<%=galleryData.images[0]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </figure>
-            <figure class="gallery__item gallery__item--3">
-              <img src="<%=galleryData.images[1]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </figure>
-            <figure class="gallery__item gallery__item--4">
-              <img src="<%=galleryData.images[2]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </figure>
-            <figure class="gallery__item gallery__item--5">
-              <img src="<%=galleryData.images[3]%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </figure>
-            <%}else{%>
-              <figure class="gallery__item gallery__item--1">
+            </div>
+            <div class="gallery__item gallery__item--2">
+              <img src="<%=galleryData.images[0].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
+            </div>
+            <div class="gallery__item gallery__item--3">
+              <img src="<%=galleryData.images[1].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
+            </div>
+            <div class="gallery__item gallery__item--4">
+              <img src="<%=galleryData.images[2].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
+            </div>
+            <div class="gallery__item gallery__item--5">
+              <img src="<%=galleryData.images[3].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
+            </div>
+            <div class="gallery__item image_overlay" onclick="showgallery()">
+              <a><h3>View Gallery</h3></a>
+            </div>
+            <%}}if(!galleryData || galleryData.images.length==0){%>
+              <div class="gallery__item gallery__item--1">
                 <img src="<%=sellerData.busLogo%>" alt="" id="gallImage" class="gallery__img" />
-              </figure>
-              <figure class="gallery__item gallery__item--2">
+              </div>
+              <div class="gallery__item gallery__item--2">
                 <img src="<%=sellerData.busLogo%>" alt="Gallery image 2" id="gallImage" class="gallery__img" />
-              </figure>
-              <figure class="gallery__item gallery__item--3">
+              </div>
+              <div class="gallery__item gallery__item--3">
                 <img src="<%=sellerData.busLogo%>" alt="Gallery image 3" id="gallImage" class="gallery__img" />
-              </figure>
-              <figure class="gallery__item gallery__item--4">
+              </div>
+              <div class="gallery__item gallery__item--4">
                 <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
-              </figure>
-              <figure class="gallery__item gallery__item--5">
+              </div>
+              <div class="gallery__item gallery__item--5">
                 <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
-              </figure>
+              </div>
+              <div class="gallery__item image_overlay" onclick="showgallery()">
+                <a><h3>View Gallery</h3></a>
+              </div>
                 <%}%>
           </div>
-        </a>
 
         <span class="p-4">
           <p class="fs-2">
@@ -94,93 +84,25 @@
         </span>
       </div>
     </div>
-  </div>
 
-  <!-- gallery slide show -->
-  <div class="modal modal-fullscreen-sm-down fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <button type="button" class="fs-1 opacity-25 btn btn-dark text-light position-absolute top-0 start-0"
-      data-bs-dismiss="modal" aria-label="Close">
-      <i class="fa fa-times"></i>
-    </button>
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-      <div class="modal-content">
-        <%if(galleryData) { %>
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-              aria-current="true" aria-label="Slide 1"></button>
-              
-            <% for (let b=1; b < galleryData.images.length ; b++){ var c=b+1; %>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>"
-                aria-label="Slide <%=c%>"></button>
-              <% }%>
-          </div>
-          <div class="carousel-inner">
-            <%if(galleryData) { %>
-            <div class="carousel-item active">
-              <img src="<%=galleryData.images[0]%>" class="d-block w-100" style="max-height: 600px;" alt="..." />
-            </div>
-            
-            <% for (let b=1; b < galleryData.images.length ; b++){ %>
-              <div class="carousel-item">
-                <img src="<%=galleryData.images[b]%>" class="d-block w-100" style="max-height: 600px;" alt="..." />
-              </div>
-              <% }} %>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-            <span class="btn carousel-control-prev-icon" style="background-color: black; color: rgb(0, 0, 0)"
-              aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-            <span class="btn carousel-control-next-icon" style="background-color: black; color: rgb(0, 0, 0)"
-              aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      <%}else{%>
-        <img src="<%=sellerData.busLogo%>" class="d-block w-100" style="max-height: 600px;" alt="..." />
-      <%}%>
-      </div>
-    </div>
-  </div>
 
-  <!-- single image modal -->
-  <div class="modal modal-fullscreen-sm-down fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
-    aria-hidden="true">
-    <button type="button" class="fs-1 opacity-25 btn btn-dark text-light position-absolute top-0 start-0"
-      data-bs-dismiss="modal" aria-label="Close">
-      <i class="fa fa-times"></i>
-    </button>
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-      <div class="modal-content">
-        <img src="" id="singleimg" class="d-block w-100" style="max-height: 600px;" alt="..." />
-      </div>
-    </div>
-  </div>
-
-  <!--this is the category and product section-->
-  <div class="container shadow p-0">
-    <div class="page-title mt-2 mb-4">
+    <div class="page-title" style="border-style: solid;  border-color: #3d7b7ffa;">
       <ul class="nav nav-justified nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
+        <li class="nav-item shadow-sm" role="presentation">
           <button class="nav-link text-success active" id="home-tab" data-bs-toggle="tab"
             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
             Overview
           </button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link text-success" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
-            type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+        <li class="nav-item shadow-sm" role="presentation">
+          <button class="nav-link text-success" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery-tab-pane"
+            type="button" role="tab" aria-controls="gallery-tab-pane" aria-selected="false">
             Gallery
           </button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link text-success" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane"
-            type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+        <li class="nav-item shadow-sm" role="presentation">
+          <button class="nav-link text-success" id="product-tab" data-bs-toggle="tab" data-bs-target="#product-tab-pane"
+            type="button" role="tab" aria-controls="product-tab-pane" aria-selected="false">
             Products
           </button>
         </li>
@@ -344,38 +266,40 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+        <div class="tab-pane fade" id="gallery-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="container text-center">
-            <div class="row g-3 p-3">
+            <div class="row g-3 p-3 d-flex justify-content-center">
               <%if(galleryData) { %>
-              <% for (let a=0; a < galleryData.images.length ; a++){ %>
-                <div class="col-md-4">
-                    <img id="myImg<%=a%>" onclick="showmodal('<%=galleryData.images[a]%>')" class="shadow" src="<%=galleryData.images[a]%>"
-                      style="width: 100%; max-height: 200px;" />
+              <% if(galleryData.images.length!=0){ galleryData.images.forEach(function(image, index){%>
+                <div class="col-md-4 col-sm-12 col-12  imgchgsize border border-2 rounded border-dark">
+                    <img id="myImg" onclick="showmodal('<%=image.url%>')" class="img-fluid mx-auto d-block" src="<%=image.url%>" />
                 </div>
-                <%}}else{%>
+                <%})}}if(!galleryData || galleryData.images.length==0){%>
                   <h3><p>NO IMAGES FOUND !</p></h3>
                   <%}%>
 
             </div>
           </div>
         </div>
-        <div class="tab-pane fade p-2" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+        <div class="tab-pane fade p-2" id="product-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
           <div class="row">
             <div class="col-4 p-2">
               <ul class="nav flex-column" id="overview-navbar">
                 <% if(catData.length!=0){var j=0; catData.forEach(function(data){ %>
                 <li class="nav-item ">
-                  <a class="nav-link dropdown-toggle" id="nav-<%=data.catName%>-<%=j%>" href="#nav-<%=j%>" data-bs-toggle="collapse" aria-expanded="false" style="background-color: #3d7b7ffa;" role="button" aria-expanded="false"> <%=data.catName%></a>
-                  <ul class="collapse list-unstyled mt-2" id="nav-<%=j%>">
+                  <a class="nav-link maindropdown" id="nav<%=j%>"
+                    href="#nav-<%=j%>" data-bs-toggle="collapse" aria-expanded="false" 
+                    style="background-color: #3d7b7ffa;" role="button"><i
+                    class="fas fa-caret-down float-end toggleicon"></i> <%=data.catName%></a>
+                  <ul class="collapse list-unstyled mt-2 sidebargrp" id="nav-<%=j%>">
                     <% var catArr=data.sub_category.split(', ')
                       var catArr2 = []
                       for (i = 0; i < catArr.length; i++){ 
                       catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
                     <li id="sidebar">
-                      <a class="nav-link text-dark" onclick="selectedsubcat(this)" id="nav-<%=data.catName%>-<%=catArr2[i]%>" data-bs-toggle="tab"
-                      data-bs-target="#tab-<%=catArr2[i]%>" type="button" role="tab"
-                      aria-controls="tab-<%=catArr2[i]%>" aria-selected="false" href="#tab-<%=catArr2[i]%>"><%=catArr[i]%></a>
+                      <a class="nav-link text-dark" onclick="selectedsubcat(this)" id="nav-<%=j%>-<%=i%>" 
+                        data-bs-toggle="tab" data-bs-target="#tab-<%=j%>-<%=i%>" role="tab"
+                      aria-controls="#tab-<%=j%>-<%=i%>" href="#tab-<%=j%>-<%=i%>" aria-selected="false"><%=catArr[i]%></a >
                     </li>
                     <% } %>
                   </ul>
@@ -385,29 +309,29 @@
             </div>
             <div class="col-8">
               <div class="card-body tab-content" id="nav-tabContent">
-              <% if(catData.length!=0){catData.forEach(function(data){ %>
+              <% if(catData.length!=0){var r=0; catData.forEach(function(data){ %>
                 <% var catArr = data.sub_category.split(', ')
             var catArr2 = []
             for (i = 0; i < catArr.length; i++){ 
                 catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
-                <div class="tab-pane fade" id="tab-<%=catArr2[i]%>" role="tabpanel"
+                <div class="tab-pane fade" id="tab-<%=r%>-<%=i%>" role="tabpanel"
                     aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
-    <div class="row justify-content-start ps-auto pe-auto">
+    <div class="row justify-content-start ">
         <% proDocs.forEach(function(product){%> 
           <%if(product.category==data.catName){%>
           <%if(product.subcategory==catArr[i]){ %>
-            <div class="prodContainer col-6 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">
+            <div class="prodContainer col-6 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
               <div class="pro ms-auto me-auto">
                   <% if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
                       if(varDocs[j].prodID.equals(product._id)){ %>
-                      <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                      <div class="imgDiv" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
                           <%if(varDocs[j].sizes[0].discount){%>
                               <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
                               <%}%>
                                   <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                       </div>
                       <div class="des px-2 text-start"
-                          onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                          onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
                           <span class="prodCat d-block">
                               <%=product.subcategory%>
                           </span>
@@ -427,13 +351,13 @@
                       <i class="fa fa-heart"
                           onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                       <%}}} else {%>
-                          <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
+                          <div class="imgDiv" onclick="openProduct('<%=product.slugID%>', null)">
                               <%if(product.discount){%>
                                   <div class="prodDiscount"><%=product.discount%></div>
                                   <%}%>
                                       <img src="<%=product.images%>" alt="<%=product.productName%>">
                           </div>
-                          <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', null)">
+                          <div class="des px-2 text-start" onclick="openProduct('<%=product.slugID%>', null)">
                               <span class="prodCat d-block">
                                   <%=product.subcategory%>
                               </span>
@@ -459,7 +383,7 @@
     </div>
     </div>
     <%}%>
-              <% })} %>
+              <% r++;})} %>
             </div>
           </div>
           </div>
@@ -467,11 +391,17 @@
       </div>
     </div>
   </div>
+
+
+  <!-- single image modal -->
+  <%- include('../imageModal') %>
+
   <%- include('footer') %>
 
    <!-- Login Modal -->
    <%- include('login') %>
 </body>
+
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/js/user/seller-profile.js"></script>
 <script src="/js/user/login.js"></script>

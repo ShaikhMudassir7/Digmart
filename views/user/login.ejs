@@ -1,9 +1,8 @@
 <style>
-
-    .bg-auth{
+    .bg-auth {
         background-color: #1e686dfa;
     }
-
+    
     .timer-active {
         font-weight: bold;
         color: #1e686dfa;
@@ -11,30 +10,30 @@
         text-decoration: underline;
         cursor: pointer;
     }
-
+    
     .timer-inactive {
         text-decoration-color: dimgrey;
         color: dimgrey;
         pointer-events: none;
         text-decoration: line-through;
     }
-
+    
     #mobTimer {
         color: dimgrey;
         margin-left: 5px;
         position: absolute;
     }
-
-    #loginotp .btn-close{
+    
+    #loginotp .btn-close {
         transform: translateX(7px);
     }
-
+    
     @media screen and (max-width: 430px) {
         .chgsize {
             font-size: 12px;
         }
     }
-
+    
     @media screen and (min-width: 431px) {
         .chgsize {
             font-size: 16px;
@@ -56,17 +55,13 @@
                                 Get personalized recommendation, wishlist products and track orders!
                             </div>
                         </div>
-                        <img class="mb-3 img-responsive center-block d-block mx-auto col-md-9 col-sm-9 col-9"
-                            style="margin-top: 160px;" src="/img/user_login_image.webp" />
+                        <img class="mb-3 img-responsive center-block d-block mx-auto col-md-9 col-sm-9 col-9" style="margin-top: 160px;" src="/img/user_login_image.webp" />
                     </div>
                     <div class="col-7 flex-fill pe-4" id="loginotp">
-                        <button type="button" onclick="closemodal()" class="btn-close mt-2 float-end"
-                            data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" onclick="closemodal()" class="btn-close mt-2 float-end" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="input-group mb-2" style="margin-top: 130px; ">
                             <span class="input-group-text" id="basic-addon1"><b>+91</b></span>
-                            <input value="" id="mobile" type="numeric" class="form-control w-50" name="mobile"
-                                placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$"
-                                required aria-describedby="basic-addon1">
+                            <input value="" id="mobile" type="numeric" class="form-control w-50" name="mobile" placeholder="Mobile No." maxlength='10' pattern="^[0-9]{10}$" required aria-describedby="basic-addon1">
                             <small id="err" class="form-text text-muted col-md-12" style="display: none;">
                                 <span id="errMsg" style="color: red;"></span></small>
                         </div>
@@ -84,19 +79,14 @@
 
                                     </b></span>
                                 <div class="d-flex flex-row mt-1">
-                                    <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-1"
-                                        pattern="[0-9]{1}" maxlength="1" autofocus="" required>
-                                    <input id="mobOtp2" name="mobOtp2" type="text" class="text-center form-control m-1"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp3" name="mobOtp3" type="text" class="text-center form-control m-1"
-                                        pattern="[0-9]{1}" maxlength="1" required>
-                                    <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-1"
-                                        pattern="[0-9]{1}" maxlength="1" required>
+                                    <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-1" pattern="[0-9]{1}" maxlength="1" autofocus="" required>
+                                    <input id="mobOtp2" name="mobOtp2" type="text" class="text-center form-control m-1" pattern="[0-9]{1}" maxlength="1" required>
+                                    <input id="mobOtp3" name="mobOtp3" type="text" class="text-center form-control m-1" pattern="[0-9]{1}" maxlength="1" required>
+                                    <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-1" pattern="[0-9]{1}" maxlength="1" required>
                                 </div>
                                 <input type="hidden" name="hidMobile" id="hidMobile" value="">
                                 <div class="text-center mt-3 mb-3">
-                                    <button id="submit" type="button" onclick="window.location.reload()"
-                                        class="col-12 btn text-white bg-auth" disabled="true">Submit</button>
+                                    <button id="submit" type="button" onclick="window.location.reload()" class="col-12 btn text-white bg-auth" disabled="true">Submit</button>
                                 </div>
                                 <div class="text-center mt-2" id="mobResendstr">
                                     <span class="d-block mobile-text">Didn't receive the

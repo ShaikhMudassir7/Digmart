@@ -79,14 +79,14 @@
                 <div class="pro ms-auto me-auto">
                     <% if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
                         if(varDocs[j].prodID.equals(product._id)){ %>
-                        <div class="imgDiv" onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                        <div class="imgDiv" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
                             <%if(varDocs[j].sizes[0].discount){%>
                                 <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
                                 <%}%>
                                     <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                         </div>
                         <div class="des px-2 text-start"
-                            onclick="openProduct('<%=product._id%>', '<%=varDocs[j]._id%>')">
+                            onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
                             <span class="prodCat d-block">
                                 <%=product.subcategory%>
                             </span>
@@ -106,13 +106,13 @@
                         <i class="fa fa-heart"
                             onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
                         <%}}} else {%>
-                            <div class="imgDiv" onclick="openProduct('<%=product._id%>', null)">
+                            <div class="imgDiv" onclick="openProduct('<%=product.slugID%>', null)">
                                 <%if(product.discount){%>
                                     <div class="prodDiscount"><%=product.discount%></div>
                                     <%}%>
                                         <img src="<%=product.images%>" alt="<%=product.productName%>">
                             </div>
-                            <div class="des px-2 text-start" onclick="openProduct('<%=product._id%>', null)">
+                            <div class="des px-2 text-start" onclick="openProduct('<%=product.slugID%>', null)">
                                 <span class="prodCat d-block">
                                     <%=product.subcategory%>
                                 </span>

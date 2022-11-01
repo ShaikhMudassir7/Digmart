@@ -7,6 +7,7 @@ const specificationsSchema = new mongoose.Schema({
 
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    slugID: { type: String, required: false},
     sellerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sellers'

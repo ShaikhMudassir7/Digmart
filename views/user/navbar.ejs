@@ -1,18 +1,18 @@
 <style>
-    :root {
+     :root {
         --bg-dark: #1e686dfa;
     }
-
+    
     .navbar {
         background-color: var(--bg-dark);
         box-shadow: 0 0.125rem 0.675rem rgb(0 0 0 / 50%);
     }
-
+    
     #BrandLogo {
         width: 45px;
         height: 45px;
     }
-
+    
     .navbar-toggler,
     .navbar-toggler:focus,
     .navbar-toggler:active,
@@ -22,39 +22,39 @@
         border: 0;
         position: relative;
     }
-
+    
     .nav-link,
     .nav-link:focus {
         color: white;
         transition: transform .2s;
     }
-
+    
     .nav-link:hover {
         color: white;
         transform: scale(1.2);
     }
-
+    
     .offcanvas {
         border-radius: .5rem 0 0 .5rem;
     }
-
+    
     .offcanvas-header {
         border-radius: .5rem 0 0 0;
         background-color: rgba(226, 226, 226, 0.705);
     }
-
+    
     .btn-close:hover {
         transform: scale(1.1);
     }
-
+    
     .btn-close:focus {
         box-shadow: none;
     }
-
+    
     .navbar-collapse .nav-item button:focus {
         box-shadow: none;
     }
-
+    
     .offcanvas .nav-link,
     .offcanvas .nav-link:focus {
         color: rgb(0, 0, 0);
@@ -62,7 +62,7 @@
         border-bottom: 1px solid rgba(226, 226, 226, 0.705);
         ;
     }
-
+    
     .offcanvas .nav-link:hover {
         color: rgb(0, 0, 0);
         transform: none;
@@ -70,11 +70,11 @@
         color: var(--bg-dark);
         transform: scale(1.05);
     }
-
+    
     .offcanvas-body {
         padding: 0 1rem;
     }
-
+    
     #nav-search-field {
         border-radius: .25rem 0 0 .25rem;
         min-width: 250px;
@@ -82,11 +82,11 @@
         box-shadow: none;
         z-index: 101;
     }
-
+    
     #nav-search-field:focus {
         border-color: #c7e6cb;
     }
-
+    
     #nav-search-btn {
         color: var(--bg-dark);
         background-color: white;
@@ -95,13 +95,13 @@
         box-shadow: none;
         z-index: 101;
     }
-
+    
     #nav-search-btn:hover {
         background-color: var(--bg-dark);
         color: white;
         border-color: white;
     }
-
+    
     #nav-search-results {
         position: absolute;
         z-index: 100;
@@ -113,7 +113,7 @@
         max-width: 542px;
         display: none;
     }
-
+    
     #nav-search-results ul {
         padding: 0;
         margin: 0;
@@ -122,7 +122,7 @@
         padding-bottom: .25rem;
         display: none;
     }
-
+    
     .suggestion-title {
         padding-left: 1rem;
         font-size: .8rem;
@@ -131,7 +131,7 @@
         margin-bottom: .2rem;
         background-color: rgb(230, 228, 228);
     }
-
+    
     #nav-search-results li {
         padding-left: 1rem;
         color: dimgray;
@@ -139,19 +139,18 @@
         margin: .25rem;
         border-radius: .35rem;
     }
-
+    
     #nav-search-results li span {
         float: right;
         margin-right: .5rem;
         font-size: .7rem;
         line-height: 24px;
     }
-
+    
     #nav-search-results li:hover {
         background-color: #e8f9fafa;
         color: #1e686dfa;
     }
-
 </style>
 
 
@@ -167,12 +166,8 @@
             </div>
             <% } %>
                 <% if (!locals.noSearch) { %>
-                    <form id="nav-search-form"
-                        class="d-flex justify-content-center col-12 col-md-5 mt-2 mt-md-0 mx-auto order-1 order-md-0  position-relative"
-                        role="search" method="post" action="/search-results">
-                        <input id="nav-search-field" name="payload" class="form-control flex-fill ms-sm-3 ms-md-0"
-                            type="search" placeholder="Search" aria-label="Search" onkeyup="searchData(this)" required
-                            maxlength="60">
+                    <form id="nav-search-form" class="d-flex justify-content-center col-12 col-md-5 mt-2 mt-md-0 mx-auto order-1 order-md-0  position-relative" role="search" method="post" action="/search-results">
+                        <input id="nav-search-field" name="payload" class="form-control flex-fill ms-sm-3 ms-md-0" type="search" placeholder="Search" aria-label="Search" onkeyup="searchData(this)" required maxlength="60">
                         <button id="nav-search-btn" class="btn" type="submit"><i class="fas fa-search"></i></button>
                         <div id="nav-search-results" class="ms-sm-3 ms-md-0">
                             <ul id="results-products">
@@ -187,36 +182,30 @@
 
                             <% if (!user) { %>
                                 <div class="nav-item">
-                                    <button class="btn nav-link pe-md-3 pe-2" type="button" data-bs-target="#loginpopup"
-                                        data-bs-toggle="modal">
+                                    <button class="btn nav-link pe-md-3 pe-2" type="button" data-bs-target="#loginpopup" data-bs-toggle="modal">
                                         <i class="fas fa-shopping-cart"></i>
                                     </button>
                                 </div>
                                 <div class="nav-item">
-                                    <button id="nav-heart" class="btn nav-link pe-md-3 pe-2" type="button" data-bs-target="#loginpopup"
-                                        data-bs-toggle="modal">
+                                    <button id="nav-heart" class="btn nav-link pe-md-3 pe-2" type="button" data-bs-target="#loginpopup" data-bs-toggle="modal">
                                         <i class="far fa-heart"></i>
                                     </button>
                                 </div>
                                 <% } else{%>
                                     <div class="nav-item">
-                                        <a class="nav-link pe-md-3 pe-2" href="/cart/<%=user%>"><i
+                                        <a class="nav-link pe-md-3 pe-2" href="/cart"><i
                                                 class="fas fa-shopping-cart"></i></a>
                                     </div>
                                     <div class="nav-item">
-                                        <a id="nav-heart" class="nav-link pe-md-3 pe-2" href="/wishlist/<%=user%>"><i
+                                        <a id="nav-heart" class="nav-link pe-md-3 pe-2" href="/wishlist"><i
                                                 class="far fa-heart"></i></a>
                                     </div>
                                     <% } %>
                                         <div class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle pe-md-3 pe-2" href="#"
-                                                id="nav-dropdown-btn" role="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false"><i class="fas fa-user"></i></a>
-                                            <ul class="dropdown-menu dropdown-menu-sm-end"
-                                                aria-labelledby="nav-dropdown-btn">
+                                            <a class="nav-link dropdown-toggle pe-md-3 pe-2" href="#" id="nav-dropdown-btn" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i></a>
+                                            <ul class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="nav-dropdown-btn">
                                                 <% if (!user) { %>
-                                                    <li><a class="dropdown-item" data-bs-target="#loginpopup"
-                                                            data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i>
+                                                    <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i>
                                                             Sign in</a>
                                                     </li>
                                                     <% } else{%>
@@ -231,23 +220,18 @@
                         </div>
 
                         <% if (!user) { %>
-                            <button class="navbar-toggler nav-link py-0 d-md-none" type="button"
-                                data-bs-target="#loginpopup" data-bs-toggle="modal">
+                            <button class="navbar-toggler nav-link py-0 d-md-none" type="button" data-bs-target="#loginpopup" data-bs-toggle="modal">
                                 <i class="fas fa-bars"></i>
                             </button>
                             <% } else{%>
-                                <button class="navbar-toggler nav-link py-0 d-md-none" type="button"
-                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
-                                    aria-controls="offcanvasDarkNavbar">
+                                <button class="navbar-toggler nav-link py-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                                     <i class="fas fa-bars"></i>
                                 </button>
                                 <% } %>
-                                    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1"
-                                        id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                                    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
                                         <div class="offcanvas-header">
                                             <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Welcome Back!</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                                                aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                         </div>
                                         <div class="offcanvas-body">
                                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -305,14 +289,14 @@
                     payload: e.value
                 },
                 dataType: 'json',
-                success: function (res) {
+                success: function(res) {
                     if (res.products.length < 1)
                         containerProduct.style.display = 'none'
                     else {
                         containerProduct.style.display = 'block'
                         containerProduct.innerHTML = '<div class="suggestion-title">Products</div>'
                         res.products.forEach(prod => {
-                            containerProduct.innerHTML += '<li onclick="openResult(this,1)" data-resId=' + prod._id + '>' + prod.productName + '<span>' + prod.category + '</span></li>'
+                            containerProduct.innerHTML += '<li onclick="openResult(this,1)" data-resId=' + prod.slugID + '>' + prod.productName + '<span>' + prod.category + '</span></li>'
                         });
                     }
 
@@ -322,7 +306,7 @@
                         containerSeller.style.display = 'block'
                         containerSeller.innerHTML = '<div class="suggestion-title">Sellers</div>'
                         res.sellers.forEach(seller => {
-                            containerSeller.innerHTML += '<li onclick="openResult(this,2)" data-resId=' + seller._id + '>' + seller.busName + '</li>'
+                            containerSeller.innerHTML += '<li onclick="openResult(this,2)" data-resId=' + seller.slugID + '>' + seller.busName + '</li>'
                         });
                     }
 
@@ -338,6 +322,7 @@
             })
         }
     }
+
     function openResult(element, type) {
         var resId = element.getAttribute("data-resId")
         if (type == 1)
@@ -345,5 +330,4 @@
         else
             location.href = '/seller-profile/' + resId
     }
-
 </script>

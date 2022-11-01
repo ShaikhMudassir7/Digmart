@@ -6,8 +6,8 @@ const Address = require("../../models/user/address");
 const Seller = require("../../models/seller/seller");
 const Products = require("../../models/seller/product");
 
-router.get('/', async (req, res) => {
-    res.render('./user/account', {user : req.session.userid})
+router.get('/', async(req, res) => {
+    res.render('./user/account', { user: req.session.userID })
 })
 
 router.get('/addresses', async (req, res) => {

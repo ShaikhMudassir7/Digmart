@@ -87,7 +87,8 @@ router.post('/add-seller', middleware, async (req, res) => {
     var busMobile = req.body.busMobile
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
     var emailOtp = Math.floor(1000 + Math.random() * 9000)
-
+    var busname = req.body.busName;
+    var slugId = busname.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
     var excepArr = ['9324326404', '8898413414', '9137242482', '7738408767', '4444444444', '5555555555', '6666666666', '7777777777']
     if (!excepArr.includes(busMobile)) {
@@ -97,6 +98,7 @@ router.post('/add-seller', middleware, async (req, res) => {
 
     var sellerAcc = new Seller({
         _id: new mongoose.Types.ObjectId(),
+        slugID: slugId,
         pFname: req.body.pFname,
         pLname: req.body.pLname,
         pMobile: req.body.pMobile,

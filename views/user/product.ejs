@@ -171,7 +171,7 @@
               <div id="withDiscount" style="display: none;">
                 <p class="card-text fs-2 text-dark mb-0">
                   <strong id="finalPrice">
-                  </strong><span class="fs-6 text-black-20"><strike id="actualPrice">
+                  </strong>&nbsp<span class="fs-6 text-black-20"><strike id="actualPrice">
                     </strike>
                   </span><span class="text-success fs-5" id="discount">
 
@@ -185,7 +185,7 @@
               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                 <%var i=0; variantsData.forEach(function(data){ %>
                   <button type="button" id="<%= i%>color"
-                    onclick="window.location.href='/product/variant/<%=data.prodID %>/<%=data._id %>'"
+                    onclick="window.location.href='/product/variant/<%=data.slugID %>'"
                     name="<%=data.colours %>"
                     style="padding-left: 20px; padding-top: 20px; padding-right: 20px; background-color: <%=data.colours %> ;"
                     class="btn border border-dark"></button>
@@ -212,7 +212,7 @@
                   class="btn btn-primary p-3" style="background: rgb(43, 17, 78);color: white;">WISHLIST</a>
               </div>
               <%}else{%>
-                <p class="card-text fs-2" id="noDiscount" style="display: none;">
+                <p class="card-text fs-2 text-dark" id="noDiscount" style="display: none;">
                 </p>
                 <div id="withDiscount">
                   <p class="card-text fs-2 text-dark mb-0">
@@ -654,7 +654,7 @@
       }
     })
   }
-  if ('<%=variantData.sizes[0].discount%>==null') {
+  if ('<% variantData.sizes[0].discount%> == null') {
     withDiscount.style.display = "none"
     noDiscount.style.display = "inline"
     noDiscount.innerText = '₹ <%=variantData.sizes[0].finalPrice%>'
@@ -664,7 +664,7 @@
     noDiscount.style.display = "none"
     finalPrice.innerText = '₹ <%=variantData.sizes[0].finalPrice%>'
     actualPrice.innerText = "₹ <%=variantData.sizes[0].actualPrice%>"
-    discount.innerHTML = '<%=variantData.sizes[0].discount%>'
+    discount.innerHTML = '<%=variantData.sizes[0].discount%>' + " off"
   }
   '<%variantsData.forEach(function(data){ %>'
   ' <%if(data.colours==variantData.colours){%>'

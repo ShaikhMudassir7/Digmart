@@ -19,9 +19,10 @@ const cartSchema = mongoose.Schema({
         ref: 'products',
         required: true
     },
-    size: { type: String},
-    colour: { type: String},
-    quantity: { type: String, required: true}
+    size: { type: String },
+    colour: { type: String },
+    quantity: { type: String, required: true }
 })
+
 const Cart = new mongoose.model("cart", cartSchema)
 module.exports = Cart;
