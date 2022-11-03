@@ -1,10 +1,8 @@
 const express = require("express")
 const router = express.Router()
-const mongoose = require('mongoose')
 
 const Variants = require('../../models/seller/variants');
 const Products = require("../../models/seller/product");
-const Seller = require("../../models/seller/seller");
 
 // Route of product page
 router.get('/view-product/(:id)', (req, res) => {
@@ -44,24 +42,5 @@ router.get('/findsize/(:id)/(:size)', (req, res) => {
 
         })
 })
-
-router.get('/edit-product', (req, res) => {
-
-    Seller.find().then(element => {
-        console.log(element.length)
-        for (i = 0; i < element.length; i++) {
-            var prod_name = element[i].busName;
-            var slugid = prod_name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-            console.log(slugid)
-            Seller.updateOne({ _id: element[i]._id }, { $set: { slugID: slugid } }, function (err, result) {
-
-            })
-        }
-        res.send("Done op")
-    });
-
-})
-
-
 
 module.exports = router
