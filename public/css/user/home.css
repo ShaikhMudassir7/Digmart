@@ -8,9 +8,12 @@ body {
     padding: 0;
     min-height: 100vh;
     transition: all 0.3s;
+    background-color: #f7f7f7;
 }
 
+
 /* NAVBAR */
+
 .navbar {
     background-color: var(--bg-dark);
     box-shadow: 0 0.125rem 0.675rem rgb(0 0 0 / 50%);
@@ -95,6 +98,7 @@ body {
 
 
 /* BANNER */
+
 .banner {
     height: 400px;
     width: 100%;
@@ -200,7 +204,9 @@ body {
     color: #1e686dfa;
 }
 
+
 /* END OF BANNER */
+
 
 /* SWIPER CONFIG */
 
@@ -236,7 +242,9 @@ body {
     overflow: hidden;
 }
 
+
 /* END OF SWIPER CONFIG */
+
 
 /* CATEGORY SWIPER */
 
@@ -276,7 +284,9 @@ body {
     font-size: 1.1rem;
 }
 
+
 /* END OF CATEGORY SWIPER */
+
 
 /* SELLER SWIPER */
 
@@ -317,7 +327,9 @@ body {
     text-decoration: none;
 }
 
+
 /* END OF SELLER SWIPER */
+
 
 /* PRODUCT SWIPER */
 
@@ -342,7 +354,6 @@ body {
 .swiper-button-next:hover {
     background-color: white;
     box-shadow: 0 0.125rem 0.675rem rgb(0 0 0 / 50%);
-
 }
 
 .swiper-button-next:after,
@@ -474,5 +485,19 @@ body {
     transform: translate(-50%, -50%);
     border-radius: 0.1rem;
 }
+
+.btn-main {
+    color: #fff;
+    background-color: #1e686dfa;
+    border-color: #000;
+    padding: 8px 24px 8px 24px;
+}
+
+.btn-main:hover {
+    color: #fff;
+    background-color: #000;
+    border-color: #fff;
+}
+
 
 /* END OF PRODUCT SWIPER */

@@ -52,3 +52,11 @@ function myFunction(op, cartid, ip, max, price) {
         }
     }
 }
+
+function openProduct(productID, variantID) {
+    if (variantID) {
+      location.href = '/product/variant/' + variantID
+    } else {
+      location.href = '/product/view-product/' + productID
+    }
+  }
