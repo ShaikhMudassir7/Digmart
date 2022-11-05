@@ -58,10 +58,10 @@
                                         <b> ACCOUNT SETTINGS </b>
                                     </label>
                                     <div class="mt-3">
-                                        <a href="#">Profile Information</a>
+                                        <a href="/account">Profile Information</a>
                                     </div>
                                     <div class="mt-2">
-                                        <a href="#">Manage Addresses</a>
+                                        <a href="/account/addresses">Manage Addresses</a>
                                     </div>
                                 </div>
                                 <div class="col-3 col-md-3 mt-1">
@@ -72,7 +72,7 @@
                                         <b> MY STUFF </b>
                                     </label>
                                     <div class="mt-3">
-                                        <a href="#">My Wishlist</a>
+                                        <a href="/wishlist">My Wishlist</a>
                                     </div>
                                     <div class="mt-2">
                                         <a href="#">My Coupons</a>
@@ -118,9 +118,7 @@
                             <% if(addressData.length!=0) { var i=0; addressData.forEach(function(data){ %>
                                 <div class="card p-4 mb-0" id="defaultAddressCard" style="background-color:#FAFFFF;">
                                     <div class="row">
-                                        <div class="col-10 col-md-10">
-                                            <input class="form-check-input" id="<%=data._id %>" type="radio"
-                                                onclick="radioSelected()" name="defaultAddress" checked>
+                                        <div class="col-9 col-md-9">
                                             <label class="form-label">
                                                 <b>
                                                     <%=data.firstName %>
@@ -130,81 +128,65 @@
                                                     <%=data.address %> - <%=data.pinCode %>
                                             </label>
                                         </div>
-                                        <div class="col-2 col-md-2">
-                                            <button type="button" class="btn btn-outline-primary btn-sm"
-                                                onclick="sweetAlertTrigger('<%=data._id %>')"
-                                                style="float:right;">Remove</button>
-                                            <button type="button" id="editAddressBtn<%=data._id %>"
-                                                onclick="editAddressFunc('<%=data._id %>')" style="float:right"
-                                                class="btn btn-outline-primary btn-sm">
+                                        <div class="col-3 col-md-3">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="sweetAlertTrigger('<%=data._id %>')"  style="float:right;">Remove</button>
+                                            <button type="button" id="editAddressBtn<%=data._id %>" onclick="editAddressFunc('<%=data._id %>')"  style="float:right;" class="btn btn-outline-warning btn-sm">
                                                 Edit</button>
                                         </div>
                                     </div>
                                 </div>
                                 <% i++; }) %>
                                     <% } %>
-
-                                        <div class="card" id="addAddressButton"
-                                            style="background-color: white; padding-left: 2%">
+    
+                                        <div class="card" id="addAddressButton" style="background-color: white; padding-left: 2%">
                                             <div class="col-12 col-md-6 p-2">
-                                                <div onclick="showAddressDetails()" style="cursor: pointer"><i
-                                                        class="fas fa-plus-circle"></i>
-                                                    Add a new address</div>
+                                                <div onclick="showAddressDetails()" style="cursor: pointer"><i class="fas fa-plus-circle"></i> Add a new address</div>
                                             </div>
                                         </div>
-
-                                        <div class="card p-4" id="addAddress" for="newAddress"
-                                            style="background-color:#FAFFFF; display:none">
+    
+                                        <div class="card p-4" id="addAddress" for="newAddress" style="background-color:#FAFFFF; display:none">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 mb-3">
-                                                    <label class="form-label fw-bold" for="newAddress"
-                                                        id="newAddressLabel">
+                                                    <label class="form-label fw-bold" for="newAddress" id="newAddressLabel">
                                                         Add a new Address
                                                     </label>
                                                 </div>
-
+    
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="firstName" class="form-label">First Name</label>
-                                                    <input type="text" id="firstName" name="firstName[]"
-                                                        class="form-control" placeholder="e.g. John" required>
+                                                    <input type="text" id="addfirstName" name="firstName[]" class="form-control" placeholder="e.g. John">
                                                     <div class="invalid-feedback">
                                                         Please enter your first name.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="lname" class="form-label">Last Name</label>
-                                                    <input type="text" id="lname" name="lastName[]" class="form-control"
-                                                        placeholder="e.g. Smith" required>
+                                                    <input type="text" id="addlastName" name="lastName[]" class="form-control" placeholder="e.g. Smith">
                                                     <div class="invalid-feedback">
                                                         Please enter your last name.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3">
-                                                    <label for="email" class="form-label">Email Id</label>
-                                                    <input type="email" id="email" name="email[]" class="form-control"
-                                                        value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                                        placeholder="e.g. johnsmith123@gmail.com" required>
+                                                    <label for="email" class="form-label">Email Address</label>
+                                                    <input type="email" id="addemail" name="email[]" class="form-control" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="e.g. johnsmith123@gmail.com">
                                                     <div class="invalid-feedback">
                                                         Please enter valid email id.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3">
                                                     <label for="address" class="form-label">Address</label>
-                                                    <input type="text" id="address" name="address[]"
-                                                        class="form-control"
-                                                        placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert"
-                                                        required>
+                                                    <input type="text" id="addaddress" name="address[]" class="form-control" placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
                                                     <div class="invalid-feedback">
                                                         Please enter your address.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="state" class="form-label">State</label>
-                                                    <select name="state[]" class="form-select" id="state" required>
+                                                    <select name="state[]" class="form-select" id="addstate">
                                                         <option value="">
                                                             ---Choose State---
                                                         </option>
@@ -213,11 +195,11 @@
                                                         </option>
                                                     </select>
                                                 </div>
-
+    
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="city" class="form-label">City</label>
                                                     <div class="btn-group  w-100">
-                                                        <select name="city[]" class="form-select" id="city" required>
+                                                        <select name="city[]" class="form-select" id="addcity">
                                                             <option value="">
                                                                 ---Choose City---
                                                             </option>
@@ -230,79 +212,64 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="pinCode" class="form-label">Pin Code</label>
-                                                    <input type="text" maxlength="6" id="pinCode" name="pinCode[]"
-                                                        pattern="[1-9]{1}[0-9]{5}" class="form-control"
-                                                        placeholder="e.g. 400029" required>
+                                                    <input type="text" maxlength="6" id="addpinCode" name="pinCode[]" pattern="[1-9]{1}[0-9]{5}" class="form-control" placeholder="e.g. 400029">
                                                     <div class="invalid-feedback">
                                                         Please enter correct pin code.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3">
                                                     <label for="mobileNo" class="form-label">Mobile Number</label>
-                                                    <input type="text" id="mobileNo" name="mobileNumber[]"
-                                                        maxlength="10" pattern="[6789][0-9]{9}" class="form-control"
-                                                        placeholder="e.g. 9898989898" required>
+                                                    <input type="text" id="addmobileNumber" name="mobileNumber[]" maxlength="10" pattern="[6789][0-9]{9}" class="form-control" placeholder="e.g. 9898989898">
                                                     <div class="invalid-feedback">
                                                         Please enter valid Mobile number.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3  text-center">
-                                                    <button type="submit" class="btn btn-outline-primary"><i
-                                                            class="fas fa-save"> </i>
-                                                        Save
-                                                        Address</button>
+                                                    <button type="button" id="addAddressBtn" class="btn btn-outline-primary"><i class="fas fa-save"> </i> Save Address</button>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="card p-4" id="editAddressCard" for="editFirstName"
-                                            class="editAddresses" style="background-color:#FAFFFF; display:none">
+    
+                                        <div class="card p-4" id="editAddressCard" for="editFirstName" class="editAddresses" style="background-color:#FAFFFF; display:none">
                                             <div class="row">
-
+    
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="editFirstName" class="form-label">First Name</label>
-                                                    <input type="text" id="editFirstName" name="firstName[]"
-                                                        class="form-control" placeholder="e.g. John">
+                                                    <input type="text" id="editFirstName" name="firstName[]" class="form-control" placeholder="e.g. John">
                                                     <div class="invalid-feedback">
                                                         Please enter your first name.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="editLastName" class="form-label">Last Name</label>
-                                                    <input type="text" id="editLastName" name="lastName[]"
-                                                        class="form-control" placeholder="e.g. Smith">
+                                                    <input type="text" id="editLastName" name="lastName[]" class="form-control" placeholder="e.g. Smith">
                                                     <div class="invalid-feedback">
                                                         Please enter your last name.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3">
-                                                    <label for="editEmail" class="form-label">Email Id</label>
-                                                    <input type="email" id="editEmail" name="email[]"
-                                                        class="form-control" value=""
-                                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                                        placeholder="e.g. johnsmith123@gmail.com">
+                                                    <label for="editEmail" class="form-label">Email Address</label>
+                                                    <input type="email" id="editEmail" name="email[]" class="form-control" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="e.g. johnsmith123@gmail.com">
                                                     <div class="invalid-feedback">
                                                         Please enter valid email id.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3">
                                                     <label for="editAddress" class="form-label">Address</label>
-                                                    <input type="text" id="editAddress" name="address[]"
-                                                        class="form-control"
-                                                        placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
+                                                    <input type="text" id="editAddress" name="address[]" class="form-control" placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
                                                     <div class="invalid-feedback">
                                                         Please enter your address.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="editState" class="form-label">State</label>
                                                     <select name="state[]" class="form-select" id="editState">
@@ -314,7 +281,7 @@
                                                         </option>
                                                     </select>
                                                 </div>
-
+    
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="editCity" class="form-label">City</label>
                                                     <select name="city[]" class="form-select" id="editCity">
@@ -323,32 +290,25 @@
                                                         <option value="Pune">Pune</option>
                                                     </select>
                                                 </div>
-
+    
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="editPinCode" class="form-label">Pin Code</label>
-                                                    <input type="text" maxlength="6" id="editPinCode" name="pinCode[]"
-                                                        pattern="[1-9]{1}[0-9]{5}" class="form-control"
-                                                        placeholder="e.g. 400029">
+                                                    <input type="text" maxlength="6" id="editPinCode" name="pinCode[]" pattern="[1-9]{1}[0-9]{5}" class="form-control" placeholder="e.g. 400029">
                                                     <div class="invalid-feedback">
                                                         Please enter your pin code.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3">
                                                     <label for="editMobileNo" class="form-label">Mobile Number</label>
-                                                    <input type="text" id="editMobileNo" name="mobileNumber[]"
-                                                        maxlength="10" pattern="[6789][0-9]{9}" class="form-control"
-                                                        placeholder="e.g. 9898989898">
+                                                    <input type="text" id="editMobileNo" name="mobileNumber[]" maxlength="10" pattern="[6789][0-9]{9}" class="form-control" placeholder="e.g. 9898989898">
                                                     <div class="invalid-feedback">
                                                         Please enter valid Mobile number.
                                                     </div>
                                                 </div>
-
+    
                                                 <div class="col-12 mb-3  text-center">
-                                                    <button type="button" class="btn btn-outline-primary"
-                                                        id="saveChangesBtn"><i class="fas fa-save"></i>
-                                                        Save
-                                                        Changes</button>
+                                                    <button type="button" class="btn btn-outline-primary" id="saveChangesBtn"><i class="fas fa-save"></i> Save Changes</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -358,6 +318,172 @@
             </div>
         </div>
         <script src="/vendor/jquery/jquery.min.js"></script>
+        <script>
+            
+            var defaultAddressCard = document.getElementById("defaultAddressCard")
+
+            function showAddressDetails() {
+                document.getElementById("addAddress").style.display = "block"
+                document.getElementById("addAddressButton").style.display = "none"
+                defaultAddressCard.style.backgroundColor = "white"
+                document.getElementById("editAddressCard").style.display = "none"
+            }
+
+           
+
+            function editAddressFunc(addressID) {
+                var editAddressBtn = document.getElementById("editAddressBtn" + addressID);
+                var editAddressCard = document.getElementById("editAddressCard")
+                document.getElementById("addAddress").style.display = "none"
+                document.getElementById("addAddressButton").style.display = "block"
+                let row_item = $(editAddressBtn).parent().parent().parent();
+                $(row_item).append($(editAddressCard).show())
+                editAddressShowDetails(addressID)
+            }
+
+            function editAddressShowDetails(addressID) {
+                var editFirstName = document.getElementById("editFirstName")
+                var editLastName = document.getElementById("editLastName")
+                var editEmail = document.getElementById("editEmail")
+                var editAddress = document.getElementById("editAddress")
+                var editState = document.getElementById("editState")
+                var editCity = document.getElementById("editCity")
+                var editPinCode = document.getElementById("editPinCode")
+                var editMobileNo = document.getElementById("editMobileNo")
+                var saveChangesBtn = document.getElementById("saveChangesBtn")
+
+                editFirstName.setAttribute('required', "")
+                editLastName.setAttribute('required', "")
+                editEmail.setAttribute('required', "")
+                editAddress.setAttribute('required', "")
+                editState.setAttribute('required', "")
+                editCity.setAttribute('required', "")
+                editPinCode.setAttribute('required', "")
+                editMobileNo.setAttribute('required', "")
+
+                $.ajax({
+                    url: "/checkout/edit-address/" + addressID,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    success: function(res) {
+                        editFirstName.value = res.firstName
+                        editLastName.value = res.lastName
+                        editEmail.value = res.email
+                        editAddress.value = res.address
+                        editState.value = res.state
+                        editCity.value = res.city
+                        editPinCode.value = res.pinCode
+                        editMobileNo.value = res.mobileNumber
+                    }
+                })
+
+                $("#saveChangesBtn").click(function(e) {
+                    e.preventDefault()
+                    if ($(editFirstName)[0].validity.valid &&
+                        $(editLastName)[0].validity.valid &&
+                        $(editEmail)[0].validity.valid &&
+                        $(editAddress)[0].validity.valid &&
+                        $(editState)[0].validity.valid &&
+                        $(editCity)[0].validity.valid &&
+                        $(editPinCode)[0].validity.valid &&
+                        $(editMobileNo)[0].validity.valid) {
+                        $.ajax({
+                            url: "/checkout/edit-address/" + addressID,
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            data: JSON.stringify({
+                                firstName: editFirstName.value,
+                                lastName: editLastName.value,
+                                email: editEmail.value,
+                                address: editAddress.value,
+                                state: editState.value,
+                                city: editCity.value,
+                                pinCode: editPinCode.value,
+                                mobileNumber: editMobileNo.value
+                            }),
+                            success: function(res) {
+                                window.location = "/account/addresses"
+                            }
+                        })
+                    } else {
+                        swal("Please Enter Valid Details!")
+                    }
+                })
+            }
+
+            $("#addAddressBtn").click(function(e) {
+                e.preventDefault()
+
+                var addFirstName = document.getElementById("addfirstName")
+                var addLastName = document.getElementById("addlastName")
+                var addEmail = document.getElementById("addemail")
+                var addAddress = document.getElementById("addaddress")
+                var addState = document.getElementById("addstate")
+                var addCity = document.getElementById("addcity")
+                var addPinCode = document.getElementById("addpinCode")
+                var addMobileNo = document.getElementById("addmobileNumber")
+
+                addFirstName.setAttribute('required', "")
+                addLastName.setAttribute('required', "")
+                addEmail.setAttribute('required', "")
+                addAddress.setAttribute('required', "")
+                addState.setAttribute('required', "")
+                addCity.setAttribute('required', "")
+                addPinCode.setAttribute('required', "")
+                addMobileNo.setAttribute('required', "")
+
+                if ($(addFirstName)[0].validity.valid &&
+                    $(addLastName)[0].validity.valid &&
+                    $(addEmail)[0].validity.valid &&
+                    $(addAddress)[0].validity.valid &&
+                    $(addState)[0].validity.valid &&
+                    $(addCity)[0].validity.valid &&
+                    $(addPinCode)[0].validity.valid &&
+                    $(addMobileNo)[0].validity.valid) {
+                    $.ajax({
+                        url: "/checkout/add-address",
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data: JSON.stringify({
+                            firstName: addFirstName.value,
+                            lastName: addLastName.value,
+                            email: addEmail.value,
+                            address: addAddress.value,
+                            state: addState.value,
+                            city: addCity.value,
+                            pinCode: addPinCode.value,
+                            mobileNumber: addMobileNo.value
+                        }),
+                        success: function(res) {
+                            window.location = "/account/addresses"
+                        }
+                    })
+                } else {
+                    swal("Please Enter Valid Details!")
+                }
+            })
+
+            function sweetAlertTrigger(dataID) {
+                swal({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this address!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location = "/account/delete-address/" + dataID
+                        }
+                    });
+            }
+        </script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/js/form-validator.js"></script>
