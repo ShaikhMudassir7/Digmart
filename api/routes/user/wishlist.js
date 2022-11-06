@@ -5,10 +5,11 @@ const mongoose = require('mongoose')
 const Wishlist = require('../../models/user/wishlist');
 const Seller = require("../../models/seller/seller");
 
-router.get('/', async (req, res) => {
+router.get('/', async(req, res) => {
     var seller;
     var sellerdoc;
     var size = [];
+
     await Wishlist.find({ userID: req.session.userID }).distinct('sellerID').then(doc => {
         sellerdoc = doc
     })
@@ -16,7 +17,8 @@ router.get('/', async (req, res) => {
     await Seller.find({ _id: { $in: sellerdoc } }).then(rdoc => {
         seller = rdoc;
     });
-    await Wishlist.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
+
+    await Wishlist.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function(err, docs) {
         if (err) {
             console.log(err)
         } else {
@@ -36,7 +38,7 @@ router.get('/', async (req, res) => {
     });
 })
 
-router.post('/add-to-wishlist', async (req, res) => {
+router.post('/add-to-wishlist', async(req, res) => {
     if (req.session.userID) {
         var status = true;
         if (req.body.variantID) {
@@ -48,7 +50,7 @@ router.post('/add-to-wishlist', async (req, res) => {
                 productID: req.body.productID,
                 size: req.body.size,
             })
-            await Wishlist.find({ variantID: req.body.variantID, userID: req.session.userID}).then(doc => {
+            await Wishlist.find({ variantID: req.body.variantID, userID: req.session.userID }).then(doc => {
                 if (doc.length != 0) {
                     status = false;
                     res.json({ status: status });
@@ -79,7 +81,7 @@ router.post('/add-to-wishlist', async (req, res) => {
 
 })
 
-router.post('/add-product', async (req, res) => {
+router.post('/add-product', async(req, res) => {
     if (req.body.variantID)
         var wishDocs = await Wishlist.find({
             userID: req.session.userID,
@@ -116,7 +118,7 @@ router.post('/add-product', async (req, res) => {
     res.json({ status: true });
 })
 
-router.post('/remove-product', async (req, res) => {
+router.post('/remove-product', async(req, res) => {
     if (req.body.variantID) {
         await Wishlist.deleteOne({
             userID: req.session.userID,
