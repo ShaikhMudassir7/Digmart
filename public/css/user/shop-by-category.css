@@ -1,6 +1,5 @@
 :root {
     --bg-dark: #1e686dfa;
-
     --fs-025: .25rem;
     --fs-050: .5rem;
     --fs-075: .75rem;
@@ -22,6 +21,7 @@ body {
 .card {
     border: none;
 }
+
 
 /* PRODUCTS CARD NAV */
 
@@ -68,7 +68,9 @@ body {
     color: var(--bg-dark);
 }
 
+
 /* PRODUCT */
+
 #searchDiv i {
     color: dimgray;
 }
@@ -167,7 +169,7 @@ body {
     line-height: 1.1;
 }
 
-.pro .imgDiv .prodDiscount::after{
+.pro .imgDiv .prodDiscount::after {
     content: '% off';
 }
 
@@ -229,10 +231,10 @@ body {
     text-decoration: line-through;
 }
 
-.prodPrice::before, .discPrice::before{
+.prodPrice::before,
+.discPrice::before {
     content: '₹';
 }
-
 
 .page-item.active .page-link {
     z-index: 3;
@@ -245,6 +247,7 @@ body {
     color: var(--bg-dark);
 }
 
+
 /* FILTER MODAL */
 
 @media screen and (min-width: 576px) {
@@ -254,7 +257,7 @@ body {
 }
 
 @media screen and (max-width: 431px) {
-    :root {
+     :root {
         --fs-025: .2rem;
         --fs-050: .4rem;
         --fs-075: .7rem;
@@ -264,7 +267,6 @@ body {
         --fs-125: 1.1rem;
         --fs-150: 1.35rem;
     }
-
     .card-body {
         padding: 0.1rem;
     }

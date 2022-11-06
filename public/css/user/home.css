@@ -8,7 +8,7 @@ body {
     padding: 0;
     min-height: 100vh;
     transition: all 0.3s;
-    background-color: #f7f7f7;
+    background-color: #f4ecec;
 }
 
 
@@ -497,6 +497,12 @@ body {
     color: #fff;
     background-color: #000;
     border-color: #fff;
+}
+
+.float-img-btn {
+    position: absolute;
+    right: 0;
+    margin: 0px 4px 4px 4px;
 }
 
 
