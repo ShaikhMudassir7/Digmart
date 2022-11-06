@@ -10,177 +10,71 @@
     <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/user/home.css" rel="stylesheet">
-    <style>
-        @media screen and (min-width: 767px) {
-            .chgsize {
-                height: 100%;
-                width: 85%;
-            }
-            .chgpar {
-                max-height: 170px;
-            }
-        }
-        
-        @media screen and (max-width: 766px) {
-            .chgsize {
-                height: 100%;
-                width: 50%;
-            }
-            .chgpar {
-                max-height: 250px;
-            }
-        }
-    </style>
 </head>
 
-<body style="background-color:  rgb(234, 229, 229);">
+<body>
     <!-- NAVBAR -->
     <%- include('navbar') %>
-        <div class="wrapper mb-5" style="min-height: 200px;">
-            <div id="body" class="active">
-                <div class="container-fluid">
-                    <div class="grandparent row">
-                        <div class="container border mt-3 col-md-11 col-sm-11 col-11" style="background-color:  #ffffff; ">
-                            <h3>
-                                <p class="modal-header border-danger">Your Wishlist</p>
-                            </h3>
+        <div class="container-fluid">
+            <div class="grandparent row">
+                <div class="container border mt-3 col-md-11 col-sm-11 col-11" style="background-color:  #ffffff; ">
+                    <h4>
+                        <p class="modal-header border-danger">Your Wishlist</p>
+                    </h4>
 
-                            <% if(seller.length!=0) {var i=0; seller.forEach(function(data){ %>
-                                <div class="parent">
-                                    <div class="card p-2 my-3 ms-2 " style="background-color: rgb(247, 248, 249); ">
-                                        <label style="color: black;">
-                                            <h5><b>
-                                                    <%= data.busName %>
-                                                </b></h5>
-                                        </label>
-                                        <hr class="mt-0" style="color: black; height: 2px;">
-                                        <% wishlistData.forEach(function(wishlistData){%>
-                                            <% if(wishlistData.sellerID._id.toString()==data._id.toString()) { %>
-                                                <div class="card p-0 mb-4" style="box-shadow: 2px 2px rgb(136, 136, 138);">
-                                                    <div class="card-header p-1 bg-white">
-                                                        <h4><a href="/wishlist/delete-wishlist/<%= wishlistData._id %>"><i
-                                                                    class="fa fa fa-times ms-2 mt-1"
-                                                                    style="color: rgb(188, 21, 21); float: right; "
-                                                                    aria-hidden="true"></i></a>
-                                                        </h4>
-                                                    </div>
-
-                                                    <%if(wishlistData.variantID){%>
-                                                        <div class=" ms-1 mb-2 row  p-0 w-100" onclick="openProduct( '<%=wishlistData.productID.slugID%>' , '<%=wishlistData.variantID.slugID%>')">
-                                                            <div class="image col-md-3 mt-2 chgpar">
-                                                                <img src=" <%= wishlistData.variantID.images[0] %>" class="chgsize img-fluid mx-auto d-block rounded-start border-1 border">
-                                                            </div>
-                                                            <%}else{%>
-                                                            <div class=" ms-1 mb-2 row  p-0 w-100" onclick="openProduct( '<%=wishlistData.productID.slugID%>' , null)">
-                                                                <div class="image col-md-3 mt-2 chgpar">
-                                                                    <img src=" <%= wishlistData.productID.images[0] %>" class="chgsize img-fluid mx-auto d-block rounded-start border-1 border">
-                                                                </div>
-                                                                <%}%>
-                                                                    <div class="col-md-9 p-0">
-                                                                        <div class="row ms-1">
-                                                                            <div class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
-                                                                                <div class="row p-1">
-                                                                                    <h5 class="card-title">
-                                                                                        <label id="productName" name="productName">
-                                                                                            <%= wishlistData.productID.productName %>:
-                                                                                        </label>
-                                                                                    </h5>
-                                                                                    <label id="productDesc" name="productDesc">
-                                                                                        <%= wishlistData.productID.description
-                                                                                            %>
-                                                                                    </label>
-                                                                                </div>
-
-
-                                                                                <div class="row">
-                                                                                    <div class="col-md-7 mb-2">
-                                                                                        <div class="row mt-2 ms-1">
-                                                                                            <div class="col-md-2 p-0 col-sm-2 col-2 card-subtitle">
-                                                                                                <b>Price:</b>
-                                                                                            </div>
-                                                                                            <%if(wishlistData.variantID){%>
-                                                                                                <div class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
-                                                                                                    <%if(wishlistData.variantID.sizes[size[i]].discount==null){%>
-                                                                                                        <p class="card-text text-dark text-black-20 fs-6">
-                                                                                                            ₹
-                                                                                                            <strong>
-                                                                                                                <%=wishlistData.variantID.sizes[size[i]].actualPrice%>
-                                                                                                            </strong>
-                                                                                                        </p>
-                                                                                                        <%} else{%>
-                                                                                                            <p class="card-text text-dark">
-                                                                                                                <strong>
-                                                                                                                    ₹
-                                                                                                                    <%=wishlistData.variantID.sizes[size[i]].finalPrice%>
-                                                                                                                </strong><strike><span
-                                                                                                                        class="text-black-20">₹
-                                                                                                                        <%=wishlistData.variantID.sizes[size[i]].actualPrice%>
-                                                                                                                    </span></strike><span class="text-success fs-6">
-                                                                                                                    <%=wishlistData.variantID.sizes[size[i]].discount%>
-                                                                                                                        %
-                                                                                                                        off
-                                                                                                                </span>
-                                                                                                            </p>
-                                                                                                            <%}%>
-                                                                                                </div>
-                                                                                                <%}else{%>
-                                                                                                    <div class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
-                                                                                                        <%if(wishlistData.productID.discount==null){%>
-                                                                                                            <p class="card-text text-dark text-black-20 fs-6">
-                                                                                                                ₹
-                                                                                                                <strong>
-                                                                                                                    <%=wishlistData.productID.actualPrice%>
-                                                                                                                </strong>
-                                                                                                            </p>
-                                                                                                            <%} else{%>
-                                                                                                                <p class="card-text text-dark">
-                                                                                                                    <strong>
-                                                                                                                        ₹
-                                                                                                                        <%=wishlistData.productID.finalPrice%>
-                                                                                                                    </strong><strike><span
-                                                                                                                            class="text-black-20">₹
-                                                                                                                            <%=wishlistData.productID.actualPrice%>
-                                                                                                                        </span></strike><span class="text-success fs-6">
-                                                                                                                        <%=wishlistData.productID.discount%>
-                                                                                                                            %
-                                                                                                                            off
-                                                                                                                    </span>
-                                                                                                                </p>
-                                                                                                                <%}%>
-                                                                                                    </div>
-                                                                                                    <%}%>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-3 col-sm-12 col-12 mb-2" style="padding-right: 35px;">
-                                                                                        <%if(wishlistData.variantID){%>
-                                                                                            <button class="btn btn-lg btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>','<%=wishlistData.variantID._id%>','<%=wishlistData.colours%>','<%=wishlistData.size%>')">Add to Cart
-                                                                                        </button>
-                                                                                            <%}else{%>
-                                                                                                <button class="btn btn-lg btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>',null,null,null)"> Add to Cart
-                                                                                        </button>
-                                                                                                <%}%>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                    </div>
+                    <div class="row">
+                        <% 
+                            if(wishlistData.length!=0){
+                                var i=0;
+                                wishlistData.forEach(function(wishlistData){ 
+                        %>
+                            <div class="col-lg-3 col-xs-12 mb-2">
+                                <div class="card">
+                                    <% if(wishlistData.variantID){ %>
+                                        <img class="card-img-top mt-1" style="height: 120px; width: auto;" src="<%= wishlistData.variantID.images[0] %>" onclick="openProduct('<%=wishlistData.productID.slugID%>', '<%=wishlistData.variantID.slugID%>')">
+                                        <% } else { %>
+                                            <img class="card-img-top mt-1" style="height: 120px; width: auto;" src="<%= wishlistData.productID.images[0] %>" onclick="openProduct('<%=wishlistData.productID.slugID%>', null)">
+                                            <% } %>
+                                                <a class="btn float-img-btn" href="/wishlist/delete-wishlist/<%= wishlistData._id %>">x</a>
+                                                <div class="card-body">
+                                                    <h6 class="card-title">
+                                                        <%= wishlistData.productID.productName %>
+                                                    </h6>
+                                                    <p class="card-subtitle text-muted">
+                                                        Sold By:
+                                                        <%= wishlistData.sellerID.busName %>
+                                                    </p>
+                                                    <p class="card-text">
+                                                        <% if (wishlistData.variantID){ %>
+                                                            ₹
+                                                            <%= (wishlistData.variantID.sizes[size[i]].discount == null) ? wishlistData.variantID.sizes[size[i]].actualPrice : wishlistData.variantID.sizes[size[i]].finalPrice %>
+                                                                <% } else { %>
+                                                                    ₹
+                                                                    <%= (wishlistData.productID.discount==null) ? wishlistData.productID.actualPrice : wishlistData.productID.finalPrice %>
+                                                                        <% }%>
+                                                                            <br>
+                                                                            <%= wishlistData.productID.description %>
+                                                    </p>
+                                                    <% if(wishlistData.variantID){ %>
+                                                        <button style="width: -webkit-fill-available;" class="btn btn-main" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>','<%=wishlistData.variantID._id%>','<%=wishlistData.colours%>','<%=wishlistData.size%>')">Add to Cart</button>
+                                                        <% } else { %>
+                                                            <button style="width: -webkit-fill-available;" class="btn btn-main" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>',null,null,null)"> Add to Cart</button>
+                                                            <% } %>
                                                 </div>
-                                                <% i++}}) %>
-                                    </div>
                                 </div>
-                                <% })}else{%>
-                                    <div class="text-center mt-3 mb-3">
-                                        <img src="/img/nothingWish.png" width="200px">
-                                        <h4 class="mt-3 mb-3" style="color: var(--bg-dark);">Your Wishlist is Empty</h4>
-                                        <h6 style="font-size: 14px;">Make a Wish here, Looks like Santa didn't find anything on your wishlist!</h6>
-                                        <a href="/#deals" class="btn btn-main mt-2 mb-2">Wishlist Now</a>
-                                    </div>
-                                    <%}%>
-                        </div>
+                            </div>
+                            <% i++; })} else {%>
+                                <div class="text-center mt-3 mb-3">
+                                    <img src="/img/nothingWish.png" width="200px">
+                                    <h4 class="mt-3 mb-3" style="color: var(--bg-dark);">Your Wishlist is Empty</h4>
+                                    <h6 style="font-size: 14px;">Make a Wish here, Looks like Santa didn't find anything on your wishlist!</h6>
+                                    <a href="/#deals" class="btn btn-main mt-2 mb-2">Wishlist Now</a>
+                                </div>
+                                <%}%>
                     </div>
                 </div>
             </div>
+
             <!-- Login Modal -->
             <%- include('login') %>
         </div>

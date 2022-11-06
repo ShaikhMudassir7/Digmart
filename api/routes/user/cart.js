@@ -7,34 +7,32 @@ const Seller = require("../../models/seller/seller");
 
 const checkAuth = require("../../middleware/user/checkAuth")
 
-router.get('/', checkAuth, async (req, res) => {
+router.get('/', checkAuth, async(req, res) => {
     var subtotal = 0;
     var size = [];
     var sellerdoc = await Cart.find({ userID: req.session.userID }).distinct('sellerID')
     var seller = await Seller.find({ _id: { $in: sellerdoc } })
 
-    await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
-        if (err) { } else {
-            for (let i = 0; i < docs.length; i++) {
-                if (docs[i].variantID) {
-                    for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
-                        if (docs[i].variantID.sizes[j].sizes == docs[i].size) {
-                            subtotal = subtotal + (Number(docs[i].variantID.sizes[j].finalPrice) * (Number(docs[i].quantity)));
-                            size.push(j);
-                        }
+    await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function(err, docs) {
+        for (let i = 0; i < docs.length; i++) {
+            if (docs[i].variantID) {
+                for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
+                    if (docs[i].variantID.sizes[j].sizes == docs[i].size) {
+                        subtotal = subtotal + (Number(docs[i].variantID.sizes[j].finalPrice) * (Number(docs[i].quantity)));
+                        size.push(j);
                     }
-                } else {
-                    subtotal = subtotal + (Number(docs[i].productID.finalPrice) * (Number(docs[i].quantity)));
-                    size.push(0);
                 }
+            } else {
+                subtotal = subtotal + (Number(docs[i].productID.finalPrice) * (Number(docs[i].quantity)));
+                size.push(0);
             }
-            res.render('user/cart', { seller: seller, cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2), size: size, user: req.session.userID })
         }
+        res.render('user/cart', { cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2), size: size, user: req.session.userID })
     });
 })
 
-router.post('/add-to-cart', async (req, res) => {
-    
+router.post('/add-to-cart', async(req, res) => {
+
     if (req.session.userID) {
         var status = true;
         if (req.body.variantID) {
@@ -49,12 +47,11 @@ router.post('/add-to-cart', async (req, res) => {
                 quantity: "1"
             })
 
-            await Cart.find({ variantID: req.body.variantID, userID: req.session.userID, size: req.body.size }).then(doc => {
-                if (doc.length != 0) {
-                    status = false;
-                    res.json({ status: status });
-                }
-            })
+            var doc = await Cart.find({ variantID: req.body.variantID, userID: req.session.userID, size: req.body.size })
+            if (doc.length != 0) {
+                status = false;
+                res.json({ status: status });
+            }
         } else {
             var cartdata = new Cart({
                 _id: mongoose.Types.ObjectId(),
@@ -63,47 +60,37 @@ router.post('/add-to-cart', async (req, res) => {
                 productID: req.body.productID,
                 quantity: "1"
             })
-            await Cart.find({ productID: req.body.productID, userID: req.session.userID }).then(doc => {
-                if (doc.length != 0) {
-                    status = false;
-                    res.json({ status: status });
-                }
-            })
+            var docs = await Cart.find({ productID: req.body.productID, userID: req.session.userID })
+            if (docs.length != 0) {
+                status = false;
+                res.json({ status: status });
+            }
         }
         if (status) {
             await cartdata.save().then(result => {
                 res.json({ status: true });
             })
         }
-    }
-    else{
+    } else {
         res.json({ status: 'login' });
     }
 
 })
 
-router.get('/delete-cart/(:cartID)', (req, res) => {
-    Cart.findByIdAndRemove(req.params.cartID, (err, doc) => {
-        if (!err) {
-            res.redirect('/cart')
-        } else {
-            res.status(500).send(err)
-        }
-    })
+router.get('/delete-cart/(:cartID)', async(req, res) => {
+    await Cart.findByIdAndRemove(req.params.cartID)
+    res.redirect('/cart')
 })
 
-router.post('/edit-cart', (req, res) => {
-    Cart.find({
-        _id: req.body.id
-    }).then(docs => {
+router.post('/edit-cart', async(req, res) => {
+    var docs = await Cart.find({ _id: req.body.id })
+    if (docs.length != 0) {
         var cartdata = new Cart({
             quantity: req.body.qty,
         })
-        Cart.updateOne({ _id: req.body.id }, { $set: cartdata })
-            .then(result => {
-                res.send("Done");
-            })
-    })
+        await Cart.updateOne({ _id: req.body.id }, { $set: cartdata })
+        res.send("Done");
+    }
 })
 
 module.exports = router

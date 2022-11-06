@@ -1,10 +1,10 @@
 function myFunction(op, cartid, ip, max, price) {
     var val = ip.value;
-    let qty = document.getElementById(val).textContent;
+    let qty = document.getElementById(val).value;
     if (op == "add") {
         if (qty == parseInt(max)) {
             swal({
-                title: "Seller does not have enough products",
+                title: "Product Max Quantity Reached",
                 icon: "info",
                 dangerMode: false,
             })
@@ -17,8 +17,8 @@ function myFunction(op, cartid, ip, max, price) {
                     id: cartid,
                     qty: qty,
                 },
-                success: function () {
-                    document.getElementById(val).innerHTML = qty
+                success: function() {
+                    document.getElementById(val).value = qty
                     let finalsubtotal = document.getElementById('subtotal').textContent;
                     let finaltotal = document.getElementById('total').textContent;
                     var subtotal = parseFloat(finalsubtotal) + parseFloat(price);
@@ -28,8 +28,7 @@ function myFunction(op, cartid, ip, max, price) {
                 }
             })
         }
-    }
-    else {
+    } else {
         if (qty > 1) {
             qty = parseInt(qty) - 1;
             $.ajax({
@@ -39,8 +38,8 @@ function myFunction(op, cartid, ip, max, price) {
                     id: cartid,
                     qty: qty,
                 },
-                success: function () {
-                    document.getElementById(val).innerHTML = qty
+                success: function() {
+                    document.getElementById(val).value = qty
                     let finalsubtotal = document.getElementById('subtotal').textContent;
                     let finaltotal = document.getElementById('total').textContent;
                     var subtotal = parseFloat(finalsubtotal) - parseFloat(price);
@@ -55,8 +54,8 @@ function myFunction(op, cartid, ip, max, price) {
 
 function openProduct(productID, variantID) {
     if (variantID) {
-      location.href = '/product/variant/' + variantID
+        location.href = '/product/variant/' + variantID
     } else {
-      location.href = '/product/view-product/' + productID
+        location.href = '/product/view-product/' + productID
     }
-  }
+}

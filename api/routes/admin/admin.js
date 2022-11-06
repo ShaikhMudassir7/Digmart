@@ -15,48 +15,37 @@ router.get('/login', (req, res) => {
     res.render("admin/login")
 })
 
-router.post('/login', (req, res) => {
-    Admin.find({
-        email: req.body.email,
-        status: "Active"
-    })
-        .exec()
-        .then((user) => {
-            if (user.length < 1) {
+router.post('/login', async (req, res) => {
+    var user = await Admin.find({ email: req.body.email, status: "Active" })
+    if (user.length < 1) {
+        res.send({
+            message: "Admin Not found",
+        });
+    } else {
+        bcrypt.compare(req.body.pass, user[0].pass, (err, result) => {
+            if (err) {
                 res.send({
-                    message: "Admin Not found",
-                });
-            } else {
-                bcrypt.compare(req.body.pass, user[0].pass, (err, result) => {
-                    if (err) {
-                        res.send({
-                            message: err,
-                        });
-                    }
-                    if (result) {
-                        req.session.name = user[0].name;
-                        req.session.email = user[0].email;
-                        req.session.type = user[0].type;
-                        req.session.admin_id = user[0]._id;
-                        const token = jwt.sign({
-                            "id": user[0]._id
-                        }, process.env.JWT_KEY, {},
-                        );
-                        req.session.jwttoken = token;
-                        res.redirect('dashboard');
-                    } else {
-                        res.send({
-                            message: "Wrong Password",
-                        });
-                    }
+                    message: err,
                 });
             }
-        }).catch(err => {
-            console.log(err);
-            res.send({
-                error: err
-            })
-        })
+            if (result) {
+                req.session.name = user[0].name;
+                req.session.email = user[0].email;
+                req.session.type = user[0].type;
+                req.session.admin_id = user[0]._id;
+                const token = jwt.sign({
+                    "id": user[0]._id
+                }, process.env.JWT_KEY, {},
+                );
+                req.session.jwttoken = token;
+                res.redirect('dashboard');
+            } else {
+                res.send({
+                    message: "Wrong Password",
+                });
+            }
+        });
+    }
 })
 
 router.get('/dashboard', checkAuth, async (req, res) => {
@@ -74,97 +63,65 @@ router.get('/dashboard', checkAuth, async (req, res) => {
         "totalOperator": 0,
     };
 
-    await Seller.find()
-        .then(docs => {
-            count.totalSeller = docs.length
-        })
-    await Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Authentication" }] })
-        .then(docs => {
-            count.rejectedSeller = docs.length
-        })
-    await Seller.find({ status: "Verified" })
-        .then(docs => {
-            count.verifiedSeller = docs.length
-        })
-    await Seller.find({ status: "Pending" })
-        .then(docs => {
-            count.pendingSeller = docs.length
-        })
+    var totalSellerdocs = await Seller.find()
+    count.totalSeller = totalSellerdocs.length
 
-    await Admin.find()
-        .then(docs => {
-            count.totalOperator = docs.length
-        })
-    await Admin.find({ status: "Inactive" })
-        .then(docs => {
-            count.inactiveOperator = docs.length
-        })
-    await Admin.find({ status: "Active" })
-        .then(docs => {
-            count.activeOperator = docs.length
-        })
+    var rejectedSellerdocs = await Seller.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Authentication" }] })
+    count.rejectedSeller = rejectedSellerdocs.length
 
-    await Products.find({$nor: [{ status: "Incomplete" }]})
-        .then(docs => {
-            count.totalProduct = docs.length
-        })
+    var verifiedSellerdocs = await Seller.find({ status: "Verified" })
+    count.verifiedSeller = verifiedSellerdocs.length
 
-    rejectprodID=[];
-    await Variants.find({
-        $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }]
-    }).then(docs => {
-        docs.forEach(data => {
-            rejectprodID.push(data.prodID);
-        })})
-    await Products.find({
-        $or: [{ _id: { $in: rejectprodID} }, { $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] }]
-    }).then(docs => {
-        count.rejectedProduct = docs.length
+    var pendingSellerdocs = await Seller.find({ status: "Pending" })
+    count.pendingSeller = pendingSellerdocs.length
+
+    var totalOperatordocs = await Admin.find()
+    count.totalOperator = totalOperatordocs.length
+
+    var inactiveOperatordocs = await Admin.find({ status: "Inactive" })
+    count.inactiveOperator = inactiveOperatordocs.length
+
+    var activeOperatordocs = await Admin.find({ status: "Active" })
+    count.activeOperator = activeOperatordocs.length
+
+    var totalProductdocs = await Products.find({ $nor: [{ status: "Incomplete" }] })
+    count.totalProduct = totalProductdocs.length
+
+    rejectprodID = [];
+    var docs = await Variants.find({ $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
+    docs.forEach(data => {
+        rejectprodID.push(data.prodID);
     })
 
-    await Products.find({ status: "Verified" })
-        .then(docs => {
-            count.verifiedProduct = docs.length
-        })
+    var rejectedProductdocs = await Products.find({ $or: [{ _id: { $in: rejectprodID } }, { $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] }] })
+    count.rejectedProduct = rejectedProductdocs.length
 
-    prodID=[];
-    await Variants.find({
-        status: "Pending",
-    }).then(docs => {
-        docs.forEach(data => {
-            prodID.push(data.prodID);
-        })})
-    await Products.find({
-        $or: [{ _id: { $in: prodID} }, { status: "Pending" }]
-    }).then(docs => {
-        count.pendingProduct = docs.length
+    var verifiedProductdocs = await Products.find({ status: "Verified" })
+    count.verifiedProduct = verifiedProductdocs.length
+
+    prodID = [];
+    var pendocs = await Variants.find({ status: "Pending", })
+    pendocs.forEach(data => {
+        prodID.push(data.prodID);
     })
+
+    var pendingProductdocs = await Products.find({ $or: [{ _id: { $in: prodID } }, { status: "Pending" }] })
+    count.pendingProduct = pendingProductdocs.length
 
     res.render("admin/dashboard", { userType: req.session.type, userName: req.session.name, countarr: count });
 })
 
 router.get('/profile', checkAuth, async (req, res) => {
-    Admin.find({
-        email: req.session.email
-    })
-        .exec()
-        .then(docs => {
-            res.render('admin/profile', { adminData: docs[0], userType: req.session.type, userName: req.session.name });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
+    var docs = await Admin.find({ email: req.session.email })
+    res.render('admin/profile', { adminData: docs[0], userType: req.session.type, userName: req.session.name });
 })
 
-router.post('/profile/(:id)', checkAuth, (req, res, next) => {
+router.post('/profile/(:id)', checkAuth, async (req, res) => {
     const id = req.params.id
     if (req.body.pass1 != "") {
-        bcrypt.hash(req.body.pass1, 10, (err, hash) => {
+        bcrypt.hash(req.body.pass1, 10, async (err, hash) => {
             if (err) {
-                return res.status(500).json({
+                return res.json({
                     error: err,
                 });
             } else {
@@ -172,22 +129,13 @@ router.post('/profile/(:id)', checkAuth, (req, res, next) => {
                     name: req.body.user_name,
                     pass: hash
                 }
-                Admin.updateOne({ _id: id }, { $set: newValues })
-                    .exec()
-                    .then(result => {
-                        if (req.session.admin_id == id) {
-                            req.session.name = req.body.user_name;
-                            res.redirect('/admin/profile')
-                        } else {
-                            res.redirect('/admin/profile')
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        res.status(500).json({
-                            error: err
-                        })
-                    })
+                await Admin.updateOne({ _id: id }, { $set: newValues })
+                if (req.session.admin_id == id) {
+                    req.session.name = req.body.user_name;
+                    res.redirect('/admin/profile')
+                } else {
+                    res.redirect('/admin/profile')
+                }
             }
         })
     }
@@ -195,32 +143,19 @@ router.post('/profile/(:id)', checkAuth, (req, res, next) => {
         const newValues = {
             name: req.body.user_name,
         }
-        Admin.updateOne({ _id: id }, { $set: newValues })
-            .exec()
-            .then(result => {
-                if (req.session.admin_id == id) {
-                    req.session.name = req.body.user_name;
-                    res.redirect('/admin/profile')
-                } else {
-                    res.redirect('/admin/profile')
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        await Admin.updateOne({ _id: id }, { $set: newValues })
+        if (req.session.admin_id == id) {
+            req.session.name = req.body.user_name;
+            res.redirect('/admin/profile')
+        } else {
+            res.redirect('/admin/profile')
+        }
     }
 })
 
-router.get('/operator', checkAuth, function (req, res) {
-    Admin.find({}, function (err, docs) {
-        if (err) {
-            res.json(err);
-        }
-        else res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
-    });
+router.get('/operator', checkAuth, async (req, res) => {
+    var docs = await Admin.find()
+    res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
 })
 
 router.get('/addoperator', checkAuth, (req, res) => {
@@ -228,7 +163,7 @@ router.get('/addoperator', checkAuth, (req, res) => {
 })
 
 router.post('/addoperator', checkAuth, (req, res) => {
-    bcrypt.hash(req.body.pass1, 10, (err, hash) => {
+    bcrypt.hash(req.body.pass1, 10, async (err, hash) => {
         if (err) {
             return res.status(500).json({
                 error: err,
@@ -243,68 +178,40 @@ router.post('/addoperator', checkAuth, (req, res) => {
                 pass: hash,
                 status: "Active"
             })
-            Admin.find({ email: req.body.email }, function (err, docs) {
-                if (docs.length) {
-                    console.log(err);
-                    res.json({
-                        error: "Email exists already"
-                    })
-                } else {
-                    adminuser.save()
-                        .then(doc => {
-                            res.redirect('/admin/operator')
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            res.json({
-                                error: err
-                            })
-                        })
-                }
-            });
-        }
-    })
-})
-
-router.get('/deleteoperator/(:id)', checkAuth, (req, res, next) => {
-    Admin.findByIdAndRemove(req.params.id, (err, doc) => {
-        if (!err) {
-            if (req.session.admin_id == req.params.id) {
-                res.redirect('/admin/logout')
-            }
-            else {
+            var docs = await Admin.find({ email: req.body.email })
+            if (docs.length) {
+                res.json({
+                    error: "Email exists already"
+                })
+            } else {
+                await adminuser.save()
                 res.redirect('/admin/operator')
             }
         }
-        else {
-            res.status(500).send(err)
-        }
     })
 })
 
-router.get('/editoperator/(:id)', checkAuth, (req, res, next) => {
-    Admin.find({
-        _id: req.params.id
-    })
-        .exec()
-        .then(docs => {
-            res.render('admin/operators/editoperator', { item: docs[0], userType: req.session.type, userName: req.session.name });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
-
+router.get('/deleteoperator/(:id)', checkAuth, async (req, res) => {
+    await Admin.findByIdAndRemove(req.params.id)
+    if (req.session.admin_id == req.params.id) {
+        res.redirect('/admin/logout')
+    }
+    else {
+        res.redirect('/admin/operator')
+    }
 })
 
-router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
+router.get('/editoperator/(:id)', checkAuth, async (req, res) => {
+    var docs = await Admin.find({ _id: req.params.id })
+    res.render('admin/operators/editoperator', { item: docs[0], userType: req.session.type, userName: req.session.name });
+})
+
+router.post('/editoperator/(:id)/(:email)', checkAuth, async(req, res) => {
     const id = req.params.id
     if (req.body.pass1 != "") {
-        bcrypt.hash(req.body.pass1, 10, (err, hash) => {
+        bcrypt.hash(req.body.pass1, 10, async (err, hash) => {
             if (err) {
-                return res.status(500).json({
+                return res.json({
                     error: err,
                 });
             } else {
@@ -318,49 +225,29 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
                 }
 
                 if (req.body.email != req.params.email) {
-                    Admin.find({ email: req.body.email }, function (err, docs) {
-                        if (docs.length) {
-                            console.log(err);
-                            res.json({
-                                error: "Email exists already"
-                            })
+                    var docs = await Admin.find({ email: req.body.email })
+                    if (docs.length) {
+                        res.json({
+                            error: "Email exists already"
+                        })
+                    } else {
+                        await Admin.updateOne({ _id: id }, { $set: newValues })
+                        if (req.session.admin_id == id) {
+                            req.session.name = req.body.user_name;
+                            res.redirect('/admin/operator')
                         } else {
-                            Admin.updateOne({ _id: id }, { $set: newValues })
-                                .exec()
-                                .then(result => {
-                                    if (req.session.admin_id == id) {
-                                        req.session.name = req.body.user_name;
-                                        res.redirect('/admin/operator')
-                                    } else {
-                                        res.redirect('/admin/operator')
-                                    }
-                                })
-                                .catch(err => {
-                                    console.log(err)
-                                    res.status(500).json({
-                                        error: err
-                                    })
-                                })
+                            res.redirect('/admin/operator')
                         }
-                    });
+                    }
                 }
                 else {
-                    Admin.updateOne({ _id: id }, { $set: newValues })
-                        .exec()
-                        .then(result => {
-                            if (req.session.admin_id == id) {
-                                req.session.name = req.body.user_name;
-                                res.redirect('/admin/operator')
-                            } else {
-                                res.redirect('/admin/operator')
-                            }
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            res.status(500).json({
-                                error: err
-                            })
-                        })
+                    await Admin.updateOne({ _id: id }, { $set: newValues })
+                    if (req.session.admin_id == id) {
+                        req.session.name = req.body.user_name;
+                        res.redirect('/admin/operator')
+                    } else {
+                        res.redirect('/admin/operator')
+                    }
                 }
             }
         })
@@ -375,80 +262,43 @@ router.post('/editoperator/(:id)/(:email)', checkAuth, (req, res, next) => {
         }
 
         if (req.body.email != req.params.email) {
-            Admin.find({ email: req.body.email }, function (err, docs) {
-                if (docs.length) {
-                    console.log(err);
-                    res.json({
-                        error: "Email exists already"
-                    })
+            var docs = await Admin.find({ email: req.body.email })
+            if (docs.length) {
+                res.json({
+                    error: "Email exists already"
+                })
+            } else {
+                await Admin.updateOne({ _id: id }, { $set: newValues })
+                if (req.session.admin_id == id) {
+                    req.session.name = req.body.user_name;
+                    res.redirect('/admin/operator')
                 } else {
-                    Admin.updateOne({ _id: id }, { $set: newValues })
-                        .exec()
-                        .then(result => {
-                            if (req.session.admin_id == id) {
-                                req.session.name = req.body.user_name;
-                                res.redirect('/admin/operator')
-                            } else {
-                                res.redirect('/admin/operator')
-                            }
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            res.status(500).json({
-                                error: err
-                            })
-                        })
+                    res.redirect('/admin/operator')
                 }
-            });
+            }
         }
         else {
-            Admin.updateOne({ _id: id }, { $set: newValues })
-                .exec()
-                .then(result => {
-                    if (req.session.admin_id == id) {
-                        req.session.name = req.body.user_name;
-                        res.redirect('/admin/operator')
-                    } else {
-                        res.redirect('/admin/operator')
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
-                })
+            await Admin.updateOne({ _id: id }, { $set: newValues })
+            if (req.session.admin_id == id) {
+                req.session.name = req.body.user_name;
+                res.redirect('/admin/operator')
+            } else {
+                res.redirect('/admin/operator')
+            }
         }
     }
 })
 
-router.get('/operatorStatus', checkAuth, (req, res) => {
+router.get('/operatorStatus', checkAuth, async (req, res) => {
     var status = req.query.status
     if (!status) {
-        Admin.find()
-            .exec()
-            .then(docs => {
-                res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        var docs = await Admin.find()
+        res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
     }
     else {
-        Admin.find({ status: status, })
-            .exec()
-            .then(docs => {
-                res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        var docs = await Admin.find({ status: status, })
+        res.render('admin/operators/operator', { details: docs, userType: req.session.type, userName: req.session.name });
+
     }
 })
 

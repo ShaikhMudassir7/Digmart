@@ -17,8 +17,7 @@
             <div class="row">
                 <div class="col-12 col-md-3">
                     <div class="row">
-                        <div class="card mb-3 p-2 bg-white border rounded"
-                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                        <div class="card mb-3 p-2 bg-white border rounded" style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
                             <div class="row">
                                 <div class="col-12 col-md-3">
                                     <img src="/img/DigMart.png" style="width:100%">
@@ -33,8 +32,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="card mb-3 p-3 bg-white border rounded"
-                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                        <div class="card mb-3 p-3 bg-white border rounded" style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
                             <div class="row">
                                 <div class="col-3 col-md-3 mt-1">
                                     <i class="fas fa-box-open fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
@@ -48,8 +46,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="card mb-3 p-3 bg-white border rounded"
-                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                        <div class="card mb-3 p-3 bg-white border rounded" style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
                             <div class="row">
                                 <div class="col-3 col-md-3 mt-1">
                                     <i class="fas fa-user-alt fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
@@ -90,8 +87,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="card mb-3 p-3 bg-white border rounded"
-                            style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
+                        <div class="card mb-3 p-3 bg-white border rounded" style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
                             <div class="row">
                                 <div class="col-3 col-md-3 mt-1">
                                     <i class="fas fa-sign-out-alt fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
@@ -108,11 +104,9 @@
 
                 <div class="col-12 col-md-9">
                     <div style="margin-left: 2%; box-shadow: 0 1px 2px 0 rgba(119, 119, 119, 0.2), 0 3px 20px 0 rgba(218, 218, 218, 0.19);">
-                        <form action="/checkout/checkout" id="addAddressForm" method="post" class="needs-validation"
-                            novalidate accept-charset="utf-8">
+                        <form action="/checkout/checkout" id="addAddressForm" method="post" class="needs-validation" novalidate accept-charset="utf-8">
                             <div class="card p-2 mb-0" style="background-color:#1e686dfa">
-                                <strong
-                                    style="color: #FAFFFF; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
+                                <strong style="color: #FAFFFF; font-family:Arial, Helvetica, sans-serif; padding-left: 2%;">
                                     DELIVERY ADDRESS</strong>
                             </div>
 
@@ -130,21 +124,21 @@
                                             </label>
                                         </div>
                                         <div class="col-3 col-md-3">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="sweetAlertTrigger('<%=data._id %>')"  style="float:right;">Remove</button>
-                                            <button type="button" id="editAddressBtn<%=data._id %>" onclick="editAddressFunc('<%=data._id %>')"  style="float:right;" class="btn btn-outline-warning btn-sm">
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="sweetAlertTrigger('<%=data._id %>')" style="float:right;">Remove</button>
+                                            <button type="button" id="editAddressBtn<%=data._id %>" onclick="editAddressFunc('<%=data._id %>')" style="float:right;" class="btn btn-outline-warning btn-sm">
                                                 Edit</button>
                                         </div>
                                     </div>
                                 </div>
                                 <% i++; }) %>
                                     <% } %>
-    
+
                                         <div class="card" id="addAddressButton" style="background-color: white; padding-left: 2%">
                                             <div class="col-12 col-md-6 p-2">
                                                 <div onclick="showAddressDetails()" style="cursor: pointer"><i class="fas fa-plus-circle"></i> Add a new address</div>
                                             </div>
                                         </div>
-    
+
                                         <div class="card p-4" id="addAddress" for="newAddress" style="background-color:#FAFFFF; display:none">
                                             <div class="row">
                                                 <div class="col-12 col-md-12 mb-3">
@@ -152,7 +146,7 @@
                                                         Add a new Address
                                                     </label>
                                                 </div>
-    
+
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="firstName" class="form-label">First Name</label>
                                                     <input type="text" id="addfirstName" name="firstName[]" class="form-control" placeholder="e.g. John">
@@ -160,7 +154,7 @@
                                                         Please enter your first name.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="lname" class="form-label">Last Name</label>
                                                     <input type="text" id="addlastName" name="lastName[]" class="form-control" placeholder="e.g. Smith">
@@ -168,7 +162,7 @@
                                                         Please enter your last name.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3">
                                                     <label for="email" class="form-label">Email Address</label>
                                                     <input type="email" id="addemail" name="email[]" class="form-control" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="e.g. johnsmith123@gmail.com">
@@ -176,7 +170,7 @@
                                                         Please enter valid email id.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3">
                                                     <label for="address" class="form-label">Address</label>
                                                     <input type="text" id="addaddress" name="address[]" class="form-control" placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
@@ -184,7 +178,7 @@
                                                         Please enter your address.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="state" class="form-label">State</label>
                                                     <select name="state[]" class="form-select" id="addstate">
@@ -196,7 +190,7 @@
                                                         </option>
                                                     </select>
                                                 </div>
-    
+
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="city" class="form-label">City</label>
                                                     <div class="btn-group  w-100">
@@ -213,7 +207,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="pinCode" class="form-label">Pin Code</label>
                                                     <input type="text" maxlength="6" id="addpinCode" name="pinCode[]" pattern="[1-9]{1}[0-9]{5}" class="form-control" placeholder="e.g. 400029">
@@ -221,7 +215,7 @@
                                                         Please enter correct pin code.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3">
                                                     <label for="mobileNo" class="form-label">Mobile Number</label>
                                                     <input type="text" id="addmobileNumber" name="mobileNumber[]" maxlength="10" pattern="[6789][0-9]{9}" class="form-control" placeholder="e.g. 9898989898">
@@ -229,16 +223,16 @@
                                                         Please enter valid Mobile number.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3  text-center">
                                                     <button type="button" id="addAddressBtn" class="btn btn-outline-primary"><i class="fas fa-save"> </i> Save Address</button>
                                                 </div>
                                             </div>
                                         </div>
-    
+
                                         <div class="card p-4" id="editAddressCard" for="editFirstName" class="editAddresses" style="background-color:#FAFFFF; display:none">
                                             <div class="row">
-    
+
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="editFirstName" class="form-label">First Name</label>
                                                     <input type="text" id="editFirstName" name="firstName[]" class="form-control" placeholder="e.g. John">
@@ -246,7 +240,7 @@
                                                         Please enter your first name.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 col-md-6 mb-3">
                                                     <label for="editLastName" class="form-label">Last Name</label>
                                                     <input type="text" id="editLastName" name="lastName[]" class="form-control" placeholder="e.g. Smith">
@@ -254,7 +248,7 @@
                                                         Please enter your last name.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3">
                                                     <label for="editEmail" class="form-label">Email Address</label>
                                                     <input type="email" id="editEmail" name="email[]" class="form-control" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="e.g. johnsmith123@gmail.com">
@@ -262,7 +256,7 @@
                                                         Please enter valid email id.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3">
                                                     <label for="editAddress" class="form-label">Address</label>
                                                     <input type="text" id="editAddress" name="address[]" class="form-control" placeholder="e.g. Robert Robertson, 1234 NW Bobcat Lane, St. Robert">
@@ -270,7 +264,7 @@
                                                         Please enter your address.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="editState" class="form-label">State</label>
                                                     <select name="state[]" class="form-select" id="editState">
@@ -282,7 +276,7 @@
                                                         </option>
                                                     </select>
                                                 </div>
-    
+
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="editCity" class="form-label">City</label>
                                                     <select name="city[]" class="form-select" id="editCity">
@@ -291,7 +285,7 @@
                                                         <option value="Pune">Pune</option>
                                                     </select>
                                                 </div>
-    
+
                                                 <div class="col-6 col-md-4 mb-3">
                                                     <label for="editPinCode" class="form-label">Pin Code</label>
                                                     <input type="text" maxlength="6" id="editPinCode" name="pinCode[]" pattern="[1-9]{1}[0-9]{5}" class="form-control" placeholder="e.g. 400029">
@@ -299,7 +293,7 @@
                                                         Please enter your pin code.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3">
                                                     <label for="editMobileNo" class="form-label">Mobile Number</label>
                                                     <input type="text" id="editMobileNo" name="mobileNumber[]" maxlength="10" pattern="[6789][0-9]{9}" class="form-control" placeholder="e.g. 9898989898">
@@ -307,7 +301,7 @@
                                                         Please enter valid Mobile number.
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-12 mb-3  text-center">
                                                     <button type="button" class="btn btn-outline-primary" id="saveChangesBtn"><i class="fas fa-save"></i> Save Changes</button>
                                                 </div>
@@ -320,7 +314,6 @@
         </div>
         <script src="/vendor/jquery/jquery.min.js"></script>
         <script>
-            
             var defaultAddressCard = document.getElementById("defaultAddressCard")
 
             function showAddressDetails() {
@@ -330,7 +323,7 @@
                 document.getElementById("editAddressCard").style.display = "none"
             }
 
-           
+
 
             function editAddressFunc(addressID) {
                 var editAddressBtn = document.getElementById("editAddressBtn" + addressID);

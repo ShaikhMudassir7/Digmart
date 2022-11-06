@@ -31,21 +31,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
-  session({
-    secret: "secret",
-    resave: true,
-    saveUninitialized: true,
-  })
+    session({
+        secret: "secret",
+        resave: true,
+        saveUninitialized: true,
+    })
 );
 
 mongoose.connect(
-  "mongodb+srv://entwicklera:" +
+    "mongodb+srv://entwicklera:" +
     process.env.MONGO_PASS +
-    "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+    "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
 );
 
 app.use(express.json());
@@ -72,7 +71,7 @@ app.use("/seller/coverage", sellerCoverageRoute);
 app.use("/seller/orders", orderRoute);
 app.use("/", userRoute);
 app.use("/product", userProductRoute);
-app.use("/seller-profile", userSellerRoute);
+app.use("/seller", userSellerRoute);
 app.use("/cart", userCartRoute);
 app.use("/wishlist", userWishlistRoute);
 app.use("/login", userLoginRoute);
@@ -82,5 +81,5 @@ app.use("/orders", userOrdersRoute);
 
 const server = http.createServer(app);
 server.listen(port, () => {
-  console.log("Listening on port " + port);
+    console.log("Listening on port " + port);
 });

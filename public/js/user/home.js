@@ -113,10 +113,10 @@ var swiper = new Swiper(".productSwiper", {
     },
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     var myOffcanvas = document.getElementById('homeOffCanvas');
     var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-    document.getElementById("navbar-toggler").addEventListener('click', function (e) {
+    document.getElementById("navbar-toggler").addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         bsOffcanvas.toggle();
@@ -136,9 +136,14 @@ function wishlist(element, sellerID, productID, variantID, size) {
                     size: size,
                 },
                 dataType: 'json',
-                success: function (result) {
-                    if (result.status)
+                success: function(result) {
+                    if (result.status) {
                         element.classList.add('i-red')
+                        swal({
+                            title: "Product added to your wishlist",
+                            icon: "success",
+                        });
+                    }
                 }
             })
         else
@@ -152,9 +157,14 @@ function wishlist(element, sellerID, productID, variantID, size) {
                     size: size,
                 },
                 dataType: 'json',
-                success: function (result) {
-                    if (result.status)
+                success: function(result) {
+                    if (result.status) {
                         element.classList.remove('i-red');
+                        swal({
+                            title: "Product removed from wishlist",
+                            icon: "error",
+                        });
+                    }
                 }
             })
     } else {
@@ -180,7 +190,7 @@ function showPosition(position) {
             long: position.coords.longitude,
         },
         dataType: 'json',
-        success: function (result) {
+        success: function(result) {
             if (result.pincode != 'error')
                 sessionStorage.setItem("pincode", result.pincode);
         }
@@ -191,7 +201,7 @@ function showError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
             console.log("User denied the request for Geolocation.")
-            // window.location.reload()
+                // window.location.reload()
             break;
         case error.POSITION_UNAVAILABLE:
             console.log("Location information is unavailable.")
@@ -214,7 +224,7 @@ function openProduct(productID, variantID) {
 }
 
 function openSeller(sellerID) {
-    location.href = '/seller-profile/' + sellerID
+    location.href = '/seller/' + sellerID
 }
 
 
@@ -243,7 +253,7 @@ function searchData(e) {
                 payload: e.value
             },
             dataType: 'json',
-            success: function (res) {
+            success: function(res) {
                 if (res.products.length < 1)
                     containerProduct.style.display = 'none'
                 else {
@@ -276,18 +286,19 @@ function searchData(e) {
         })
     }
 }
+
 function openResult(element, type) {
     var resId = element.getAttribute("data-resId")
     if (type == 1)
         location.href = '/product/view-product/' + resId
     else
-        location.href = '/seller-profile/' + resId
+        location.href = '/seller/' + resId
 }
 
-$("#navbar-menu").on("shown.bs.collapse", function () {
+$("#navbar-menu").on("shown.bs.collapse", function() {
     $(".dropdown-menu").css({ "position": "absolute", "left": "50%" })
 });
 
-$("#navbar-menu").on("hidden.bs.collapse", function () {
+$("#navbar-menu").on("hidden.bs.collapse", function() {
     $(".dropdown-menu").css({ "position": "absolute", "left": "auto" })
 });
