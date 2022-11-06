@@ -5,15 +5,12 @@ const Variants = require('../../models/seller/variants');
 const Products = require("../../models/seller/product");
 
 // Route of product page
-router.get('/view-product/(:id)', (req, res) => {
+router.get('/view-product/(:id)', async (req, res) => {
     const allImages = Variants.find().select("images")
     var slugid = req.params.id;
-    Products.findOne({ slugID: slugid }).then(element => {
-        Variants.find({ prodID: element._id }).exec()
-            .then(docs => {
-                res.render('./user/product', { images: allImages, variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
-            })
-    })
+    var element = await Products.findOne({ slugID: slugid })
+    var docs = await Variants.find({ prodID: element._id })
+    res.render('./user/product', { images: allImages, variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
 })
 
 router.get('/variant/(:variantslugID)', async (req, res) => {
@@ -36,7 +33,6 @@ router.get('/findsize/(:id)/(:size)', (req, res) => {
             for (let i = 0; i < doc.sizes.length; i++) {
                 if (doc.sizes[i].sizes == req.params.size) {
                     res.send(doc.sizes[i])
-                    break;
                 }
             }
 
