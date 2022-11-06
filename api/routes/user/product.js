@@ -6,7 +6,7 @@ const Products = require("../../models/seller/product");
 
 // Route of product page
 router.get('/view-product/(:id)', async (req, res) => {
-    const allImages = Variants.find().select("images")
+    const allImages = await Variants.find().select("images")
     var slugid = req.params.id;
     var element = await Products.findOne({ slugID: slugid })
     var docs = await Variants.find({ prodID: element._id })
@@ -15,28 +15,21 @@ router.get('/view-product/(:id)', async (req, res) => {
 
 router.get('/variant/(:variantslugID)', async (req, res) => {
     var varelement = await Variants.findOne({ slugID: req.params.variantslugID });
-    const allImages = Variants.find().select("images")
+    const allImages = await Variants.find().select("images")
     var vd;
-    await Products.findOne({ _id: varelement.prodID }).then(element => {
-        Variants.find({ prodID: varelement.prodID })
-            .then(docs => {
-                vd = docs;
-                res.render('./user/product', { images: allImages, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
-            })
-    })
+    var element = await Products.findOne({ _id: varelement.prodID })
+    var vd = await Variants.find({ prodID: varelement.prodID })
+    res.render('./user/product', { images: allImages, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
 })
 
-router.get('/findsize/(:id)/(:size)', (req, res) => {
+router.get('/findsize/(:id)/(:size)', async (req, res) => {
     var id = req.params.id;
-    Variants.findOne({ _id: id })
-        .then(doc => {
-            for (let i = 0; i < doc.sizes.length; i++) {
-                if (doc.sizes[i].sizes == req.params.size) {
-                    res.send(doc.sizes[i])
-                }
-            }
-
-        })
+    var doc = await Variants.findOne({ _id: id })
+    for (let i = 0; i < doc.sizes.length; i++) {
+        if (doc.sizes[i].sizes == req.params.size) {
+            res.send(doc.sizes[i])
+        }
+    }
 })
 
 module.exports = router
