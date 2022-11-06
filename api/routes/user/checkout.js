@@ -20,7 +20,7 @@ router.get('/', checkAuth, async(req, res) => {
     var i = 0;
     var totalMRP = 0;
     var finalPrice = 0;
-    var couponDiscount = 10;
+    var couponDiscount = 0;
     var deliveryFee = "₹ 99"
 
     for (i in doc) {
@@ -215,8 +215,8 @@ router.get('/payment-success/(:id)', async(req, res) => {
     console.log(order[0].addressID)
 
     await sendEmail({ email: order[0].addressID.email, subj: 'DigMart - Order Confirmation Mail', msg: "Your OTP for Email Authentication is " })
+    res.render('./user/order-confirmed')
 
-    // TODO - Create a Order Confirmation Page
 })
 
 module.exports = router
