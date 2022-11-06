@@ -71,45 +71,45 @@
                                                                 <img src=" <%= wishlistData.variantID.images[0] %>" class="chgsize img-fluid mx-auto d-block rounded-start border-1 border">
                                                             </div>
                                                             <%}else{%>
-                                                            <div class=" ms-1 mb-2 row  p-0 w-100" onclick="openProduct( '<%=wishlistData.productID.slugID%>' , null)">
-                                                                <div class="image col-md-3 mt-2 chgpar">
-                                                                    <img src=" <%= wishlistData.productID.images[0] %>" class="chgsize img-fluid mx-auto d-block rounded-start border-1 border">
-                                                                </div>
-                                                                <%}%>
-                                                                    <div class="col-md-9 p-0">
-                                                                        <div class="row ms-1">
-                                                                            <div class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
-                                                                                <div class="row p-1">
-                                                                                    <h5 class="card-title">
-                                                                                        <label id="productName" name="productName">
+                                                                <div class=" ms-1 mb-2 row  p-0 w-100" onclick="openProduct( '<%=wishlistData.productID.slugID%>' , null)">
+                                                                    <div class="image col-md-3 mt-2 chgpar">
+                                                                        <img src=" <%= wishlistData.productID.images[0] %>" class="chgsize img-fluid mx-auto d-block rounded-start border-1 border">
+                                                                    </div>
+                                                                    <%}%>
+                                                                        <div class="col-md-9 p-0">
+                                                                            <div class="row ms-1">
+                                                                                <div class="card-body mt-2 col-md-12 col-sm-12 col-12 p-0">
+                                                                                    <div class="row p-1">
+                                                                                        <h5 class="card-title">
+                                                                                            <label id="productName" name="productName">
                                                                                             <%= wishlistData.productID.productName %>:
                                                                                         </label>
-                                                                                    </h5>
-                                                                                    <label id="productDesc" name="productDesc">
+                                                                                        </h5>
+                                                                                        <label id="productDesc" name="productDesc">
                                                                                         <%= wishlistData.productID.description
                                                                                             %>
                                                                                     </label>
-                                                                                </div>
+                                                                                    </div>
 
 
-                                                                                <div class="row">
-                                                                                    <div class="col-md-7 mb-2">
-                                                                                        <div class="row mt-2 ms-1">
-                                                                                            <div class="col-md-2 p-0 col-sm-2 col-2 card-subtitle">
-                                                                                                <b>Price:</b>
-                                                                                            </div>
-                                                                                            <%if(wishlistData.variantID){%>
-                                                                                                <div class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
-                                                                                                    <%if(wishlistData.variantID.sizes[size[i]].discount==null){%>
-                                                                                                        <p class="card-text text-dark text-black-20 fs-6">
-                                                                                                            ₹
-                                                                                                            <strong>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-7 mb-2">
+                                                                                            <div class="row mt-2 ms-1">
+                                                                                                <div class="col-md-2 p-0 col-sm-2 col-2 card-subtitle">
+                                                                                                    <b>Price:</b>
+                                                                                                </div>
+                                                                                                <%if(wishlistData.variantID){%>
+                                                                                                    <div class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
+                                                                                                        <%if(wishlistData.variantID.sizes[size[i]].discount==null){%>
+                                                                                                            <p class="card-text text-dark text-black-20 fs-6">
+                                                                                                                ₹
+                                                                                                                <strong>
                                                                                                                 <%=wishlistData.variantID.sizes[size[i]].actualPrice%>
                                                                                                             </strong>
-                                                                                                        </p>
-                                                                                                        <%} else{%>
-                                                                                                            <p class="card-text text-dark">
-                                                                                                                <strong>
+                                                                                                            </p>
+                                                                                                            <%} else{%>
+                                                                                                                <p class="card-text text-dark">
+                                                                                                                    <strong>
                                                                                                                     ₹
                                                                                                                     <%=wishlistData.variantID.sizes[size[i]].finalPrice%>
                                                                                                                 </strong><strike><span
@@ -120,21 +120,21 @@
                                                                                                                         %
                                                                                                                         off
                                                                                                                 </span>
-                                                                                                            </p>
-                                                                                                            <%}%>
-                                                                                                </div>
-                                                                                                <%}else{%>
-                                                                                                    <div class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
-                                                                                                        <%if(wishlistData.productID.discount==null){%>
-                                                                                                            <p class="card-text text-dark text-black-20 fs-6">
-                                                                                                                ₹
-                                                                                                                <strong>
+                                                                                                                </p>
+                                                                                                                <%}%>
+                                                                                                    </div>
+                                                                                                    <%}else{%>
+                                                                                                        <div class="col-md-9 text-start col-sm-8 col-8 card-subtitle">
+                                                                                                            <%if(wishlistData.productID.discount==null){%>
+                                                                                                                <p class="card-text text-dark text-black-20 fs-6">
+                                                                                                                    ₹
+                                                                                                                    <strong>
                                                                                                                     <%=wishlistData.productID.actualPrice%>
                                                                                                                 </strong>
-                                                                                                            </p>
-                                                                                                            <%} else{%>
-                                                                                                                <p class="card-text text-dark">
-                                                                                                                    <strong>
+                                                                                                                </p>
+                                                                                                                <%} else{%>
+                                                                                                                    <p class="card-text text-dark">
+                                                                                                                        <strong>
                                                                                                                         ₹
                                                                                                                         <%=wishlistData.productID.finalPrice%>
                                                                                                                     </strong><strike><span
@@ -145,53 +145,53 @@
                                                                                                                             %
                                                                                                                             off
                                                                                                                     </span>
-                                                                                                                </p>
-                                                                                                                <%}%>
-                                                                                                    </div>
+                                                                                                                    </p>
+                                                                                                                    <%}%>
+                                                                                                        </div>
+                                                                                                        <%}%>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-12 col-12 mb-2" style="padding-right: 35px;">
+                                                                                            <%if(wishlistData.variantID){%>
+                                                                                                <button class="btn btn-lg btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>','<%=wishlistData.variantID._id%>','<%=wishlistData.colours%>','<%=wishlistData.size%>')">Add to Cart
+                                                                                        </button>
+                                                                                                <%}else{%>
+                                                                                                    <button class="btn btn-lg btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>',null,null,null)"> Add to Cart
+                                                                                        </button>
                                                                                                     <%}%>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-3 col-sm-12 col-12 mb-2" style="padding-right: 35px;">
-                                                                                        <%if(wishlistData.variantID){%>
-                                                                                            <button class="btn btn-lg btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>','<%=wishlistData.variantID._id%>','<%=wishlistData.colours%>','<%=wishlistData.size%>')">Add to Cart
-                                                                                        </button>
-                                                                                            <%}else{%>
-                                                                                                <button class="btn btn-lg btn-warning mt-2 p-0 btn col-md-12 col-sm-12 col-12" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>',null,null,null)"> Add to Cart
-                                                                                        </button>
-                                                                                                <%}%>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <% i++}}) %>
                                                 </div>
-                                                <% i++}}) %>
                                     </div>
+                                    <% })}else{%>
+                                        <div class="text-center mt-3 mb-3">
+                                            <img src="/img/nothingWish.png" width="200px">
+                                            <h4 class="mt-3 mb-3" style="color: var(--bg-dark);">Your Wishlist is Empty</h4>
+                                            <h6 style="font-size: 14px;">Make a Wish here, Looks like Santa didn't find anything on your wishlist!</h6>
+                                            <a href="/#deals" class="btn btn-main mt-2 mb-2">Wishlist Now</a>
+                                        </div>
+                                        <%}%>
                                 </div>
-                                <% })}else{%>
-                                    <div class="text-center mt-3 mb-3">
-                                        <img src="/img/nothingWish.png" width="200px">
-                                        <h4 class="mt-3 mb-3" style="color: var(--bg-dark);">Your Wishlist is Empty</h4>
-                                        <h6 style="font-size: 14px;">Make a Wish here, Looks like Santa didn't find anything on your wishlist!</h6>
-                                        <a href="/#deals" class="btn btn-main mt-2 mb-2">Wishlist Now</a>
-                                    </div>
-                                    <%}%>
                         </div>
                     </div>
                 </div>
+                <!-- Login Modal -->
+                <%- include('login') %>
             </div>
-            <!-- Login Modal -->
-            <%- include('login') %>
-        </div>
-        <!-- Footer -->
-        <%- include('footer') %>
+            <!-- Footer -->
+            <%- include('footer') %>
 
-            <script src="/vendor/jquery/jquery.min.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/js/user/wishlistprod.js"></script>
-            <script src="/js/user/login.js"></script>
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script src="/vendor/jquery/jquery.min.js"></script>
+                <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <script src="/js/user/wishlistprod.js"></script>
+                <script src="/js/user/login.js"></script>
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 
 </html>

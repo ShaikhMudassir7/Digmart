@@ -12,20 +12,20 @@ router.get('/', async (req, res) => {
     sellerdoc = await Wishlist.find({ userID: req.session.userID }).distinct('sellerID')
     seller = await Seller.find({ _id: { $in: sellerdoc } })
 
-    await Wishlist.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
-        for (let i = 0; i < docs.length; i++) {
-            if (docs[i].variantID) {
-                for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
-                    if (docs[i].variantID.sizes[j].sizes == docs[i].size) {
-                        size.push(j);
-                    }
+    var docs = await Wishlist.find({ userID: req.session.userID }).populate('sellerID productID variantID')
+    for (let i = 0; i < docs.length; i++) {
+        if (docs[i].variantID) {
+            for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
+                if (docs[i].variantID.sizes[j].sizes == docs[i].size) {
+                    size.push(j);
                 }
-            } else {
-                size.push(0);
             }
         }
-        res.render('user/wishlist', { seller: seller, wishlistData: docs, size: size, user: req.session.userID })
-    });
+        else {
+            size.push(0);
+        }
+    }
+    res.render('user/wishlist', { seller: seller, wishlistData: docs, size: size, user: req.session.userID })
 })
 
 router.post('/add-to-wishlist', async (req, res) => {
