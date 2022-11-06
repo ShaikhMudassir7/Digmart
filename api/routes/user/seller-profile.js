@@ -11,10 +11,9 @@ const SellerGall = require("../../models/seller/gallery");
 const Products = require('../../models/seller/product')
 const Variants = require('../../models/seller/variants')
 
-// Route of product page
-router.get("/(:sellerslugID)", async(req, res, next) => {
+router.get("/(:sellerslugID)", async (req, res, next) => {
     var id = req.params.sellerslugID;
-    const element = await Seller.findOne({ slugID: id});
+    const element = await Seller.findOne({ slugID: id });
     const images = await SellerGall.findOne({ sellerID: element._id }).select("images");
     var varDocs = []
     var catDocs = await Category.find()
@@ -25,19 +24,15 @@ router.get("/(:sellerslugID)", async(req, res, next) => {
             varDocs.push(doc[0])
         }
     }
-    SellerGall.find({ sellerID: element._id })
-        .select()
-        .exec()
-        .then((docs) => {
-            res.render("./user/seller-profile", {
-                galleryData: images,
-                sellerID: id,
-                sellerData: element,
-                catData: catDocs,
-                user: req.session.userID,
-                proDocs: proDocs,
-                varDocs: varDocs
-            });
-        })
+    var docs = await SellerGall.find({ sellerID: element._id })
+    res.render("./user/seller-profile", {
+        galleryData: images,
+        sellerID: id,
+        sellerData: element,
+        catData: catDocs,
+        user: req.session.userID,
+        proDocs: proDocs,
+        varDocs: varDocs
+    });
 });
 module.exports = router;

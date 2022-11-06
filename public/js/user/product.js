@@ -1,3 +1,18 @@
+const shareBtn = document.querySelector('.share-btn');
+const shareOptions = document.querySelector('.share-options');
+const sharelink = document.querySelector('.link-text');
+sharelink.innerHTML= window. location. href
+shareBtn.addEventListener('click', () => {
+    shareOptions.classList.toggle('active');
+})
+
+function copyFunction() {
+  console.log(sharelink.innerHTML)
+  navigator.clipboard.writeText(sharelink.innerHTML);
+  var copybtn = document.querySelector('.copy-btn');
+  copybtn.innerHTML= "Copied"
+}
+
 function addwishlist(sellerID, productID, variantID) {
     if (document.getElementById("0size")) {
         var size = document.getElementById(count + 'size').innerText;

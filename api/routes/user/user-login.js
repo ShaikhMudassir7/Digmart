@@ -7,79 +7,50 @@ const User = require('../../models/user/user');
 
 const { sendMobileOtp } = require('../../utils/mobileOtp')
 
-router.post('/sendOtp/(:mobile)', (req, res) => {
+router.post('/sendOtp/(:mobile)', async(req, res) => {
     if (req.params.mobile) {
         var mobile = req.params.mobile
-        User.find({
-                mobile: mobile,
+        var user = await User.find({ mobile: mobile })
+        if (user.length < 1) {
+            var userdata = new User({
+                _id: mongoose.Types.ObjectId(),
+                mobile: mobile
             })
-            .exec()
-            .then((user) => {
-                if (user.length < 1) {
-                    var userdata = new User({
-                        _id: mongoose.Types.ObjectId(),
-                        mobile: mobile
-                    })
-                    userdata.save().then(result => {
-                        User.find({
-                                mobile: mobile,
-                            })
-                            .exec()
-                            .then((user) => {
-                                var id = user[0]._id
-                                var mobileOtp = Math.floor(1000 + Math.random() * 9000)
-                                console.log("Mobile = " + mobileOtp)
-
-                                sendMobileOtp({ mobile: mobile, otp: mobileOtp })
-                                User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
-                                    if (err) throw err;
-                                    res.send({ status: 3 })
-                                })
-                            })
-                    })
-                } else if (mobile == '9324326404' || mobile == '8898413414' || mobile == '9137242482' || mobile == '7738408767') {
-                    res.send({ status: 3 })
-                } else {
-                    var id = user[0]._id
-                    var mobileOtp = Math.floor(1000 + Math.random() * 9000)
-                    console.log("Mobile = " + mobileOtp)
-                    sendMobileOtp({ mobile: mobile, otp: mobileOtp })
-
-                    User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
-                        if (err) throw err;
-                        res.send({ status: 3 })
-                    })
-                }
+            userdata.save()
+            var user2 = await User.find({ mobile: mobile, })
+            var id = user2[0]._id
+            var mobileOtp = Math.floor(1000 + Math.random() * 9000)
+            sendMobileOtp({ mobile: mobile, otp: mobileOtp })
+            User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+                if (err) throw err;
+                res.send({ status: 3 })
             })
-            .catch((error) => {
-                console.log(error);
-                res.status(500).json({
-                    message: error,
-                });
-            });
+        } else if (mobile == '9324326404' || mobile == '8898413414' || mobile == '9137242482' || mobile == '7738408767') {
+            res.send({ status: 3 })
+        } else {
+            var id = user[0]._id
+            var mobileOtp = Math.floor(1000 + Math.random() * 9000)
+            sendMobileOtp({ mobile: mobile, otp: mobileOtp })
+            User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+                if (err) throw err;
+                res.send({ status: 3 })
+            })
+        }
     }
 })
 
-router.post('/checkMobileOtp', (req, res) => {
-    User.find({ mobile: req.query.mobile })
-        .exec()
-        .then(user => {
-            if (user[0].mobileOtp == req.query.otp || req.query.otp == "1111") {
-                const token = jwt.sign({ "userID": user[0]._id }, process.env.JWT_KEY, {});
-                req.session.jwttoken = token;
-                req.session.userID = user[0]._id;
-                req.session.mobile = user[0].mobile.toString();
-                res.send({ status: 'valid' })
-            } else {
-                res.send({ status: 'invalid' })
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
+router.post('/checkMobileOtp', async(req, res) => {
+    const user = await User.find({ mobile: req.query.mobile })
+    if (user[0].mobileOtp == req.query.otp || req.query.otp == "1111") {
+        const token = jwt.sign({ "userID": user[0]._id }, process.env.JWT_KEY, {});
+        req.session.jwttoken = token;
+        req.session.userID = user[0]._id;
+        req.session.mobile = user[0].mobile.toString();
+        res.send({ status: 'valid' })
+    } else {
+        res.send({ status: 'invalid' })
+    }
+
 })
 
 router.get('/logout', (req, res, next) => {
