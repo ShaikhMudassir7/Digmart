@@ -1,16 +1,16 @@
 const shareBtn = document.querySelector('.share-btn');
 const shareOptions = document.querySelector('.share-options');
 const sharelink = document.querySelector('.link-text');
-sharelink.innerHTML= window. location. href
+sharelink.innerHTML = window.location.href
 shareBtn.addEventListener('click', () => {
     shareOptions.classList.toggle('active');
 })
 
 function copyFunction() {
-  console.log(sharelink.innerHTML)
-  navigator.clipboard.writeText(sharelink.innerHTML);
-  var copybtn = document.querySelector('.copy-btn');
-  copybtn.innerHTML= "Copied"
+    console.log(sharelink.innerHTML)
+    navigator.clipboard.writeText(sharelink.innerHTML);
+    var copybtn = document.querySelector('.copy-btn');
+    copybtn.innerHTML = "Copied"
 }
 
 function addwishlist(sellerID, productID, variantID) {
@@ -30,7 +30,7 @@ function addwishlist(sellerID, productID, variantID) {
             size: size,
         },
         dataType: 'json',
-        success: function(result) {
+        success: function (result) {
             if (result.status) {
                 if (result.status == 'login') {
                     $('#loginpopup').modal('show');
@@ -69,7 +69,7 @@ function addcart(sellerID, productID, variantID, colour) {
             colour: colour,
         },
         dataType: 'json',
-        success: function(result) {
+        success: function (result) {
             if (result.status) {
                 if (result.status == 'login') {
                     $('#loginpopup').modal('show');
@@ -103,3 +103,28 @@ var swiper = new Swiper(".swiper", {
         prevEl: "#prevProductBtn",
     },
 });
+
+function review() {
+    const reviewText = document.getElementById("reviewText").value
+    const productID = document.getElementById("productID").value
+    const sellerID = document.getElementById("sellerID").value
+    var element = document.getElementsByName('btnradio');
+    for (i = 0; i < element.length; i++) {
+        if (element[i].checked)
+            var rating = element[i].value;
+    }
+    $.ajax({
+        url: "/review",
+        type: "POST",
+        data: {
+            sellerID: sellerID,
+            productID: productID,
+            rating: rating,
+            reviewText: reviewText,
+        },
+        dataType: 'json',
+        success: function (result) {
+            console.log("Done review")
+        }
+    })
+}

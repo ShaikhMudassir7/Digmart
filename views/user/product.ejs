@@ -56,6 +56,7 @@
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
   <link href="/css/user/swiper-bundle.min.css" rel="stylesheet">
+  <link href="/css/user/product.css" rel="stylesheet">
   <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/master.css" rel="stylesheet">
@@ -69,6 +70,21 @@
   <%- include('navbar') %>
     <!-- header part for product image and price  -->
     <div class="container mt-3 p-3 bg-white">
+      <button class="share-btn">
+        <i class="fas fa-share-alt"></i>
+      </button>
+      <div class="share-options">
+        <p class="title">Share</p>
+        <div class="social-media">
+            <a class="social-media-btn"><i class="far fa-folder-mail"></i></a>
+            <a class="social-media-btn"><i class="fab fa-whatsapp"></i></a>
+            <a class="social-media-btn"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <div class="link-container">
+            <p class="link link-text"></p>
+            <button class="copy-btn" onclick="copyFunction()">copy</button>
+        </div>
+      </div>
       <div class="row">
         <!--Carousel Slide-->
         <div class="col-md-7 col-sm-10 mt-2 p-1">
@@ -251,6 +267,8 @@
                     <div class="input-group">
                       <div class="row">
                         <div class="col-12 col-md-8">
+                          <input type="hidden" id="sellerID" value="<%=productData.sellerID%>">
+                          <input type="hidden" id="productID" value="<%=productData._id%>">
                           <h3>Rating <span class="btn btn-success"><i class="fa fa-star"></i> 4.2</span></h3>
                           <p class="card-text text-black-50"> 2,47,770 Ratings & 24,853 Reviews</p>
                         </div>
@@ -265,42 +283,33 @@
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">How Much did you Liked The Product</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
                             <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
-                              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                              <label class="btn btn-outline-danger" for="btnradio1"><i class="fa fa-star"></i> 1</label>
+                              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off">
+                              <label class="btn btn-lg btn-outline-danger" for="btnradio1">1</label>
 
-                              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                              <label class="btn btn-outline-danger" for="btnradio2"><i class="fa fa-star"></i> 2</label>
+                              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="2" autocomplete="off">
+                              <label class="btn btn-lg btn-outline-danger" for="btnradio2">2</label>
 
-                              <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                              <label class="btn btn-outline-warning" for="btnradio3"><i class="fa fa-star"></i>
-                                3</label>
+                              <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="3" autocomplete="off">
+                              <label class="btn btn-lg btn-outline-warning" for="btnradio3">3</label>
 
-                              <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                              <label class="btn btn-outline-success" for="btnradio1"><i class="fa fa-star"></i>
-                                4</label>
+                              <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="4" autocomplete="off">
+                              <label class="btn btn-lg btn-outline-success" for="btnradio4">4</label>
 
-                              <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                              <label class="btn btn-outline-success" for="btnradio2"><i class="fa fa-star"></i>
-                                5</label>
-                            </div>
-                            <div class="mb-3">
-                              <label for="exampleFormControlInput1" class="form-label">Name</label>
-                              <input type="text" class="form-control" id="exampleFormControlInput1"
-                                placeholder="DigMart User">
+                              <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value =5 autocomplete="off">
+                              <label class="btn btn-lg btn-outline-success" for="btnradio5">5</label>
                             </div>
                             <div class="mb-3">
                               <label for="exampleFormControlTextarea1" class="form-label">Review & Feedback</label>
-                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                              <textarea class="form-control" id="reviewText" rows="3"></textarea>
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Understood</button>
+                            <button type="button" onclick="review()" class="btn btn-primary">Submit</button>
                           </div>
                         </div>
                       </div>
@@ -309,21 +318,7 @@
                     <table class="table text-muted">
                       <div class="card-header">
                         Reviews & Images
-                      </div><br>
-                      <div class="row">
-                        <img
-                          src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg"
-                          style="width: 100px;" class="img-fluid img-thumbnail">
-                        <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg"
-                          style="width: 100px;" class="img-fluid img-thumbnail">
-                        <img
-                          src="https://cdn.runningshoesguru.com/wp-content/uploads/2021/01/Nike-Renew-Run-2-Lateral-Side.jpg"
-                          style="width: 100px;" class="img-fluid img-thumbnail">
-                        <img src="https://i.pinimg.com/originals/22/69/5e/22695e0a309c4f60dc3d08ae1b80db13.jpg"
-                          style="width: 100px;" class="img-fluid img-thumbnail">
                       </div>
-                      <br>
-                      <hr>
                       <tbody>
                         <tr>
                           <td><span class="btn btn-success" style="font-size:10px;"><i class="fa fa-star"></i> 5</span>
@@ -609,7 +604,6 @@
 
       <!-- Login Modal -->
       <%- include('login') %>
-      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-6363a859e7b60960"></script>
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
