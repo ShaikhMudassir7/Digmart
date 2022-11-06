@@ -224,7 +224,7 @@ function openProduct(productID, variantID) {
 }
 
 function openSeller(sellerID) {
-    location.href = '/seller-profile/' + sellerID
+    location.href = '/seller/' + sellerID
 }
 
 
@@ -292,7 +292,7 @@ function openResult(element, type) {
     if (type == 1)
         location.href = '/product/view-product/' + resId
     else
-        location.href = '/seller-profile/' + resId
+        location.href = '/seller/' + resId
 }
 
 $("#navbar-menu").on("shown.bs.collapse", function() {

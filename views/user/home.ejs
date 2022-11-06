@@ -49,8 +49,7 @@
                                         <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i> Sign in</a>
                                         </li>
                                         <% } else{%>
-                                            <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My
-                                                    Orders</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-list"></i> My Orders</a></li>
                                             <li><a class="dropdown-item" href="/wishlist"><i
                                                         class="fas fa-heart"></i> Wishlist</a></li>
 
@@ -111,9 +110,7 @@
                                         </div>
                                         <% } %>
                                             <li class="nav-item">
-                                                <a class="nav-link p-3" href="#Sellers" data-bs-dismiss="offcanvas"><i
-                                                        class="fas fa-user-tie"></i> Featured
-                                                    Sellers</a>
+                                                <a class="nav-link p-3" href="#Sellers" data-bs-dismiss="offcanvas"><i class="fas fa-user-tie"></i> Featured Sellers</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link p-3" href="#deals" data-bs-dismiss="offcanvas"><i
@@ -203,11 +200,11 @@
                     <% if(selData.length!=0){ selData.forEach(function(data){ %>
                         <div class="sel swiper-slide" onclick="openSeller('<%=data.slugID%>')">
                             <div class="imgDiv">
-                                <img src="<%=data.busLogo%>" class="rounded-circle" alt="<%=data.busName%>">
+                                <img src="<%= data.busLogo %>" class="rounded-circle" alt="<%=data.busName%>">
                             </div>
                             <div class="des px-2 text-center">
                                 <span class="selName fs-5 d-block"><b>
-                                        <%=data.busName%>
+                                        <%= data.busName %>
                                     </b></span>
                                 <span class="selCat text-muted d-block">
                                     <%data.busCat.forEach(function(cat){%>
