@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => {
 
 router.get('/addresses', async (req, res) => {
     var docs = await Address.find().select().exec()
-    res.render('./user/account-addresses', { addressData: docs, user: req.session.userid, noSearch: true })
+    res.render('./user/account-addresses', { addressData: docs, user: req.session.userID, noSearch: true })
 })
 
 router.post('/add-address', async (req, res, next) => {
