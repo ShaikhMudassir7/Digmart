@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Account</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png">
     <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/master.css" rel="stylesheet">
@@ -39,7 +40,7 @@
                                     <i class="fas fa-box-open fa-lg" style="margin-left: 20%; color:#4c9095fa"></i>
                                 </div>
                                 <div class="col-9 col-md-9 mt-1">
-                                    <a href="#" style="text-align: center; color: gray;">
+                                    <a href="/orders" style="text-align: center; color: gray;">
                                         <b> MY ORDERS </b>
                                     </a>
                                 </div>
@@ -119,21 +120,11 @@
                             </div>
                         </div>
                         <div class="row" style="margin-left:0%; margin-right: 0%;">
-                            
-                            <div class="col-12 col-md-6 mb-3">
-                                <label for="firstName" class="form-label mb-0">First Name</label>
-                                <input type="text" id="firstName" name="firstName" value="" class="form-control"
+                            <div class="col-12 col-md-12 mb-3">
+                                <label for="fullName" class="form-label mb-0">Full Name</label>
+                                <input type="text" id="fullName" name="fullName" value="" class="form-control"
                                     required>
                                 <div class="invalid-feedback">
-                                    Please enter your first name.
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 mb-3">
-                                <label for="lastName" class="form-label mb-0">Last Name</label>
-                                <input type="text" id="lastName" name="lastName" value="" class="form-control"
-                                     required>
-                                <div class="invalid-feedback">
-                                    Please enter your last name.
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
@@ -146,8 +137,8 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
-                                <label for="mobileNumber" class="form-label mb-0">Mobile Number</label>
-                                <input type="number" id="mobileNumber" name="mobileNumber" value="" class="form-control"
+                                <label for="mobile" class="form-label mb-0">Mobile Number</label>
+                                <input type="number" id="mobile" name="mobile" value="" class="form-control"
                                 required disabled>
                             </div>
                             <div class="col-12 col-md-12 mt-2 mb-3">
@@ -174,13 +165,10 @@
             </div>
         </div>
         <script>
-            '<% if(personalData.length > 0 ) { %>'
-            document.getElementById("firstName").value = '<%= personalData[0].firstName %>'
-            document.getElementById("lastName").value = '<%= personalData[0].lastName %>'
+            document.getElementById("mobile").value = '<%= personalData[0].mobile %>'
+            document.getElementById("fullName").value = '<%= personalData[0].fullName %>'
             document.getElementById("email").value = '<%= personalData[0].email %>'
             document.getElementById('<%= personalData[0].gender %>').checked = true 
-            '<% } %>'
-            document.getElementById("mobileNumber").value = '<%= profileData[0].mobile %>'
 
         </script>
         <script src="/vendor/jquery/jquery.min.js"></script>

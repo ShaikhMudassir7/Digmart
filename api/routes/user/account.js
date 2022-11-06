@@ -2,27 +2,22 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require('mongoose')
 
-const ProfileInfo = require("../../models/user/personal_information");
 const Address = require("../../models/user/address");
 const User = require('../../models/user/user');
 
 router.get('/', async (req, res) => {
-    var doc = await User.find({ _id: req.session.userID }).select("mobile").exec();
-    var docs = await ProfileInfo.find({ mobileNumber: doc[0].mobile }).select().exec();
-    res.render('./user/account', { profileData: doc, personalData: docs, user: req.session.userID, noSearch: true })
+    var docs = await User.find({ _id: req.session.userID }).select().exec();
+    res.render('./user/account', { personalData: docs, user: req.session.userID, noSearch: true })
 })
 
 router.post('/', async (req, res, next) => {
-    var doc = await User.find({ _id: req.session.userID }).select("mobile").exec();
-    var docs = await ProfileInfo.find({ mobileNumber: doc[0].mobile }).select("_id").exec()
+    var docs = await User.find({ _id: req.session.userID }).select("_id").exec();
 
-    if (docs.length > 0) {
-        ProfileInfo.findByIdAndUpdate({ _id: docs[0]._id }, {
+        User.findByIdAndUpdate({ _id: docs[0]._id }, {
             $set: {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
+                fullName: req.body.fullName,
                 email: req.body.email,
-                mobileNumber: req.body.mobileNumber,
+                mobile: req.body.mobile,
                 gender: req.body.gender
             }
         })
@@ -36,22 +31,6 @@ router.post('/', async (req, res, next) => {
                     error: err
                 })
             })
-    } else {
-        try {
-            var profileData = new ProfileInfo({
-                _id: mongoose.Types.ObjectId(),
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                mobileNumber: doc[0].mobile,
-                gender: req.body.gender
-            })
-            await profileData.save();
-            res.redirect('/account')
-        } catch (err) {
-            console.log("Error Occurred while adding Personal Details to Database. " + err);
-        }
-    }
 })
 
 router.get('/addresses', async (req, res) => {

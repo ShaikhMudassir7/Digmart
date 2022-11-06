@@ -6,7 +6,6 @@ const orderSchema = mongoose.Schema({
     userID: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'user' },
     amount: { type: String, required: true },
     orderID: { type: String, required: true },
-    status: { type: String, required: true },
 })
 
 module.exports = mongoose.model('orders', orderSchema);

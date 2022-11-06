@@ -8,7 +8,10 @@ const itemSchema = mongoose.Schema({
     productID: { type: mongoose.Schema.Types.ObjectId, ref: 'products', required: true },
     size: { type: String },
     colour: { type: String },
-    quantity: { type: String, required: true }
+    quantity: { type: String, required: true }, 
+    date: { type: String, required: true },
+    deliveryDate: { type: String, required: true },
+    status: { type: String, required: true }
 })
 
 module.exports = mongoose.model('order_items', itemSchema);
