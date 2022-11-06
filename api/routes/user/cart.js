@@ -7,13 +7,13 @@ const Seller = require("../../models/seller/seller");
 
 const checkAuth = require("../../middleware/user/checkAuth")
 
-router.get('/', checkAuth, async (req, res) => {
+router.get('/', checkAuth, async(req, res) => {
     var subtotal = 0;
     var size = [];
     var sellerdoc = await Cart.find({ userID: req.session.userID }).distinct('sellerID')
     var seller = await Seller.find({ _id: { $in: sellerdoc } })
 
-    await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function (err, docs) {
+    await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec(function(err, docs) {
         for (let i = 0; i < docs.length; i++) {
             if (docs[i].variantID) {
                 for (let j = 0; j < docs[i].variantID.sizes.length; j++) {
@@ -27,11 +27,11 @@ router.get('/', checkAuth, async (req, res) => {
                 size.push(0);
             }
         }
-        res.render('user/cart', { seller: seller, cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2), size: size, user: req.session.userID })
+        res.render('user/cart', { cartData: docs, subTotal: subtotal.toFixed(2), Total: (subtotal).toFixed(2), size: size, user: req.session.userID })
     });
 })
 
-router.post('/add-to-cart', async (req, res) => {
+router.post('/add-to-cart', async(req, res) => {
 
     if (req.session.userID) {
         var status = true;
@@ -71,19 +71,18 @@ router.post('/add-to-cart', async (req, res) => {
                 res.json({ status: true });
             })
         }
-    }
-    else {
+    } else {
         res.json({ status: 'login' });
     }
 
 })
 
-router.get('/delete-cart/(:cartID)', async (req, res) => {
+router.get('/delete-cart/(:cartID)', async(req, res) => {
     await Cart.findByIdAndRemove(req.params.cartID)
     res.redirect('/cart')
 })
 
-router.post('/edit-cart', async (req, res) => {
+router.post('/edit-cart', async(req, res) => {
     var docs = await Cart.find({ _id: req.body.id })
     if (docs.length != 0) {
         var cartdata = new Cart({
