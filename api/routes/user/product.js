@@ -16,7 +16,6 @@ router.get('/view-product/(:id)', async (req, res) => {
 router.get('/variant/(:variantslugID)', async (req, res) => {
     var varelement = await Variants.findOne({ slugID: req.params.variantslugID });
     const allImages = await Variants.find().select("images")
-    var vd;
     var element = await Products.findOne({ _id: varelement.prodID })
     var vd = await Variants.find({ prodID: varelement.prodID })
     res.render('./user/product', { images: allImages, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
