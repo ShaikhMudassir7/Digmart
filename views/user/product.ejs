@@ -267,8 +267,7 @@
                     <div class="input-group">
                       <div class="row">
                         <div class="col-12 col-md-8">
-                          <input type="hidden" id="sellerID" value="<%=productData.sellerID%>">
-                          <input type="hidden" id="productID" value="<%=productData._id%>">
+                          
                           <h3>Rating <span class="btn btn-success"><i class="fa fa-star"></i> 4.2</span></h3>
                           <p class="card-text text-black-50"> 2,47,770 Ratings & 24,853 Reviews</p>
                         </div>
@@ -286,7 +285,11 @@
                             <h5 class="modal-title" id="staticBackdropLabel">How Much did you Liked The Product</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
+                          <form action="/review" method="post" class="d-inline" enctype="multipart/form-data"
+                          id="ReviewForm">
                           <div class="modal-body">
+                            <input type="hidden" id="sellerID" name="sellerID" value="<%=productData.sellerID%>">
+                          <input type="hidden" id="productID" name="productID" value="<%=productData._id%>">
                             <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
                               <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off">
                               <label class="btn btn-lg btn-outline-danger" for="btnradio1">1</label>
@@ -303,14 +306,16 @@
                               <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value =5 autocomplete="off">
                               <label class="btn btn-lg btn-outline-success" for="btnradio5">5</label>
                             </div>
+                            <input type="file" class="form-control" name="images" id="images" multiple='multiple' accept="image/*">
                             <div class="mb-3">
                               <label for="exampleFormControlTextarea1" class="form-label">Review & Feedback</label>
                               <textarea class="form-control" id="reviewText" rows="3"></textarea>
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" onclick="review()" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                           </div>
+                          </form>
                         </div>
                       </div>
                     </div>

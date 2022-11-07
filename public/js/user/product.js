@@ -105,26 +105,25 @@ var swiper = new Swiper(".swiper", {
 });
 
 function review() {
-    const reviewText = document.getElementById("reviewText").value
-    const productID = document.getElementById("productID").value
-    const sellerID = document.getElementById("sellerID").value
+   
     var element = document.getElementsByName('btnradio');
     for (i = 0; i < element.length; i++) {
         if (element[i].checked)
             var rating = element[i].value;
     }
-    $.ajax({
-        url: "/review",
-        type: "POST",
-        data: {
-            sellerID: sellerID,
-            productID: productID,
-            rating: rating,
-            reviewText: reviewText,
-        },
-        dataType: 'json',
-        success: function (result) {
-            console.log("Done review")
-        }
-    })
+    console.log(images)
+    // $.ajax({
+    //     url: "/review",
+    //     type: "POST",
+    //     data: {
+    //         sellerID: sellerID,
+    //         productID: productID,
+    //         rating: rating,
+    //         reviewText: reviewText,
+    //     },
+    //     dataType: 'json',
+    //     success: function (result) {
+    //         console.log("Done review")
+    //     }
+    // })
 }

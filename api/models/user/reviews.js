@@ -17,8 +17,9 @@ const reviewSchema = mongoose.Schema({
         required: true
     },
     images: [{type: String}],
-    rating: {type: String},
-    reviewText: { type: String }
+    date: { type: String, required: true },
+    rating: {type: String, required: true },
+    reviewText: { type: String, required: true  }
 })
 
 const Review = new mongoose.model("review", reviewSchema)
