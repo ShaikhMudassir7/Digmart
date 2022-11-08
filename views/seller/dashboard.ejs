@@ -43,20 +43,24 @@
                                             <div class="row">
                                                 <div class="dfd text-center">
                                                     <i class="black large-icon mb-2 fas fa-exclamation"></i>
-                                                    <h4 class="number text-center"><%= count.incompleteProducts %></h4>
+                                                    <h4 class="number text-center">
+                                                        <%= count.incompleteProducts %>
+                                                    </h4>
                                                     <p class="text-muted">INCOMPLETE</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
-                                </div>                                
+                                </div>
                                 <div class="col-sm-5 col-md-5 col-lg-2 mt-3 d-grid">
                                     <a href="/seller/products/?status=Pending" class="card">
                                         <div class="content">
                                             <div class="row">
                                                 <div class="dfd text-center">
                                                     <i class="blue large-icon mb-2 fas fa-clipboard"></i>
-                                                    <h4 class="number text-center"><%= count.pendingProducts %></h4>
+                                                    <h4 class="number text-center">
+                                                        <%= count.pendingProducts %>
+                                                    </h4>
                                                     <p class="text-muted">PENDING</p>
                                                 </div>
                                             </div>
@@ -69,7 +73,9 @@
                                             <div class="row">
                                                 <div class="dfd text-center">
                                                     <i class="green large-icon mb-2 fas fa-clipboard-check"></i>
-                                                    <h4 class="number text-center"><%= count.verifiedProducts %></h4>
+                                                    <h4 class="number text-center">
+                                                        <%= count.verifiedProducts %>
+                                                    </h4>
                                                     <p class="text-muted">VERIFIED</p>
                                                 </div>
                                             </div>
@@ -82,7 +88,9 @@
                                             <div class="row">
                                                 <div class="dfd text-center">
                                                     <i class="red large-icon mb-2 fas fa-window-close"></i>
-                                                    <h4 class="number text-center"><%= count.rejectedProducts %></h4>
+                                                    <h4 class="number text-center">
+                                                        <%= count.rejectedProducts %>
+                                                    </h4>
                                                     <p class="text-muted">REJECTED</p>
                                                 </div>
                                             </div>
@@ -95,7 +103,9 @@
                                             <div class="row">
                                                 <div class="dfd text-center">
                                                     <i class="grey large-icon mb-2 fas fa-clipboard-list"></i>
-                                                    <h4 class="number text-center"><%= count.totalProducts %></h4>
+                                                    <h4 class="number text-center">
+                                                        <%= count.totalProducts %>
+                                                    </h4>
                                                     <p class="text-muted">TOTAL</p>
                                                 </div>
                                             </div>
@@ -294,68 +304,31 @@
                                     <div class="card">
                                         <div class="content">
                                             <div class="head">
-                                                <h5 class="mb-0">Most Visited Pages</h5>
-                                                <p class="text-muted">Current year website visitor data</p>
+                                                <h5 class="mb-0">Most Visited Products</h5>
+                                                <p class="text-muted">Top 10 most visited products by Users</p>
                                             </div>
                                             <div class="canvas-wrapper">
                                                 <table class="table table-striped">
                                                     <thead class="success">
                                                         <tr>
-                                                            <th>Page Name</th>
+                                                            <th>Product Name</th>
                                                             <th class="text-end">Visitors</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>/about.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">8,340</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/special-promo.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">7,280</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/products.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">6,210</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/documentation.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">5,176</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/customer-support.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">4,276</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/index.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">3,176</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/products-pricing.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">2,176</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/product-features.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">1,886</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/contact-us.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">1,509</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>/terms-and-condition.html <a href="#"><i
-                                                                        class="fas fa-link blue"></i></a></td>
-                                                            <td class="text-end">1,100</td>
-                                                        </tr>
+                                                        <%
+                                                            if (products.length != 0){
+                                                                products.forEach(function(product){
+                                                        %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= product.productName %>
+                                                                </td>
+                                                                <td class="text-end">
+                                                                    <%= product.views %>
+                                                                </td>
+                                                            </tr>
+                                                            <% }) } %>
                                                     </tbody>
                                                 </table>
                                             </div>
