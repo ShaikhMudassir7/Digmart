@@ -13,7 +13,6 @@ const Seller = require('../../models/seller/seller');
 const checkAuth = require("../../middleware/seller/checkAuth")
 
 const firebase = require('../../utils/firebase');
-const { request } = require("http");
 const storage = firebase.storage().ref();
 
 const store = multer.memoryStorage();
@@ -86,11 +85,11 @@ router.get('/', checkAuth, (req, res) => {
     }
 })
 
-router.get('/add-product', checkAuth, async (req, res) => {
+router.get('/add-product', checkAuth, async(req, res) => {
     const documents = await Products.find({ sellerID: req.session.sellerID }).select().exec()
     const busCategory = await Seller.find({ _id: req.session.sellerID }).select("busCat").exec()
 
-    Category.find({ _id : busCategory[0]["busCat"] }).select("catName sub_category variant")
+    Category.find({ _id: busCategory[0]["busCat"] }).select("catName sub_category variant")
         .exec()
         .then(docs => {
             res.render("./seller/products/add-product", { catData: docs, prodsData: documents, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
@@ -103,13 +102,13 @@ router.get('/add-product', checkAuth, async (req, res) => {
         })
 });
 
-router.post('/add-product', [checkAuth, imgUpload], async (req, res, next) => {
+router.post('/add-product', [checkAuth, imgUpload], async(req, res, next) => {
     const { productName } = req.body;
 
     var specsArr = [{
         "specName": req.body.specName,
         "specValue": req.body.specValue,
-    },];
+    }, ];
 
     try {
         var rawSS = req.files.images;
@@ -164,23 +163,23 @@ router.post('/add-product', [checkAuth, imgUpload], async (req, res, next) => {
     }
 });
 
-router.get("/edit-product/(:id)", checkAuth, async (req, res, next) => {
+router.get("/edit-product/(:id)", checkAuth, async(req, res, next) => {
     const documents = await Products.find({ sellerID: req.session.sellerID }).select().exec()
     const doc = await Products.findById(req.params.id)
-    
+
     const busCategory = await Seller.find({ _id: req.session.sellerID }).select("busCat").exec()
-    const docs = await Category.find({ _id : busCategory[0]["busCat"] }).select("catName sub_category variant")
+    const docs = await Category.find({ _id: busCategory[0]["busCat"] }).select("catName sub_category variant")
     res.render('./seller/products/edit-product', { catData: docs, productData: doc, prodsData: documents, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname });
 
 });
 
-router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res) => {
+router.post("/edit-product/:productID", [checkAuth, imgUpload], async(req, res) => {
     const id = req.params.productID
 
     var specsArr = [{
         "specName": req.body.specName,
         "specValue": req.body.specValue,
-    },];
+    }, ];
 
     var imageArr = [];
     var products = await Products.findById(id).exec()
@@ -212,49 +211,46 @@ router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res)
     var prodStatus;
 
     var docs = await Variants.find({ 'prodID': id }).select("status")
-    for(var i in docs){
-        if(docs[i].status!="Pending")
-        {
+    for (var i in docs) {
+        if (docs[i].status != "Pending") {
             variantStatus = "Rejected";
             break;
         }
     }
-    
+
     if (req.body.status == "Pending") {
         prodStatus = "Pending";
     } else if (req.body.status == "Incomplete") {
         prodStatus = "Incomplete";
-    }
-    else if (req.body.status == "Verified") {
+    } else if (req.body.status == "Verified") {
         prodStatus = "Verified";
-    }
-    else {
-        if(variantStatus != "Rejected"){
+    } else {
+        if (variantStatus != "Rejected") {
             prodStatus = "Pending"
         }
     }
 
     Products.findByIdAndUpdate({ _id: id }, {
-        $set: {
-            images: imageArr,
-            productName: req.body.productName,
-            description: req.body.description,
-            category: req.body.category,
-            subcategory: req.body.subcategory,
-            brand: req.body.brand,
-            specifications: specificationsArr,
-            actualPrice: req.body.actualPrice,
-            discount: req.body.discount,
-            finalPrice: req.body.finalPrice,
-            quantity: req.body.quantity,
-            hasVariant: req.body.hasVariant,
-            status: prodStatus
-        }
-    })
+            $set: {
+                images: imageArr,
+                productName: req.body.productName,
+                description: req.body.description,
+                category: req.body.category,
+                subcategory: req.body.subcategory,
+                brand: req.body.brand,
+                specifications: specificationsArr,
+                actualPrice: req.body.actualPrice,
+                discount: req.body.discount,
+                finalPrice: req.body.finalPrice,
+                quantity: req.body.quantity,
+                hasVariant: req.body.hasVariant,
+                status: prodStatus
+            }
+        })
         .exec()
         .then(result => {
             console.log(result)
-            if(prodStatus != "Verified" && prodStatus != "Pending" && prodStatus != "Incomplete"){
+            if (prodStatus != "Verified" && prodStatus != "Pending" && prodStatus != "Incomplete") {
                 prodStatus = "Rejected"
             }
             res.redirect('/seller/products/?status=' + prodStatus)
@@ -267,7 +263,7 @@ router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res)
         })
 });
 
-router.get("/delete-product/(:id)/(:status)", checkAuth, async (req, res, next) => {
+router.get("/delete-product/(:id)/(:status)", checkAuth, async(req, res, next) => {
     var status = req.params.status
     const id = req.params.id;
 
@@ -281,7 +277,7 @@ router.get("/delete-product/(:id)/(:status)", checkAuth, async (req, res, next) 
     res.redirect('/seller/products/?status=' + status);
 });
 
-router.get("/delete-image/(:id)/(:a)", checkAuth, async (req, res, next) => {
+router.get("/delete-image/(:id)/(:a)", checkAuth, async(req, res, next) => {
     const index = req.params.a
     var products = await Products.findById(req.params.id).exec()
 
@@ -292,10 +288,10 @@ router.get("/delete-image/(:id)/(:a)", checkAuth, async (req, res, next) => {
     products.images.splice(index, 1)
 
     Products.findByIdAndUpdate({ _id: req.params.id }, {
-        $set: {
-            images: products.images
-        }
-    })
+            $set: {
+                images: products.images
+            }
+        })
         .exec()
         .then(result => {
             res.redirect("/seller/products/edit-product/" + req.params.id);

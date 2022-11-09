@@ -21,149 +21,144 @@
     <div class="wrapper">
         <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
-        <!-- end of sidebar component -->
-        <div id="body" class="active">
-            <!-- navbar navigation component -->
-            <%- include('../navbar') %>
-            <!-- end of navbar navigation -->
-            <div class="content">
-                <div class="container">
-                    <div class="page-title">
-                        <h3>New Orders
-                            <a href="/seller/orders/shipment-orders" class="btn btn-sm btn-outline-primary float-end"><i class="fas fa-user-shield"></i> Shipment</a>
-                          <a href="/seller/orders/delivered-orders" class="btn btn-sm btn-outline-primary float-end"><i class="fas fa-user-shield"></i> Delivered</a>
-                        </h3>
-                    </div>
-                    <div class="box box-primary">
-                        <div class="box-body">
-                            <table width="100%" class="table table-hover" id="dataTables-example">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                       
-                                        <th>Address ID</th>
-                                                   <th></th>              
-                                  
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Philip Chaney</td>
-                                       
-                                        <td>Manager</td>
-                                        
-                                        
-                                        <td class="text-end">
-                                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>
-                                        </td>
-<!--                                      product name, size, color, quantity, price & total price (new, shipment, delivered) -->
-                                    </tr>
-                                    <tr>
-                                        <td>Doris Greene</td>
-                                      
-                                        <td>Writer</td>
-                                        
-                                        
-                                        <td class="text-end">
-                                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mason Porter</td>
-                                      
-                                        <td>Contributor</td>
-                                        
-                                        
-                                        <td class="text-end">
-                                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>                                       </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Minerva Hooper</td>
-                                  
-                                        <td>Administrator</td>
-                                        
-                                        
-                                        <td class="text-end">
-                                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>
-                                           
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jessie Williams</td>
-                                     
-                                        <td>Administrator</td>
-                                        
-                                        
-                                        <td class="text-end">
-                                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Peter Benhams</td>
-                                   
-                                        <td>Editor</td>
-                                        
-                                        
-                                        <td class="text-end">
-                                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>
-                                           
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jose Rodriguez</td>
-                                    
-                                        <td>Author</td>
-                                        
-                                        
-                                        <td class="text-end">
-                                            <a data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-outline-info btn-rounded"><i class="fas fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <!-- end of sidebar component -->
+            <div id="body" class="active">
+                <!-- navbar navigation component -->
+                <%- include('../navbar') %>
+                    <!-- end of navbar navigation -->
+                    <div class="content">
+                        <div class="container">
+                            <div class="page-title">
+                                <h3>New Orders
+                                    <a href="/seller/orders/shipment-orders"
+                                        class="btn btn-sm btn-outline-primary float-end"><i
+                                            class="fas fa-user-shield"></i> Shipment</a>
+                                    <a href="/seller/orders/delivered-orders"
+                                        class="btn btn-sm btn-outline-primary float-end"><i
+                                            class="fas fa-user-shield"></i> Delivered</a>
+                                </h3>
+                            </div>
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <table width="100%" class="table table-hover" id="dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Address ID</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if(newOrdersData.length!=0) { var i=1;
+                                                newOrdersData.forEach(function(data){ %>
+                                                <tr>
+                                                    <td>
+                                                        <%=data.orderID %>
+                                                    </td>
+                                                    <td>
+                                                        <%=data.addressID %>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <a data-bs-toggle="modal" data-whatever="<%=data.orderID %>"
+                                                            href="#exampleModalToggle"
+                                                            class="btn btn-outline-info btn-rounded"><i
+                                                                class="fas fa-eye"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <% i++; }) %>
+                                                    <% } else{ %>
+                                                        <tr>
+                                                            <td colspan="12">No Data Found</td>
+                                                        </tr>
+                                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+            </div>
+    </div>
+    <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1"
+        style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel">Product Details</h5>
+                    <input class="hiddenOrderID" hidden>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table width="100%" class="table table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Colour</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
+                                <th>Final Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appendRows">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Okay</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalToggleLabel">Product Details</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table width="100%" class="table table-hover" id="dataTables-example">
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Color</th>
-                            <th>Quantity</th>
-                            <th>Price</th>                         
-                            <th>Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>BoATs Airdopes 402</td>
-                            <td>Neon Blue</td>
-                            <td>2</td>
-                            <td>$ 1,200</td>
-                            <td>$ 2,400</td>
-                        </tr>
-                    </tbody>
-                </table>            
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Okay</button>
-            </div>
-          </div>
-        </div>
-      </div>
     <script src="/vendor/jquery/jquery.min.js"></script>
+    <script>
+        $('#exampleModalToggle').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var selectedOrderID = button.data('whatever')
+            var rowItems;
+            document.getElementById('appendRows').innerHTML =""
+            
+            '<% if(itemDetails.length!=0) { var i=1; itemDetails.forEach(function(data){ %>'
+
+             rowItems = `<tr>
+                                        <td>
+                                            <%=data.productID.productName %>
+                                        </td>
+                                        <%if(data.colour){%>
+                                            <td>
+                                                <%=data.colour %>
+                                            </td>
+                                            <td>
+                                                <%=data.size %>
+                                            </td>
+                                            <% }else{ %>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <% } %>
+                                                    <td>
+                                                        <%=data.quantity %>
+                                                    </td>
+                                                    <td>
+                                                    <%if(data.variantID){%>
+                                                        ₹ <%=data.variantID.sizes[0]["finalPrice"]%>
+                                                    <%} else{ %>
+                                                        ₹ <%=data.productID.finalPrice%>
+                                                    <% } %>
+                                                </td>
+
+
+                                    </tr>`
+                var noData=` <tr>
+                    <td colspan="12">No Data Found</td>
+                    </tr>`
+            if( selectedOrderID == '<%= data.orderID %>'){
+                $("#appendRows").append(rowItems); 
+            }
+            '<% i++; }) %>'
+            '<% } else{ %>'
+                $("#appendRows").append(noData);
+            '<% } %>'
+        })
+    </script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/datatables/datatables.min.js"></script>
     <script src="/js/initiate-datatables.js"></script>

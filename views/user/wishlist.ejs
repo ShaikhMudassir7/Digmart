@@ -56,7 +56,7 @@
                                                                             <%= wishlistData.productID.description %>
                                                     </p>
                                                     <% if(wishlistData.variantID){ %>
-                                                        <button style="width: -webkit-fill-available;" class="btn btn-main" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>','<%=wishlistData.variantID._id%>','<%=wishlistData.colours%>','<%=wishlistData.size%>')">Add to Cart</button>
+                                                        <button style="width: -webkit-fill-available;" class="btn btn-main" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>','<%=wishlistData.variantID._id%>','<%=wishlistData.variantID.colours%>','<%=wishlistData.size%>')">Add to Cart</button>
                                                         <% } else { %>
                                                             <button style="width: -webkit-fill-available;" class="btn btn-main" id="buy" onclick="addcart('<%=wishlistData.sellerID._id %>','<%= wishlistData.productID._id %>',null,null,null)"> Add to Cart</button>
                                                             <% } %>

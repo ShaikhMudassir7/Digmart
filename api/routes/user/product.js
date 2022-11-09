@@ -3,25 +3,53 @@ const router = express.Router()
 
 const Variants = require('../../models/seller/variants');
 const Products = require("../../models/seller/product");
+const Review = require("../../models/user/reviews");
 
-// Route of product page
 router.get('/view-product/(:id)', async (req, res) => {
-    const allImages = await Variants.find().select("images")
     var slugid = req.params.id;
     var element = await Products.findOne({ slugID: slugid })
+    await Products.updateOne({ _id: element._id }, { $inc: { "views": 1 } })
     var docs = await Variants.find({ prodID: element._id })
-    res.render('./user/product', { images: allImages, variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
+    var review = await Review.find({productID: element._id})
+    if(review.length != 0){
+        var rat1 = await Review.find({rating : '1',productID: element._id})
+        var rat2 = await Review.find({rating : '2',productID: element._id})
+        var rat3 = await Review.find({rating : '3',productID: element._id})
+        var rat4 = await Review.find({rating : '4',productID: element._id})
+        var rat5 = await Review.find({rating : '5',productID: element._id})
+        var total = review.length;
+        var response = (1*(rat1.length))+(2*(rat2.length))+(3*(rat3.length))+(4*(rat4.length))+(5*(rat5.length))
+        var rating = response / total;
+    }
+    else{
+        var rating = 0
+    }
+    res.render('./user/product', {rating: rating.toFixed(1),reviewcount:review.length ,reviewData:review,  variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
 })
 
-router.get('/variant/(:variantslugID)', async (req, res) => {
+router.get('/variant/(:variantslugID)', async(req, res) => {
     var varelement = await Variants.findOne({ slugID: req.params.variantslugID });
-    const allImages = await Variants.find().select("images")
     var element = await Products.findOne({ _id: varelement.prodID })
+    await Products.updateOne({ _id: element._id }, { $inc: { "views": 1 } })
     var vd = await Variants.find({ prodID: varelement.prodID })
-    res.render('./user/product', { images: allImages, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
+    var review = await Review.find({productID:varelement.prodID})
+    if(review.length != 0){
+        var rat1 = await Review.find({rating : '1',productID:varelement.prodID})
+        var rat2 = await Review.find({rating : '2',productID:varelement.prodID})
+        var rat3 = await Review.find({rating : '3',productID:varelement.prodID})
+        var rat4 = await Review.find({rating : '4',productID:varelement.prodID})
+        var rat5 = await Review.find({rating : '5',productID:varelement.prodID})
+        var total = review.length;
+        var response = (1*(rat1.length))+(2*(rat2.length))+(3*(rat3.length))+(4*(rat4.length))+(5*(rat5.length))
+        var rating = response / total;
+    }
+    else{
+        var rating = 0
+    }
+    res.render('./user/product', {rating: rating.toFixed(1),reviewcount:review.length ,reviewData:review, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
 })
 
-router.get('/findsize/(:id)/(:size)', async (req, res) => {
+router.get('/findsize/(:id)/(:size)', async(req, res) => {
     var id = req.params.id;
     var doc = await Variants.findOne({ _id: id })
     for (let i = 0; i < doc.sizes.length; i++) {
