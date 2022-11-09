@@ -19,6 +19,7 @@ const reviewSchema = mongoose.Schema({
     images: [{type: String}],
     date: { type: String, required: true },
     rating: {type: String, required: true },
+    reviewHeadline: {type: String, required: true},
     reviewText: { type: String, required: true  }
 })
 

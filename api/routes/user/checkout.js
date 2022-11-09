@@ -178,6 +178,7 @@ router.post('/callback', (req, res) => {
             });
 
             post_res.on('end', async function() {
+                var currentDate = new Date();
                 var _result = JSON.parse(response);
                 if (_result.STATUS == 'TXN_SUCCESS') {
                     await Order.updateOne({ orderID: req.body.ORDERID }, { $set: { status: 'Ordered' } })
@@ -193,6 +194,9 @@ router.post('/callback', (req, res) => {
                             size: cartData[i].size,
                             colour: cartData[i].colour,
                             quantity: cartData[i].quantity,
+                            date: currentDate.toString().substring(0, 16),
+                            deliveryDate: new Date(currentDate.getTime()+(3*24*60*60*1000)).toString().substring(0, 16),
+                            status: "Ordered",
                         })
                         await item.save()
                     }

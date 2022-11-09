@@ -235,7 +235,7 @@
                                                     <div class="row">
                                                         <div class="col-12 col-md-12  mt-2">
                                                             <label class="form-label mb-0" style="float:right; font-style: italic;">
-                                                Delivery By Saturday, 8 October |
+                                                Delivery By <%= new Date(new Date().getTime()+(3*24*60*60*1000)).toString().substring(0, 16) %> |
                                                 <% if(deliveryFee=="FREE" ){ %>
                                                     FREE <strike style="color:gray">₹ 99</strike>
                                                     <%}else{%>

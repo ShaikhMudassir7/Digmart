@@ -104,26 +104,36 @@ var swiper = new Swiper(".swiper", {
     },
 });
 
-function review() {
+function check(){
+    $.ajax({
+        url: "/review/checkprof",
+        type: "POST",
+        dataType: 'json',
+        success: function (result) {
+            if (result.status) {
+                if (result.status == 'login') {
+                    $('#loginpopup').modal('show');
+                } else {
+                    $('#review-modal').modal('show');
+                }
+            }else{
+                swal({
+                    title: "Please complete your profile to Give a review",
+                    icon: "info",
+                    type: "warning",
+                    showCancelButton: true,
+                },function(){
+                    window.location = '/account';
+                  });
+            }
+        }
+    })
+
    
-    var element = document.getElementsByName('btnradio');
-    for (i = 0; i < element.length; i++) {
-        if (element[i].checked)
-            var rating = element[i].value;
-    }
-    console.log(images)
-    // $.ajax({
-    //     url: "/review",
-    //     type: "POST",
-    //     data: {
-    //         sellerID: sellerID,
-    //         productID: productID,
-    //         rating: rating,
-    //         reviewText: reviewText,
-    //     },
-    //     dataType: 'json',
-    //     success: function (result) {
-    //         console.log("Done review")
-    //     }
-    // })
 }
+
+$(document).on('click', '.SwalBtn2', function() {
+    //Some code 2 
+    console.log('Button 2');
+    swal.clickConfirm();
+});

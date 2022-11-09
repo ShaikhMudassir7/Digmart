@@ -3,8 +3,9 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const multer = require("multer");
 
-const ProfileInfo = require("../../models/user/personal_information");
 const Review = require('../../models/user/reviews');
+const User = require('../../models/user/user');
+const Products = require('../../models/seller/product');
 
 const firebase = require("../../utils/firebase");
 const storage = firebase.storage().ref();
@@ -14,6 +15,8 @@ var upload = multer({ storage: store });
 var imgUpload = upload.fields([{ name: "images", maxCount: 4 }]);
 
 router.post('/', [imgUpload] , async (req, res) => {
+    var user = await User.findById(req.session.userID).select('fullName')
+    var prod = await Products.findById(req.body.productID).select('slugID')
     var rawSS = req.files.images;
     var imageArr = [];
     const date = new Date();
@@ -23,7 +26,7 @@ router.post('/', [imgUpload] , async (req, res) => {
     let currentDate = `${day}-${month}-${year}`
     if (rawSS) {
         for (let i = 0; i < rawSS.length; i++) {
-            const imageRef = storage.child("/reviews/" + ("Hatim Mullajiwala" + '-' + Date.now() + '-' + rawSS[i].originalname));
+            const imageRef = storage.child("/reviews/" + (user.fullName + '-' + Date.now() + '-' + rawSS[i].originalname));
             await imageRef.put(rawSS[i].buffer, { contentType: rawSS[i].mimetype });
             var url = await imageRef.getDownloadURL();
             imageArr.push(url)
@@ -34,13 +37,14 @@ router.post('/', [imgUpload] , async (req, res) => {
             sellerID: req.body.sellerID,
             productID: req.body.productID,
             images: imageArr,
-            rating: req.body.rating,
+            rating: req.body.btnradio,
             date: currentDate,
+            reviewHeadline: req.body.reviewHeadline,
             reviewText: req.body.reviewText
         })
 
         await reviewdata.save()
-        res.json({ status: true });
+        res.redirect('/product/view-product/'+prod.slugID);
     }
     else {
         var reviewdata = new Review({
@@ -50,14 +54,27 @@ router.post('/', [imgUpload] , async (req, res) => {
             productID: req.body.productID,
             rating: req.body.rating,
             date: currentDate,
+            reviewHeadline: req.body.reviewHeadline,
             reviewText: req.body.reviewText
         })
 
         await reviewdata.save()
-        res.json({ status: true });
+        res.redirect('/product/view-product/'+prod.slugID);
     }
-
 })
 
+router.post('/checkprof' , async (req, res) => {
+    if(req.session.userID){
+        var user = await User.findById(req.session.userID).select('fullName')
+        if(user.fullName){
+            res.json({ status: true });
+        }
+        else{
+            res.json({ status: false });
+        }
+    }else{
+        res.json({ status: "login" });
+    }
+})
 
 module.exports = router
