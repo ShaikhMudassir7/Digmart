@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const sellerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     slugID: { type: String, required: false },
-    
+
     status: { type: String, default: "Authentication" },
 
     pFname: { type: String, required: true },
@@ -26,13 +26,15 @@ const sellerSchema = mongoose.Schema({
     busPanFile: { type: String, required: true },
     busGstNo: { type: String, required: true },
     busGstFile: { type: String, required: true },
+    busFssaiNo: { type: String },
+    busFssaiFile: { type: String },
 
     bankName: { type: String, required: true },
     bankAccNo: { type: Number, required: true },
     bankIfsc: { type: String, required: true },
     bankChqPass: { type: String, required: true },
 
-    featured: { type: Boolean, default: false},
+    featured: { type: Boolean, default: false },
 
     mobileOtp: { type: String },
     emailOtp: { type: String },

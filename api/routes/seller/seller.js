@@ -21,79 +21,35 @@ const middleware = upload.fields([
     { name: 'busLogo', maxCount: 1 },
     { name: 'busPanFile', maxCount: 1 },
     { name: 'busGstFile', maxCount: 1 },
+    { name: 'busFssaiFile', maxCount: 1 },
     { name: 'bankChqPass', maxCount: 1 }
 ])
 
-router.get('/signup', (req, res) => {
-    Category.find().select("catName _id")
-        .exec()
-        .then(docs => {
-            res.render("./seller/signup", { catsData: docs })
-        })
+router.get('/signup', async (req, res) => {
+    var catDocs = await Category.find().select("catName _id")
+    res.render("./seller/signup", { catsData: catDocs })
 })
 
 router.post('/check', async (req, res) => {
-    switch (req.query.toCheck) {
-        case 'busMobile':
-            await Seller.find({ busMobile: req.query.val }).exec()
-                .then(seller => {
-                    if (seller.length < 1)
-                        res.send({ gst: "true" })
-                    else
-                        res.send({ gst: "false" })
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
-                })
-            break;
-        case 'busEmail':
-            await Seller.find({ busEmail: req.query.val }).exec()
-                .then(seller => {
-                    if (seller.length < 1)
-                        res.send({ gst: "true" })
-                    else
-                        res.send({ gst: "false" })
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
-                })
-            break;
-        case 'busGstNo':
-            await Seller.find({ busGstNo: req.query.val }).exec()
-                .then(seller => {
-                    if (seller.length < 1)
-                        res.send({ gst: "true" })
-                    else
-                        res.send({ gst: "false" })
-                })
-                .catch(err => {
-                    console.log(err)
-                    res.status(500).json({
-                        error: err
-                    })
-                })
-            break;
-    }
+    var query = {}
+    query[req.body.toCheck] = req.body.val
+    var seller = await Seller.findOne(query)
+    if (seller)
+        res.json({ result: false })
+    else
+        res.json({ result: true })
 })
 
 router.post('/add-seller', middleware, async (req, res) => {
-    var busEmail = req.body.busEmail
-    var busMobile = req.body.busMobile
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
     var emailOtp = Math.floor(1000 + Math.random() * 9000)
     var busname = req.body.busName;
     var slugId = busname.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
-    var excepArr = ['9324326404', '8898413414', '9137242482', '7738408767', '4444444444', '5555555555', '6666666666', '7777777777']
-    if (!excepArr.includes(busMobile)) {
-        await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-        await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
+    var excepArr = ['9324326404', '8898413414', '9137242482', '9821474946']
+    if (!excepArr.includes(req.body.busMobile)) {
+        await sendMobileOtp({ mobile: req.body.busMobile, otp: mobileOtp })
+        await sendEmail({ email: req.body.busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
     }
 
     var sellerAcc = new Seller({
@@ -103,7 +59,6 @@ router.post('/add-seller', middleware, async (req, res) => {
         pLname: req.body.pLname,
         pMobile: req.body.pMobile,
         pEmail: req.body.pEmail,
-
         busName: req.body.busName,
         busEmail: req.body.busEmail,
         busMobile: req.body.busMobile,
@@ -113,11 +68,9 @@ router.post('/add-seller', middleware, async (req, res) => {
         busCat: req.body.busCat,
         busPanNo: req.body.busPanNo,
         busGstNo: req.body.busGstNo,
-
         bankName: req.body.bankName,
         bankAccNo: req.body.bankAccNo,
         bankIfsc: req.body.bankIfsc,
-
         mobileOtp: mobileOtp,
         emailOtp: emailOtp
     })
@@ -126,23 +79,18 @@ router.post('/add-seller', middleware, async (req, res) => {
         var count = 0
         Object.keys(req.files).forEach(key => {
             var file = (req.files[key])[0]
-            const imageRef = storage.child("/seller/" + req.body.busName + '-' + key);
+            const imageRef = storage.child("/seller/" + slugId + '-' + key);
             imageRef.put(file.buffer, { contentType: file.mimetype }).then(snapshot => {
                 imageRef.getDownloadURL().then(function (url) {
-                    if (key == 'busLogo')
-                        sellerAcc.busLogo = url
-                    if (key == 'busPanFile')
-                        sellerAcc.busPanFile = url
-                    if (key == 'busGstFile')
-                        sellerAcc.busGstFile = url
-                    if (key == 'bankChqPass')
-                        sellerAcc.bankChqPass = url
+                    sellerAcc[key] = url
                     count++
-                    if (count == 4) {
+                    if (count == Object.keys(req.files).length) {
+                        if (req.body.busFssaiNo)
+                            sellerAcc.busFssaiNo = req.body.busFssaiNo
                         sellerAcc.save()
                             .then(doc => {
                                 console.log("Seller Account Created (Authentication left)")
-                                res.redirect('/seller/authentication/?busMobile=' + busMobile + '&busEmail=' + busEmail)
+                                res.redirect('/seller/authentication/' + slugId)
                             })
                             .catch(err => {
                                 console.log(err);
@@ -153,50 +101,23 @@ router.post('/add-seller', middleware, async (req, res) => {
                     }
                 })
             })
-        });
+        })
     }
 })
 
-router.get('/authentication', (req, res) => {
-    var busEmail = req.query.busEmail
-    var busMobile = req.query.busMobile
-    res.render("./seller/authentication", { busMobile: busMobile, busEmail: busEmail })
+router.get('/authentication/(:slugId)/', async (req, res) => {
+    var selDocs = await Seller.findOne({ 'slugID': req.params.slugId })
+    res.render("./seller/authentication", { selDocs: selDocs })
 })
 
-router.post('/checkMobileOtp', (req, res) => {
-    Seller.find({ busMobile: req.query.busMobile })
-        .exec()
-        .then(seller => {
-            if (seller[0].mobileOtp == req.query.otp || req.query.otp == "1111") {
-                res.send({ status: 'valid' })
-            } else {
-                res.send({ status: 'invalid' })
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
-})
-
-router.post('/checkEmailOtp', (req, res) => {
-    Seller.find({ busEmail: req.query.busEmail })
-        .exec()
-        .then(seller => {
-            if (seller[0].emailOtp == req.query.otp || req.query.otp == "1111") {
-                res.send({ status: 'valid' })
-            } else {
-                res.send({ status: 'invalid' })
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
+router.post('/checkOtp', async (req, res) => {
+    var query = {}
+    query[req.body.toFind] = req.body.val
+    var seller = await Seller.findOne(query)
+    if (seller[req.body.toCheck] == req.body.otp || req.body.otp == "1111")
+        res.json({ status: true })
+    else
+        res.json({ status: false })
 })
 
 router.post('/authentication', (req, res) => {
