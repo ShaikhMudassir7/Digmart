@@ -2,10 +2,11 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require('mongoose')
 
+const checkAuth = require("../../middleware/user/checkAuth")
 const Address = require("../../models/user/address");
 const User = require('../../models/user/user');
 
-router.get('/', async (req, res) => {
+router.get('/', checkAuth, async (req, res) => {
     var docs = await User.find({ _id: req.session.userID }).select().exec();
     res.render('./user/account', { personalData: docs, user: req.session.userID, noSearch: true })
 })
@@ -33,7 +34,7 @@ router.post('/', async (req, res, next) => {
             })
 })
 
-router.get('/addresses', async (req, res) => {
+router.get('/addresses', checkAuth, async (req, res) => {
     var docs = await Address.find().select().exec()
     res.render('./user/account-addresses', { addressData: docs, user: req.session.userID, noSearch: true })
 })

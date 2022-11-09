@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const sellerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     slugID: { type: String, required: false },
-    
+
     status: { type: String, default: "Authentication" },
 
     pFname: { type: String, required: true },
@@ -32,7 +32,7 @@ const sellerSchema = mongoose.Schema({
     bankIfsc: { type: String, required: true },
     bankChqPass: { type: String, required: true },
 
-    featured: { type: Boolean, default: false},
+    featured: { type: Boolean, default: false },
 
     mobileOtp: { type: String },
     emailOtp: { type: String },

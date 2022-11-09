@@ -5,10 +5,10 @@ const Variants = require('../../models/seller/variants');
 const Products = require("../../models/seller/product");
 const Review = require("../../models/user/reviews");
 
-// Route of product page
 router.get('/view-product/(:id)', async (req, res) => {
     var slugid = req.params.id;
     var element = await Products.findOne({ slugID: slugid })
+    await Products.updateOne({ _id: element._id }, { $inc: { "views": 1 } })
     var docs = await Variants.find({ prodID: element._id })
     var review = await Review.find({productID: element._id})
     if(review.length != 0){
@@ -27,9 +27,10 @@ router.get('/view-product/(:id)', async (req, res) => {
     res.render('./user/product', {rating: rating.toFixed(1),reviewcount:review.length ,reviewData:review,  variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
 })
 
-router.get('/variant/(:variantslugID)', async (req, res) => {
+router.get('/variant/(:variantslugID)', async(req, res) => {
     var varelement = await Variants.findOne({ slugID: req.params.variantslugID });
     var element = await Products.findOne({ _id: varelement.prodID })
+    await Products.updateOne({ _id: element._id }, { $inc: { "views": 1 } })
     var vd = await Variants.find({ prodID: varelement.prodID })
     var review = await Review.find({productID:varelement.prodID})
     if(review.length != 0){
@@ -48,7 +49,7 @@ router.get('/variant/(:variantslugID)', async (req, res) => {
     res.render('./user/product', {rating: rating.toFixed(1),reviewcount:review.length ,reviewData:review, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
 })
 
-router.get('/findsize/(:id)/(:size)', async (req, res) => {
+router.get('/findsize/(:id)/(:size)', async(req, res) => {
     var id = req.params.id;
     var doc = await Variants.findOne({ _id: id })
     for (let i = 0; i < doc.sizes.length; i++) {

@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const specificationsSchema = new mongoose.Schema({
     specName: { type: String },
-    specValue:  { type: String },
+    specValue: { type: String },
 });
 
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    slugID: { type: String, required: false},
+    slugID: { type: String, required: false },
     sellerID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sellers'
@@ -17,19 +17,20 @@ const productSchema = mongoose.Schema({
         ref: 'variants'
     }],
     category: { type: String, required: true },
-    subcategory: { type: String},
-    images: [{type: String}],
+    subcategory: { type: String },
+    images: [{ type: String }],
     productName: { type: String, required: true },
-    description: { type: String},
-    brand: { type: String},
-    quantity:  { type: Number},
+    description: { type: String },
+    brand: { type: String },
+    quantity: { type: Number },
     specifications: [specificationsSchema],
-    actualPrice:  { type: String},
-    discount: { type: Number},
-    finalPrice:  { type: String},
-    hasVariant: { type: Boolean, default: true},
-    featured: { type: Boolean, default: false},
-    status:  { type: String, default: "Incomplete : Variants Not Added"},
+    actualPrice: { type: String },
+    discount: { type: Number },
+    finalPrice: { type: String },
+    hasVariant: { type: Boolean, default: true },
+    featured: { type: Boolean, default: false },
+    status: { type: String, default: "Incomplete : Variants Not Added" },
+    views: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model("products", productSchema);
