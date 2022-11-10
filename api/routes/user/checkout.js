@@ -172,7 +172,6 @@ router.post('/callback', (req, res) => {
         // Set up the request
         var response = "";
         var post_req = https.request(options, function(post_res) {
-            console.log(post_res)
             post_res.on('data', function(chunk) {
                 response += chunk;
             });
@@ -184,6 +183,7 @@ router.post('/callback', (req, res) => {
                     await Order.updateOne({ orderID: req.body.ORDERID }, { $set: { status: 'Ordered' } })
                     var cartData = await Cart.find({ userID: req.session.userID }).exec()
                     console.log(cartData)
+
                     for (var i = 0; i < cartData.length; i++) {
                         var item = new OrderItem({
                             userID: req.session.userID,
@@ -195,7 +195,7 @@ router.post('/callback', (req, res) => {
                             colour: cartData[i].colour,
                             quantity: cartData[i].quantity,
                             date: currentDate.toString().substring(0, 16),
-                            deliveryDate: new Date(currentDate.getTime()+(3*24*60*60*1000)).toString().substring(0, 16),
+                            deliveryDate: new Date(currentDate.getTime() + (3 * 24 * 60 * 60 * 1000)).toString().substring(0, 16),
                             status: "Ordered",
                         })
                         await item.save()
@@ -216,11 +216,9 @@ router.post('/callback', (req, res) => {
 
 router.get('/payment-success/(:id)', async(req, res) => {
     var order = await Order.find({ orderID: req.params.id }).populate('addressID').select().exec();
-    console.log(order[0].addressID)
-
+    console.log(order[0].addressID.email)
     await sendEmail({ email: order[0].addressID.email, subj: 'DigMart - Order Confirmation Mail', msg: "Your OTP for Email Authentication is " })
-    res.render('./user/order-confirmed')
-
+    res.render('./user/order-confirmed', { orderID: req.params.id })
 })
 
 module.exports = router

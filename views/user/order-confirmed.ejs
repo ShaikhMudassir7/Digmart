@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Order Confirmed</title>
+    <title>Order Successful</title>
     <link rel="icon" type="image/png" href="/img/favicon.png">
     <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -19,15 +19,16 @@
         transition: clip-path 2s ease-out;
         clip-path: circle(1% at 0 0);
     }
-
+    
     .clipPath-circle.active {
         clip-path: circle(150% at 0 0);
     }
-
-    .moveToCenter{
-        position: fixed; 
-        top: 50%; left: 50%; 
-        transform: translate(-50%, -50%); 
+    
+    .moveToCenter {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         text-align: center;
     }
 </style>
@@ -36,8 +37,10 @@
     <div class="clipPath-circle">
         <div class="moveToCenter">
             <img src="/img/orderconfirmed.png" style="width:40%">
-            <br><br><label class="fw-bold fs-3" style="color:white">Order Placed!</label>
-            <br><label style="color: white">Confirmation will be sent to your email</label>
+            <br><br><label class="fw-bold fs-3" style="color:white">Thank You for your Order!</label>
+            <br><label style="color: white">You will receive an order confirmation email.</label>
+            <br><label style="color: white">Your Order ID is <%= orderID %></label>
+            <br><a href="/orders">View My Orders</label>
         </div>
     </div>
 
@@ -45,8 +48,9 @@
     <script>
         const circle = document.querySelector('.clipPath-circle')
         circle.classList.add('active')
-        
+
         setTimeout(setbg, 2000)
+
         function setbg() {
             circle.classList.remove("clipPath-circle");
             circle.classList.remove("active");
@@ -54,7 +58,6 @@
         }
         setTimeout(startConfetti, 2000)
         setTimeout(stopConfetti, 4000)
-
     </script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

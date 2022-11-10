@@ -30,7 +30,7 @@ function addwishlist(sellerID, productID, variantID) {
             size: size,
         },
         dataType: 'json',
-        success: function (result) {
+        success: function(result) {
             if (result.status) {
                 if (result.status == 'login') {
                     $('#loginpopup').modal('show');
@@ -69,20 +69,18 @@ function addcart(sellerID, productID, variantID, colour) {
             colour: colour,
         },
         dataType: 'json',
-        success: function (result) {
+        success: function(result) {
             if (result.status) {
                 if (result.status == 'login') {
                     $('#loginpopup').modal('show');
                 } else {
-                    swal({
-                        title: "Added to Cart Successfully",
-                        icon: "success",
-                    })
+                    swal('Success', 'Product added to Cart Successfully!', 'success')
                 }
             } else {
                 swal({
                     title: "Already in the Cart",
                     icon: "info",
+                    type: "warning",
                 })
             }
         }
@@ -104,36 +102,28 @@ var swiper = new Swiper(".swiper", {
     },
 });
 
-function check(){
+function check() {
     $.ajax({
         url: "/review/checkprof",
         type: "POST",
         dataType: 'json',
-        success: function (result) {
+        success: function(result) {
             if (result.status) {
                 if (result.status == 'login') {
                     $('#loginpopup').modal('show');
                 } else {
                     $('#review-modal').modal('show');
                 }
-            }else{
+            } else {
                 swal({
                     title: "Please complete your profile to Give a review",
                     icon: "info",
                     type: "warning",
                     showCancelButton: true,
-                },function(){
+                }, function() {
                     window.location = '/account';
-                  });
+                });
             }
         }
     })
-
-   
 }
-
-$(document).on('click', '.SwalBtn2', function() {
-    //Some code 2 
-    console.log('Button 2');
-    swal.clickConfirm();
-});
