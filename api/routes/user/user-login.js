@@ -21,7 +21,7 @@ router.post('/sendOtp/(:mobile)', async(req, res) => {
             var id = user2[0]._id
             var mobileOtp = Math.floor(1000 + Math.random() * 9000)
             sendMobileOtp({ mobile: mobile, otp: mobileOtp })
-            User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+            User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
                 if (err) throw err;
                 res.send({ status: 3 })
             })
@@ -31,7 +31,7 @@ router.post('/sendOtp/(:mobile)', async(req, res) => {
             var id = user[0]._id
             var mobileOtp = Math.floor(1000 + Math.random() * 9000)
             sendMobileOtp({ mobile: mobile, otp: mobileOtp })
-            User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function (err, result) {
+            User.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
                 if (err) throw err;
                 res.send({ status: 3 })
             })

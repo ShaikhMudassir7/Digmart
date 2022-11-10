@@ -11,13 +11,13 @@ const mobResend = document.getElementById('mobResend')
 const mobResendstr = document.getElementById('mobResendstr')
 var mobile;
 
-mobOtp1.addEventListener('keyup', function (event) {
+mobOtp1.addEventListener('keyup', function(event) {
     if (event.key != "Backspace" && event.key != "Enter") {
         mobOtp2.focus();
     }
     checkMobileOtp()
 });
-mobOtp2.addEventListener('keyup', function (event) {
+mobOtp2.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         mobOtp1.focus();
     } else if (event.key != "Enter") {
@@ -25,7 +25,7 @@ mobOtp2.addEventListener('keyup', function (event) {
     }
     checkMobileOtp()
 });
-mobOtp3.addEventListener('keyup', function (event) {
+mobOtp3.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         mobOtp2.focus();
     } else if (event.key != "Enter") {
@@ -33,7 +33,7 @@ mobOtp3.addEventListener('keyup', function (event) {
     }
     checkMobileOtp()
 });
-mobOtp4.addEventListener('keyup', function (event) {
+mobOtp4.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         mobOtp3.focus();
     }
@@ -53,7 +53,7 @@ function sendOTP() {
             url: "/login/sendOtp/" + credVal,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function (res) {
+            success: function(res) {
                 cred.classList.remove('is-invalid')
                 cred.classList.add('is-valid')
                 err.style.display = "block"
@@ -69,7 +69,7 @@ function sendOTP() {
         })
     } else {
         cred.classList.add('is-invalid')
-        errMsg.innerHTML = "Plz check the enetred credentials"
+        errMsg.innerHTML = "Enter valid Mobile Number!"
         err.style.display = "block"
     }
 }
@@ -83,7 +83,7 @@ function checkMobileOtp() {
             url: "/login/checkMobileOtp?mobile=" + mobile + "&otp=" + otp,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function (res) {
+            success: function(res) {
                 if (res.status == 'valid') {
                     elements.forEach(element => {
                         element.classList.remove('is-invalid')
@@ -112,7 +112,7 @@ function timer(remaining) {
     remaining -= 1;
 
     if (remaining >= 0) {
-        setTimeout(function () {
+        setTimeout(function() {
             timer(remaining);
         }, 1000);
         return;
@@ -124,7 +124,7 @@ function timer(remaining) {
 }
 
 function closemodal() {
-    cred=document.getElementById('mobile')
+    cred = document.getElementById('mobile')
     cred.value = '';
     cred.classList.remove('is-valid')
     mobileotp.style.display = "none"
@@ -134,4 +134,3 @@ function closemodal() {
     mobResend.classList.add('timer-active')
 
 }
-
