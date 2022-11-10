@@ -16,13 +16,13 @@ const emailResend = document.getElementById('emailResend')
 const emailResendstr = document.getElementById('emailResendstr')
 var busMobile, busEmail;
 
-mobOtp1.addEventListener('keyup', function (event) {
+mobOtp1.addEventListener('keyup', function(event) {
     if (event.key != "Backspace" && event.key != "Enter") {
         mobOtp2.focus();
     }
     checkMobileOtp()
 });
-mobOtp2.addEventListener('keyup', function (event) {
+mobOtp2.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         mobOtp1.focus();
     } else if (event.key != "Enter") {
@@ -30,7 +30,7 @@ mobOtp2.addEventListener('keyup', function (event) {
     }
     checkMobileOtp()
 });
-mobOtp3.addEventListener('keyup', function (event) {
+mobOtp3.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         mobOtp2.focus();
     } else if (event.key != "Enter") {
@@ -38,20 +38,20 @@ mobOtp3.addEventListener('keyup', function (event) {
     }
     checkMobileOtp()
 });
-mobOtp4.addEventListener('keyup', function (event) {
+mobOtp4.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         mobOtp3.focus();
     }
     checkMobileOtp()
 });
 
-emailOtp1.addEventListener('keyup', function (event) {
+emailOtp1.addEventListener('keyup', function(event) {
     if (event.key != "Backspace" && event.key != "Enter") {
         emailOtp2.focus();
     }
     checkEmailOtp()
 });
-emailOtp2.addEventListener('keyup', function (event) {
+emailOtp2.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         emailOtp1.focus();
     } else if (event.key != "Enter") {
@@ -59,7 +59,7 @@ emailOtp2.addEventListener('keyup', function (event) {
     }
     checkEmailOtp()
 });
-emailOtp3.addEventListener('keyup', function (event) {
+emailOtp3.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         emailOtp2.focus();
     } else if (event.key != "Enter") {
@@ -67,11 +67,10 @@ emailOtp3.addEventListener('keyup', function (event) {
     }
     checkEmailOtp()
 });
-emailOtp4.addEventListener('keyup', function (event) {
+emailOtp4.addEventListener('keyup', function(event) {
     if (event.key == "Backspace") {
         emailOtp3.focus();
-    } else if (event.key == "Enter") {
-    }
+    } else if (event.key == "Enter") {}
     checkEmailOtp()
 });
 
@@ -94,14 +93,14 @@ function sendOTP() {
             url: "/seller/sendOtp?busEmail=" + credVal,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function (res) {
+            success: function(res) {
                 if (res.status == 0) {
                     cred.classList.add('is-invalid')
                     errMsg.innerHTML = "No Seller found!"
                     err.style.display = "block"
                 } else if (res.status == 2) {
                     cred.classList.add('is-invalid')
-                    errMsg.innerHTML = "Verification Pending! Plz contact Admin"
+                    errMsg.innerHTML = "Seller Verification Pending!"
                     err.style.display = "block"
                 } else if (res.status == 1) {
                     form.setAttribute("action", "/seller/reauthenticate?busMobile=" + res.busMobile + "&busEmail=" + res.busEmail);
@@ -129,14 +128,14 @@ function sendOTP() {
             url: "/seller/sendOtp?busMobile=" + credVal,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function (res) {
+            success: function(res) {
                 if (res.status == 0) {
                     cred.classList.add('is-invalid')
                     errMsg.innerHTML = "No Seller found!"
                     err.style.display = "block"
                 } else if (res.status == 2) {
                     cred.classList.add('is-invalid')
-                    errMsg.innerHTML = "Verification Pending! Plz contact Admin"
+                    errMsg.innerHTML = "Seller Verification Pending!"
                     err.style.display = "block"
                 } else if (res.status == 1) {
                     form.setAttribute("action", "/seller/reauthenticate?busMobile=" + res.busMobile + "&busEmail=" + res.busEmail);
@@ -171,7 +170,7 @@ function checkMobileOtp() {
             url: "/seller/checkMobileOtp?busMobile=" + busMobile + "&otp=" + otp,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function (res) {
+            success: function(res) {
                 if (res.status == 'valid') {
                     elements.forEach(element => {
                         element.classList.remove('is-invalid')
@@ -198,7 +197,7 @@ function checkEmailOtp() {
             url: "/seller/checkEmailOtp?busEmail=" + busEmail + "&otp=" + otp,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function (res) {
+            success: function(res) {
                 if (res.status == 'valid') {
                     elements.forEach(element => {
                         element.classList.remove('is-invalid')
@@ -228,7 +227,7 @@ function timer(remaining) {
     remaining -= 1;
 
     if (remaining >= 0) {
-        setTimeout(function () {
+        setTimeout(function() {
             timer(remaining);
         }, 1000);
         return;

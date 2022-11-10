@@ -32,27 +32,22 @@
                                         <div class="card-header fw-bold bg-dark text-light">ADD NEW PRODUCT</div>
                                         <div class="card-body">
 
-                                            <form action="/seller/products/add-product" enctype="multipart/form-data"
-                                                id="addProductForm" onsubmit="return checkForm(this);" method="post"
-                                                class="needs-validation" novalidate accept-charset="utf-8">
+                                            <form action="/seller/products/add-product" enctype="multipart/form-data" id="addProductForm" onsubmit="return checkForm(this);" method="post" class="needs-validation" novalidate accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-6">
                                                         <label for="category" class="form-label">Category</label>
-                                                        <select name="category" class="form-select" id="category"
-                                                            onchange="populate(this.id, 'subcategory')" required>
+                                                        <select name="category" class="form-select" id="category" onchange="populate(this.id, 'subcategory')" required>
                                                             <option value="">
                                                                 ---Choose Category---
                                                             </option>
-                                                            <% if(catData.length!=0){ var i=1;
+                                                            <% if(catData.length!=0){
                                                                 catData.forEach(function(data){ %>
-
                                                                 <option value="<%=data.catName%>" id="element">
                                                                     <%=data.catName %>
                                                                 </option>
-                                                                <% i++; }) %>
-                                                                    <% } else{ %>
-                                                                        <option value="No Category">Category Not
-                                                                            Available</option>
+                                                                <% }) %>
+                                                                    <% } else { %>
+                                                                        <option value="No Category">Category Not Available</option>
                                                                         <% } %>
                                                         </select>
                                                         <div class="valid-feedback">Looks good!</div>
@@ -71,8 +66,7 @@
                                                         <div class="mb-3 col-md-12">
                                                             <label for="productName" class="form-label">Product
                                                                 Name</label>
-                                                            <input type="name" class="form-control" name="productName"
-                                                                id="prodName" required>
+                                                            <input type="name" class="form-control" name="productName" id="prodName" required>
                                                             <div class="valid-feedback">Looks good!</div>
                                                             <div class="invalid-feedback">Please enter product name.
                                                             </div>
@@ -82,8 +76,7 @@
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
-                                                        <label for="description" class="form-label">Product
-                                                            Description</label>
+                                                        <label for="description" class="form-label">Product Description</label>
                                                         <textarea type="name" class="form-control" name="description" required></textarea>
                                                     </div>
                                                 </div>
@@ -94,16 +87,14 @@
                                                             <label for="brand" class="form-label">Brand
                                                                 <span class="text-muted"> (Optional)</span>
                                                             </label>
-                                                            <input type="name" class="form-control" name="brand"
-                                                                placeholder="e.g. Samsung">
+                                                            <input type="name" class="form-control" name="brand" placeholder="e.g. Samsung">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <hr>
                                                 <div class="row g-2">
                                                     <div class="mb-1 col-md-12 fw-bold">
-                                                        <label for="specName" class="form-label">ADDITIONAL
-                                                            SPECIFICATIONS
+                                                        <label for="specName" class="form-label">ADDITIONAL SPECIFICATIONS
                                                             <span class="text-muted"> (Optional)</span> :
                                                         </label>
                                                     </div>
@@ -111,13 +102,11 @@
 
                                                 <div class="row g-2">
                                                     <div class=" col-md-3">
-                                                        <label for="specName" class="form-label">Name:
-                                                        </label>
+                                                        <label for="specName" class="form-label">Name:</label>
                                                     </div>
 
                                                     <div class=" col-md-5">
-                                                        <label for="specValue" class="form-label">Description:
-                                                        </label>
+                                                        <label for="specValue" class="form-label">Description: </label>
                                                     </div>
                                                 </div>
 
@@ -125,34 +114,22 @@
                                                     <div id="showSpecifications">
                                                         <div class="row g-2" id="specsRow">
                                                             <div class="mb-3 col-md-3">
-                                                                <input type="name" class="form-control"
-                                                                    name="specName[]" id="specName"
-                                                                    placeholder="e.g. In The Box">
+                                                                <input type="name" class="form-control" name="specName[]" id="specName" placeholder="e.g. In The Box">
                                                             </div>
 
                                                             <div class="mb-3 col-md-5">
-                                                                <textarea type="name" class="form-control"
-                                                                    name="specValue[]" id="specValue"
-                                                                    style="height: 30px;"
-                                                                    placeholder="e.g. Handset, Charging Cable"></textarea>
+                                                                <textarea type="name" class="form-control" name="specValue[]" id="specValue" style="height: 30px;" placeholder="e.g. Handset, Charging Cable"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="mb-3 col-md-3 d-grid">
-                                                        <button class="btn btn-outline-primary" id="addSpecsBtnMain"><i
-                                                                class="fas fa-plus-circle"></i>
-                                                            Add More Specifications</button>
+                                                        <button class="btn btn-outline-primary" id="addSpecsBtnMain"><i class="fas fa-plus-circle"></i>Add More Specifications</button>
                                                     </div>
                                                 </div>
 
-                                                <button class="btn btn-danger" onclick="prevPage()"><i
-                                                        class="fas fa-times"></i>
-                                                    Cancel</button>
-                                                <button type="submit" class="btn btn-primary" id="submitData"
-                                                    name="submitData" style="float: right"><i class="fas fa-save"></i>
-                                                    Add
-                                                    Product</button>
+                                                <button class="btn btn-danger" onclick="prevPage()"><i class="fas fa-times"></i>Cancel</button>
+                                                <button type="submit" class="btn btn-primary" id="submitData" name="submitData" style="float: right"><i class="fas fa-save"></i>Add Product</button>
                                             </form>
                                         </div>
                                     </div>
@@ -167,7 +144,7 @@
         function prevPage() {
             window.history.back();
         }
-        //Populate subcategory dropdown 
+
         function populate(category, subcategory) {
             var cat = document.getElementById("category");
             var subcat = document.getElementById("subcategory");
@@ -193,8 +170,7 @@
                         addQuantity.setAttribute('required', '');
                         actualPrice.setAttribute('required', '');
                         finalPrice.setAttribute('required', '');
-                    }
-                    else {
+                    } else {
                         $(("#Images")).remove();
                         $(("#Quantity")).remove();
                         $(("#Prices")).remove();
@@ -239,10 +215,8 @@
             var displayFieldImage =
                 `<div class="row g-2" id="Images">
                     <div class="mb-3 col-md-12">
-                        <label for="images" class="form-label">Product
-                        Images:</label>
-                        <input type="file" class="form-control" name="images" id="addImage"
-                        multiple='multiple' accept="image/*">
+                        <label for="images" class="form-label">Product Images:</label>
+                        <input type="file" class="form-control" name="images" id="addImage" multiple='multiple' accept="image/*">
                         <div class="valid-feedback">Looks good!</div>
                         <div class="invalid-feedback">Please Choose an Image.</div>
                     </div>
@@ -255,12 +229,10 @@
                 `<div class="row g-2" id="Quantity">
                     <div class="mb-3 col-md-4">
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" name="quantity" id="addQuantity"
-                        min="1" placeholder="e.g. 50">
+                        <input type="number" class="form-control" name="quantity" id="addQuantity" min="1" placeholder="e.g. 50">
                     </div>
                     <div class="mb-3 col-md-4">
-                        <input type="bool" class="form-control" name="hasVariant" id="hasVariant"
-                        value=false hidden>
+                        <input type="bool" class="form-control" name="hasVariant" id="hasVariant" value=false hidden>
                     </div>
                 </div>`
             return displayFieldQuantity;
@@ -340,14 +312,14 @@
         }
 
         var counter = 1;
-        $(document).ready(function () {
-            $("#addSpecsBtnMain").click(function (e) {
+        $(document).ready(function() {
+            $("#addSpecsBtnMain").click(function(e) {
                 e.preventDefault();
                 var specifications = moreSpecs(counter);
                 $("#showSpecifications").append(specifications);
                 counter++;
 
-                $(document).on('click', '.removeSpecsBtn', function (e) {
+                $(document).on('click', '.removeSpecsBtn', function(e) {
                     e.preventDefault();
                     let row_item = $(this).parent().parent();
                     $(row_item).remove();
@@ -355,20 +327,20 @@
             });
         });
 
-        $(document).on('click', '#submitData', function (e) {
+        $(document).on('click', '#submitData', function(e) {
             var prodName = document.getElementById("prodName").value;
-            '<% if(prodsData.length!=0){ var i=1; prodsData.forEach(function(data){ %>'
+            '<% if(prodsData.length!=0){ prodsData.forEach(function(data){ %>'
             if (prodName == '<%= data.productName %>') {
                 e.preventDefault();
                 swal({
                     title: "Product with the same name already exists!",
-                    text: "Try editting the same product or adding a new one.",
+                    text: "Try editing the same product or adding a new one.",
                     icon: "warning",
                     dangerMode: true,
                 })
             }
-            '<% i++; }) } %>'
-        }); 
+            '<% }) } %>'
+        });
     </script>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
