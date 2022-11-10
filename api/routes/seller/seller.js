@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken")
 const Seller = require("../../models/seller/seller")
 const Products = require('../../models/seller/product')
 const Category = require('../../models/admin/categorySchema');
+const OrderItems = require('../../models/user/order_item');
 
 const { sendMobileOtp } = require('../../utils/mobileOtp')
 const { sendEmail } = require('../../utils/emailOtp')
@@ -130,10 +131,6 @@ router.post('/authentication', (req, res) => {
 
 router.get('/login', (req, res) => {
     res.render("./seller/login")
-})
-
-router.get('/add-gallery', (req, res) => {
-    res.render("./seller/add-gallery")
 })
 
 router.post('/sendOtp', (req, res) => {
@@ -264,28 +261,45 @@ router.get('/dashboard', checkAuth, async(req, res) => {
         "pendingProducts": 0,
         "verifiedProducts": 0,
         "rejectedProducts": 0,
+        "newOrders": 0,
+        "shipmentOrders": 0,
+        "deliveredOrders": 0
     }
+
     await Products.find({ sellerID: req.session.sellerID })
         .then(docs => {
             count.totalProducts = docs.length
         })
+
     await Products.find({ sellerID: req.session.sellerID, status: "Incomplete" })
         .then(docs => {
             count.incompleteProducts = docs.length
         })
+
     await Products.find({ sellerID: req.session.sellerID, status: "Pending" })
         .then(docs => {
             count.pendingProducts = docs.length
         })
+
     await Products.find({ sellerID: req.session.sellerID, status: "Verified" })
         .then(docs => {
             count.verifiedProducts = docs.length
         })
+
     await Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
         .then(docs => {
             count.rejectedProducts = docs.length
         })
+
+    const newOrders = await OrderItems.find({ sellerID: req.session.sellerID, status: 'Ordered' }).distinct('orderID')
+    count.newOrders = newOrders.length
+    const shipOrders = await OrderItems.find({ sellerID: req.session.sellerID, status: 'Shipment' }).distinct('orderID')
+    count.shipmentOrders = shipOrders.length
+    const delOrders = await OrderItems.find({ sellerID: req.session.sellerID, status: 'Delivered' }).distinct('orderID')
+    count.deliveredOrders = delOrders.length
+
     var products = await Products.find({ sellerID: req.session.sellerID }).select('productName views').sort({ views: -1 }).limit(10)
+
     res.render("./seller/dashboard", { sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname, count: count, products })
 })
 
