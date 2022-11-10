@@ -6,8 +6,6 @@ const emailOtp1 = document.getElementById('emailOtp1');
 const emailOtp2 = document.getElementById('emailOtp2');
 const emailOtp3 = document.getElementById('emailOtp3');
 const emailOtp4 = document.getElementById('emailOtp4');
-const submit1 = document.getElementById('submit1');
-const submit2 = document.getElementById('submit2');
 const mobTimer = document.getElementById('mobTimer')
 const emailTimer = document.getElementById('emailTimer')
 const mobResend = document.getElementById('mobResend')
@@ -16,13 +14,13 @@ const emailResend = document.getElementById('emailResend')
 const emailResendstr = document.getElementById('emailResendstr')
 var busMobile, busEmail;
 
-mobOtp1.addEventListener('keyup', function(event) {
+mobOtp1.addEventListener('keyup', function (event) {
     if (event.key != "Backspace" && event.key != "Enter") {
         mobOtp2.focus();
     }
     checkMobileOtp()
 });
-mobOtp2.addEventListener('keyup', function(event) {
+mobOtp2.addEventListener('keyup', function (event) {
     if (event.key == "Backspace") {
         mobOtp1.focus();
     } else if (event.key != "Enter") {
@@ -30,7 +28,7 @@ mobOtp2.addEventListener('keyup', function(event) {
     }
     checkMobileOtp()
 });
-mobOtp3.addEventListener('keyup', function(event) {
+mobOtp3.addEventListener('keyup', function (event) {
     if (event.key == "Backspace") {
         mobOtp2.focus();
     } else if (event.key != "Enter") {
@@ -38,20 +36,20 @@ mobOtp3.addEventListener('keyup', function(event) {
     }
     checkMobileOtp()
 });
-mobOtp4.addEventListener('keyup', function(event) {
+mobOtp4.addEventListener('keyup', function (event) {
     if (event.key == "Backspace") {
         mobOtp3.focus();
     }
     checkMobileOtp()
 });
 
-emailOtp1.addEventListener('keyup', function(event) {
+emailOtp1.addEventListener('keyup', function (event) {
     if (event.key != "Backspace" && event.key != "Enter") {
         emailOtp2.focus();
     }
     checkEmailOtp()
 });
-emailOtp2.addEventListener('keyup', function(event) {
+emailOtp2.addEventListener('keyup', function (event) {
     if (event.key == "Backspace") {
         emailOtp1.focus();
     } else if (event.key != "Enter") {
@@ -59,7 +57,7 @@ emailOtp2.addEventListener('keyup', function(event) {
     }
     checkEmailOtp()
 });
-emailOtp3.addEventListener('keyup', function(event) {
+emailOtp3.addEventListener('keyup', function (event) {
     if (event.key == "Backspace") {
         emailOtp2.focus();
     } else if (event.key != "Enter") {
@@ -67,10 +65,10 @@ emailOtp3.addEventListener('keyup', function(event) {
     }
     checkEmailOtp()
 });
-emailOtp4.addEventListener('keyup', function(event) {
+emailOtp4.addEventListener('keyup', function (event) {
     if (event.key == "Backspace") {
         emailOtp3.focus();
-    } else if (event.key == "Enter") {}
+    } else if (event.key == "Enter") { }
     checkEmailOtp()
 });
 
@@ -93,7 +91,7 @@ function sendOTP() {
             url: "/seller/sendOtp?busEmail=" + credVal,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function(res) {
+            success: function (res) {
                 if (res.status == 0) {
                     cred.classList.add('is-invalid')
                     errMsg.innerHTML = "No Seller found!"
@@ -113,7 +111,7 @@ function sendOTP() {
                     document.getElementById('hidEmail').value = credVal;
                     $("#emailModal").modal({ backdrop: "static" });
                     $('#emailModal').modal('show');
-                    emailTimer.style.display = "inline"
+                    $('#emailTimer').css('display','inline')
                     emailResend.classList.remove('timer-active')
                     emailResend.classList.add('timer-inactive')
                     timer(30);
@@ -128,7 +126,7 @@ function sendOTP() {
             url: "/seller/sendOtp?busMobile=" + credVal,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            success: function(res) {
+            success: function (res) {
                 if (res.status == 0) {
                     cred.classList.add('is-invalid')
                     errMsg.innerHTML = "No Seller found!"
@@ -148,7 +146,7 @@ function sendOTP() {
                     document.getElementById('hidMobile').value = credVal;
                     $("#mobileModal").modal({ backdrop: "static" });
                     $('#mobileModal').modal('show');
-                    mobTimer.style.display = "inline"
+                    $('#mobTimer').css('display','inline')
                     mobResend.classList.remove('timer-active')
                     mobResend.classList.add('timer-inactive')
                     timer(30);
@@ -167,22 +165,28 @@ function checkMobileOtp() {
     if (otp.length == 4) {
         var elements = [mobOtp1, mobOtp2, mobOtp3, mobOtp4]
         $.ajax({
-            url: "/seller/checkMobileOtp?busMobile=" + busMobile + "&otp=" + otp,
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            success: function(res) {
-                if (res.status == 'valid') {
+            url: "/seller/checkOtp",
+            type: "POST",
+            data: {
+                toFind: 'busMobile',
+                val: busMobile,
+                toCheck: 'mobileOtp',
+                otp: otp
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.status) {
                     elements.forEach(element => {
                         element.classList.remove('is-invalid')
                         element.classList.add('is-valid')
                         element.setAttribute("disabled", 'true')
                     });
-                    submit1.removeAttribute('disabled');
+                    $('#submit1').removeAttr('disabled');
                     mobResendstr.style.display = 'none'
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')
-                    });
+                    })
                 }
             }
         })
@@ -194,22 +198,28 @@ function checkEmailOtp() {
     if (otp.length == 4) {
         var elements = [emailOtp1, emailOtp2, emailOtp3, emailOtp4]
         $.ajax({
-            url: "/seller/checkEmailOtp?busEmail=" + busEmail + "&otp=" + otp,
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            success: function(res) {
-                if (res.status == 'valid') {
+            url: "/seller/checkOtp",
+            type: "POST",
+            data: {
+                toFind: 'busEmail',
+                val: busEmail,
+                toCheck: 'emailOtp',
+                otp: otp
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.status) {
                     elements.forEach(element => {
                         element.classList.remove('is-invalid')
                         element.classList.add('is-valid')
                         element.setAttribute("disabled", "true")
                     });
-                    submit2.removeAttribute('disabled');
+                    $('#submit2').removeAttr('disabled');
                     emailResendstr.style.display = 'none'
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')
-                    });
+                    })
                 }
             }
         })
@@ -227,13 +237,13 @@ function timer(remaining) {
     remaining -= 1;
 
     if (remaining >= 0) {
-        setTimeout(function() {
+        setTimeout(function () {
             timer(remaining);
         }, 1000);
         return;
     } else {
-        mobTimer.style.display = "none"
-        emailTimer.style.display = "none"
+        $('#mobTimer').css('display','none')
+        $('#emailTimer').css('display','none')
         mobResend.classList.remove('timer-inactive')
         emailResend.classList.remove('timer-inactive')
         mobResend.classList.add('timer-active')
