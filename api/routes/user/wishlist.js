@@ -3,8 +3,9 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Wishlist = require('../../models/user/wishlist');
+const CheckAuth = require('../../middleware/user/checkAuth');
 
-router.get('/', async(req, res) => {
+router.get('/', CheckAuth, async(req, res) => {
     var size = [];
 
     var docs = await Wishlist.find({ userID: req.session.userID }).populate('sellerID productID variantID')
