@@ -114,13 +114,11 @@ router.post('/search-results', async(req, res) => {
         var selDoc1 = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified', featured: true }).populate('busCat')
         var selDoc2 = await Seller.find({ busName: { $regex: new RegExp('^' + payload + '.*', 'i') }, status: 'Verified', featured: false }).populate('busCat')
     }
-
     var selDocs = selDoc1.concat(selDoc2)
     for (let i = 0; i < proDocs.length; i++) {
         var doc = await Variants.find({ prodID: proDocs[i]._id })
         varDocs.push(doc[0])
     }
-
     res.render('./user/search-results', { payload: payload, selDocs: selDocs, proDocs: proDocs, varDocs: varDocs, user: req.session.userID })
 })
 

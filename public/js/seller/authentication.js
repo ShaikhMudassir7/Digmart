@@ -85,11 +85,17 @@ function checkMobileOtp() {
   if (otp.length == 4) {
     var elements = [mobOtp1, mobOtp2, mobOtp3, mobOtp4]
     $.ajax({
-      url: "/seller/checkMobileOtp?busMobile=" + busMobile + "&otp=" + otp,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      url: "/seller/checkOtp",
+      type: "POST",
+      data: {
+        toFind: 'busMobile',
+        val: busMobile,
+        toCheck: 'mobileOtp',
+        otp: otp
+      },
+      dataType: 'json',
       success: function (res) {
-        if (res.status == 'valid') {
+        if (res.status) {
           elements.forEach(element => {
             element.classList.remove('is-invalid')
             element.classList.add('is-valid')
@@ -101,7 +107,7 @@ function checkMobileOtp() {
         } else {
           elements.forEach(element => {
             element.classList.add('is-invalid')
-          });
+          })
         }
       }
     })
@@ -113,11 +119,17 @@ function checkEmailOtp() {
   if (otp.length == 4) {
     var elements = [emailOtp1, emailOtp2, emailOtp3, emailOtp4]
     $.ajax({
-      url: "/seller/checkEmailOtp?busEmail=" + busEmail + "&otp=" + otp,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      url: "/seller/checkOtp",
+      type: "POST",
+      data: {
+        toFind: 'busEmail',
+        val: busEmail,
+        toCheck: 'emailOtp',
+        otp: otp
+      },
+      dataType: 'json',
       success: function (res) {
-        if (res.status == 'valid') {
+        if (res.status) {
           elements.forEach(element => {
             element.classList.remove('is-invalid')
             element.classList.add('is-valid')
@@ -125,11 +137,11 @@ function checkEmailOtp() {
           });
           emailResendstr.style.display = 'none'
           if (mobOtp4.disabled)
-            submit.removeAttribute('disabled');
+            submit.removeAttribute('disabled')
         } else {
           elements.forEach(element => {
             element.classList.add('is-invalid')
-          });
+          })
         }
       }
     })
@@ -190,7 +202,7 @@ function sendOTP(check, val) {
           mobResend.classList.remove('timer-active')
           mobResend.classList.add('timer-inactive')
           mobTimerFunc(30);
-        } 
+        }
       }
     })
   } else {
@@ -204,9 +216,9 @@ function sendOTP(check, val) {
           emailResend.classList.remove('timer-active')
           emailResend.classList.add('timer-inactive')
           emailTimerFunc(30);
-        } 
+        }
       }
     })
   }
-  
+
 }
