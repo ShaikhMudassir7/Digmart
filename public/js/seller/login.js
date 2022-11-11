@@ -1,18 +1,12 @@
-const mobOtp1 = document.getElementById('mobOtp1');
-const mobOtp2 = document.getElementById('mobOtp2');
-const mobOtp3 = document.getElementById('mobOtp3');
-const mobOtp4 = document.getElementById('mobOtp4');
-const emailOtp1 = document.getElementById('emailOtp1');
-const emailOtp2 = document.getElementById('emailOtp2');
-const emailOtp3 = document.getElementById('emailOtp3');
-const emailOtp4 = document.getElementById('emailOtp4');
-const mobTimer = document.getElementById('mobTimer')
-const emailTimer = document.getElementById('emailTimer')
-const mobResend = document.getElementById('mobResend')
-const mobResendstr = document.getElementById('mobResendstr')
-const emailResend = document.getElementById('emailResend')
-const emailResendstr = document.getElementById('emailResendstr')
-var busMobile, busEmail;
+const mobOtp1 = $('#mobOtp1')[0]
+const mobOtp2 = $('#mobOtp2')[0]
+const mobOtp3 = $('#mobOtp3')[0]
+const mobOtp4 = $('#mobOtp4')[0]
+const emailOtp1 = $('#emailOtp1')[0]
+const emailOtp2 = $('#emailOtp2')[0]
+const emailOtp3 = $('#emailOtp3')[0]
+const emailOtp4 = $('#emailOtp4')[0]
+var val;
 
 mobOtp1.addEventListener('keyup', function (event) {
     if (event.key != "Backspace" && event.key != "Enter") {
@@ -73,91 +67,83 @@ emailOtp4.addEventListener('keyup', function (event) {
 });
 
 function sendOTP() {
-    var cred = document.getElementById('credential');
     var err = document.getElementById('err');
     var errMsg = document.getElementById('errMsg');
-    var credVal = cred.value
+    val = $('#val').val()
     let emailRegex = new RegExp('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
     let mobileRegex = new RegExp('^[0-9]{10}$');
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    document.body.appendChild(form);
+    var toFind, toCheck, modal;
 
-    if (emailRegex.test(credVal)) {
-        busEmail = credVal;
-        cred.classList.remove('is-invalid')
+    if (emailRegex.test(val)) {
+        toFind = 'busEmail'
+        toCheck = 'emailOtp'
+        modal = 1
+    } else if (mobileRegex.test(val)) {
+        toFind = 'busMobile'
+        toCheck = 'mobileOtp'
+        modal = 2
+    } else {
+        toFind = null
+        toCheck = null
+    }
+    if (toFind) {
+        $('#val').removeClass('is-invalid')
         err.style.display = "none"
         $.ajax({
-            url: "/seller/sendOtp?busEmail=" + credVal,
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            url: "/seller/sendOtp",
+            type: "POST",
+            data: {
+                toFind: toFind,
+                val: val,
+                toCheck: toCheck,
+            },
+            dataType: 'json',
             success: function (res) {
                 if (res.status == 0) {
-                    cred.classList.add('is-invalid')
+                    $('#val').addClass('is-invalid')
                     errMsg.innerHTML = "No Seller found!"
                     err.style.display = "block"
                 } else if (res.status == 2) {
-                    cred.classList.add('is-invalid')
+                    $('#val').addClass('is-invalid')
                     errMsg.innerHTML = "Seller Verification Pending!"
                     err.style.display = "block"
                 } else if (res.status == 1) {
-                    form.setAttribute("action", "/seller/reauthenticate?busMobile=" + res.busMobile + "&busEmail=" + res.busEmail);
-                    form.submit()
+                    location.href = "/seller/reauthenticate/" + res.slugID
                 } else {
-                    cred.classList.remove('is-invalid')
-                    cred.classList.add('is-valid')
+                    $('#val').removeClass('is-invalid')
+                    $('#val').addClass('is-valid')
                     err.style.display = "block"
-                    document.getElementById('busEmail').innerHTML = credVal;
-                    document.getElementById('hidEmail').value = credVal;
-                    $("#emailModal").modal({ backdrop: "static" });
-                    $('#emailModal').modal('show');
-                    $('#emailTimer').css('display','inline')
-                    emailResend.classList.remove('timer-active')
-                    emailResend.classList.add('timer-inactive')
-                    timer(30);
-                }
-            }
-        })
-    } else if (mobileRegex.test(credVal)) {
-        busMobile = credVal
-        cred.classList.remove('is-invalid')
-        err.style.display = "none"
-        $.ajax({
-            url: "/seller/sendOtp?busMobile=" + credVal,
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            success: function (res) {
-                if (res.status == 0) {
-                    cred.classList.add('is-invalid')
-                    errMsg.innerHTML = "No Seller found!"
-                    err.style.display = "block"
-                } else if (res.status == 2) {
-                    cred.classList.add('is-invalid')
-                    errMsg.innerHTML = "Seller Verification Pending!"
-                    err.style.display = "block"
-                } else if (res.status == 1) {
-                    form.setAttribute("action", "/seller/reauthenticate?busMobile=" + res.busMobile + "&busEmail=" + res.busEmail);
-                    form.submit();
-                } else {
-                    cred.classList.remove('is-invalid')
-                    cred.classList.add('is-valid')
-                    err.style.display = "block"
-                    document.getElementById('busMobile').innerHTML = "+91 " + credVal;
-                    document.getElementById('hidMobile').value = credVal;
-                    $("#mobileModal").modal({ backdrop: "static" });
-                    $('#mobileModal').modal('show');
-                    $('#mobTimer').css('display','inline')
-                    mobResend.classList.remove('timer-active')
-                    mobResend.classList.add('timer-inactive')
-                    timer(30);
+                    $('#'+toFind).append(val)
+                    $('#slugID').val(res.slugID)
+                    if (modal == 1)
+                        openModal('#email')
+                    else
+                        openModal('#mobile')
                 }
             }
         })
     } else {
-        cred.classList.add('is-invalid')
+        $('#val').addClass('is-invalid')
         errMsg.innerHTML = "Plz check the enetred credentials"
         err.style.display = "block"
     }
+}
+
+function openModal(val) {
+    $(val + "Modal").modal({ backdrop: "static" });
+    $(val + 'Modal').modal('show');
+    $(val + 'Timer').css('display', 'inline')
+    $(val + 'Resend').removeClass('timer-active')
+    $(val + 'Resend').addClass('timer-inactive')
+    timer(30);
+}
+
+function submitLogin() {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/seller/login/" + $('#slugID').val());
+    document.body.appendChild(form);
+    form.submit()
 }
 
 function checkMobileOtp() {
@@ -169,7 +155,7 @@ function checkMobileOtp() {
             type: "POST",
             data: {
                 toFind: 'busMobile',
-                val: busMobile,
+                val: val,
                 toCheck: 'mobileOtp',
                 otp: otp
             },
@@ -182,7 +168,7 @@ function checkMobileOtp() {
                         element.setAttribute("disabled", 'true')
                     });
                     $('#submit1').removeAttr('disabled');
-                    mobResendstr.style.display = 'none'
+                    $('#mobResendstr').css('display', 'none')
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')
@@ -202,7 +188,7 @@ function checkEmailOtp() {
             type: "POST",
             data: {
                 toFind: 'busEmail',
-                val: busEmail,
+                val: val,
                 toCheck: 'emailOtp',
                 otp: otp
             },
@@ -215,7 +201,7 @@ function checkEmailOtp() {
                         element.setAttribute("disabled", "true")
                     });
                     $('#submit2').removeAttr('disabled');
-                    emailResendstr.style.display = 'none'
+                    $('#emailResendstr').css('display', 'none')
                 } else {
                     elements.forEach(element => {
                         element.classList.add('is-invalid')
@@ -229,24 +215,22 @@ function checkEmailOtp() {
 function timer(remaining) {
     var m = Math.floor(remaining / 60);
     var s = remaining % 60;
-
     m = m < 10 ? '0' + m : m;
     s = s < 10 ? '0' + s : s;
-    mobTimer.innerHTML = '(' + m + ':' + s + ')';
-    emailTimer.innerHTML = '(' + m + ':' + s + ')';
+    $('#mobTimer').html('(' + m + ':' + s + ')')
+    $('#emailTimer').html('(' + m + ':' + s + ')')
     remaining -= 1;
-
     if (remaining >= 0) {
         setTimeout(function () {
             timer(remaining);
         }, 1000);
         return;
     } else {
-        $('#mobTimer').css('display','none')
-        $('#emailTimer').css('display','none')
-        mobResend.classList.remove('timer-inactive')
-        emailResend.classList.remove('timer-inactive')
-        mobResend.classList.add('timer-active')
-        emailResend.classList.add('timer-active')
+        $('#mobTimer').css('display', 'none')
+        $('#emailTimer').css('display', 'none')
+        $('#mobResend').removeClass('timer-inactive')
+        $('#mobResend').addClass('timer-active')
+        $('#emailResend').removeClass('timer-inactive')
+        $('#emailResend').addClass('timer-active')
     }
 }

@@ -106,8 +106,8 @@ router.post('/add-seller', middleware, async (req, res) => {
     }
 })
 
-router.get('/authentication/(:slugId)/', async (req, res) => {
-    var selDocs = await Seller.findOne({ 'slugID': req.params.slugId })
+router.get('/authentication/(:slugID)', async (req, res) => {
+    var selDocs = await Seller.findOne({ 'slugID': req.params.slugID })
     res.render("./seller/authentication", { selDocs: selDocs })
 })
 
@@ -122,7 +122,7 @@ router.post('/checkOtp', async (req, res) => {
 })
 
 router.post('/authentication', (req, res) => {
-    Seller.updateOne({ busMobile: req.body.hidMobile }, { $set: { status: "Pending" } }, function(err, result) {
+    Seller.updateOne({ slugID: req.body.slugID }, { $set: { status: "Pending" } }, function (err, result) {
         if (err) throw err;
         console.log("Seller registered")
         res.redirect('/seller/login')
@@ -133,128 +133,49 @@ router.get('/login', (req, res) => {
     res.render("./seller/login")
 })
 
-router.post('/sendOtp', (req, res) => {
-    if (req.query.busEmail) {
-        var excepArr = ['dsouzaglen30@gmail.com', 'hatimsb11@gmail.com', 'hawaiza27@gmail.com', 'send2mudassir@gmail.com', '4444444444@gmail.com', '5555555555@gmail.com', '6666666666@gmail.com', '7777777777@gmail.com']
-        var busEmail = req.query.busEmail
-        Seller.find({
-                busEmail: busEmail,
-            })
-            .exec()
-            .then((seller) => {
-                if (seller.length < 1) {
-                    res.send({ status: 0 })
-                } else {
-                    if (seller[0].status == "Authentication") {
-                        res.send({ status: 1, busMobile: seller[0].busMobile, busEmail: seller[0].busEmail })
-                    } else if (seller[0].status == "Pending") {
-                        res.send({ status: 2 })
-                    } else if (excepArr.includes(busEmail)) {
-                        res.send({ status: 3 })
-                    } else {
-                        var id = seller[0]._id
-                        var emailOtp = Math.floor(1000 + Math.random() * 9000)
-                        console.log("Email = " + emailOtp)
-                        sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
-                        Seller.updateOne({ _id: id }, { $set: { emailOtp: emailOtp } }, function(err, result) {
-                            if (err) throw err;
-                            res.send({ status: 3 })
-                        })
-                    }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                res.status(500).json({
-                    message: error,
-                });
-            });
-    } else if (req.query.busMobile) {
-        var excepArr = ['9324326404', '8898413414', '9137242482', '7738408767', '4444444444', '5555555555', '6666666666', '7777777777']
-        var busMobile = req.query.busMobile
-        Seller.find({
-                busMobile: busMobile,
-            })
-            .exec()
-            .then((seller) => {
-                if (seller.length < 1) {
-                    res.send({ status: 0 })
-                } else {
-                    if (seller[0].status == "Authentication") {
-                        res.send({ status: 1, busMobile: seller[0].busMobile, busEmail: seller[0].busEmail })
-                    } else if (seller[0].status == "Pending") {
-                        res.send({ status: 2 })
-                    } else if (excepArr.includes(busMobile)) {
-                        res.send({ status: 3 })
-                    } else {
-                        var id = seller[0]._id
-                        var mobileOtp = Math.floor(1000 + Math.random() * 9000)
-                        console.log("Mobile = " + mobileOtp)
-                        sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-                        Seller.updateOne({ _id: id }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
-                            if (err) throw err;
-                            res.send({ status: 3 })
-                        })
-                    }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                res.status(500).json({
-                    message: error,
-                });
-            });
+router.post('/sendOtp', async (req, res) => {
+    var excepArr = ['dsouzaglen30@gmail.com', 'hatimsb11@gmail.com', 'hawaiza27@gmail.com', '9324326404', '8898413414', '9137242482']
+    var query = {}
+    query[req.body.toFind] = req.body.val
+    var seller = await Seller.find(query)
+    if (seller.length < 1)
+        res.json({ status: 0 })
+    else {
+        if (seller[0].status == "Authentication")
+            res.json({ status: 1, slugID: seller[0].slugID })
+        else if (seller[0].status == "Pending")
+            res.json({ status: 2 })
+        else if (excepArr.includes(req.body.val))
+            res.json({ status: 3, slugID: seller[0].slugID })
+        else {
+            var otp = Math.floor(1000 + Math.random() * 9000)
+            console.log("OTP = " + otp)
+            if (req.body.toFind == 'busEmail')
+                await sendEmail({ email: req.body.val, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + otp })
+            else
+                await sendMobileOtp({ mobile: req.body.val, otp: otp })
+            var updateQuery = {}
+            updateQuery[req.body.toCheck] = otp
+            await Seller.updateOne(query, { $set: updateQuery })
+            res.json({ status: 3, slugID: seller[0].slugID })
+        }
     }
 })
 
-router.post('/login', (req, res) => {
-    if (req.body.hidMobile) {
-        Seller.find({
-                busMobile: req.body.hidMobile,
-            })
-            .exec()
-            .then((seller) => {
-                const token = jwt.sign({
-                    "sellerID": seller[0]._id
-                }, process.env.JWT_KEY, {});
-                req.session.jwttoken = token;
-                req.session.sellerID = seller[0]._id;
-                req.session.pFname = seller[0].pFname;
-                req.session.pLname = seller[0].pLname;
-                res.redirect('/seller/dashboard');
-            })
-            .catch((error) => {
-                console.log(error);
-                res.status(500).json({
-                    message: error,
-                });
-            });
-    } else if (req.body.hidEmail) {
-        Seller.find({
-                busEmail: req.body.hidEmail,
-            })
-            .exec()
-            .then((seller) => {
-                const token = jwt.sign({
-                    "sellerID": seller[0]._id
-                }, process.env.JWT_KEY, {});
-                req.session.jwttoken = token;
-                req.session.sellerID = seller[0]._id;
-                req.session.pFname = seller[0].pFname;
-                req.session.pLname = seller[0].pLname;
-                res.redirect('/seller/dashboard');
-            })
-            .catch((error) => {
-                console.log(error);
-                res.status(500).json({
-                    message: error,
-                });
-            });
-    }
-
+router.post('/login/(:slugID)', async (req, res) => {
+    var seller = await Seller.findOne({ slugID: req.params.slugID })
+    const token = jwt.sign({
+        "sellerID": seller._id
+    }, process.env.JWT_KEY, {});
+    req.session.jwttoken = token;
+    req.session.sellerID = seller._id;
+    req.session.slugID = seller.slugID;
+    req.session.pFname = seller.pFname;
+    req.session.pLname = seller.pLname;
+    res.redirect('/seller/dashboard');
 })
 
-router.get('/dashboard', checkAuth, async(req, res) => {
+router.get('/dashboard', checkAuth, async (req, res) => {
     var count = {
         "totalProducts": 0,
         "incompleteProducts": 0,
@@ -266,67 +187,30 @@ router.get('/dashboard', checkAuth, async(req, res) => {
         "deliveredOrders": 0
     }
 
-    await Products.find({ sellerID: req.session.sellerID })
-        .then(docs => {
-            count.totalProducts = docs.length
-        })
+    count.totalProducts = (await Products.find({ sellerID: req.session.sellerID })).length
+    count.incompleteProducts = (await Products.find({ sellerID: req.session.sellerID, status: "Incomplete" })).length
+    count.pendingProducts = (await Products.find({ sellerID: req.session.sellerID, status: "Pending" })).length
+    count.verifiedProducts = (await Products.find({ sellerID: req.session.sellerID, status: "Verified" })).length
+    count.rejectedProducts = (await Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })).length
 
-    await Products.find({ sellerID: req.session.sellerID, status: "Incomplete" })
-        .then(docs => {
-            count.incompleteProducts = docs.length
-        })
-
-    await Products.find({ sellerID: req.session.sellerID, status: "Pending" })
-        .then(docs => {
-            count.pendingProducts = docs.length
-        })
-
-    await Products.find({ sellerID: req.session.sellerID, status: "Verified" })
-        .then(docs => {
-            count.verifiedProducts = docs.length
-        })
-
-    await Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Verified" }, { status: "Incomplete" }] })
-        .then(docs => {
-            count.rejectedProducts = docs.length
-        })
-
-    const newOrders = await OrderItems.find({ sellerID: req.session.sellerID, status: 'Ordered' }).distinct('orderID')
-    count.newOrders = newOrders.length
-    const shipOrders = await OrderItems.find({ sellerID: req.session.sellerID, status: 'Shipment' }).distinct('orderID')
-    count.shipmentOrders = shipOrders.length
-    const delOrders = await OrderItems.find({ sellerID: req.session.sellerID, status: 'Delivered' }).distinct('orderID')
-    count.deliveredOrders = delOrders.length
+    count.newOrders = (await OrderItems.find({ sellerID: req.session.sellerID, status: 'Ordered' }).distinct('orderID')).length
+    count.shipmentOrders = (await OrderItems.find({ sellerID: req.session.sellerID, status: 'Shipment' }).distinct('orderID')).length
+    count.deliveredOrders = (await OrderItems.find({ sellerID: req.session.sellerID, status: 'Delivered' }).distinct('orderID')).length
 
     var products = await Products.find({ sellerID: req.session.sellerID }).select('productName views').sort({ views: -1 }).limit(10)
 
     res.render("./seller/dashboard", { sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname, count: count, products })
 })
 
-router.get('/profile', checkAuth, (req, res) => {
+router.get('/profile', checkAuth, async (req, res) => {
     var catArr = []
-    Seller.findOne({ _id: req.session.sellerID })
-        .exec()
-        .then(seller => {
-            if (seller.busCat.length != 0) {
-                seller.busCat.forEach(function(data) {
-                    Category.findOne({ _id: data }).select("catName")
-                        .exec()
-                        .then(docs => {
-                            catArr.push(docs.catName)
-                            if (seller.busCat.length == catArr.length) {
-                                res.render("./seller/profile", { catArr: catArr, sellerData: seller, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-                            }
-                        })
-                })
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        })
+    var seller = await Seller.findOne({ _id: req.session.sellerID }).populate('busCat')
+    seller.busCat.forEach(function (cat) {
+        catArr.push(cat.catName)
+        if (seller.busCat.length == catArr.length) {
+            res.render("./seller/profile", { catArr: catArr, sellerData: seller, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
+        }
+    })
 })
 
 router.get('/logout', (req, res) => {
@@ -334,47 +218,37 @@ router.get('/logout', (req, res) => {
     res.redirect("/seller/login")
 })
 
-router.post('/reauthenticate', async(req, res) => {
-    var busMobile = req.query.busMobile
-    var busEmail = req.query.busEmail
+router.get('/reauthenticate/(:slugID)', async (req, res) => {
+    console.log(req.params.slugID)
+    var seller = await Seller.findOne({ slugID: req.params.slugID })
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
     var emailOtp = Math.floor(1000 + Math.random() * 9000)
     console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
-    await sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-    await sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
+    await sendMobileOtp({ mobile: seller.busMobile, otp: mobileOtp })
+    await sendEmail({ email: seller.busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
     Seller.updateOne({
-        busMobile: busMobile,
-        busEmail: busEmail
-    }, { $set: { mobileOtp: mobileOtp, emailOtp: emailOtp } }, function(err, result) {
+        slugID: req.params.slugID
+    }, { $set: { mobileOtp: mobileOtp, emailOtp: emailOtp } }, function (err, result) {
         if (err) throw err;
-        res.redirect('/seller/authentication?busMobile=' + busMobile + '&busEmail=' + busEmail)
+        res.redirect('/seller/authentication/' + req.params.slugID)
     })
 })
 
-router.post('/sendMobileOtp', (req, res) => {
-    if (req.query.busMobile) {
-        var busMobile = req.query.busMobile
-        var mobileOtp = Math.floor(1000 + Math.random() * 9000)
-        console.log("Mobile = " + mobileOtp)
-        sendMobileOtp({ mobile: busMobile, otp: mobileOtp })
-        Seller.updateOne({ busMobile: busMobile }, { $set: { mobileOtp: mobileOtp } }, function(err, result) {
-            if (err) throw err;
-            res.send({ status: 1 })
-        })
-    }
-})
-
-router.post('/sendEmailOtp', (req, res) => {
-    if (req.query.busEmail) {
-        var busEmail = req.query.busEmail
-        var emailOtp = Math.floor(1000 + Math.random() * 9000)
-        console.log("Email = " + emailOtp)
-        sendEmail({ email: busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
-        Seller.updateOne({ busEmail: busEmail }, { $set: { emailOtp: emailOtp } }, function(err, result) {
-            if (err) throw err;
-            res.send({ status: 1 })
-        })
-    }
+router.post('/generateOtp', async (req, res) => {
+    var query = {}
+    query[req.body.toFind] = req.body.val
+    var otp = Math.floor(1000 + Math.random() * 9000)
+    console.log('OTP = ' + otp)
+    if (req.body.toFind == 'busMobile')
+        await sendMobileOtp({ mobile: req.body.val, otp: otp })
+    else
+        await sendEmail({ email: req.body.val, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + otp })
+    var updateQuery = {}
+    updateQuery[req.body.toCheck] = otp
+    Seller.updateOne(query, { $set: updateQuery }, function (err, result) {
+        if (err) throw err;
+        res.json({ status: true, toFind: req.body.toFind })
+    })
 })
 
 module.exports = router
