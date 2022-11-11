@@ -49,6 +49,7 @@ router.post('/add-address', async (req, res, next) => {
     try {
         var addressData = new Address({
             _id: mongoose.Types.ObjectId(),
+            userID: req.session.userID,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
