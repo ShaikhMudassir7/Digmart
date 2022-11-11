@@ -199,7 +199,9 @@ router.get('/dashboard', checkAuth, async (req, res) => {
 
     var products = await Products.find({ sellerID: req.session.sellerID }).select('productName views').sort({ views: -1 }).limit(10)
 
-    res.render("./seller/dashboard", { sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname, count: count, products })
+    var selDoc = await Seller.findById(req.session.sellerID)
+
+    res.render("./seller/dashboard", { sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname, count: count, products, selDoc })
 })
 
 router.get('/profile', checkAuth, async (req, res) => {
