@@ -174,7 +174,7 @@ router.post("/edit-variant/(:id)/(:variantID)", [checkAuth, imgUpload], async (r
             images: imageArr,
             colours: req.body.colours,
             sizes: sizeArr,
-            status: "Pending"
+            status: "Pending",
         }
     })
         .exec()

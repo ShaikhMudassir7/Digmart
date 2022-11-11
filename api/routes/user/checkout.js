@@ -17,7 +17,7 @@ const config = require('../../utils/config')
 const checkAuth = require("../../middleware/user/checkAuth")
 
 router.get('/', checkAuth, async (req, res) => {
-    var docs = await Address.find().select().exec()
+    var docs = await Address.find({ userID: req.session.userID }).select().exec()
     var doc = await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec();
     var i = 0;
     var totalMRP = 0;

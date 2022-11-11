@@ -329,7 +329,19 @@
                                                                             (productData.status !="Verified" )) { %>
                                                                             <% productData.status="Rejected" %>
                                                                                 <% } %>
-
+                                                                                <div class="row g-2">
+                                                                                    <div class="mb-3 col-md-4">
+                                                                                        <select name="disabled" class="form-select" required>
+                                                                                            <% if( productData.disabled ){ %>
+                                                                                                <option value="true" selected> Inactive Product</option>
+                                                                                                <option value="false"> Active Product</option>
+                                                                                            <% } else{ %>
+                                                                                                <option value="false" selected> Active Product</option>
+                                                                                                <option value="true">Inactive Product</option>
+                                                                                            <% } %>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
                                                                                     <div class="row g-2">
                                                                                         <div class="mb-3 col-md-12">
                                                                                             <a href="/seller/products/?status=<%=productData.status %>"

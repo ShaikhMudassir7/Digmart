@@ -248,7 +248,8 @@ router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res)
             finalPrice: req.body.finalPrice,
             quantity: req.body.quantity,
             hasVariant: req.body.hasVariant,
-            status: prodStatus
+            status: prodStatus,
+            disabled: req.body.disabled
         }
     })
         .exec()
