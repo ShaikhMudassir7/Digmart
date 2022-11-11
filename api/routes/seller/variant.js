@@ -5,6 +5,7 @@ const multer = require("multer")
 const fs = require("fs");
 require("firebase/storage");
 
+const OrderItem = require('../../models/user/order_item');
 const Variants = require('../../models/seller/variants');
 const Products = require('../../models/seller/product');
 

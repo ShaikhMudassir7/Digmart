@@ -165,9 +165,17 @@
                                             <% }%>
                                     </div><br><br>
                                     <div>
-                                        <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')" class="add-cart p-3 "><i class="fa fa-cart-plus"></i><b>
-                  &nbsp;ADD TO CART</b></a>
-                                        <a onclick="addwishlist('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>')" class="add-wishlist p-3 "><b>WISHLIST</b></a>
+                                        <% if(variantData.sizes[0]["out_of_stock"]){ %>
+                                            <h4 class="text-danger py-3" id="outOfStock1">Sorry, this product is out of stock:(</h4>
+                                        <% }else { %>
+                                            <a id="addToCartBtn1" onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')" class="add-cart p-3 "><i class="fa fa-cart-plus"></i><b>
+                                                &nbsp;ADD TO CART</b></a>
+                                        <% } %>
+                                        <h4 class="text-danger py-3" id="outOfStock" style="display: none;">Sorry, this product is out of stock:(</h4>
+                                        <a id="addToCartBtn" style="display: none;" onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')" class="add-cart p-3 "><i class="fa fa-cart-plus"></i><b>
+                                            &nbsp;ADD TO CART</b></a>
+                                            <a onclick="addwishlist('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>')" class="add-wishlist p-3 "><b>WISHLIST</b></a>
+                                        
                                     </div>
                                     <%}else{%>
                                         <p class="card-text fs-2 text-dark" id="noDiscount">
@@ -184,9 +192,10 @@
                                         <p class="card-text"><small class="text-muted">include of all taxes</small></p>
                                         <br>
                                         <div>
-                                            <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class=" add-cart p-3"><i class="fa fa-cart-plus"></i>
-                    &nbsp;<b>ADD TO
-                    CART</b></a>
+                                            <h4 class="text-danger py-3" id="outOfStock" style="display:none">Sorry, this product is out of stock:(</h4>
+
+                                            <a id="addToCartBtn" onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class=" add-cart p-3 "><i class="fa fa-cart-plus"></i>
+                    &nbsp;<b>ADD TO CART</b></a>
                                             <a onclick="addwishlist('<%=productData.sellerID%>','<%= productData._id%>',null)" class="add-wishlist p-3"><b>WISHLIST</b></a>
                                         </div>
                                         <%}%>
@@ -534,7 +543,12 @@
     const discount = document.getElementById("discount");
     const noDiscount = document.getElementById("noDiscount");
     const withDiscount = document.getElementById("withDiscount");
+    const outOfStock1 = document.getElementById("outOfStock1");
+    const outOfStock = document.getElementById("outOfStock");
+    const addToCartBtn1 = document.getElementById("addToCartBtn1");
+    const addToCartBtn = document.getElementById("addToCartBtn");
     var count = 0;
+    
     '<% if(variantsData.length!=0) {var i=0;%>'
 
     function findsize(size) {
@@ -563,8 +577,36 @@
                     finalPrice.innerText = '₹ ' + res.finalPrice
                     actualPrice.innerText = "₹ " + res.actualPrice
                     discount.innerHTML = res.discount + "% off"
-
                 }
+                //Out Of Stock
+                if (res.out_of_stock) {
+                    if(addToCartBtn1){
+                        addToCartBtn1.style.display = "none"
+                    }
+                    if(addToCartBtn){
+                        addToCartBtn.style.display = "none"
+                    }
+                    if(outOfStock){
+                        outOfStock.style.display = "block"
+                    }
+                    if(outOfStock1){
+                        outOfStock1.style.display = "none"
+                    }
+                }else{
+                    if(addToCartBtn){
+                        addToCartBtn.style.display = "block"
+                    }
+                    if(addToCartBtn1){
+                        addToCartBtn1.style.display = "none"
+                    }
+                    if(outOfStock){
+                        outOfStock.style.display = "none"
+                    }
+                    if(outOfStock1){
+                        outOfStock1.style.display = "none"
+                    }
+                }
+
             }
         })
     }

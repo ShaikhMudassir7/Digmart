@@ -3,6 +3,9 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const https = require('https')
 
+
+const Variants = require('../../models/seller/variants');
+const Products = require("../../models/seller/product");
 const Cart = require('../../models/user/cart');
 const Address = require('../../models/user/address');
 const Order = require('../../models/user/order')
@@ -14,7 +17,7 @@ const config = require('../../utils/config')
 
 const checkAuth = require("../../middleware/user/checkAuth")
 
-router.get('/', checkAuth, async(req, res) => {
+router.get('/', checkAuth, async (req, res) => {
     var docs = await Address.find().select().exec()
     var doc = await Cart.find({ userID: req.session.userID }).populate('sellerID productID variantID').exec();
     var i = 0;
@@ -43,7 +46,7 @@ router.get('/', checkAuth, async(req, res) => {
     res.render('./user/checkout', { addressData: docs, cartData: doc, totalMRP: totalMRP, discountOnMRP: discountOnMRP, couponDiscount: couponDiscount, deliveryFee: deliveryFee, finalPrice: finalPrice, user: req.session.userID, noSearch: true })
 })
 
-router.post('/add-address', async(req, res, next) => {
+router.post('/add-address', async (req, res, next) => {
     try {
         var addressData = new Address({
             _id: mongoose.Types.ObjectId(),
@@ -63,7 +66,7 @@ router.post('/add-address', async(req, res, next) => {
     }
 })
 
-router.get("/edit-address/(:addressID)", async(req, res) => {
+router.get("/edit-address/(:addressID)", async (req, res) => {
     var id = req.params.addressID;
     const doc = await Address.findById(id)
     res.send(doc);
@@ -72,17 +75,17 @@ router.get("/edit-address/(:addressID)", async(req, res) => {
 router.post("/edit-address/(:addressID)", (req, res) => {
     var id = req.params.addressID;
     Address.findByIdAndUpdate({ _id: id }, {
-            $set: {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                address: req.body.address,
-                state: req.body.state,
-                city: req.body.city,
-                pinCode: req.body.pinCode,
-                mobileNumber: req.body.mobileNumber
-            }
-        })
+        $set: {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            address: req.body.address,
+            state: req.body.state,
+            city: req.body.city,
+            pinCode: req.body.pinCode,
+            mobileNumber: req.body.mobileNumber
+        }
+    })
         .exec()
         .then(result => {
             res.send('Updated Address');
@@ -95,13 +98,13 @@ router.post("/edit-address/(:addressID)", (req, res) => {
         })
 });
 
-router.get("/delete-address/(:addressID)", async(req, res, next) => {
+router.get("/delete-address/(:addressID)", async (req, res, next) => {
     var id = req.params.addressID;
     await Address.findByIdAndRemove(id).exec()
     res.redirect('/checkout');
 });
 
-router.post('/paynow', async(req, res) => {
+router.post('/paynow', async (req, res) => {
 
     var address = await Address.findById(req.body.addressID).exec()
 
@@ -117,7 +120,7 @@ router.post('/paynow', async(req, res) => {
     params['EMAIL'] = address.email;
     params['MOBILE_NO'] = req.session.mobile.toString();
 
-    checksum_lib.genchecksum(params, config.PaytmConfig.key, function(err, checksum) {
+    checksum_lib.genchecksum(params, config.PaytmConfig.key, function (err, checksum) {
         var txn_url = "https://securegw-stage.paytm.in/theia/processTransaction"; // for staging
         // var txn_url = "https://securegw.paytm.in/theia/processTransaction"; // for production
 
@@ -152,7 +155,7 @@ router.post('/callback', (req, res) => {
 
     var params = { "MID": config.PaytmConfig.mid, "ORDERID": req.body.ORDERID };
 
-    checksum_lib.genchecksum(params, config.PaytmConfig.key, function(err, checksum) {
+    checksum_lib.genchecksum(params, config.PaytmConfig.key, function (err, checksum) {
 
         params.CHECKSUMHASH = checksum;
         post_data = 'JsonData=' + JSON.stringify(params);
@@ -171,12 +174,12 @@ router.post('/callback', (req, res) => {
 
         // Set up the request
         var response = "";
-        var post_req = https.request(options, function(post_res) {
-            post_res.on('data', function(chunk) {
+        var post_req = https.request(options, function (post_res) {
+            post_res.on('data', function (chunk) {
                 response += chunk;
             });
 
-            post_res.on('end', async function() {
+            post_res.on('end', async function () {
                 var currentDate = new Date();
                 var _result = JSON.parse(response);
                 if (_result.STATUS == 'TXN_SUCCESS') {
@@ -199,6 +202,31 @@ router.post('/callback', (req, res) => {
                             status: "Ordered",
                         })
                         await item.save()
+
+                        var selectedSize = await Variants.find({ _id: cartData[i].variantID }).select("sizes").exec()
+                        var count = selectedSize[0].sizes.length;
+
+                        var sizesArr = selectedSize[0].sizes;
+                        console.log(sizesArr)
+
+                        for (var j = 0; j < count; j++) {
+                            if (sizesArr[j]["sizes"] == cartData[i].size) {
+                                sizesArr[j]["quantity"] -= cartData[i].quantity;
+                                if(sizesArr[j]["quantity"] == 0){
+                                    sizesArr[j]["out_of_stock"] = true
+                                }
+                            }
+                        }
+                        console.log("New: " + sizesArr)
+
+                        await Variants.findByIdAndUpdate({ _id: cartData[i].variantID }, {
+                            $set: {
+                                sizes: sizesArr
+                            }
+                        });
+
+                        // await Products.updateOne({ _id: cartData[i].productID }, { $inc: { "quantity": -(cartData[i].quantity) } })
+
                     }
                     await Cart.deleteMany({ userID: req.session.userID })
                     res.redirect("/checkout/payment-success/" + req.body.ORDERID)
@@ -214,7 +242,7 @@ router.post('/callback', (req, res) => {
     });
 })
 
-router.get('/payment-success/(:id)', async(req, res) => {
+router.get('/payment-success/(:id)', async (req, res) => {
     var order = await Order.find({ orderID: req.params.id }).populate('addressID').select().exec();
     console.log(order[0].addressID.email)
     await sendEmail({ email: order[0].addressID.email, subj: 'DigMart - Order Confirmation Mail', msg: "Your OTP for Email Authentication is " })
