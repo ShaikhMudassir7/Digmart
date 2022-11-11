@@ -269,7 +269,6 @@ router.get("/delete-product/(:id)/(:status)", checkAuth, async (req, res, next) 
     const id = req.params.id;
 
     var doc = await OrderItem.find({ productID: id }).select().exec()
-    console.log(doc)
     if (doc.length == 0) {
         var products = await Products.findByIdAndRemove(id).exec()
 
@@ -279,7 +278,8 @@ router.get("/delete-product/(:id)/(:status)", checkAuth, async (req, res, next) 
             var del = await fileRef.delete()
         }
         res.send({disabled : false})
-    }else{
+    }
+    else{
         await Products.updateOne({ _id: id }, { $set: { disabled: true } })
         res.send({disabled : true})
     }

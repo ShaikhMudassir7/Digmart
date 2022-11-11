@@ -3,7 +3,6 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const https = require('https')
 
-
 const Variants = require('../../models/seller/variants');
 const Products = require("../../models/seller/product");
 const Cart = require('../../models/user/cart');
@@ -224,7 +223,7 @@ router.post('/callback', (req, res) => {
                                 sizes: sizesArr
                             }
                         });
-
+                        
                         // await Products.updateOne({ _id: cartData[i].productID }, { $inc: { "quantity": -(cartData[i].quantity) } })
 
                     }
