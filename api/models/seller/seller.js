@@ -26,6 +26,8 @@ const sellerSchema = mongoose.Schema({
     busPanFile: { type: String, required: true },
     busGstNo: { type: String, required: true },
     busGstFile: { type: String, required: true },
+    busFssaiNo: { type: String },
+    busFssaiFile: { type: String },
 
     bankName: { type: String, required: true },
     bankAccNo: { type: Number, required: true },

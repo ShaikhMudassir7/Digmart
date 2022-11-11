@@ -30,7 +30,9 @@ const productSchema = mongoose.Schema({
     hasVariant: { type: Boolean, default: true },
     featured: { type: Boolean, default: false },
     status: { type: String, default: "Incomplete : Variants Not Added" },
-    views: { type: Number, default: 0 }
+    views: { type: Number, default: 0 },
+    out_of_stock: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model("products", productSchema);

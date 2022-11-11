@@ -6,6 +6,8 @@ const sizeSchema = new mongoose.Schema({
     actualPrice:  { type: String, required: true },
     discount: { type: Number},
     finalPrice:  { type: String, required: true },
+    out_of_stock: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
 });
 
 const variantSchema = new mongoose.Schema({
