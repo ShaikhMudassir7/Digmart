@@ -5,6 +5,7 @@ const multer = require("multer")
 const fs = require("fs");
 require("firebase/storage");
 
+const OrderItem = require('../../models/user/order_item');
 const Variants = require('../../models/seller/variants');
 const Products = require('../../models/seller/product');
 
@@ -94,9 +95,13 @@ router.post('/add-variant/:id', [checkAuth, imgUpload], async (req, res, next) =
                 finalPrice: sizesArray[0]["finalPrice"][i],
             })
         }
-
+        var prod = await Products.findById(prodID)
+        var myId = mongoose.Types.ObjectId();
+        var slugtext = req.body.colours + prod.productName + myId ;
+        var slugID = slugtext.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
         var variantData = new Variants({
-            _id: mongoose.Types.ObjectId(),
+            _id: myId,
+            slugID: slugID,
             prodID: prodID,
             images: imageArr,
             colours: req.body.colours,
