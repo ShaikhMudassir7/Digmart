@@ -24,7 +24,7 @@ router.get('/view-product/(:id)', async (req, res) => {
     else{
         var rating = 0
     }
-    res.render('./user/product', {rating: rating.toFixed(1),reviewcount:review.length ,reviewData:review,  variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
+    res.render('./user/product', {totalrating: response,rating: rating.toFixed(1),reviewData:review,  variantData: docs[0], variantsData: docs, productData: element, user: req.session.userID });
 })
 
 router.get('/variant/(:variantslugID)', async(req, res) => {
@@ -46,7 +46,7 @@ router.get('/variant/(:variantslugID)', async(req, res) => {
     else{
         var rating = 0
     }
-    res.render('./user/product', {rating: rating.toFixed(1),reviewcount:review.length ,reviewData:review, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
+    res.render('./user/product', {totalrating: response,rating: rating.toFixed(1),reviewData:review, variantData: varelement, variantsData: vd, productData: element, user: req.session.userID });
 })
 
 router.get('/findsize/(:id)/(:size)', async(req, res) => {

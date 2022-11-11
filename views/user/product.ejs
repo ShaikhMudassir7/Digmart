@@ -11,14 +11,6 @@
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/master.css" rel="stylesheet">
   <link href="/css/user/product.css" rel="stylesheet">
-<style>
-  
-
-.add-cart:hover , .add-wishlist :hover{
-    color: #194346fa;
-    transform: scale(1.3);
-}
-</style>
 
   <!-- title of the page -->
   <title>Product Page</title>
@@ -28,6 +20,11 @@
   <%- include('navbar') %>
     <!-- header part for product image and price  -->
     <div class="container mt-3 p-3 bg-white">
+      <%if(variantsData.length!=0){%>
+      <i class="fa fa-heart heart-icon" onclick="addwishlist(this,'<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>')"></i>
+      <%}else{%>
+      <i class="fa fa-heart heart-icon" onclick="addwishlist(this,'<%=productData.sellerID%>','<%= productData._id%>',null)"></i>
+      <%}%>
       <button class="share-btn">
         <i class="fas fa-share-alt"></i>
       </button>
@@ -135,9 +132,8 @@
             </h1>
             <%if(rating != 0){%>
             <p class="card-text text-black-30"><span class="btn  btn-success"><i class="fa fa-star"> &nbsp<%=rating%></i></span>&nbsp
-              <%=reviewcount%> Ratings & Reviews</p>
+              <%=totalrating%> Ratings & <%=reviewData.length%> Reviews</p>
             <%}%>
-            <%if(variantsData.length!=0){%>
               <strong>
                 <p class="card-text fs-2 text-dark" id="noDiscount">
 
@@ -154,7 +150,7 @@
                 </p>
               </div>
               <p class="card-text"><small class="text-muted">include of all taxes</small></p>
-
+              <%if(variantsData.length!=0){%>
               <!--color chart-->
               <strong>Color</strong><br>
               <div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -177,35 +173,18 @@
                     <%=variantData.sizes[i].sizes %>
                   </button>
                   <% }%>
-              </div><br><br>
-              <div>
+              </div><br><br><br>
+              <div id="buttons">
                 <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')"
-                  class="add-cart p-3 " ><i class="fa fa-cart-plus"></i><b>
+                  class="header-color p-3 " ><i class="fa fa-cart-plus"></i><b>
                   &nbsp;ADD TO
                   CART</b></a>
-                <a onclick="addwishlist('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>')"
-                  class="add-wishlist p-3 "><b>WISHLIST</b></a>
               </div>
               <%}else{%>
-                <p class="card-text fs-2 text-dark" id="noDiscount">
-                </p>
-                <div id="withDiscount">
-                  <p class="card-text fs-2 text-dark mb-0">
-                    <strong id="finalPrice">
-                    </strong><span class="fs-6 text-black-20"><strike id="actualPrice">
-                      </strike>
-                    </span><span class="text-success fs-5" id="discount">
-                    </span>
-                  </p>
-                </div>
-                <p class="card-text"><small class="text-muted">include of all taxes</small></p>
-                <br>
                 <div>
-                  <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class=" add-cart p-3"><i class="fa fa-cart-plus"></i>
+                  <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class=" header-color p-3"><i class="fa fa-cart-plus"></i>
                     &nbsp;<b>ADD TO
                     CART</b></a>
-                  <a onclick="addwishlist('<%=productData.sellerID%>','<%= productData._id%>',null)"
-                    class="add-wishlist p-3"><b>WISHLIST</b></a>
                 </div>
                 <%}%>
           </div>
@@ -218,16 +197,29 @@
             <div class="row">
               <div class="col-md-6 col-sm-10">
                 <div class="card">
-                  <div class="card-header">
+                  <div class="card-header header-color">
                     Review and Ratings
                   </div>
                   <div class="card-body">
-                    <div class="input-group">
                       <div class="row">
-                        <div class="col-6 col-md-4 text-right"><button type="button" onclick="check()"
-                            class="btn fs-6 text-nowrap btn-outline-success">Rate Product</button></div>
+                          <%if(rating != 0){%>
+                            <div class="col-8 col-md-8">
+                            <p class="card-text text-black-30"><span class="btn  btn-success"><i class="fa fa-star"> &nbsp<%=rating%></i></span>&nbsp
+                              <%=totalrating%> Ratings & <%=reviewData.length%> Reviews</p></div>
+                              <div class="col-4 col-md-4">
+                              <button type="button" onclick="check()"
+                              class="btn header-color">Rate Product</button>
+                            </div>
+                            <%}else{%>
+                              <div class="col-8 col-md-8">
+                                NO RATINGS & REVIEWS
+                              </div>
+                            <div class="col-6 col-md-4">
+                              <button type="button" onclick="check()"
+                              class="btn header-color">Rate Product</button></div>
+                            <%}%>
                       </div>
-                    </div>
+                      <hr>
                     <!-- Modal -->
                     <div class="modal fade" id="review-modal" data-bs-backdrop="static" data-bs-keyboard="false"
                       tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -274,57 +266,54 @@
                         </div>
                       </div>
                     </div>
-                    <br><br>
-                    <table class="table text-muted">
-                      <tbody>
-                        <%reviewData.forEach(function(data){ %>
-                        <tr>
-                          <%if(data.rating > 3){%>
-                          <td><span class="btn btn-success" style="font-size:10px;"><i class="fa fa-star"></i> <%=data.rating%></span>
-                          </td>
+                    <%reviewData.forEach(function(data){ %>
+                    <div class="row">
+                      <div class="col-md-2">
+                        <%if(data.rating > 3){%>
+                          <span class="btn btn-success" style="font-size:10px; float:left;"><i class="fa fa-star"></i> <%=data.rating%></span>
                           <%}else if(data.rating < 3){%>
-                            <td><span class="btn btn-danger" style="font-size:10px;"><i class="fa fa-star"></i> <%=data.rating%></span>
-                            </td>
+                            <span class="btn btn-danger" style="font-size:10px; float:left;"><i class="fa fa-star"></i> <%=data.rating%></span>
                           <%}else{%>
-                            <td><span class="btn btn-warning" style="font-size:10px;"><i class="fa fa-star"></i> <%=data.rating%></span>
-                            </td>
+                            <span class="btn btn-warning" style="font-size:10px; float:left;"><i class="fa fa-star"></i> <%=data.rating%></span>
                           <%}%>
-                          <td>
-                            <p>
-                              <%=data.reviewText%>
-                            </p>
-                            <hr>
-                            <% for (let b=0; b < data.images.length; b++){ %>
-                              <img src="<%= data.images[b]%>"
-                              style="width: 100px;" class="img-fluid img-thumbnail">
-                            <%}%>
-                            <br><br>
-                            <div class="card-footer text-muted">
-                              <div class="card-text text-black-50"> <span class="text-left"> Shaikh Mudassr </span>
-                                <span class="text-right">
-                                  : Verified Seller</span>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <%})%>
-                      </tbody>
-                    </table>
-
+                      </div>
+                      <div class="col-md-10 p-0">
+                        <b style="float: left;" class="mt-1">
+                          <%=data.reviewHeadline%>
+                        </b>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p style="font-family: Okra, Helvetica, sans-serif;" align="left">
+                          <br>
+                          <%=data.reviewText%>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row" id="review-img">
+                      <% for (let b=0; b < data.images.length; b++){ %>
+                        <img src="<%= data.images[b]%>"
+                        onclick="imageModal('<%= data.images[b]%>')" class="img-fluid img-thumbnail">
+                      <%}%>
+                    </div>
+                    <%})%>
+                    <hr>
                   </div>
                   <div class="card-footer text-muted">
                     Only Verified Buyers can rate*
                   </div>
                 </div>
               </div>
-
+              
               <div class="col-md-6 col-sm-10">
                 <div class="accordion" id="accordionExample">
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                       <button class="accordion-button" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-controls="collapseOne"
-                        style="color:white; background-color: #1e686dfa;">
+                        style="color:white; background-color: #1e686dfa;"
+                        >
                         <b>
                           <h5> Product Specifications</h5>
                         </b>
@@ -529,7 +518,8 @@
       </section>
 
     </div>
-    
+      <!-- single image modal -->
+      <%- include('../imageModal') %>
       <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
