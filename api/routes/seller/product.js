@@ -139,9 +139,12 @@ router.post('/add-product', [checkAuth, imgUpload], async (req, res, next) => {
         } else {
             prodStatus = "Incomplete"
         }
-
+        var myId = mongoose.Types.ObjectId();
+        var slugtext = req.body.productName + myId ;
+        var slugID = slugtext.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
         var productData = new Products({
-            _id: mongoose.Types.ObjectId(),
+            _id: myId,
+            slugID: slugID,
             images: imageArr,
             sellerID: req.session.sellerID,
             productName: req.body.productName,

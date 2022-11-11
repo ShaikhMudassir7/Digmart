@@ -2,35 +2,6 @@ body {
     background-color: rgb(234, 229, 229);
 }
 
-.crousel-btn {
-    background: rgb(250, 204, 0);
-    color: indigo
-}
-
-#noDiscount,
-#withDiscount {
-    display: none;
-}
-
-.color-btn {
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-right: 20px;
-}
-
-.imgslidechgsize img {
-    cursor: pointer;
-}
-
-.add-cart, .add-wishlist{
-    background: #41878c9e;
-    color: #194346fa;
-    font-family: Arial, Helvetica, sans-serif;
-    border: solid;
-    cursor: pointer;
-    border-color: #1e686dfa;
-}
-
 @media screen and (min-width: 767px) {
     .imgchgsize {
         min-height: 450px;
@@ -56,10 +27,62 @@ body {
     }
 }
 
+#review-img{
+    display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+}
 
+#review-img img{
+    width: 150px;
+    cursor: pointer;
+}
 
-@media screen and (max-width: 766px) {}
+.crousel-btn {
+    background: rgb(250, 204, 0);
+    color: indigo
+}
 
+.header-color{
+    color:white; 
+    background-color: #1e686dfa;
+    cursor: pointer;
+}  
+
+.header-color b {
+  color:white;
+}
+
+.rate-btn{
+    float: right; 
+    background-color: white; 
+    color: #1e686dfa;
+}
+
+#noDiscount,
+#withDiscount {
+    display: none;
+}
+
+.color-btn {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+}
+
+.imgslidechgsize img {
+    cursor: pointer;
+}
+
+.add-cart, .add-wishlist{
+    background: #41878c9e;
+    color: #194346fa;
+    font-family: Okra, Helvetica, sans-serif;
+    border: solid;
+    cursor: pointer;
+    border-color: #1e686dfa;
+}
 .colorbutton {
 
     color: #000;
@@ -94,10 +117,26 @@ body {
     z-index: 2;
 }
 
+.heart-icon {
+    position: relative;
+    float: right;
+    z-index: 1;
+    cursor: pointer;
+    font-size: 30px;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: rgb(212, 209, 209);
+    transition: all 0.5s;
+}
+
+.i-red {
+    color: red;
+}
+
 .share-options {
     position: absolute;
     top: 15%;
-    right: 8%;
+    right: 11%;
     width: auto;
     max-width: 260px;
     height: auto;

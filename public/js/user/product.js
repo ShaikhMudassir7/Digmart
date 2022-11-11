@@ -13,7 +13,7 @@ function copyFunction() {
     copybtn.innerHTML = "Copied"
 }
 
-function addwishlist(sellerID, productID, variantID) {
+function addwishlist(element,sellerID, productID, variantID) {
     if (document.getElementById("0size")) {
         var size = document.getElementById(count + 'size').innerText;
     } else {
@@ -35,6 +35,7 @@ function addwishlist(sellerID, productID, variantID) {
                 if (result.status == 'login') {
                     $('#loginpopup').modal('show');
                 } else {
+                    element.classList.add('i-red');
                     swal({
                         title: "Product added to Wishlist",
                         icon: "success",
