@@ -283,7 +283,6 @@ router.get("/delete-product/(:id)/(:status)", checkAuth, async (req, res, next) 
         await Products.updateOne({ _id: id }, { $set: { disabled: true } })
         res.send({disabled : true})
     }
-
 });
 
 router.get("/delete-image/(:id)/(:a)", checkAuth, async (req, res, next) => {
