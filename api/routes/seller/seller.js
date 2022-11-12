@@ -134,7 +134,7 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/sendOtp', async (req, res) => {
-    var excepArr = ['dsouzaglen30@gmail.com', 'hatimsb11@gmail.com', 'hawaiza27@gmail.com', '9324326404', '8898413414', '9137242482']
+    var excepArr = ['dsouzaglen30@gmail.com', 'hatimsb11@gmail.com', 'hawaiza27@gmail.com', '9324326404', '8898413414', '9137242482', '9821474946']
     var query = {}
     query[req.body.toFind] = req.body.val
     var seller = await Seller.find(query)

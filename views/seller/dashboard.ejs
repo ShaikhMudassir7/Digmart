@@ -30,6 +30,39 @@
             backdrop-filter: blur(8px);
         }
 
+        .modal-backdrop {
+            opacity: 0.9 !important;
+        }
+
+        .modal-content {
+            border-radius: .3rem;
+            box-shadow: rgba(4, 255, 66, 0.24) 0px 3px 8px;
+        }
+
+        .modal-body {
+            border-radius: .3rem;
+            border-bottom-left-radius: 10rem;
+            border-bottom-right-radius: 10rem;
+            border-bottom: 2px solid #198754;
+            background-color: #eaffebf8;
+        }
+
+        .modal-body button {
+            top: .5rem;
+            right: .5rem;
+        }
+
+        #features p {
+            color: #198754;
+            font-weight: bold;
+            margin-bottom: .5rem;
+            text-align: center;
+        }
+
+        .modal-footer {
+            border-top: none;
+        }
+
         /* #overlay-content {
             align-self: flex-start;
             position: -webkit-sticky;
@@ -224,7 +257,9 @@
                                         <div id="overlay-content" class="align-self-center text-center">
                                             <i class="fas fa-lock fs-1"></i>
                                             <h4 class="my-2">Available only for Pro members</h4>
-                                            <a class="btn btn-outline-success mt-3">Upgrade to Pro <i class="fas fa-angle-double-up"></i></a>
+                                            <button class="btn btn-outline-success mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#subscription-modal">Upgrade to Pro <i
+                                                    class="fas fa-angle-double-up"></i></button>
                                         </div>
                                     </div>
                                     <%}%>
@@ -374,6 +409,35 @@
                     </div>
             </div>
     </div>
+
+    <!-- SUBSCRIPTION MODAL -->
+    <div class="modal fade" id="subscription-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body position-relative">
+                    <h1 class="modal-title text-center text-success mt-2 mx-3" id="staticBackdropLabel">Pro Plan</h1>
+                    <button type="button" class="btn position-absolute" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="fas fa-times text-success fs-3"></i></button>
+                    <div class="d-flex justify-content-center">
+                        <img src="/img/growth.png" style="width: 80; height:80px;" alt="">
+                    </div>
+                    <div id="features" class="mt-4">
+                        <h4 class="text-center fw-bolder mb-3">🔥Benefits🔥</h4>
+                        <p>Ad Free User Experience!</p>
+                        <p>Get access to Data Analytics Section</p>
+                        <p>Featured Products</p>
+                        <p>Benefit 4</p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-outline-success">Get started!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/chartsjs/Chart.min.js"></script>
