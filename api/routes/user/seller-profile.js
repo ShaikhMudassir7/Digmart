@@ -25,8 +25,17 @@ router.get("/(:sellerslugID)", async(req, res, next) => {
     }
 
     var varDocs = []
+    var filteredCatData = []
     var catDocs = await Category.find()
     var proDocs = await Products.find({ sellerID: seller._id, status: 'Verified' })
+
+    const uniqueCatDocs = [...new Set(proDocs.map(item => item.category))];
+
+    catDocs.forEach(function(cat) {
+        if (uniqueCatDocs.includes(cat.catName)) {
+            filteredCatData.push(cat)
+        }
+    })
 
     for (let i = 0; i < proDocs.length; i++) {
         if (proDocs[i].hasVariant) {
@@ -39,10 +48,10 @@ router.get("/(:sellerslugID)", async(req, res, next) => {
         galleryData: images,
         sellerID: id,
         sellerData: seller,
-        catData: catDocs,
+        catData: filteredCatData,
         user: req.session.userID,
         proDocs: proDocs,
-        varDocs: varDocs
+        varDocs: varDocs,
     });
 });
 module.exports = router;

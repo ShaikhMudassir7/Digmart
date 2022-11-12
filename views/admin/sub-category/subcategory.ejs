@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="/img/favicon.png">
-    <title>Category</title>
+    <title>Subcategory Page</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -27,8 +27,8 @@
                     <div class="content">
                         <div class="container">
                             <div class="page-title">
-                                <h3>Category Page
-                                    <a href="/admin/category/add-category" class="btn btn-sm btn-outline-primary float-end"><i class="fas fa-plus-circle"></i> Add Category</a>
+                                <h3>Sub-Category
+                                    <a href="/admin/sub-category/add-subcategory" class="btn btn-sm btn-outline-primary float-end"><i class="fas fa-plus-circle"></i> Add Subcategory</a>
                                 </h3>
                             </div>
                             <div class="box box-primary">
@@ -38,26 +38,26 @@
                                             <tr>
                                                 <th>Image</th>
                                                 <th>Category</th>
-                                                <th>Variant</th>
-                                                <th> </th>
+                                                <th>Sub-Category</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% if(categoryData.length!=0){ 
-                                                categoryData.forEach(function(data){ %>
+                                            <% if(subcats.length!=0){
+                                                subcats.forEach(function(data){ %>
                                                 <tr>
-                                                    <td style="width: 30%; ">
-                                                        <img src="<%=data.catImage %>" height="100px">
+                                                    <td>
+                                                        <img src="<%= data.subImage %>" height="100px">
                                                     </td>
                                                     <td>
-                                                        <%= data.catName %>
+                                                        <%= data.subCatName %>
                                                     </td>
                                                     <td>
-                                                        <%= data.variant %>
+                                                        <%= data.catID.catName %>
                                                     </td>
                                                     <td class="text-end">
-                                                        <a href="/admin/category/edit-category/<%=data._id %>" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
-                                                        <button type="button" class="btn btn-outline-danger btn-rounded" onclick="sweetAlertTrigger('<%=data._id %>')"><i class="fas fa-trash"></i></button>
+                                                        <a href="/admin/category/sub-category/edit/<%= data._id %>" class="btn btn-outline-info btn-rounded"><i class="fas fa-pen"></i></a>
+                                                        <a href="/admin/category/sub-category/delete/<%= data._id %>" class="btn btn-outline-danger btn-rounded"><i class="fas fa-trash"></i></button>
                                                     </td>
                                                 </tr>
                                                 <% }) %>

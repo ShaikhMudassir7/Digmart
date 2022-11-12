@@ -7,9 +7,7 @@
             <a href="/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a>
         </li>
         <li>
-            <a href="#verification" data-bs-toggle="collapse" aria-expanded="false"
-                class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i> Verification <i
-                    class="fas fa-caret-down float-end"></i></a>
+            <a href="#verification" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-user-shield"></i> Verification <i class="fas fa-caret-down float-end"></i></a>
             <ul class="collapse list-unstyled" id="verification">
                 <li>
                     <a href="/admin/verification/seller"><i class="fas fa-users"></i> Seller</a>
@@ -24,9 +22,7 @@
         </li>
 
         <li>
-            <a href="#statusproduct" data-bs-toggle="collapse" aria-expanded="false"
-                class="dropdown-toggle no-caret-down"><i class="fas fa-cart-arrow-down"></i> Products <i
-                    class="fas fa-caret-down float-end"></i></a>
+            <a href="#statusproduct" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-cart-arrow-down"></i> Products <i class="fas fa-caret-down float-end"></i></a>
             <ul class="collapse list-unstyled" id="statusproduct">
                 <li>
                     <a href="/admin/verification/productStatus/?status=Verified"><i class="fas fa-check-circle"></i>
@@ -41,26 +37,26 @@
         </li>
 
         <li>
-            <a href="#authmenu1" data-bs-toggle="collapse" aria-expanded="false"
-                class="dropdown-toggle no-caret-down"><i class="fas fa-users"></i> Sellers <i
+            <a href="#authmenu1" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-users"></i> Sellers <i
                     class="fas fa-caret-down float-end"></i></a>
             <ul class="collapse list-unstyled" id="authmenu1">
                 <li>
-                    <a href="/admin/verification/sellerStatus/?status=Verified"><i class="fas fa-check"></i> Verified
-                        Sellers</a>
+                    <a href="/admin/verification/sellerStatus/?status=Verified"><i class="fas fa-check"></i> Verified Sellers</a>
                 </li>
                 <li>
-                    <a href="/admin/verification/sellerStatus/?status=Rejected"><i class="fas fa-times "></i> Rejected
-                        Sellers</a>
-
+                    <a href="/admin/verification/sellerStatus/?status=Rejected"><i class="fas fa-times "></i> Rejected Sellers</a>
                 </li>
             </ul>
         </li>
-        
+
         <li>
             <a href="/admin/category"><i class="fas fa-th-list"></i> Category</a>
         </li>
-        
+
+        <li>
+            <a href="/admin/sub-category"><i class="fas fa-th-list"></i> Sub-Category</a>
+        </li>
+
         <% if (userType=="Admin" ) { %>
             <li>
                 <a href="/admin/operator"><i class="fas fa-user-friends"></i>Operators</a>

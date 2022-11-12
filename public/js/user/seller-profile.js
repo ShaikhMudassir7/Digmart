@@ -5,6 +5,7 @@ $('#nav-0').addClass("show");
 $('#nav-0').addClass("show");
 $('#nav-0-0').addClass("active selected");
 $('#tab-0-0').addClass("active show");
+
 function selectedsubcat(a) {
     var rem = document.querySelector('.selected').id;
     var remID = document.getElementById(rem);
@@ -26,7 +27,7 @@ function wishlist(element, sellerID, productID, variantID, size) {
                     size: size,
                 },
                 dataType: 'json',
-                success: function (result) {
+                success: function(result) {
                     if (result.status)
                         element.classList.add('i-red')
                 }
@@ -42,7 +43,7 @@ function wishlist(element, sellerID, productID, variantID, size) {
                     size: size,
                 },
                 dataType: 'json',
-                success: function (result) {
+                success: function(result) {
                     if (result.status)
                         element.classList.remove('i-red');
                 }
@@ -67,15 +68,15 @@ function showmodal(imgsrc) {
 
 
 function showgallery() {
-    $('#home-tab').removeClass("active");
+    $('#product-tab-pane').removeClass("active");
     $('#gallery-tab').addClass("active");
-    $('#home-tab-pane').removeClass("active show");
+    $('#product-tab-pane').removeClass("active show");
     $('#gallery-tab-pane').addClass("active show");
     document.getElementById("gallery-tab-pane").scrollIntoView(true);
 }
 
-$(function () {
-    $(".maindropdown").on("click", function () {
+$(function() {
+    $(".maindropdown").on("click", function() {
         $(this).find(".toggleicon").toggleClass("caretup");
         $(this).addClass("down");
         var rem = document.querySelector('.down').id;
@@ -89,7 +90,3 @@ $(function () {
         }
     });
 });
-
-
-
-

@@ -2,404 +2,230 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" type="image/png" href="/img/favicon.png" />
-  <title>DigMart - Seller Profile</title>
-  <style>
-  
-  </style>
-  <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="/css/user/seller-profile.css" rel="stylesheet"/>
-  <link href="/css/user/shop-by-category.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <title>
+        <%= sellerData.busName %>
+    </title>
 
+    <link href="/vendor/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/user/seller-profile.css" rel="stylesheet" />
+    <link href="/css/user/shop-by-category.css" rel="stylesheet">
 </head>
 
-<body style="background-color:  rgb(234, 229, 229);">
-  <!--header-->
-  <section id="header">
-    <%- include('navbar') %>
-  </section>
+<body>
+    <!--header-->
+    <section id="header">
+        <%- include('navbar') %>
+    </section>
 
-  <div class="container bg-white p-3 mt-3">
-    <div class="page-title">
-      <div class="card w-100  align-middl">
-          <div class="gallery">
-            <% if(galleryData){%>
-            <%if(galleryData.images.length!=0) { %>
-            <div class="gallery__item gallery__item--1">
-              <img src="<%=sellerData.busLogo%>" alt="" id="gallImage" class="gallery__img" />
-            </div>
-            <div class="gallery__item gallery__item--2">
-              <img src="<%=galleryData.images[0].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </div>
-            <div class="gallery__item gallery__item--3">
-              <img src="<%=galleryData.images[1].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </div>
-            <div class="gallery__item gallery__item--4">
-              <img src="<%=galleryData.images[2].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </div>
-            <div class="gallery__item gallery__item--5">
-              <img src="<%=galleryData.images[3].url%>" alt="<%=sellerData.busLogo%>" id="gallImage" class="gallery__img" />
-            </div>
-            <div class="gallery__item image_overlay" onclick="showgallery()">
-              <a><h3>View Gallery</h3></a>
-            </div>
-            <%}}if(!galleryData || galleryData.images.length==0){%>
-              <div class="gallery__item gallery__item--1">
-                <img src="<%=sellerData.busLogo%>" alt="" id="gallImage" class="gallery__img" />
-              </div>
-              <div class="gallery__item gallery__item--2">
-                <img src="<%=sellerData.busLogo%>" alt="Gallery image 2" id="gallImage" class="gallery__img" />
-              </div>
-              <div class="gallery__item gallery__item--3">
-                <img src="<%=sellerData.busLogo%>" alt="Gallery image 3" id="gallImage" class="gallery__img" />
-              </div>
-              <div class="gallery__item gallery__item--4">
-                <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
-              </div>
-              <div class="gallery__item gallery__item--5">
-                <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
-              </div>
-              <div class="gallery__item image_overlay" onclick="showgallery()">
-                <a><h3>View Gallery</h3></a>
-              </div>
-                <%}%>
-          </div>
+    <div class="container bg-white p-3 mt-3">
+        <div class="page-title">
+            <div class="card w-100 align-middle">
+                <div class="gallery">
+                    <% if(galleryData){%>
+                        <%if(galleryData.images.length!=0) { %>
+                            <div class="gallery__item gallery__item--1">
+                                <img src="<%= sellerData.busLogo %>" alt="" id="gallImage" class="gallery__img" />
+                            </div>
+                            <div class="gallery__item gallery__item--2">
+                                <img src="<%=galleryData.images[0].url%>" alt="<%= sellerData.busLogo %>" id="gallImage" class="gallery__img" />
+                            </div>
+                            <div class="gallery__item gallery__item--3">
+                                <img src="<%=galleryData.images[1].url%>" alt="<%= sellerData.busLogo %>" id="gallImage" class="gallery__img" />
+                            </div>
+                            <div class="gallery__item gallery__item--4">
+                                <img src="<%=galleryData.images[2].url%>" alt="<%= sellerData.busLogo %>" id="gallImage" class="gallery__img" />
+                            </div>
+                            <div class="gallery__item gallery__item--5">
+                                <img src="<%=galleryData.images[3].url%>" alt="<%= sellerData.busLogo %>" id="gallImage" class="gallery__img" />
+                            </div>
+                            <div class="gallery__item image_overlay" onclick="showgallery()">
+                                <a>
+                                    <h3>View Gallery</h3>
+                                </a>
+                            </div>
+                            <%}}if(!galleryData || galleryData.images.length==0){%>
+                                <div class="gallery__item gallery__item--1">
+                                    <img src="<%= sellerData.busLogo %>" alt="" id="gallImage" class="gallery__img" />
+                                </div>
+                                <div class="gallery__item gallery__item--2">
+                                    <img src="<%=sellerData.busLogo%>" alt="Gallery image 2" id="gallImage" class="gallery__img" />
+                                </div>
+                                <div class="gallery__item gallery__item--3">
+                                    <img src="<%=sellerData.busLogo%>" alt="Gallery image 3" id="gallImage" class="gallery__img" />
+                                </div>
+                                <div class="gallery__item gallery__item--4">
+                                    <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
+                                </div>
+                                <div class="gallery__item gallery__item--5">
+                                    <img src="<%=sellerData.busLogo%>" alt="Gallery image 4" id="gallImage" class="gallery__img" />
+                                </div>
+                                <div class="gallery__item image_overlay" onclick="showgallery()">
+                                    <a>
+                                        <h3>View Gallery</h3>
+                                    </a>
+                                </div>
+                                <%}%>
+                </div>
 
-        <span class="p-4">
-          <p class="fs-2">
-            <%=sellerData.busName%> <br />
-              <span class="fs-4 text-warning">
-                <%=sellerData.busType%>
-              </span>
-          </p>
-          <p class="fs-5 text-black-50">
-            <%=sellerData.busAddress%> <br />
-              <span class="fs-6 text-success">Delivery Available At: <%=sellerData.busZip%></span>
-          </p>
-        </span>
-      </div>
-    </div>
-
-
-    <div class="page-title" style="border-style: solid;  border-color: #3d7b7ffa;">
-      <ul class="nav nav-justified nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item shadow-sm" role="presentation">
-          <button class="nav-link text-success active" id="home-tab" data-bs-toggle="tab"
-            data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
-            Overview
-          </button>
-        </li>
-        <li class="nav-item shadow-sm" role="presentation">
-          <button class="nav-link text-success" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery-tab-pane"
-            type="button" role="tab" aria-controls="gallery-tab-pane" aria-selected="false">
-            Gallery
-          </button>
-        </li>
-        <li class="nav-item shadow-sm" role="presentation">
-          <button class="nav-link text-success" id="product-tab" data-bs-toggle="tab" data-bs-target="#product-tab-pane"
-            type="button" role="tab" aria-controls="product-tab-pane" aria-selected="false">
-            Products
-          </button>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-          tabindex="0">
-          <div class="row">
-            <div class="col-4 p-2">
-              <nav id="overview-navbar" class="ms-3 mt-2  h-100 flex-column align-items-stretch  pe-4 border-end">
-                <nav class="nav nav-pill flex-column">
-                  <a class="nav-link btn-outline-light btn-rounded" style="background-color: #3d7b7ffa;"
-                    href="#item-1">Elecrtonic Devices</a>
-                  <nav class="nav nav-pill flex-column">
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1"
-                      style="background-color: #f1f2f2fa;" href="#item-1-1">Smart
-                      Phones</a>
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1"
-                      style="background-color: #f1f2f2fa;" href="#item-1-2">Smart
-                      Watches</a>
-                  </nav>
-                  <a class="nav-link btn-outline-light  btn-rounded" style="background-color: #3d7b7ffa;"
-                    href="#item-2">Mens Accessories</a>
-                  <a class="nav-link btn-outline-light  btn-rounded" style="background-color: #3d7b7ffa;"
-                    href="#item-3">Electronic Accessories</a>
-                  <nav class="nav nav-pill flex-column">
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1"
-                      style="background-color: #f1f2f2fa;" href="#item-3-1">Ear
-                      Phones</a>
-                    <a class="nav-link btn-outline-light text-dark btn-rounded ms-3 my-1"
-                      style="background-color: #f1f2f2fa;" href="#item-3-2">Chargers</a>
-                  </nav>
-                </nav>
-              </nav>
+                <span class="p-3">
+                  <p class="fs-3 mb-0"><%= sellerData.busName %></p>
+                  <p class="fs-6 text-black-50"><%= sellerData.busAddress %><br />
+                        <span class="fs-6 text-success">Delivery Available At: <%=sellerData.busZip%></span></p>
+                </span>
             </div>
-
-            <div class="col-8">
-              <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true"
-                class="scrollspy-example-2" tabindex="0">
-                <div id="item-1">
-                  <br />
-                  <h4>Electronic Devices</h4>
-                  <p>
-                    it is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking
-                    at its layout. The point of using Lorem Ipsum is that it
-                    has a more-or-less normal distribution of letters, as
-                    opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing
-                    packages and web page editors now use Lorem Ipsum as their
-                    default model text, and a search for 'lorem ipsum' will
-                    uncover many web sites still in their infancy. Various
-                    versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose (injected humour and the
-                    like).
-                  </p>
-                </div>
-                <div id="item-1-1">
-                  <h5>Smart Phones</h5>
-                  <p>
-                    it is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking
-                    at its layout. The point of using Lorem Ipsum is that it
-                    has a more-or-less normal distribution of letters, as
-                    opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing
-                    packages and web page editors now use Lorem Ipsum as their
-                    default model text, and a search for 'lorem ipsum' will
-                    uncover many web sites still in their infancy. Various
-                    versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose (injected humour and the
-                    like).
-                  </p>
-                </div>
-                <div id="item-1-2">
-                  <h5>Smart Watches</h5>
-                  <p>
-                    it is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking
-                    at its layout. The point of using Lorem Ipsum is that it
-                    has a more-or-less normal distribution of letters, as
-                    opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing
-                    packages and web page editors now use Lorem Ipsum as their
-                    default model text, and a search for 'lorem ipsum' will
-                    uncover many web sites still in their infancy. Various
-                    versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose (injected humour and the
-                    like)....
-                  </p>
-                </div>
-                <div id="item-2">
-                  <h4>Mens Accessories</h4>
-                  <p>
-                    it is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking
-                    at its layout. The point of using Lorem Ipsum is that it
-                    has a more-or-less normal distribution of letters, as
-                    opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing
-                    packages and web page editors now use Lorem Ipsum as their
-                    default model text, and a search for 'lorem ipsum' will
-                    uncover many web sites still in their infancy. Various
-                    versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose (injected humour and the
-                    like)....
-                  </p>
-                </div>
-                <div id="item-3">
-                  <h4>Electronics</h4>
-                  <p>
-                    it is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking
-                    at its layout. The point of using Lorem Ipsum is that it
-                    has a more-or-less normal distribution of letters, as
-                    opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing
-                    packages and web page editors now use Lorem Ipsum as their
-                    default model text, and a search for 'lorem ipsum' will
-                    uncover many web sites still in their infancy. Various
-                    versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose (injected humour and the
-                    like)....
-                  </p>
-                </div>
-                <div id="item-3-1">
-                  <h5>Ear Phones</h5>
-                  <p>
-                    it is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking
-                    at its layout. The point of using Lorem Ipsum is that it
-                    has a more-or-less normal distribution of letters, as
-                    opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing
-                    packages and web page editors now use Lorem Ipsum as their
-                    default model text, and a search for 'lorem ipsum' will
-                    uncover many web sites still in their infancy. Various
-                    versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose (injected humour and the
-                    like)....
-                  </p>
-                </div>
-                <div id="item-3-2">
-                  <h5>Chargers</h5>
-                  <p>
-                    it is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking
-                    at its layout. The point of using Lorem Ipsum is that it
-                    has a more-or-less normal distribution of letters, as
-                    opposed to using 'Content here, content here', making it
-                    look like readable English. Many desktop publishing
-                    packages and web page editors now use Lorem Ipsum as their
-                    default model text, and a search for 'lorem ipsum' will
-                    uncover many web sites still in their infancy. Various
-                    versions have evolved over the years, sometimes by
-                    accident, sometimes on purpose (injected humour and the
-                    like)....
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="tab-pane fade" id="gallery-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-          <div class="container text-center">
-            <div class="row g-3 p-3 d-flex justify-content-center">
-              <%if(galleryData) { %>
-              <% if(galleryData.images.length!=0){ galleryData.images.forEach(function(image, index){%>
-                <div class="col-md-4 col-sm-12 col-12  imgchgsize border border-2 rounded border-dark">
-                    <img id="myImg" onclick="showmodal('<%=image.url%>')" class="img-fluid mx-auto d-block" src="<%=image.url%>" />
-                </div>
-                <%})}}if(!galleryData || galleryData.images.length==0){%>
-                  <h3><p>NO IMAGES FOUND !</p></h3>
-                  <%}%>
 
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade p-2" id="product-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-          <div class="row">
-            <div class="col-4 p-2">
-              <ul class="nav flex-column" id="overview-navbar">
-                <% if(catData.length!=0){var j=0; catData.forEach(function(data){ %>
-                <li class="nav-item ">
-                  <a class="nav-link maindropdown" id="nav<%=j%>"
-                    href="#nav-<%=j%>" data-bs-toggle="collapse" aria-expanded="false" 
-                    style="background-color: #3d7b7ffa;" role="button"><i
-                    class="fas fa-caret-down float-end toggleicon"></i> <%=data.catName%></a>
-                  <ul class="collapse list-unstyled mt-2 sidebargrp" id="nav-<%=j%>">
-                    <% var catArr=data.sub_category.split(', ')
-                      var catArr2 = []
-                      for (i = 0; i < catArr.length; i++){ 
-                      catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
-                    <li id="sidebar">
-                      <a class="nav-link text-dark" onclick="selectedsubcat(this)" id="nav-<%=j%>-<%=i%>" 
-                        data-bs-toggle="tab" data-bs-target="#tab-<%=j%>-<%=i%>" role="tab"
-                      aria-controls="#tab-<%=j%>-<%=i%>" href="#tab-<%=j%>-<%=i%>" aria-selected="false"><%=catArr[i]%></a >
-                    </li>
-                    <% } %>
-                  </ul>
+
+        <div class="page-title">
+            <ul class="nav nav-justified nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item shadow-sm" role="presentation">
+                    <button class="nav-link text-success fs-6" id="product-tab" data-bs-toggle="tab" data-bs-target="#product-tab-pane" type="button" role="tab" aria-controls="product-tab-pane" aria-selected="true">Explore Products</button>
                 </li>
-                <% j++;})} %>
-              </ul>
+
+                <li class="nav-item shadow-sm" role="presentation">
+                    <button class="nav-link text-success fs-6" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery-tab-pane" type="button" role="tab" aria-controls="gallery-tab-pane" aria-selected="false">Gallery</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade p-2 show active" id="product-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                    <div class="row">
+                        <div class="col-3 p-2">
+                            <ul class="nav flex-column" id="overview-navbar">
+                                <% if(catData.length!=0){ 
+                                  var j=0; 
+                                  catData.forEach(function(data){ %>
+                                    <li class="nav-item ">
+                                        <a class="nav-link maindropdown" id="nav<%=j%>" href="#nav-<%=j%>" data-bs-toggle="collapse" aria-expanded="false" style="background-color: #3d7b7ffa;" role="button"><i class="fas fa-caret-down float-end toggleicon"></i> <%=data.catName%></a>
+                                        <ul class="collapse list-unstyled mt-2 sidebargrp" id="nav-<%=j%>">
+                                            <% 
+                                              var catArr = data.sub_category.split(', ')
+                                              for (i = 0; i < catArr.length; i++){ 
+                                            %>
+                                                <li id="sidebar">
+                                                    <a class="nav-link text-dark" onclick="selectedsubcat(this)" id="nav-<%=j%>-<%=i%>" data-bs-toggle="tab" data-bs-target="#tab-<%=j%>-<%=i%>" role="tab" aria-controls="#tab-<%=j%>-<%=i%>" href="#tab-<%=j%>-<%=i%>" aria-selected="false">
+                                                        <%= catArr[i] %>
+                                                    </a>
+                                                </li>
+                                                <% } %>
+                                        </ul>
+                                    </li>
+                                    <% j++; })} %>
+                            </ul>
+                        </div>
+
+                        <div class="col-9">
+                            <div class="card-body tab-content" id="nav-tabContent">
+                                <% if(catData.length!=0){
+                                    var r=0; 
+                                    catData.forEach(function(data){ 
+                                %>
+                                    <% 
+                                        var catArr = data.sub_category.split(', ')
+                                        var catArr2 = []
+                                        for (i = 0; i < catArr.length; i++){ 
+                                            catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") 
+                                    %>
+                                        <div class="tab-pane fade" id="tab-<%=r%>-<%=i%>" role="tabpanel" aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
+                                            <div class="row justify-content-start ">
+                                                <% proDocs.forEach(function(product){ %>
+                                                    <% if(product.category==data.catName){ %>
+                                                        <% if(product.subcategory==catArr[i]){ %>
+                                                            <div class="prodContainer col-lg-4 col-sm-6 col-xs-6">
+                                                                <div class="pro ms-auto me-auto">
+                                                                    <% if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
+                                                                        if(varDocs[j].prodID.equals(product._id)){ %>
+                                                                        <div class="imgDiv" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
+                                                                            <%if(varDocs[j].sizes[0].discount){%>
+                                                                                <div class="prodDiscount">
+                                                                                    <%=varDocs[j].sizes[0].discount%>
+                                                                                </div>
+                                                                                <%}%>
+                                                                                    <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
+                                                                        </div>
+                                                                        <div class="des px-2 text-start" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
+                                                                            <span class="prodCat d-block"><%=product.subcategory%></span>
+                                                                            <span class="prodName"><%=product.productName%></span>
+                                                                            <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
+                                                                            <div>
+                                                                                <span class="prodPrice"><%=varDocs[j].sizes[0].finalPrice%></span>
+                                                                                <%if(varDocs[j].sizes[0].discount){%>
+                                                                                    <span class="discPrice text-muted px-2"><%=varDocs[j].sizes[0].actualPrice%></span>
+                                                                                    <%}%>
+                                                                            </div>
+                                                                        </div>
+                                                                        <i class="fa fa-heart" onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
+                                                                        <%}}} else {%>
+                                                                            <div class="imgDiv" onclick="openProduct('<%=product.slugID%>', null)">
+                                                                                <%if(product.discount){%>
+                                                                                    <div class="prodDiscount">
+                                                                                        <%=product.discount%>
+                                                                                    </div>
+                                                                                    <%}%>
+                                                                                        <img src="<%=product.images%>" alt="<%=product.productName%>">
+                                                                            </div>
+                                                                            <div class="des px-2 text-start" onclick="openProduct('<%=product.slugID%>', null)">
+                                                                                <span class="prodCat d-block"><%=product.subcategory%></span>
+                                                                                <span class="prodName"><%=product.productName%></span>
+                                                                                <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
+                                                                                <div>
+                                                                                    <span class="prodPrice"><%=product.finalPrice%></span>
+                                                                                    <%if(product.discount){%>
+                                                                                        <span class="discPrice text-muted px-2"><%=product.actualPrice%></span>
+                                                                                        <%}%>
+                                                                                </div>
+                                                                            </div>
+                                                                            <i class="fa fa-heart" onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
+                                                                            <%}%>
+                                                                </div>
+                                                            </div>
+                                                            <% }}})%>
+                                            </div>
+                                        </div>
+                                        <%}%>
+                                            <% r++;})} %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="gallery-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                    <div class="container text-center">
+                        <div class="row g-3 p-3 d-flex justify-content-center">
+                            <%if(galleryData) { %>
+                                <% if(galleryData.images.length!=0){ 
+                                    galleryData.images.forEach(function(image, index){%>
+                                    <div class="col-md-4 col-sm-12 col-12  imgchgsize border border-2 rounded border-dark">
+                                        <img id="myImg" onclick="showmodal('<%=image.url%>')" class="img-fluid mx-auto d-block" src="<%=image.url%>" />
+                                    </div>
+                                    <%})}} if(!galleryData || galleryData.images.length==0){%>
+                                        <h4 class="mt-5">
+                                            Nothing to show!
+                                        </h4>
+                                        <%}%>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-8">
-              <div class="card-body tab-content" id="nav-tabContent">
-              <% if(catData.length!=0){var r=0; catData.forEach(function(data){ %>
-                <% var catArr = data.sub_category.split(', ')
-            var catArr2 = []
-            for (i = 0; i < catArr.length; i++){ 
-                catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
-                <div class="tab-pane fade" id="tab-<%=r%>-<%=i%>" role="tabpanel"
-                    aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
-    <div class="row justify-content-start ">
-        <% proDocs.forEach(function(product){%> 
-          <%if(product.category==data.catName){%>
-          <%if(product.subcategory==catArr[i]){ %>
-            <div class="prodContainer col-6 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2">
-              <div class="pro ms-auto me-auto">
-                  <% if(product.hasVariant){ for(j=0; j < varDocs.length; j++){
-                      if(varDocs[j].prodID.equals(product._id)){ %>
-                      <div class="imgDiv" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
-                          <%if(varDocs[j].sizes[0].discount){%>
-                              <div class="prodDiscount"><%=varDocs[j].sizes[0].discount%></div>
-                              <%}%>
-                                  <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
-                      </div>
-                      <div class="des px-2 text-start"
-                          onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
-                          <span class="prodCat d-block">
-                              <%=product.subcategory%>
-                          </span>
-                          <span class="prodName">
-                              <%=product.productName%>
-                          </span>
-                          <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
-                          <div>
-                              <span class="prodPrice"><%=varDocs[j].sizes[0].finalPrice%>
-                              </span>
-                              <%if(varDocs[j].sizes[0].discount){%>
-                                  <span class="discPrice text-muted px-2"><%=varDocs[j].sizes[0].actualPrice%>
-                                  </span>
-                                  <%}%>
-                          </div>
-                      </div>
-                      <i class="fa fa-heart"
-                          onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', '<%=varDocs[j]._id%>', '<%=varDocs[j].sizes[0].sizes%>')"></i>
-                      <%}}} else {%>
-                          <div class="imgDiv" onclick="openProduct('<%=product.slugID%>', null)">
-                              <%if(product.discount){%>
-                                  <div class="prodDiscount"><%=product.discount%></div>
-                                  <%}%>
-                                      <img src="<%=product.images%>" alt="<%=product.productName%>">
-                          </div>
-                          <div class="des px-2 text-start" onclick="openProduct('<%=product.slugID%>', null)">
-                              <span class="prodCat d-block">
-                                  <%=product.subcategory%>
-                              </span>
-                              <span class="prodName">
-                                  <%=product.productName%>
-                              </span>
-                              <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
-                              <div>
-                                  <span class="prodPrice"><%=product.finalPrice%>
-                                  </span>
-                                  <%if(product.discount){%>
-                                      <span class="discPrice text-muted px-2"><%=product.actualPrice%>
-                                      </span>
-                                      <%}%>
-                              </div>
-                          </div>
-                          <i class="fa fa-heart"
-                              onclick="wishlist(this, '<%=product.sellerID%>', '<%=product._id%>', null, null)"></i>
-                          <%}%>
-              </div>
-          </div>
-            <% }}})%>
-    </div>
-    </div>
-    <%}%>
-              <% r++;})} %>
-            </div>
-          </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
 
-  <!-- single image modal -->
-  <%- include('../imageModal') %>
+    <!-- single image modal -->
+    <%- include('../imageModal') %>
 
-  <%- include('footer') %>
+        <%- include('footer') %>
 
-   <!-- Login Modal -->
-   <%- include('login') %>
+            <!-- Login Modal -->
+            <%- include('login') %>
 </body>
 
 <script src="/vendor/jquery/jquery.min.js"></script>
