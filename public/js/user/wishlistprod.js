@@ -1,5 +1,4 @@
 function addcart(sellerID, productID, variantID, colour, size) {
-    console.log("hi")
     $.ajax({
         url: "/cart/add-to-cart",
         type: "POST",

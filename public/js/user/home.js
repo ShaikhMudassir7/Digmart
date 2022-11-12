@@ -124,52 +124,54 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function wishlist(element, sellerID, productID, variantID, size) {
-    if ($("#hidLogin").val()) {
-        if (!element.classList.contains('i-red'))
-            $.ajax({
-                url: "/wishlist/add-product",
-                type: "POST",
-                data: {
-                    sellerID: sellerID,
-                    productID: productID,
-                    variantID: variantID,
-                    size: size,
-                },
-                dataType: 'json',
-                success: function(result) {
-                    if (result.status) {
-                        element.classList.add('i-red')
-                        swal({
-                            title: "Product added to your wishlist",
-                            icon: "success",
-                        });
+    if (!element.classList.contains('i-red'))
+        $.ajax({
+            url: "/wishlist/add-product",
+            type: "POST",
+            data: {
+                sellerID: sellerID,
+                productID: productID,
+                variantID: variantID,
+                size: size,
+            },
+            dataType: 'json',
+            success: function(result) {
+                if (result.login) {
+                    element.classList.add('i-red')
+                    if (result.already) {
+                        swal("Wishlisted", "Product already in your wishlist", 'success');
+                    } else {
+                        swal("Wishlisted", "Product added to your wishlist", 'success');
                     }
+                } else {
+                    $('#loginpopup').modal('show');
                 }
-            })
-        else
-            $.ajax({
-                url: "/wishlist/remove-product",
-                type: "POST",
-                data: {
-                    sellerID: sellerID,
-                    productID: productID,
-                    variantID: variantID,
-                    size: size,
-                },
-                dataType: 'json',
-                success: function(result) {
-                    if (result.status) {
-                        element.classList.remove('i-red');
-                        swal({
-                            title: "Product removed from wishlist",
-                            icon: "error",
-                        });
-                    }
+            }
+        })
+    else
+        $.ajax({
+            url: "/wishlist/remove-product",
+            type: "POST",
+            data: {
+                sellerID: sellerID,
+                productID: productID,
+                variantID: variantID,
+                size: size,
+            },
+            dataType: 'json',
+            success: function(result) {
+                if (result.login) {
+                    element.classList.remove('i-red');
+                    swal({
+                        title: "Product removed from wishlist",
+                        icon: "error",
+                    });
+                } else {
+                    $('#loginpopup').modal('show');
+
                 }
-            })
-    } else {
-        $('#loginpopup').modal('show');
-    }
+            }
+        })
 }
 
 function getLocation() {
@@ -179,6 +181,7 @@ function getLocation() {
     } else
         alert("Geolocation is not supported by this browser.")
 }
+
 getLocation();
 
 function showPosition(position) {

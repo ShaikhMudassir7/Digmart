@@ -3058,3 +3058,10 @@
     text-decoration: none;
     opacity: 1
 }
+
+.img-gallery {
+    align-self: center;
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
+}

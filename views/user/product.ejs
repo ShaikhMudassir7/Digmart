@@ -18,434 +18,418 @@
 <body>
     <%- include('navbar') %>
         <!-- header part for product image and price  -->
-        <div class="container divide-cont mt-3 bg-white shadow rounded">
-            <div id=a>
-                <!--Carousel Slide-->
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <% if(variantsData.length!=0){ %>
-                            <div class="carousel-item active imgchgsize border border-dark">
-                                <img src="<%=variantData.images[0]%>" class=" img-fluid rounded-start mx-auto d-block" alt="...">
-                            </div>
-                            <% for (let a=1; a < variantData.images.length; a++){ %>
-                                <div class="carousel-item imgchgsize border border-dark">
-                                    <img src="<%=variantData.images[a]%>" class="  img-fluid rounded-start mx-auto d-block" alt="...">
+        <div class="container mt-3 bg-white shadow rounded">
+            <div class="row">
+                <div class="col-lg-5 col-xs-12">
+                    <!--Carousel Slide-->
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <% if(variantsData.length!=0){ %>
+                                <div class="carousel-item active imgchgsize border border-dark">
+                                    <img src="<%=variantData.images[0]%>" class=" img-fluid rounded-start mx-auto d-block" alt="...">
                                 </div>
-                                <%}%>
-                                    <%}else{%>
-                                        <div class="carousel-item active imgchgsize border border-dark">
-                                            <img src="<%=productData.images[0]%>" class="img-fluid rounded-start mx-auto d-block" alt="...">
-                                        </div>
-                                        <% for (let a=1; a < productData.images.length; a++){ %>
-                                            <div class="carousel-item imgchgsize border border-dark">
-                                                <img src="<%=productData.images[a]%>" class="img-fluid rounded-start mx-auto d-block" alt="...">
+                                <% for (let a=1; a < variantData.images.length; a++){ %>
+                                    <div class="carousel-item imgchgsize border border-dark">
+                                        <img src="<%=variantData.images[a]%>" class="  img-fluid rounded-start mx-auto d-block" alt="...">
+                                    </div>
+                                    <%}%>
+                                        <%}else{%>
+                                            <div class="carousel-item active imgchgsize border border-dark">
+                                                <img src="<%=productData.images[0]%>" class="img-fluid rounded-start mx-auto d-block" alt="...">
                                             </div>
-                                            <%}%>
+                                            <% for (let a=1; a < productData.images.length; a++){ %>
+                                                <div class="carousel-item imgchgsize border border-dark">
+                                                    <img src="<%=productData.images[a]%>" class="img-fluid rounded-start mx-auto d-block" alt="...">
+                                                </div>
                                                 <%}%>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                                    <%}%>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <h3><span class="carousel-control-prev-icon crousel-btn" aria-hidden="true">«</span></h3>
             <span class="visually-hidden">Previous</span>
           </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
             <span class="carousel-control-next-icon crousel-btn" aria-hidden="true">
               <h3>»</h3>
             </span>
             <span class="visually-hidden">Next</span>
           </button>
-                </div>
+                    </div>
 
-                <div class="row">
-                    <% if(variantsData.length!=0){ %>
-                        <div class="col-md-12 p-0 d-flex">
-                            <div id="prevProductBtn" class="fas fa-chevron-left fa-2x align-self-center"></div>
-                            <div class="swiper flex-fill">
-                                <div class="swiper-wrapper mt-2">
-                                    <% for (let b=0; b < variantData.images.length; b++){ %>
-                                        <div class="ms-1 p-1 imgslidechgsize border border-dark">
-                                            <img src="<%= variantData.images[b]%>" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>" class="img-fluid mx-auto d-block" aria-current="true" aria-label="Slide <%=b%>">
+                    <div class="row">
+                        <% if(variantsData.length!=0){ %>
+                            <div class="col-md-12 p-0 d-flex">
+                                <div id="prevProductBtn" class="fas fa-chevron-left fa-2x align-self-center"></div>
+                                <div class="swiper flex-fill">
+                                    <div class="swiper-wrapper mt-2">
+                                        <% for (let b=0; b < variantData.images.length; b++){ %>
+                                            <div class="ms-1 p-1 imgslidechgsize border border-dark">
+                                                <img src="<%= variantData.images[b]%>" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>" class="img-fluid mx-auto d-block" aria-current="true" aria-label="Slide <%=b%>">
+                                            </div>
+                                            <%}%>
+                                    </div>
+                                </div>
+                                <div id="nextProductBtn" class="fas fa-chevron-right fa-2x align-self-center"></div>
+                            </div>
+                            <%}else{%>
+                                <div class="col-md-12 p-0">
+                                    <!-- Slider main container -->
+                                    <div class="swiper">
+                                        <!-- Additional required wrapper -->
+                                        <div class="swiper-wrapper mt-2">
+                                            <% for (let b=0; b < productData.images.length; b++){ %>
+                                                <div class=" swiper-slide  ms-1 p-1 imgslidechgsize border border-dark">
+                                                    <img src="<%= productData.images[b]%>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>" class="img-fluid img-thumbnail border border-dark" aria-current="true" aria-label="Slide <%=b%>">
+                                                </div>
+                                                <%}%>
+                                        </div>
+                                        <!-- If we need navigation buttons -->
+                                        <div id="prevProductBtn" class="fas fa-chevron-left fa-2x"></div>
+                                        <div id="nextProductBtn" class="fas fa-chevron-right fa-2x"></div>
+                                    </div>
+                                </div>
+                                <%}%>
+
+                    </div>
+
+                </div>
+                <div class="col-lg-7 col-xs-12">
+                    <%if(variantsData.length!=0){%>
+                        <i class="fa fa-heart heart-icon" onclick="addwishlist(this, '<%=productData.sellerID%>','<%= productData._id%>', '<%=variantData._id%>')"></i>
+                        <%}else{%>
+                            <i class="fa fa-heart heart-icon" onclick="addwishlist(this, '<%=productData.sellerID%>','<%= productData._id%>',null)"></i>
+                            <%}%>
+                                <button class="share-btn"><i class="fas fa-share-alt"></i></button>
+                                <div class="share-options">
+                                    <p class="title">Share</p>
+                                    <div class="social-media">
+                                        <a class="social-media-btn"><i class="fa fa-envelope"></i></a>
+                                        <a class="social-media-btn"><i class="fab fa-whatsapp"></i></a>
+                                        <a class="social-media-btn"><i class="fab fa-facebook-f"></i></a>
+                                    </div>
+                                    <div class="link-container">
+                                        <p class="link link-text"></p>
+                                        <button class="copy-btn" onclick="copyFunction()">copy</button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0 mt-2">
+                                    <h1 class="card-title text-dark">
+                                        <%=productData.productName %>
+                                    </h1>
+                                    <%if(rating !=0){%>
+                                        <p class="card-text" style="font-size: 15px;"><span class="btn btn-sm  btn-success" style="font-size: 10px;"><%=rating%>&nbsp&nbsp<i class="fa fa-star"></i></span>&nbsp
+                                            <%=totalrating%> Ratings &
+                                                <%=reviewData.length%> Reviews
+                                        </p>
+                                        <%}%>
+                                            <strong><p class="card-text fs-2 text-dark" id="noDiscount"></p></strong>
+                                            <div id="withDiscount">
+                                                <p class="card-text fs-2 text-dark mb-0">
+                                                    <strong id="finalPrice"></strong>&nbsp<span class="fs-6 text-black-20"><strike id="actualPrice"></strike></span>
+                                                    <span class="text-success fs-5" id="discount"></span>
+                                                </p>
+                                            </div>
+                                            <p class="card-text m-0"><small class="text-muted">Taxes Included</small></p>
+                                            <%if(variantsData.length!=0){%>
+                                                <%if(variantData.out_of_stock){%>
+                                                    <p class="text-danger">In Stock</p>
+                                                    <%}else{%>
+                                                        <p class="text-success">In Stock</p>
+                                                        <%}%>
+                                                            <!--color chart-->
+                                                            <strong>Color</strong><br>
+                                                            <div class="btn-group mb-3" role="group" aria-label="Basic mixed styles example">
+                                                                <%var i=0; variantsData.forEach(function(data){ %>
+                                                                    <button type="button" id="<%= i%>color" onclick="window.location.href='/product/variant/<%=data.slugID %>'" name="<%=data.colours %>" style="background-color: <%=data.colours %> ;" class="color-btn btn border border-dark"></button>
+                                                                    <% i++;}) %>
+                                                            </div><br>
+
+                                                            <!--size chart-->
+                                                            <strong>Size Chart</strong><br>
+                                                            <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+                                                                <% for (let i in variantData.sizes){ %>
+                                                                    <button type="button" value="<%= i%>" class="btn btn-warning" onclick="findsize('<%= variantData.sizes[i].sizes%>')" name="btnradio" id="<%= i%>size"><%=variantData.sizes[i].sizes %></button>
+                                                                    <% }%>
+                                                            </div><br>
+
+                                                            <div class="mb-3">
+                                                                <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')" class="header-color p-3"><i class="fa fa-cart-plus" style="color: white"></i><b> &nbsp;ADD TO CART</b></a>
+                                                            </div>
+                                                            <%}else{%>
+                                                                <%if(productData.out_of_stock){%>
+                                                                    <p class="text-danger">In Stock</p>
+                                                                    <%}else{%>
+                                                                        <p class="text-success">In Stock</p>
+                                                                        <%}%>
+                                                                            <div class="mb-3">
+                                                                                <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class="header-color p-3"><i class="fa fa-cart-plus" style="color: white"></i>&nbsp;<b>ADD TO CART</b></a>
+                                                                            </div>
+                                                                            <%}%>
+                                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-3 rounded">
+            <div class="accordion shadow" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-controls="collapseOne" style="color:white; background-color: #1e686dfa;"><h5> Product Specifications</h5></button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Product Description: </strong>
+                            <%=productData.description%><br><br>
+                                <%if(productData.specifications.length !=0 || productData.specifications[0].specName !=' ' ){%>
+                                    <table class="table table-light table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <%if(productData.brand){%>
+                                                    <th scope="row">Brand</th>
+                                                    <td class="text-muted">
+                                                        <%=productData.brand%>
+                                                    </td>
+                                                    <%}%>
+                                            </tr>
+                                            <% for (let i in productData.specifications){ %>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <%=productData.specifications[i].specName %>
+                                                    </th>
+                                                    <td class="text-muted">
+                                                        <%=productData.specifications[i].specValue %>
+                                                    </td>
+                                                </tr>
+                                                <% }%>
+
+                                        </tbody>
+                                    </table>
+                                    <%}%>
+                                        <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-3 rounded">
+            <div class="card shadow">
+                <div class="card-header header-color">
+                    Review and Ratings
+                </div>
+                <div class="card-body">
+                    <!-- Modal -->
+                    <div class="modal fade" id="review-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="Label">How Much did you Liked The Product</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="/review" method="post" class="d-inline" enctype="multipart/form-data" id="ReviewForm">
+                                    <div class="modal-body">
+                                        <input type="hidden" id="sellerID" name="sellerID" value="<%=productData.sellerID%>">
+                                        <input type="hidden" id="productID" name="productID" value="<%=productData._id%>">
+                                        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off" required>
+                                            <label class="btn btn-lg btn-outline-danger" for="btnradio1">1</label>
+
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="2" autocomplete="off" required>
+                                            <label class="btn btn-lg btn-outline-danger" for="btnradio2">2</label>
+
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="3" autocomplete="off" required>
+                                            <label class="btn btn-lg btn-outline-warning" for="btnradio3">3</label>
+
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="4" autocomplete="off" required>
+                                            <label class="btn btn-lg btn-outline-success" for="btnradio4">4</label>
+
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value=5 autocomplete="off" required>
+                                            <label class="btn btn-lg btn-outline-success" for="btnradio5">5</label>
+                                        </div><br>
+                                        <input type="file" class="form-control" name="images" id="images" multiple='multiple' accept="image/*">
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="reviewHeadline" class="form-label text-dark">Add a Headline</label>
+                                            <input type="text" class="form-control" id="reviewHeadline" name="reviewHeadline" required /><br>
+                                            <label for="reviewText" class="form-label text-dark">Review & Feedback</label>
+                                            <textarea class="form-control" id="reviewText" name="reviewText" rows="3" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <%if(rating !=0){%>
+                            <div class="col-md-8">
+                                <p class="card-text text-dark"><span class="btn  btn-success" style="font-size: 15px"><i
+          class="fa fa-star">
+          &nbsp<%=rating%>
+        </i></span>&nbsp
+                                    <%=totalrating%> Ratings &
+                                        <%=reviewData.length%> Reviews
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <button id="add-cart" type="button" onclick="check('<%=productData._id%>')" class="btn header-color" style="color: white">Rate
+      Product</button>
+                            </div>
+                            <%}else{%>
+                                <div class="col-md-8">
+                                    <p class="card-text text-black-30">
+                                        NO RATING & REVIEWS YET
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" onclick="check('<%=productData._id%>')" style="color: white" class="btn header-color">Rate
+        Product</button>
+                                </div>
+                                <%}%>
+                    </div>
+                    <hr>
+                    <%if(reviewData.length > 2){%>
+                        <%for(let i=0;i < 2; i++){%>
+                            <div class="row p-0">
+                                <div class="col-md-2 p-0 rating-div">
+                                    <%if(reviewData[i].rating> 3){%><span class="btn btn-success"><i class="fa fa-star"></i>
+          <%=reviewData[i].rating%>
+        </span>
+                                        <%}else if(reviewData[i].rating < 3){%><span class="btn btn-danger"><i class="fa fa-star"></i>
+            <%=reviewData[i].rating%>
+          </span>
+                                            <%}else{%><span class="btn btn-warning"><i class="fa fa-star"></i>
+              <%=reviewData[i].rating%>
+            </span>
+                                                <%}%>
+                                </div>
+                                <div class="col-md-10 p-0">
+                                    <b style="float: left;" class="mt-1">
+        <%=reviewData[i].reviewHeadline%>
+      </b>
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p align="left" class="ms-3" style="font-family: Okra, Helvetica, sans-serif;">
+                                            <%=reviewData[i].reviewText%>
+                                        </p>
+                                    </div>
+                                </div>
+                                <%if(reviewData[i].images.length !=0){%>
+                                    <div class="row">
+                                        <div class="col-md-12" id="review-img">
+                                            <% for (let b=0; b < reviewData[i].images.length; b++){ %>
+                                                <img src="<%= reviewData[i].images[b]%>" class="img-fluid img-thumbnail" onclick="imageModal('<%= reviewData[i].images[b]%>')">
+                                                <%}%>
+                                        </div>
+                                    </div>
+                                    <%}%>
+                                        <b align="right">
+          <%=reviewData[i].userID.fullName%> | <%=reviewData[i].date%>
+        </b>
+                                        <hr>
+                            </div>
+                            <%}%>
+                                <div id="hidden-reviews" style="display: none;">
+                                    <%for(let i=2;i < reviewData.length; i++){%>
+                                        <div class="row p-0">
+                                            <div class="col-md-2 p-0 rating-div">
+                                                <%if(reviewData[i].rating> 3){%><span class="btn btn-success"><i class="fa fa-star"></i>
+          <%=reviewData[i].rating%>
+        </span>
+                                                    <%}else if(reviewData[i].rating < 3){%><span class="btn btn-danger"><i class="fa fa-star"></i>
+            <%=reviewData[i].rating%>
+          </span>
+                                                        <%}else{%><span class="btn btn-warning"><i class="fa fa-star"></i>
+              <%=reviewData[i].rating%>
+            </span>
+                                                            <%}%>
+                                            </div>
+                                            <div class="col-md-10 p-0">
+                                                <b style="float: left;" class="mt-1">
+        <%=reviewData[i].reviewHeadline%>
+      </b>
+                                            </div>
+                                            <br><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p align="left" class="ms-3" style="font-family: Okra, Helvetica, sans-serif;">
+                                                        <%=reviewData[i].reviewText%>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <%if(reviewData[i].images.length !=0){%>
+                                                <div class="row">
+                                                    <div class="col-md-12" id="review-img">
+                                                        <% for (let b=0; b < reviewData[i].images.length; b++){ %>
+                                                            <img src="<%= reviewData[i].images[b]%>" class="img-fluid img-thumbnail" onclick="imageModal('<%= reviewData[i].images[b]%>')">
+                                                            <%}%>
+                                                    </div>
+                                                </div>
+                                                <%}%>
+                                                    <b align="right">
+          <%=reviewData[i].userID.fullName%> | <%=reviewData[i].date%>
+        </b>
+                                                    <hr>
                                         </div>
                                         <%}%>
                                 </div>
-                            </div>
-                            <div id="nextProductBtn" class="fas fa-chevron-right fa-2x align-self-center"></div>
-                        </div>
-                        <%}else{%>
-                            <div class="col-md-12 p-0">
-                                <!-- Slider main container -->
-                                <div class="swiper">
-                                    <!-- Additional required wrapper -->
-                                    <div class="swiper-wrapper mt-2">
-                                        <% for (let b=0; b < productData.images.length; b++){ %>
-                                            <div class=" swiper-slide  ms-1 p-1 imgslidechgsize border border-dark">
-                                                <img src="<%= productData.images[b]%>" width="100%" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=b%>" class="img-fluid img-thumbnail border border-dark" aria-current="true" aria-label="Slide <%=b%>">
+                                <p id="view-reviews" onclick="show(this)">View All Reviews</p>
+                                <%}else{%>
+                                    <%for(let i=0;i < reviewData.length; i++){%>
+                                        <div class="row p-0">
+                                            <div class="col-md-2 p-0 rating-div">
+                                                <%if(reviewData[i].rating> 3){%><span class="btn btn-success"><i class="fa fa-star"></i>
+          <%=reviewData[i].rating%>
+        </span>
+                                                    <%}else if(reviewData[i].rating < 3){%><span class="btn btn-danger"><i class="fa fa-star"></i>
+            <%=reviewData[i].rating%>
+          </span>
+                                                        <%}else{%><span class="btn btn-warning"><i class="fa fa-star"></i>
+              <%=reviewData[i].rating%>
+            </span>
+                                                            <%}%>
                                             </div>
-                                            <%}%>
-                                    </div>
-                                    <!-- If we need navigation buttons -->
-                                    <div id="prevProductBtn" class="fas fa-chevron-left fa-2x"></div>
-                                    <div id="nextProductBtn" class="fas fa-chevron-right fa-2x"></div>
-                                </div>
-                            </div>
-                            <%}%>
-
-                </div>
-
-            </div>
-            <div id=b>
-                <%if(variantsData.length!=0){%>
-                    <i class="fa fa-heart heart-icon" onclick="addwishlist(this, '<%=productData.sellerID%>','<%= productData._id%>', '<%=variantData._id%>')"></i>
-                    <%}else{%>
-                        <i class="fa fa-heart heart-icon" onclick="addwishlist(this, '<%=productData.sellerID%>','<%= productData._id%>',null)"></i>
-                        <%}%>
-                            <button class="share-btn">
-                <i class="fas fa-share-alt"></i>
-              </button>
-                            <div class="share-options">
-                                <p class="title">Share</p>
-                                <div class="social-media">
-                                    <a class="social-media-btn"><i class="fa fa-envelope"></i></a>
-                                    <a class="social-media-btn"><i class="fab fa-whatsapp"></i></a>
-                                    <a class="social-media-btn"><i class="fab fa-facebook-f"></i></a>
-                                </div>
-                                <div class="link-container">
-                                    <p class="link link-text"></p>
-                                    <button class="copy-btn" onclick="copyFunction()">copy</button>
-                                </div>
-                            </div>
-                            <div class="card-body p-0 mt-2">
-                                <h1 class="card-title text-dark">
-                                    <%=productData.productName %>
-                                </h1>
-                                <%if(rating !=0){%>
-                                    <p class="card-text" style="font-size: 15px;"><span class="btn btn-sm  btn-success" style="font-size: 10px;">
-                      <%=rating%>&nbsp&nbsp<i class="fa fa-star"></i>
-                    </span>&nbsp
-                                        <%=totalrating%> Ratings &
-                                            <%=reviewData.length%> Reviews
-                                    </p>
-                                    <%}%>
-                                        <strong>
-                      <p class="card-text fs-2 text-dark" id="noDiscount">
-
-                      </p>
-                    </strong>
-                                        <div id="withDiscount">
-                                            <p class="card-text fs-2 text-dark mb-0">
-                                                <strong id="finalPrice">
-                        </strong>&nbsp<span class="fs-6 text-black-20"><strike id="actualPrice">
-                          </strike>
-                        </span><span class="text-success fs-5" id="discount">
-
-                        </span>
-                                            </p>
-                                        </div>
-                                        <p class="card-text m-0"><small class="text-muted">Taxes Included</small></p>
-                                        <%if(variantsData.length!=0){%>
-                                            <%if(variantData.out_of_stock){%>
-                                                <p class="text-danger">In Stock</p>
-                                                <%}else{%>
-                                                    <p class="text-success">In Stock</p>
-                                                    <%}%>
-                                                        <!--color chart-->
-                                                        <strong>Color</strong><br>
-                                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                            <%var i=0; variantsData.forEach(function(data){ %>
-                                                                <button type="button" id="<%= i%>color" onclick="window.location.href='/product/variant/<%=data.slugID %>'" name="<%=data.colours %>" style="background-color: <%=data.colours %> ;" class="color-btn btn border border-dark"></button>
-                                                                <% i++;}) %>
-                                                        </div>
-                                                        <br><br>
-
-                                                        <!--size chart-->
-                                                        <strong>Size Chart</strong><br>
-                                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                                            <% for (let i in variantData.sizes){ %>
-                                                                <button type="button" value="<%= i%>" class="btn btn-warning" onclick="findsize('<%= variantData.sizes[i].sizes%>')" name="btnradio" id="<%= i%>size">
-                                  <%=variantData.sizes[i].sizes %>
-                                </button>
-                                                                <% }%>
-                                                        </div><br><br><br>
-                                                        <div>
-                                                            <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>','<%=variantData._id%>','<%=variantData.colours%>')" class="header-color p-3 "><i class="fa fa-cart-plus" style="color: white"></i><b>
-                                  &nbsp;ADD TO
-                                  CART</b></a>
-                                                        </div>
-                                                        <%}else{%>
-                                                            <%if(productData.out_of_stock){%>
-                                                                <p class="text-danger">In Stock</p>
-                                                                <%}else{%>
-                                                                    <p class="text-success">In Stock</p>
-                                                                    <%}%>
-                                                                        <div>
-                                                                            <a onclick="addcart('<%=productData.sellerID%>','<%= productData._id%>',null,null)" class="header-color p-3"><i class="fa fa-cart-plus" style="color: white"></i>
-                                        &nbsp;<b>ADD TO
-                                          CART</b></a>
-                                                                        </div>
-                                                                        <%}%>
-                            </div><br><br>
-                            <div class="accordion shadow" id="accordionExample">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-controls="collapseOne" style="color:white; background-color: #1e686dfa;">
-                      <b>
-                        <h5> Product Specifications</h5>
-                      </b>
-                    </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <strong>Product Description: </strong><br>
-                                            <%=productData.description%><br><br>
-                                                <%if(productData.specifications.length !=0 || productData.specifications[0].specName !=' ' ){%>
-                                                    <table class="table table-light table-striped">
-                                                        <tbody>
-                                                            <tr>
-                                                                <%if(productData.brand){%>
-                                                                    <th scope="row">Brand</th>
-                                                                    <td class="text-muted">
-                                                                        <%=productData.brand%>
-                                                                    </td>
-                                                                    <%}%>
-                                                            </tr>
-                                                            <% for (let i in productData.specifications){ %>
-                                                                <tr>
-                                                                    <th scope="row">
-                                                                        <%=productData.specifications[i].specName %>
-                                                                    </th>
-                                                                    <td class="text-muted">
-                                                                        <%=productData.specifications[i].specValue %>
-                                                                    </td>
-                                                                </tr>
-                                                                <% }%>
-
-                                                        </tbody>
-                                                    </table>
-                                                    <%}%>
-                                                        <br>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><br><br>
-                            <div class="card shadow">
-                                <div class="card-header header-color">
-                                    Review and Ratings
-                                </div>
-                                <div class="card-body">
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="review-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="Label">How Much did you Liked The Product</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="/review" method="post" class="d-inline" enctype="multipart/form-data" id="ReviewForm">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" id="sellerID" name="sellerID" value="<%=productData.sellerID%>">
-                                                        <input type="hidden" id="productID" name="productID" value="<%=productData._id%>">
-                                                        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
-                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="1" autocomplete="off" required>
-                                                            <label class="btn btn-lg btn-outline-danger" for="btnradio1">1</label>
-
-                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="2" autocomplete="off" required>
-                                                            <label class="btn btn-lg btn-outline-danger" for="btnradio2">2</label>
-
-                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" value="3" autocomplete="off" required>
-                                                            <label class="btn btn-lg btn-outline-warning" for="btnradio3">3</label>
-
-                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" value="4" autocomplete="off" required>
-                                                            <label class="btn btn-lg btn-outline-success" for="btnradio4">4</label>
-
-                                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" value=5 autocomplete="off" required>
-                                                            <label class="btn btn-lg btn-outline-success" for="btnradio5">5</label>
-                                                        </div><br>
-                                                        <input type="file" class="form-control" name="images" id="images" multiple='multiple' accept="image/*">
-                                                        <br>
-                                                        <div class="mb-3">
-                                                            <label for="reviewHeadline" class="form-label text-dark">Add a Headline</label>
-                                                            <input type="text" class="form-control" id="reviewHeadline" name="reviewHeadline" required /><br>
-                                                            <label for="reviewText" class="form-label text-dark">Review & Feedback</label>
-                                                            <textarea class="form-control" id="reviewText" name="reviewText" rows="3" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </form>
+                                            <div class="col-md-10 p-0">
+                                                <b style="float: left;" class="mt-1">
+        <%=reviewData[i].reviewHeadline%>
+      </b>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <%if(rating !=0){%>
-                                            <div class="col-md-8">
-                                                <p class="card-text text-dark"><span class="btn  btn-success" style="font-size: 15px"><i
-                              class="fa fa-star">
-                              &nbsp<%=rating%>
-                            </i></span>&nbsp
-                                                    <%=totalrating%> Ratings &
-                                                        <%=reviewData.length%> Reviews
-                                                </p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <button id="add-cart" type="button" onclick="check('<%=productData._id%>')" class="btn header-color" style="color: white">Rate
-                          Product</button>
-                                            </div>
-                                            <%}else{%>
-                                                <div class="col-md-8">
-                                                    <p class="card-text text-black-30">
-                                                        NO RATING & REVIEWS YET
+                                            <br><br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p align="left" class="ms-3" style="font-family: Okra, Helvetica, sans-serif;">
+                                                        <%=reviewData[i].reviewText%>
                                                     </p>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <button type="button" onclick="check('<%=productData._id%>')" style="color: white" class="btn header-color">Rate
-                            Product</button>
+                                            </div>
+                                            <%if(reviewData[i].images.length !=0){%>
+                                                <div class="row">
+                                                    <div class="col-md-12" id="review-img">
+                                                        <% for (let b=0; b < reviewData[i].images.length; b++){ %>
+                                                            <img src="<%= reviewData[i].images[b]%>" class="img-fluid img-thumbnail" onclick="imageModal('<%= reviewData[i].images[b]%>')">
+                                                            <%}%>
+                                                    </div>
                                                 </div>
                                                 <%}%>
-                                    </div>
-                                    <hr>
-                                    <%if(reviewData.length > 2){%>
-                                        <%for(let i=0;i < 2; i++){%>
-                                            <div class="row p-0">
-                                                <div class="col-md-2 p-0 rating-div">
-                                                    <%if(reviewData[i].rating> 3){%><span class="btn btn-success"><i class="fa fa-star"></i>
-                              <%=reviewData[i].rating%>
-                            </span>
-                                                        <%}else if(reviewData[i].rating < 3){%><span class="btn btn-danger"><i class="fa fa-star"></i>
-                                <%=reviewData[i].rating%>
-                              </span>
-                                                            <%}else{%><span class="btn btn-warning"><i class="fa fa-star"></i>
-                                  <%=reviewData[i].rating%>
-                                </span>
-                                                                <%}%>
-                                                </div>
-                                                <div class="col-md-10 p-0">
-                                                    <b style="float: left;" class="mt-1">
-                            <%=reviewData[i].reviewHeadline%>
-                          </b>
-                                                </div>
-                                                <br><br>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <p align="left" class="ms-3" style="font-family: Okra, Helvetica, sans-serif;">
-                                                            <%=reviewData[i].reviewText%>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <%if(reviewData[i].images.length !=0){%>
-                                                    <div class="row">
-                                                        <div class="col-md-12" id="review-img">
-                                                            <% for (let b=0; b < reviewData[i].images.length; b++){ %>
-                                                                <img src="<%= reviewData[i].images[b]%>" class="img-fluid img-thumbnail" onclick="imageModal('<%= reviewData[i].images[b]%>')">
-                                                                <%}%>
-                                                        </div>
-                                                    </div>
-                                                    <%}%>
-                                                        <b align="right">
-                              <%=reviewData[i].userID.fullName%> | <%=reviewData[i].date%>
-                            </b>
-                                                        <hr>
-                                            </div>
+                                                    <b align="right">
+          <%=reviewData[i].userID.fullName%> | <%=reviewData[i].date%>
+        </b>
+                                                    <hr>
+                                        </div>
+                                        <%}%>
                                             <%}%>
-                                                <div id="hidden-reviews" style="display: none;">
-                                                    <%for(let i=2;i < reviewData.length; i++){%>
-                                                        <div class="row p-0">
-                                                            <div class="col-md-2 p-0 rating-div">
-                                                                <%if(reviewData[i].rating> 3){%><span class="btn btn-success"><i class="fa fa-star"></i>
-                              <%=reviewData[i].rating%>
-                            </span>
-                                                                    <%}else if(reviewData[i].rating < 3){%><span class="btn btn-danger"><i class="fa fa-star"></i>
-                                <%=reviewData[i].rating%>
-                              </span>
-                                                                        <%}else{%><span class="btn btn-warning"><i class="fa fa-star"></i>
-                                  <%=reviewData[i].rating%>
-                                </span>
-                                                                            <%}%>
-                                                            </div>
-                                                            <div class="col-md-10 p-0">
-                                                                <b style="float: left;" class="mt-1">
-                            <%=reviewData[i].reviewHeadline%>
-                          </b>
-                                                            </div>
-                                                            <br><br>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <p align="left" class="ms-3" style="font-family: Okra, Helvetica, sans-serif;">
-                                                                        <%=reviewData[i].reviewText%>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <%if(reviewData[i].images.length !=0){%>
-                                                                <div class="row">
-                                                                    <div class="col-md-12" id="review-img">
-                                                                        <% for (let b=0; b < reviewData[i].images.length; b++){ %>
-                                                                            <img src="<%= reviewData[i].images[b]%>" class="img-fluid img-thumbnail" onclick="imageModal('<%= reviewData[i].images[b]%>')">
-                                                                            <%}%>
-                                                                    </div>
-                                                                </div>
-                                                                <%}%>
-                                                                    <b align="right">
-                              <%=reviewData[i].userID.fullName%> | <%=reviewData[i].date%>
-                            </b>
-                                                                    <hr>
-                                                        </div>
-                                                        <%}%>
-                                                </div>
-                                                <p id="view-reviews" onclick="show(this)">View All Reviews</p>
-                                                <%}else{%>
-                                                    <%for(let i=0;i < reviewData.length; i++){%>
-                                                        <div class="row p-0">
-                                                            <div class="col-md-2 p-0 rating-div">
-                                                                <%if(reviewData[i].rating> 3){%><span class="btn btn-success"><i class="fa fa-star"></i>
-                              <%=reviewData[i].rating%>
-                            </span>
-                                                                    <%}else if(reviewData[i].rating < 3){%><span class="btn btn-danger"><i class="fa fa-star"></i>
-                                <%=reviewData[i].rating%>
-                              </span>
-                                                                        <%}else{%><span class="btn btn-warning"><i class="fa fa-star"></i>
-                                  <%=reviewData[i].rating%>
-                                </span>
-                                                                            <%}%>
-                                                            </div>
-                                                            <div class="col-md-10 p-0">
-                                                                <b style="float: left;" class="mt-1">
-                            <%=reviewData[i].reviewHeadline%>
-                          </b>
-                                                            </div>
-                                                            <br><br>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <p align="left" class="ms-3" style="font-family: Okra, Helvetica, sans-serif;">
-                                                                        <%=reviewData[i].reviewText%>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <%if(reviewData[i].images.length !=0){%>
-                                                                <div class="row">
-                                                                    <div class="col-md-12" id="review-img">
-                                                                        <% for (let b=0; b < reviewData[i].images.length; b++){ %>
-                                                                            <img src="<%= reviewData[i].images[b]%>" class="img-fluid img-thumbnail" onclick="imageModal('<%= reviewData[i].images[b]%>')">
-                                                                            <%}%>
-                                                                    </div>
-                                                                </div>
-                                                                <%}%>
-                                                                    <b align="right">
-                              <%=reviewData[i].userID.fullName%> | <%=reviewData[i].date%>
-                            </b>
-                                                                    <hr>
-                                                        </div>
-                                                        <%}%>
-                                                            <%}%>
 
-                                </div>
-                            </div>
+                </div>
             </div>
         </div>
 
         <div class="container p-3 mt-3 mb-3 bg-white shadow rounded">
             <section>
-                <b>
-          <h5>People Also Viewed</h5>
-        </b>
+                <h5>People Also Viewed</h5>
                 <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
                     <!--First slide of carousel-->
@@ -596,8 +580,6 @@
                 </div>
             </section>
         </div>
-
-
 
         <%- include('footer') %>
             <!-- Login Modal -->

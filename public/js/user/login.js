@@ -132,5 +132,4 @@ function closemodal() {
     mobTimer.style.display = "none"
     mobResend.classList.remove('timer-inactive')
     mobResend.classList.add('timer-active')
-
 }
