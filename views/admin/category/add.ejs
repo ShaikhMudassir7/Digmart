@@ -26,23 +26,21 @@
                                     <div class="card">
                                         <div class="card-header fw-bold bg-dark text-light">ADD NEW CATEGORY</div>
                                         <div class="card-body">
-                                            <form action="/admin/category/add-category" method="post"
-                                                enctype="multipart/form-data">
+                                            <form action="/admin/category/add-category" method="post" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="catImage" class="form-label">Category Image</label>
+<<<<<<< HEAD
+                                                    <input type="file" name="catImage" class="form-control" id="catImage" accept="image/*" required>
+=======
                                                     <input type="file" name="catImage" class="form-control"
                                                         id="catImage" accept="image/*" required>
+>>>>>>> c4c6eced382131ef90abbcba912ca4f21da1368a
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="catName" class="form-label">Category Name</label>
-                                                    <input name="catName" placeholder="Enter Category" id="catName"
-                                                        class="form-control" required>
+                                                    <input name="catName" placeholder="Enter Category" id="catName" class="form-control" required>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="sub_category" class="form-label">Sub-Category</label>
-                                                    <input type="text" name="sub_category" id="sub_category"
-                                                        placeholder="Enter Sub-Category" class="form-control" required>
-                                                </div>
+
                                                 <div class="mb-3 col-md-4">
                                                     <label for="variant" class="form-label">Variant</label>
                                                     <select name="variant" class="form-select" required>
@@ -65,8 +63,8 @@
     </div>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '#submitData', function (e) {
+        $(document).ready(function() {
+            $(document).on('click', '#submitData', function(e) {
                 var catName = document.getElementById("catName").value;
                 '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
                 if (catName == '<%= data.catName %>') {

@@ -11,6 +11,8 @@ const app = express();
 const adminRoute = require("./api/routes/admin/admin");
 const verificationRoute = require("./api/routes/admin/verification");
 const admincategoryRoute = require("./api/routes/admin/category");
+const adminsubcategoryRoute = require("./api/routes/admin/sub-category");
+
 const sellerRoute = require("./api/routes/seller/seller");
 const sellerProductRoute = require("./api/routes/seller/product");
 const productVariantRoute = require("./api/routes/seller/variant");
@@ -64,12 +66,15 @@ app.use("/uploads", express.static(__dirname + "public/uploads"));
 app.use("/admin", adminRoute);
 app.use("/admin/verification", verificationRoute);
 app.use("/admin/category", admincategoryRoute);
+app.use("/admin/sub-category", adminsubcategoryRoute);
+
 app.use("/seller", sellerRoute);
 app.use("/seller/products", sellerProductRoute);
 app.use("/seller/gallery", sellerGalleryRoute);
 app.use("/seller/products/variant", productVariantRoute);
 app.use("/seller/coverage", sellerCoverageRoute);
 app.use("/seller/orders", orderRoute);
+
 app.use("/", userRoute);
 app.use("/product", userProductRoute);
 app.use("/seller", userSellerRoute);

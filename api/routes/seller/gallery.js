@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
-var mongoose = require("mongoose");
 const multer = require("multer");
-const fs = require("fs");
 require("firebase/storage");
 
 const Gallery = require("../../models/seller/gallery");
@@ -10,6 +8,7 @@ const Seller = require("../../models/seller/seller");
 
 const checkAuth = require("../../middleware/seller/checkAuth");
 const firebase = require("../../utils/firebase");
+
 const storage = firebase.storage().ref();
 const store = multer.memoryStorage();
 var upload = multer({ storage: store });

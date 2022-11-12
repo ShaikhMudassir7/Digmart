@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-var mongoose = require("mongoose");
+
 const multer = require("multer");
 require("firebase/storage");
 
-var Category = require('../../models/admin/categorySchema')
 var SubCategory = require('../../models/admin/subcategory')
+var Category = require('../../models/admin/categorySchema')
 
 const checkAuth = require("../../middleware/admin/checkAuth")
 
@@ -15,72 +15,38 @@ const storage = firebase.storage().ref();
 const store = multer.memoryStorage();
 var upload = multer({ storage: store })
 
-var catUpload = upload.fields([{ name: "catImage", maxCount: 1 }])
+var catUpload = upload.fields([{ name: "subImage", maxCount: 1 }])
 
 router.get('/', checkAuth, async(req, res) => {
-    const docs = await Category.find()
-    res.render('./admin/category/category', { categoryData: docs, userType: req.session.type, userName: req.session.name })
+    const subcats = await SubCategory.find().populate('catID')
+    res.render('./admin/sub-category/subcategory', { subcats, userType: req.session.type, userName: req.session.name })
 })
 
-<<<<<<< HEAD
-router.get('/add-category', checkAuth, async(req, res, next) => {
-    const documents = await Category.find().exec()
-    res.render("./admin/category/add", { catData: documents, userType: req.session.type, userName: req.session.name })
+router.get('/add-subcategory', checkAuth, async(req, res, next) => {
+    const catData = await Category.find().exec()
+    res.render("./admin/sub-category/add", { catData, userType: req.session.type, userName: req.session.name })
 })
 
 router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
     try {
-        var catFile = req.files.catImage[0]
-        const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
+        var catFile = req.files.subImage[0]
+        const imageRef = storage.child("/sub-categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
         await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
+
         var url = await imageRef.getDownloadURL()
-        var categoryData = new Category({
-            _id: mongoose.Types.ObjectId(),
-            catImage: url,
-            catName: req.body.catName,
-            variant: req.body.variant
+        var categoryData = new SubCategory({
+            subImage: url,
+            subCatName: req.body.subCatName,
+            catID: req.body.catID
         })
-        categoryData.save().then((result) => {
-            res.redirect("/admin/category")
-        })
+        await categoryData.save()
+        res.redirect("/admin/sub-category")
     } catch (err) {
         console.log(err);
-=======
-router.get('/add-category', checkAuth, async (req, res, next) => {
-    const documents = await Category.find().select().exec()
-    res.render("./admin/category/add", { catData: documents, userType: req.session.type, userName: req.session.name })
-})
-
-router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
-
-    const doc = await Category.find({ catName: req.body.catName }).select().exec()
-    if (doc.length > 0) {
-        res.send({ catNameExists: true })
-    }
-    else {
-        try {
-            var catFile = req.files.catImage[0]
-            const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
-            await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
-            var url = await imageRef.getDownloadURL()
-            var categoryData = new Category({
-                _id: mongoose.Types.ObjectId(),
-                catImage: url,
-                catName: req.body.catName,
-                sub_category: req.body.sub_category,
-                variant: req.body.variant
-            })
-            categoryData.save().then((result) => {
-                res.redirect("/admin/category")
-            })
-        } catch (err) {
-            console.log(err);
-        }
->>>>>>> c4c6eced382131ef90abbcba912ca4f21da1368a
     }
 })
 
-router.get('/edit-category/:catID', [checkAuth, catUpload], async (req, res, next) => {
+router.get('/edit-subcategory/:catID', [checkAuth, catUpload], async(req, res, next) => {
     const id = req.params.catID
     const documents = await Category.find().select().exec()
 
@@ -94,7 +60,7 @@ router.get('/edit-category/:catID', [checkAuth, catUpload], async (req, res, nex
         })
 });
 
-router.post("/edit-category/:catID", [checkAuth, catUpload], async(req, res) => {
+router.post("/edit-subcategory/:catID", [checkAuth, catUpload], async(req, res) => {
     const id = req.params.catID
     var rawSS = req.files.catImage;
 
@@ -142,7 +108,7 @@ router.post("/edit-category/:catID", [checkAuth, catUpload], async(req, res) => 
         })
 });
 
-router.get("/delete-category/:delCat", checkAuth, async(req, res, next) => {
+router.get("/delete-subcategory/:delCat", checkAuth, async(req, res, next) => {
     const id = req.params.delCat;
 
     var category = await Category.findByIdAndRemove(id).exec()

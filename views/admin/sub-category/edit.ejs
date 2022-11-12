@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="/img/favicon.png">
-    <title>Edit Category</title>
+    <title>Category Edit Page</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -18,9 +18,13 @@
 
 <body>
     <div class="wrapper">
+        <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
+            <!-- end of sidebar component -->
             <div id="body" class="active">
+                <!-- navbar navigation component -->
                 <%- include('../navbar') %>
+                    <!-- end of navbar navigation -->
                     <div class="content">
                         <div class="container">
                             <div class="row">
@@ -29,17 +33,20 @@
                                         <div class="card-header fw-bold bg-dark text-light">EDIT CATEGORY</div>
                                         <div class="card-body">
                                             <h5 class="card-title"></h5>
-                                            <form action="/admin/category/edit-category/<%=categoryData._id %>" method="post" enctype="multipart/form-data" class="needs-validation" novalidate accept-charset="utf-8">
+                                            <form action="/admin/category/edit-category/<%=categoryData._id %>"
+                                                method="post" enctype="multipart/form-data" class="needs-validation"
+                                                novalidate accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
-                                                        <label for="productName" class="form-label">Category Image</label>
+                                                        <label for="productName" class="form-label">Category
+                                                            Image</label>
                                                     </div>
                                                 </div>
 
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-2">
                                                         <div class="item">
-                                                            <img src="<%= categoryData.catImage %>" style="width: 100%;">
+                                                            <img src="<%=categoryData.catImage %>" style="width: 100%;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -51,7 +58,8 @@
                                                         </label>
                                                     </div>
                                                     <div class="mb-3 col-md-10">
-                                                        <input type="file" class="form-control" name="catImage" accept="image/*" id="file">
+                                                        <input type="file" class="form-control" name="catImage"
+                                                            accept="image/*" id="file">
                                                         <div class="valid-feedback">Looks good!</div>
                                                         <div class="invalid-feedback">Please Choose an Image.
                                                         </div>
@@ -60,9 +68,21 @@
 
                                                 <div class="mb-3">
                                                     <label for="text" class="form-label">Category Name</label>
-                                                    <input type="text" value="<%=categoryData.catName %>" name="catName" id="catName" placeholder="Enter Category" class="form-control" required>
+                                                    <input type="text" value="<%=categoryData.catName %>" name="catName"
+                                                        id="catName" placeholder="Enter Category" class="form-control"
+                                                        required>
                                                     <div class="valid-feedback">Looks good!</div>
                                                     <div class="invalid-feedback">Please Choose a Category.
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="text" class="form-label">Sub-Category</label>
+                                                    <input type="text" value='<%=categoryData.sub_category %>'
+                                                        name="sub_category" placeholder="Enter Sub-Category"
+                                                        class="form-control" required>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback">Please Choose a Subcategory.
                                                     </div>
                                                 </div>
 
@@ -70,7 +90,7 @@
                                                     <label for="variant" class="form-label">Variant</label>
                                                     <select name="variant" class="form-select" id="variant" required>
                                                         <option value="<%=categoryData.variant %>" selected>
-                                                            <%= categoryData.variant %>
+                                                            <%=categoryData.variant %>
                                                         </option>
                                                         <% if(categoryData.variant=="Available" ){ %>
                                                             <option value="Unavailable">
@@ -101,7 +121,7 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script>
         var catNameBeforeEdit = '<%= categoryData.catName%>'
-        $(document).on('click', '#submitData', function(e) {
+        $(document).on('click', '#submitData', function (e) {
             var catName = document.getElementById("catName").value;
 
             '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
@@ -115,7 +135,7 @@
                 })
             }
             '<% i++; })}%>'
-        });
+        }); 
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -1,6 +1,5 @@
 const express = require("express")
 const router = express.Router()
-const mongoose = require('mongoose')
 const https = require('https')
 
 const Category = require('../../models/admin/categorySchema')
