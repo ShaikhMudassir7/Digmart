@@ -48,57 +48,49 @@ router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
 
 router.get('/edit-subcategory/:catID', [checkAuth, catUpload], async(req, res, next) => {
     const id = req.params.catID
-    const documents = await Category.find().select().exec()
+    const doc = await SubCategory.findById(id)
+    const catData = await Category.find().exec()
 
-    Category.findById(id,
-        (err, doc) => {
-            if (!err) {
-                res.render('./admin/category/edit', { catData: documents, categoryData: doc, userType: req.session.type, userName: req.session.name })
-            } else {
-                res.send('try-again')
-            }
-        })
+    res.render('./admin/sub-category/edit', { catData, categoryData: doc, userType: req.session.type, userName: req.session.name })
+
 });
 
 router.post("/edit-subcategory/:catID", [checkAuth, catUpload], async(req, res) => {
     const id = req.params.catID
-    var rawSS = req.files.catImage;
+    var rawSS = req.files.subImage;
 
     if (rawSS) {
-        var category = await Category.findById(id).exec()
-        var imagePath = category.catImage.split("?")
+        var category = await SubCategory.findById(id).exec()
+        var imagePath = category.subImage.split("?")
         var fileRef = firebase.storage().refFromURL(imagePath[0]);
         await fileRef.delete()
     }
 
     var updatedValue = {}
 
-    if (req.files.catImage) {
-        var catFile = req.files.catImage[0]
-        const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
+    if (req.files.subImage) {
+        var catFile = req.files.subImage[0]
+        const imageRef = storage.child("/sub-categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
         await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
         var url = await imageRef.getDownloadURL()
 
         updatedValue = {
-            catImage: url,
-            catName: req.body.catName,
-            sub_category: req.body.sub_category,
-            variant: req.body.variant
+            subImage: url,
+            subCatName: req.body.subCatName,
+            catID: req.body.catID,
         }
     } else {
         updatedValue = {
             catName: req.body.catName,
-            sub_category: req.body.sub_category,
-            variant: req.body.variant
+            subCatName: req.body.subCatName,
+            catID: req.body.catID,
         }
     }
 
-    Category.findByIdAndUpdate({ _id: id },
-            updatedValue)
+    SubCategory.findByIdAndUpdate({ _id: id }, updatedValue)
         .exec()
         .then(result => {
-            console.log(result)
-            res.redirect("/admin/category")
+            res.redirect("/admin/sub-category")
         })
         .catch(err => {
             console.log(err)
@@ -111,14 +103,19 @@ router.post("/edit-subcategory/:catID", [checkAuth, catUpload], async(req, res) 
 router.get("/delete-subcategory/:delCat", checkAuth, async(req, res, next) => {
     const id = req.params.delCat;
 
-    var category = await Category.findByIdAndRemove(id).exec()
+    var category = await SubCategory.findByIdAndRemove(id).exec()
 
-    var imagePath = category.catImage.split("?")
+    var imagePath = category.subImage.split("?")
     var fileRef = firebase.storage().refFromURL(imagePath[0]);
 
     fileRef.delete().then(function() {
-        res.redirect('/admin/category')
+        res.redirect('/admin/sub-category')
     })
+});
+
+router.get("/get-sub-category/:catID", async(req, res, next) => {
+    var subcats = await SubCategory.find({ catID: req.params.catID })
+    res.send(subcats)
 });
 
 module.exports = router

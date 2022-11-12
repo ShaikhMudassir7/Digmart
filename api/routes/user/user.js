@@ -3,6 +3,8 @@ const router = express.Router()
 const https = require('https')
 
 const Category = require('../../models/admin/categorySchema')
+const SubCategory = require('../../models/admin/subcategory')
+
 const Seller = require("../../models/seller/seller")
 const Coverage = require("../../models/seller/coverage")
 const Products = require('../../models/seller/product')
@@ -12,7 +14,8 @@ router.get('/', async(req, res) => {
     var varDocs = []
     var catDocs = await Category.find()
     var selDocs = await Seller.find({ featured: true, status: 'Verified' }).populate('busCat')
-    var proDocs = await Products.find({ featured: true, status: 'Verified' })
+    var proDocs = await Products.find({ featured: true, status: 'Verified' }).populate('category')
+
     for (let i = 0; i < proDocs.length; i++) {
         if (proDocs[i].hasVariant) {
             var doc = await Variants.find({ prodID: proDocs[i]._id })
@@ -24,23 +27,27 @@ router.get('/', async(req, res) => {
 
 router.get('/shop-by-category', async(req, res) => {
     var varDocs = []
+
     var catDocs = await Category.findOne({ catName: req.query.cat })
+    var subcatDocs = await SubCategory.find({ catID: catDocs._id })
+
     if (req.session.pincode) {
         var covDocs = await Coverage.find({ pin: { pincode: req.session.pincode } }).select('sellerID')
         var selArr = []
         for (let i = 0; i < covDocs.length; i++)
             selArr.push(covDocs[i].sellerID)
-        var proDocs = await Products.find({ category: req.query.cat, sellerID: { $in: selArr }, status: 'Verified' })
+        var proDocs = await Products.find({ category: catDocs._id, sellerID: { $in: selArr }, status: 'Verified' })
     } else {
-        var proDocs = await Products.find({ category: req.query.cat, status: 'Verified' })
+        var proDocs = await Products.find({ category: catDocs._id, status: 'Verified' })
     }
+
     if (catDocs.variant == 'Available') {
         for (let i = 0; i < proDocs.length; i++) {
             var doc = await Variants.find({ prodID: proDocs[i]._id })
             varDocs.push(doc[0])
         }
     }
-    res.render('./user/shop-by-category', { catDocs: catDocs, proDocs: proDocs, varDocs: varDocs, user: req.session.userID })
+    res.render('./user/shop-by-category', { catDocs: catDocs, subcatDocs, proDocs: proDocs, varDocs: varDocs, user: req.session.userID })
 })
 
 router.post('/api/pincode', (req, res) => {

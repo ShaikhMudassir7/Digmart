@@ -24,69 +24,24 @@ var imgUpload = upload.fields([{ name: 'images', maxCount: 5 }])
 router.get('/', checkAuth, async(req, res) => {
     var status = req.query.status
     if (status == "Rejected") {
-        Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Incomplete" }, { status: "Verified" }] }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
-            .exec()
-            .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        const docs = await Products.find({ sellerID: req.session.sellerID, $nor: [{ status: "Pending" }, { status: "Incomplete" }, { status: "Verified" }] }).populate('category subcategory')
+        res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
     } else if (status == "Pending") {
-        Products.find({ sellerID: req.session.sellerID, status: "Pending" }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
-            .exec()
-            .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        const docs = await Products.find({ sellerID: req.session.sellerID, status: "Pending" }).populate("category subcategory")
+        res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
     } else if (status == "Incomplete") {
-        Products.find({ sellerID: req.session.sellerID, status: "Incomplete" }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
-            .exec()
-            .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        const docs = await Products.find({ sellerID: req.session.sellerID, status: "Incomplete" }).populate("category subcategory")
+        res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
     } else if (!status) {
-        Products.find({ sellerID: req.session.sellerID }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
-            .exec()
-            .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        const docs = await Products.find({ sellerID: req.session.sellerID }).populate("category subcategory")
+        res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
     } else {
-        Products.find({ sellerID: req.session.sellerID, status: status }).select("images productName description category subcategory brand actualPrice discount finalPrice quantity hasVariant status")
-            .exec()
-            .then(docs => {
-                res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
-            })
-            .catch(err => {
-                console.log(err)
-                res.status(500).json({
-                    error: err
-                })
-            })
+        const docs = await Products.find({ sellerID: req.session.sellerID, status: status }).populate("category subcategory")
+        res.render('./seller/products/products', { productsData: docs, sellerID: req.session.sellerID, pFname: req.session.pFname, pLname: req.session.pLname })
     }
 })
 
-router.get('/add-product', checkAuth, async (req, res) => {
+router.get('/add-product', checkAuth, async(req, res) => {
     const documents = await Products.find({ sellerID: req.session.sellerID }).select().exec()
     const busCategory = await Seller.find({ _id: req.session.sellerID }).select("busCat").exec()
 
@@ -103,13 +58,13 @@ router.get('/add-product', checkAuth, async (req, res) => {
         })
 });
 
-router.post('/add-product', [checkAuth, imgUpload], async (req, res, next) => {
+router.post('/add-product', [checkAuth, imgUpload], async(req, res, next) => {
     const { productName } = req.body;
 
     var specsArr = [{
         "specName": req.body.specName,
         "specValue": req.body.specValue,
-    },];
+    }, ];
 
     try {
         var rawSS = req.files.images;
@@ -140,7 +95,7 @@ router.post('/add-product', [checkAuth, imgUpload], async (req, res, next) => {
             prodStatus = "Incomplete"
         }
         var myId = mongoose.Types.ObjectId();
-        var slugtext = req.body.productName + myId ;
+        var slugtext = req.body.productName + myId;
         var slugID = slugtext.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
         var productData = new Products({
             _id: myId,
@@ -167,7 +122,7 @@ router.post('/add-product', [checkAuth, imgUpload], async (req, res, next) => {
     }
 });
 
-router.get("/edit-product/(:id)", checkAuth, async (req, res, next) => {
+router.get("/edit-product/(:id)", checkAuth, async(req, res, next) => {
     const documents = await Products.find({ sellerID: req.session.sellerID }).select().exec()
     const doc = await Products.findById(req.params.id)
 
@@ -177,13 +132,13 @@ router.get("/edit-product/(:id)", checkAuth, async (req, res, next) => {
 
 });
 
-router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res) => {
+router.post("/edit-product/:productID", [checkAuth, imgUpload], async(req, res) => {
     const id = req.params.productID
 
     var specsArr = [{
         "specName": req.body.specName,
         "specValue": req.body.specValue,
-    },];
+    }, ];
 
     var imageArr = [];
     var products = await Products.findById(id).exec()
@@ -235,23 +190,23 @@ router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res)
     }
 
     Products.findByIdAndUpdate({ _id: id }, {
-        $set: {
-            images: imageArr,
-            productName: req.body.productName,
-            description: req.body.description,
-            category: req.body.category,
-            subcategory: req.body.subcategory,
-            brand: req.body.brand,
-            specifications: specificationsArr,
-            actualPrice: req.body.actualPrice,
-            discount: req.body.discount,
-            finalPrice: req.body.finalPrice,
-            quantity: req.body.quantity,
-            hasVariant: req.body.hasVariant,
-            status: prodStatus,
-            disabled: req.body.disabled
-        }
-    })
+            $set: {
+                images: imageArr,
+                productName: req.body.productName,
+                description: req.body.description,
+                category: req.body.category,
+                subcategory: req.body.subcategory,
+                brand: req.body.brand,
+                specifications: specificationsArr,
+                actualPrice: req.body.actualPrice,
+                discount: req.body.discount,
+                finalPrice: req.body.finalPrice,
+                quantity: req.body.quantity,
+                hasVariant: req.body.hasVariant,
+                status: prodStatus,
+                disabled: req.body.disabled
+            }
+        })
         .exec()
         .then(result => {
             console.log(result)
@@ -268,7 +223,7 @@ router.post("/edit-product/:productID", [checkAuth, imgUpload], async (req, res)
         })
 });
 
-router.get("/delete-product/(:id)/(:status)", checkAuth, async (req, res, next) => {
+router.get("/delete-product/(:id)/(:status)", checkAuth, async(req, res, next) => {
     var status = req.params.status
     const id = req.params.id;
 
@@ -281,16 +236,15 @@ router.get("/delete-product/(:id)/(:status)", checkAuth, async (req, res, next) 
             var fileRef = firebase.storage().refFromURL(imagePath[0]);
             var del = await fileRef.delete()
         }
-        res.send({disabled : false})
-    }
-    else{
+        res.send({ disabled: false })
+    } else {
         await Products.updateOne({ _id: id }, { $set: { disabled: true } })
-        res.send({disabled : true})
+        res.send({ disabled: true })
     }
 });
 
-router.get("/delete-image/(:id)/(:a)", checkAuth, async (req, res, next) => {
-    
+router.get("/delete-image/(:id)/(:a)", checkAuth, async(req, res, next) => {
+
     const index = req.params.a
     var products = await Products.findById(req.params.id).exec()
 
@@ -301,10 +255,10 @@ router.get("/delete-image/(:id)/(:a)", checkAuth, async (req, res, next) => {
     products.images.splice(index, 1)
 
     Products.findByIdAndUpdate({ _id: req.params.id }, {
-        $set: {
-            images: products.images
-        }
-    })
+            $set: {
+                images: products.images
+            }
+        })
         .exec()
         .then(result => {
             res.redirect("/seller/products/edit-product/" + req.params.id);

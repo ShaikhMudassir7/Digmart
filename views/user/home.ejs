@@ -48,14 +48,13 @@
                                     <% if (!user) { %>
                                         <li><a class="dropdown-item" data-bs-target="#loginpopup" data-bs-toggle="modal"><i class="fas fa-sign-in-alt"></i> Sign in</a></li>
                                         <% } else{%>
-                                            <li><a class="dropdown-item" href="/orders"><i class="fas fa-list"></i>My Orders</a></li>
-                                            <li><a class="dropdown-item" href="/wishlist"><i class="fas fa-heart"></i>Wishlist</a></li>
-
-                                            <li><a class="dropdown-item" href="/cart"><i class="fas fa-shopping-cart"></i>View Cart</a></li>
+                                            <li><a class="dropdown-item" href="/orders"><i class="fas fa-list"></i> My Orders</a></li>
+                                            <li><a class="dropdown-item" href="/wishlist"><i class="fas fa-heart"></i> Wishlist</a></li>
+                                            <li><a class="dropdown-item" href="/cart"><i class="fas fa-shopping-cart"></i> View Cart</a></li>
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>
-                                            <li><a class="dropdown-item" href="/login/logout"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                                            <li><a class="dropdown-item" href="/login/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                             <% } %>
                                 </ul>
                             </div>
@@ -227,18 +226,13 @@
                                                     <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                                         </div>
                                         <div class="des px-2 text-start" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
-                                            <span class="prodCat d-block">
-                                    <%=product.category%>
-                                </span>
-                                            <span class="prodName">
-                                    <%=product.productName%>
-                                </span>
+                                            <span class="prodCat d-block"><%= product.category.catName %></span>
+                                            <span class="prodName"><%= product.productName %></span>
                                             <div class="prodRating"><i class="fa fa-star"> 4.2</i></div>
                                             <div>
                                                 <span class="prodPrice"><%=varDocs[j].sizes[0].finalPrice%></span>
                                                 <%if(varDocs[j].sizes[0].discount){%>
-                                                    <span class="discPrice text-muted px-2"><%=varDocs[j].sizes[0].actualPrice%>
-                                        </span>
+                                                    <span class="discPrice text-muted px-2"><%=varDocs[j].sizes[0].actualPrice%></span>
                                                     <%}%>
                                             </div>
                                         </div>
@@ -253,12 +247,8 @@
                                                         <img src="<%=product.images%>" alt="<%=product.productName%>">
                                             </div>
                                             <div class="des px-2 text-start" onclick="openProduct('<%=product.slugID%>', null)">
-                                                <span class="prodCat d-block">
-                                        <%=product.category%>
-                                    </span>
-                                                <span class="prodName">
-                                        <%=product.productName%>
-                                    </span>
+                                                <span class="prodCat d-block"><%=product.category%></span>
+                                                <span class="prodName"><%=product.productName%></span>
                                                 <div class="prodRating"><i class="fa fa-star"> 4.2</i></div>
                                                 <div>
                                                     <span class="prodPrice"><%=product.finalPrice%></span>

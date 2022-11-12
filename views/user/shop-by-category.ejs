@@ -25,35 +25,38 @@
         <nav class="position-relative">
             <button id="navLeft" class="btn"><i class="fas fa-angle-left"></i></button>
             <div class="nav nav-tabs ms-3 me-3 flex-nowrap pb-1" id="nav-tab" role="tablist">
-                <% var catArr=catDocs.sub_category.split(', ')
-                var catArr2 = []
-                for (i = 0; i < catArr.length; i++){ 
-                    catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
-                    <button class="nav-link flex-fill" id="nav-<%=catArr2[i]%>" data-bs-toggle="tab" data-bs-target="#tab-<%=catArr2[i]%>" type="button" role="tab" aria-controls="tab-<%=catArr2[i]%>" aria-selected="false">
-                        <%=catArr[i]%>
+                <% 
+                    if(subcatDocs.length != 0){
+                    subcatDocs.forEach(function(subcat){
+                %>
+
+                    <button class="nav-link flex-fill" id="nav-<%=subcat._id%>" data-bs-toggle="tab" data-bs-target="#tab-<%=subcat._id%>" type="button" role="tab" aria-controls="tab-<%=subcat._id%>" aria-selected="false">
+                        <img src="<%= subcat.subImage %>" height="50px" /> <%= subcat.subCatName %>
                     </button>
-                    <%} %>
-                        <input type="hidden" id="firstnav" value="#nav-<%=catArr2[0]%>">
+                    <% }) %>
+                        <input type="hidden" id="firstnav" value="#nav-<%=subcatDocs[0]._id%>">
+                        <% } %>
             </div>
             <button id="navRight" class="btn"><i class="fas fa-angle-right"></i></button>
         </nav>
+
         <div class="card-body tab-content" id="nav-tabContent">
-            <% var catArr = catDocs.sub_category.split(', ')
-            var catArr2 = []
-            for (i = 0; i < catArr.length; i++){ 
-                catArr2[i] = catArr[i].replace(/[" "]/g, "_").replace(/["&"]/g, "_") %>
-                <div class="tab-pane fade" id="tab-<%=catArr2[i]%>" role="tabpanel" aria-labelledby="nav-<%=catArr2[i]%>" tabindex="0">
+            <% 
+            if(subcatDocs.length != 0){
+                subcatDocs.forEach(function(subcat){
+            %>
+                <div class="tab-pane fade" id="tab-<%=subcat._id%>" role="tabpanel" aria-labelledby="nav-<%=subcat._id%>" tabindex="0">
                     <div class="row justify-content-evenly ps-auto pe-auto">
-                        <div class="col-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
+                        <div class="col-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-1">
                             <div id="searchDiv" class="form-control p-0 d-flex align-items-center">
                                 <i class="fas fa-search px-2"></i>
-                                <input class="flex-fill" type="search" placeholder="Search" aria-label="Search" onkeyup="searchProd(this,'#tab-<%=catArr2[i]%>')">
+                                <input class="flex-fill" type="search" placeholder="Search" aria-label="Search" onkeyup="searchProd(this,'#tab-<%=subcat._id%>')">
                             </div>
                         </div>
-                        <div class="col-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-3">
+                        <div class="col-6 col-md-6 col-lg-3 order-lg-first col-xl-3 order-xl-first col-xxl-3 order-xxl-first mt-1">
                             <div class="sortSelect d-flex">
                                 <div class="align-self-stretch px-1">Sort by:</div>
-                                <select name="sortCriteria" class="form-select flex-fill" onchange="sortProd(this.value, '#tab-<%=catArr2[i]%>')">
+                                <select name="sortCriteria" class="form-select flex-fill" onchange="sortProd(this.value, '#tab-<%=subcat._id%>')">
                                         <option value="" selected>Recommended</option>
                                         <option value="Price Low to High">Price Low to high</option>
                                         <option value="Price High to Low">Price High to Low</option>
@@ -62,15 +65,14 @@
                                     </select>
                             </div>
                         </div>
-                        <div class="col-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-3">
-                            <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#filterModal">
-                                <i class="fas fa-filter"></i> Filters
-                                </button>
+                        <div class="col-6 col-md-6 col-lg-3 col-xl-3 col-xxl-3 mt-1">
+                            <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="fas fa-filter"></i> Filters</button>
                         </div>
                     </div>
                     <div class="row justify-content-start ps-auto pe-auto">
-                        <% proDocs.forEach(function(product){ 
-                                if(product.subcategory==catArr[i]){ %>
+                        <% 
+                        proDocs.forEach(function(product){ 
+                                if(product.subcategory.equals(subcat._id)) { %>
                             <div class="prodContainer col-6 col-sm-4 col-md-4 col-lg-3 col-xl-3 col-xxl-2 mt-3">
                                 <div class="pro ms-auto me-auto">
                                     <% if(product.hasVariant){ 
@@ -85,8 +87,7 @@
                                                     <img src="<%=varDocs[j].images%>" alt="<%=product.productName%>">
                                         </div>
                                         <div class="des px-2 text-start" onclick="openProduct( null , '<%=varDocs[j].slugID%>')">
-                                            <span class="prodCat d-block"><%=product.subcategory%></span>
-                                            <span class="prodName"><%=product.productName%></span>
+                                            <span class="prodName mt-1"><%=product.productName%></span>
                                             <div class="prodRating my-1"><i class="fa fa-star"> 4.2</i></div>
                                             <div>
                                                 <span class="prodPrice"><%=varDocs[j].sizes[0].finalPrice%></span>
@@ -123,8 +124,11 @@
                             <% }})%>
                     </div>
                 </div>
-                <%}%>
-                    <input type="hidden" id="firsttab" value="#tab-<%=catArr2[0]%>">
+                <% }) %>
+                    <input type="hidden" id="firsttab" value="#tab-<%=subcatDocs[0]._id%>">
+                    <% } else {%>
+                        <h5>No products found for this category!</h5>
+                        <% } %>
         </div>
     </div>
 
@@ -224,8 +228,7 @@
                                 <div class="accordion-body">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="availability">
-                                        <label class="form-check-label" for="availability">Include Out of
-                                        Stock</label>
+                                        <label class="form-check-label" for="availability">Include Out of Stock</label>
                                     </div>
                                 </div>
                             </div>
@@ -240,27 +243,19 @@
                                 <div class="accordion-body">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="discountRadios" id="discountRadios1" value="1">
-                                        <label class="form-check-label" for="discountRadios1">
-                                        75% or more
-                                    </label>
+                                        <label class="form-check-label" for="discountRadios1">75% or more</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="discountRadios" id="discountRadios2" value="2">
-                                        <label class="form-check-label" for="discountRadios2">
-                                        50% or more
-                                    </label>
+                                        <label class="form-check-label" for="discountRadios2">50% or more</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="discountRadios" id="discountRadios3" value="3">
-                                        <label class="form-check-label" for="discountRadios3">
-                                        25% or more
-                                    </label>
+                                        <label class="form-check-label" for="discountRadios3">25% or more</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="discountRadios" id="discountRadios4" value="4">
-                                        <label class="form-check-label" for="discountRadios4">
-                                        10% or more
-                                    </label>
+                                        <label class="form-check-label" for="discountRadios4">10% or more</label>
                                     </div>
                                 </div>
                             </div>

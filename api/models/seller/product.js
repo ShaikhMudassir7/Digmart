@@ -16,8 +16,8 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'variants'
     }],
-    category: { type: String, required: true },
-    subcategory: { type: String },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+    subcategory: { type: mongoose.Schema.Types.ObjectId, ref: 'subcategory', required: true },
     images: [{ type: String }],
     productName: { type: String, required: true },
     description: { type: String },

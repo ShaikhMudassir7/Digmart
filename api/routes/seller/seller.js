@@ -26,12 +26,12 @@ const middleware = upload.fields([
     { name: 'bankChqPass', maxCount: 1 }
 ])
 
-router.get('/signup', async (req, res) => {
+router.get('/signup', async(req, res) => {
     var catDocs = await Category.find().select("catName _id")
     res.render("./seller/signup", { catsData: catDocs })
 })
 
-router.post('/check', async (req, res) => {
+router.post('/check', async(req, res) => {
     var query = {}
     query[req.body.toCheck] = req.body.val
     var seller = await Seller.findOne(query)
@@ -41,7 +41,7 @@ router.post('/check', async (req, res) => {
         res.json({ result: true })
 })
 
-router.post('/add-seller', middleware, async (req, res) => {
+router.post('/add-seller', middleware, async(req, res) => {
     var mobileOtp = Math.floor(1000 + Math.random() * 9000)
     var emailOtp = Math.floor(1000 + Math.random() * 9000)
     var busname = req.body.busName;
@@ -82,7 +82,7 @@ router.post('/add-seller', middleware, async (req, res) => {
             var file = (req.files[key])[0]
             const imageRef = storage.child("/seller/" + slugId + '-' + key);
             imageRef.put(file.buffer, { contentType: file.mimetype }).then(snapshot => {
-                imageRef.getDownloadURL().then(function (url) {
+                imageRef.getDownloadURL().then(function(url) {
                     sellerAcc[key] = url
                     count++
                     if (count == Object.keys(req.files).length) {
@@ -106,12 +106,12 @@ router.post('/add-seller', middleware, async (req, res) => {
     }
 })
 
-router.get('/authentication/(:slugId)/', async (req, res) => {
+router.get('/authentication/(:slugId)/', async(req, res) => {
     var selDocs = await Seller.findOne({ 'slugID': req.params.slugId })
     res.render("./seller/authentication", { selDocs: selDocs })
 })
 
-router.post('/checkOtp', async (req, res) => {
+router.post('/checkOtp', async(req, res) => {
     var query = {}
     query[req.body.toFind] = req.body.val
     var seller = await Seller.findOne(query)

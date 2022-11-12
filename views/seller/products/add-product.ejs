@@ -38,7 +38,7 @@
                                                             </option>
                                                             <% if(catData.length!=0){
                                                                 catData.forEach(function(data){ %>
-                                                                <option value="<%=data.catName%>" id="element">
+                                                                <option value="<%=data._id%>" id="element">
                                                                     <%=data.catName %>
                                                                 </option>
                                                                 <% }) %>
@@ -144,65 +144,48 @@
         function populate(category, subcategory) {
             var cat = document.getElementById("category");
             var subcat = document.getElementById("subcategory");
-            var subcatValuesArray = testing(cat);
-            subcat.innerHTML = "";
 
-            function testing(cat) {
-                '<% if(catData.length!=0){ var i=1; catData.forEach(function(data){ %>'
-                var catName = '<%=data.catName%>';
-                if (cat.value == catName) {
-                    if ('<%=data.variant%>' == "Unavailable") {
-                        $(("#Images")).remove();
-                        $(("#Quantity")).remove();
-                        $(("#Prices")).remove();
-                        $("#addImagesForNoVariant").prepend(displayFieldImage());
-                        $("#addQuantityForNoVariant").append(displayFieldQuantity());
-                        $("#addPricesForNoVariant").append(displayFieldPrices());
-                        let chooseImage = document.getElementById("addImage")
-                        let addQuantity = document.getElementById("addQuantity")
-                        let actualPrice = document.getElementById("actualPrice")
-                        let finalPrice = document.getElementById("finalPrice")
-                        chooseImage.setAttribute('required', '');
-                        addQuantity.setAttribute('required', '');
-                        actualPrice.setAttribute('required', '');
-                        finalPrice.setAttribute('required', '');
-                    } else {
-                        $(("#Images")).remove();
-                        $(("#Quantity")).remove();
-                        $(("#Prices")).remove();
-                    }
-                    return '<%=data.sub_category%>';
+            '<% if(catData.length!=0){ catData.forEach(function(data){ %>'
+            var catName = '<%=data._id%>';
+            if (cat.value == catName) {
+                if ('<%=data.variant%>' == "Unavailable") {
+                    $(("#Images")).remove();
+                    $(("#Quantity")).remove();
+                    $(("#Prices")).remove();
+                    $("#addImagesForNoVariant").prepend(displayFieldImage());
+                    $("#addQuantityForNoVariant").append(displayFieldQuantity());
+                    $("#addPricesForNoVariant").append(displayFieldPrices());
+                    let chooseImage = document.getElementById("addImage")
+                    let addQuantity = document.getElementById("addQuantity")
+                    let actualPrice = document.getElementById("actualPrice")
+                    let finalPrice = document.getElementById("finalPrice")
+                    chooseImage.setAttribute('required', '');
+                    addQuantity.setAttribute('required', '');
+                    actualPrice.setAttribute('required', '');
+                    finalPrice.setAttribute('required', '');
+                } else {
+                    $(("#Images")).remove();
+                    $(("#Quantity")).remove();
+                    $(("#Prices")).remove();
                 }
-                '<% i++; }) %>'
-                '<% } %>'
+                $.ajax({
+                    url: "/admin/sub-category/get-sub-category/" + cat.value,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(res) {
+                        subcat.innerHTML = "";
+                        res.forEach(function(option) {
+                            var newoption = document.createElement("option");
+                            newoption.value = option._id;
+                            newoption.innerHTML = option.subCatName;
+                            subcat.options.add(newoption);
+                        })
+                    }
+                })
             }
-            var optionsArray = subcatValuesArray.split(", ")
-            for (var option in optionsArray) {
-                var pair = optionsArray[option].split(",")
-                var newoption = document.createElement("option");
-                newoption.value = pair[0];
-                newoption.innerHTML = pair[0];
-                subcat.options.add(newoption);
-            }
+            '<% }) %>'
+            '<% } %>'
         }
-        // function calculate(val1, val2) {
-        //     var actualPrice = document.getElementById("actualPrice").value;
-        //     var discountPct = document.getElementById("discount").value;
-        //     var finalPriceField = document.getElementById("finalPrice");
-
-        //     var total = (actualPrice * discountPct) / 100;
-        //     var finalPrice = actualPrice - total;
-        //     finalPrice = parseInt(finalPrice);
-        //     finalPriceField.value = finalPrice;
-        // }
-
-        // function checkForm(form) {
-        //     if ($('form')[0].checkValidity()) {
-        //         form.submitData.disabled = true;
-        //         form.submitData.innerText = "Please Wait";
-        //         return true;
-        //     }
-        // }
     </script>
 
     <script>

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     var navID = $('#firstnav').val()
     var tabID = $('#firsttab').val()
     $(navID).attr('aria-selected', true);
@@ -18,11 +18,11 @@ function navScroll() {
         $('#navLeft').css('display', 'none')
         $('#navRight').css('display', 'none')
     }
-    $("#navLeft").on("click", function () {
+    $("#navLeft").on("click", function() {
         el.scrollLeft -= 50
     })
 
-    $("#navRight").on("click", function () {
+    $("#navRight").on("click", function() {
         el.scrollLeft += 50
     })
 }
@@ -40,7 +40,7 @@ function wishlist(element, sellerID, productID, variantID, size) {
                     size: size,
                 },
                 dataType: 'json',
-                success: function (result) {
+                success: function(result) {
                     if (result.status)
                         element.classList.add('i-red')
                 }
@@ -56,7 +56,7 @@ function wishlist(element, sellerID, productID, variantID, size) {
                     size: size,
                 },
                 dataType: 'json',
-                success: function (result) {
+                success: function(result) {
                     if (result.status)
                         element.classList.remove('i-red');
                 }
@@ -110,14 +110,14 @@ function sortProd(val, tab) {
             products.forEach((prod) => {
                 if (prod.querySelector(selector) == null) {
                     productsWithout.push(prod)
-                    prod.style.order = products.length 
+                    prod.style.order = products.length
                 } else
                     productsWith.push(prod)
             })
             products = productsWith
         }
 
-        products.sort(function (a, b) {
+        products.sort(function(a, b) {
             a = a.querySelector(selector).innerHTML
             b = b.querySelector(selector).innerHTML
             if (type == 'ascend')
