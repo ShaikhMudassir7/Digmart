@@ -116,7 +116,7 @@ router.post('/paynow', async (req, res) => {
     params['ORDER_ID'] = 'DIG_' + new Date().getTime();
     params['CUST_ID'] = req.session.userID;
     params['TXN_AMOUNT'] = req.body.amount.toString();
-    params['CALLBACK_URL'] = 'http://localhost:3000/checkout/callback';
+    params['CALLBACK_URL'] = 'http://localhost:8080/checkout/callback';
     params['EMAIL'] = address.email;
     params['MOBILE_NO'] = req.session.mobile.toString();
 
