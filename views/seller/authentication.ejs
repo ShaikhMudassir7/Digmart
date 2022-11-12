@@ -41,7 +41,7 @@
                             </div>
                             <div class="text-center mt-3" id="mobResendstr">
                                 <span class="d-block mobile-text">Didn't receive the code?</span>
-                                <span id="mobResend" onclick="sendOTP(1,'<%= selDocs.busMobile%>')" class="timer-inactive">Resend</span>
+                                <span id="mobResend" onclick="generateOTP('busMobile','<%=selDocs.busMobile%>','mobileOtp')" class="timer-inactive">Resend</span>
                                 <span id="mobTimer"></span>
                             </div>
                         </div>
@@ -69,13 +69,14 @@
                             </div>
                             <div class="text-center mt-3" id="emailResendstr">
                                 <span class="d-block mobile-text">Didn't receive the code?</span>
-                                <span id="emailResend" onclick="sendOTP(2,'<%= selDocs.busEmail%>')"  class="timer-inactive">Resend</span>
+                                <span id="emailResend" onclick="generateOTP('busEmail','<%=selDocs.busEmail%>','emailOtp')" class="timer-inactive">Resend</span>
                                 <span id="emailTimer"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <input type="hidden" name="slugID" id="slugID" value="<%= selDocs.slugID%>">
             <input type="hidden" name="hidMobile" id="hidMobile" value="<%= selDocs.busMobile%>">
             <div class="row">
                 <div class="text-center mt-3 mb-3">
@@ -84,11 +85,9 @@
             </div>
         </form>
     </div>
-
 </body>
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/js/form-validator.js"></script>
 <script src="/js/seller/authentication.js"></script>
-
 </html>

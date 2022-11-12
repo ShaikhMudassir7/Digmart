@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const sellerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     slugID: { type: String, required: false },
-
+    plan: { type: String, default: "Basic" },
     status: { type: String, default: "Authentication" },
 
     pFname: { type: String, required: true },

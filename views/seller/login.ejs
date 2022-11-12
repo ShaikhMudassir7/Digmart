@@ -23,30 +23,29 @@
                     <div class="mb-3 text-start">
                         <label for="busMobile" class="form-label">Enter registered Mobile No. / Email-ID</label>
                         <div class="input-group mb-2">
-                            <input type="text" id="credential" name="credential" class="form-control" placeholder="Mobile No. / Email-ID" style="width: 80%;">
+                            <input type="text" id="val" class="form-control w-100" placeholder="Mobile No. / Email-ID">
                             <small id="err" class="form-text text-muted" style="display: none;">
                                 <span id="errMsg" class="text-danger"></span></small>
                         </div>
                     </div>
-                    <button type="button" onclick="sendOTP()" class="btn btn-primary btn1 width-50 ml-auto">Get
+                    <button type="button" onclick="sendOTP()" class="btn btn-primary btn1 width-50 ml-auto">Request
                         OTP</button>
                     <p class="mt-2 text-muted">Don't have account yet? <a href="/seller/signup">Signup</a></p>
                 </div>
             </div>
         </div>
-
+        <input type="hidden" id="slugID" name="slugID" value="">
         <!-- Mobile OTP Modal -->
         <div class="modal fade" id="mobileModal" role="dialog" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-start">
-                        <form action="/seller/login" method="post">
                             <div class="d-flex justify-content-center align-items-center ">
                                 <div class="card py-5 px-3 mb-0">
                                     <h3 class="text-center mb-4">Mobile No. verification</h3>
                                     <span class="mobile-text">Enter the code we just sent on your Mobile Number<br>
                                         <b id="busMobile" style="color: rgb(11, 78, 179);">
-
+                                            +91 
                                         </b></span>
                                     <div class="d-flex flex-row mt-4">
                                         <input id="mobOtp1" name="mobOtp1" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" autofocus="" required>
@@ -54,9 +53,8 @@
                                         <input id="mobOtp3" name="mobOtp3" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" required>
                                         <input id="mobOtp4" name="mobOtp4" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" required>
                                     </div>
-                                    <input type="hidden" name="hidMobile" id="hidMobile" value="">
                                     <div class="text-center mt-3 mb-3">
-                                        <button id="submit1" type="submit" class="btn btn-primary" disabled="true" style="width: 35%;">Submit</button>
+                                        <button id="submit1" type="button" class="btn btn-primary" disabled="true" style="width: 35%;" onclick="submitLogin()">Submit</button>
                                     </div>
                                     <div class="text-center mt-2" id="mobResendstr">
                                         <span class="d-block mobile-text">Didn't receive the code?</span>
@@ -65,7 +63,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -76,7 +73,6 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-start">
-                        <form action="/seller/login" method="post">
                             <div class="d-flex justify-content-center align-items-center ">
                                 <div class="card py-5 px-3 mb-0">
                                     <h3 class="text-center mb-4">Email verification</h3>
@@ -90,11 +86,9 @@
                                         <input id="emailOtp3" name="emailOtp3" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" required>
                                         <input id="emailOtp4" name="emailOtp4" type="text" class="text-center form-control m-2" pattern="[0-9]{1}" maxlength="1" required>
                                     </div>
-                                    <input type="hidden" name="hidEmail" id="hidEmail" value="">
                                     <div class="text-center mt-3 mb-3">
-                                        <button id="submit2" type="submit" class="btn btn-primary" disabled="true" style="width: 35%;">Submit</button>
+                                        <button id="submit2" type="button" class="btn btn-primary" disabled="true" style="width: 35%;" onclick="submitLogin()">Submit</button>
                                     </div>
-
                                     <div class="text-center mt-2" id="emailResendstr">
                                         <span class="d-block mobile-text">Didn't receive the code?</span>
                                         <span id="emailResend" onclick="sendOTP()" class="timer-inactive">Resend</span>
@@ -102,7 +96,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>

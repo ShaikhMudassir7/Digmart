@@ -1,11 +1,3 @@
-const mobOtp1 = document.getElementById('mobOtp1');
-const mobOtp2 = document.getElementById('mobOtp2');
-const mobOtp3 = document.getElementById('mobOtp3');
-const mobOtp4 = document.getElementById('mobOtp4');
-const emailOtp1 = document.getElementById('emailOtp1');
-const emailOtp2 = document.getElementById('emailOtp2');
-const emailOtp3 = document.getElementById('emailOtp3');
-const emailOtp4 = document.getElementById('emailOtp4');
 const submit = document.getElementById('submit');
 const busMobile = document.getElementById('hidMobile').value
 const busEmail = document.getElementById('busEmail').innerHTML.trim();
@@ -190,35 +182,28 @@ function emailTimerFunc(remaining) {
   }
 }
 
-function sendOTP(check, val) {
-  if (check == 1) {
-    $.ajax({
-      url: "/seller/sendMobileOtp?busMobile=" + val,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      success: function (res) {
-        if (res.status == 1) {
-          mobTimer.style.display = "inline"
-          mobResend.classList.remove('timer-active')
-          mobResend.classList.add('timer-inactive')
-          mobTimerFunc(30);
-        }
+function generateOTP(toFind, val, toCheck) {
+  $.ajax({
+    url: "/seller/generateOtp",
+    type: "POST",
+    data: {
+      toFind: toFind,
+      val: val,
+      toCheck: toCheck,
+    },
+    dataType: 'json',
+    success: function (res) {
+      if ((res.status) && (res.toFind == 'busMobile')) {
+        mobTimer.style.display = "inline"
+        mobResend.classList.remove('timer-active')
+        mobResend.classList.add('timer-inactive')
+        mobTimerFunc(30);
+      } else if ((res.status) && (res.toFind == 'busEmail')){
+        emailTimer.style.display = "inline"
+        emailResend.classList.remove('timer-active')
+        emailResend.classList.add('timer-inactive')
+        emailTimerFunc(30);
       }
-    })
-  } else {
-    $.ajax({
-      url: "/seller/sendEmailOtp?busEmail=" + val,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      success: function (res) {
-        if (res.status == 1) {
-          emailTimer.style.display = "inline"
-          emailResend.classList.remove('timer-active')
-          emailResend.classList.add('timer-inactive')
-          emailTimerFunc(30);
-        }
-      }
-    })
-  }
-
+    }
+  })
 }
