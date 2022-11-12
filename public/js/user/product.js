@@ -103,16 +103,34 @@ var swiper = new Swiper(".swiper", {
     },
 });
 
-function check() {
+function check(productID) {
     $.ajax({
         url: "/review/checkprof",
         type: "POST",
+        data: {
+            productID: productID,
+        },
         dataType: 'json',
         success: function(result) {
             if (result.status) {
                 if (result.status == 'login') {
                     $('#loginpopup').modal('show');
-                } else {
+                }
+                else if(result.status == 'Reviewed'){
+                    swal({
+                        title: "You have already reviewd the Product",
+                        icon: "info",
+                        type: "warning",
+                    })
+                } 
+                else if(result.status == 'noOrders'){
+                    swal({
+                        title: "Sorry! You have not ordered this product so You cant give your Feedback",
+                        icon: "info",
+                        type: "warning",
+                    })
+                }
+                else {
                     $('#review-modal').modal('show');
                 }
             } else {
@@ -127,4 +145,15 @@ function check() {
             }
         }
     })
+}
+
+function show(element){
+    var hidden = document.getElementById("hidden-reviews");
+    if(hidden.style.display == "none"){
+        hidden.style.display = "inline"
+        element.innerHTML="Hide Reviews"
+    }else{
+        hidden.style.display = "none"
+        element.innerHTML="View All reviews"
+    }
 }

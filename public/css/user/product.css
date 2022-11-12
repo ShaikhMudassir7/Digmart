@@ -1,11 +1,48 @@
 body {
     background-color: rgb(234, 229, 229);
+
+}
+
+.divide-cont ::-webkit-scrollbar {
+    width: 10px;
+}
+
+.divide-cont ::-webkit-scrollbar-thumb{
+    background: rgb(230, 227, 227);
+}
+
+.divide-cont {
+    width: 100%;
+    height: 85vh;
+    padding: 20px;
+}
+
+#a {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    vertical-align: top;
+}
+
+#b {
+    box-sizing: border-box;
+    padding: 20px;
+    padding-top: 0px;
+    padding-right: 0px;
+    display: inline-block;
+    width: 48%;
+    height: 100%;
+    vertical-align: top;
+    text-align: justify;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 @media screen and (min-width: 767px) {
     .imgchgsize {
         min-height: 450px;
-        max-height: 450px;
+        max-height: 250px;
         padding: 10px;
     }
 
@@ -16,6 +53,7 @@ body {
     .imgslidechgsize {
         min-height: 100px;
         max-height: 100px;
+        width: 20%;
     }
 
     .imgslidechgsize img {
@@ -27,16 +65,23 @@ body {
     }
 }
 
-#review-img{
+#review-img {
     display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
-#review-img img{
+#review-img img {
     width: 150px;
+    height: 100px;
     cursor: pointer;
+}
+
+.rating-div span{
+    font-size: 10px;
+    margin-left: 30px;
+    color:white
 }
 
 .crousel-btn {
@@ -44,19 +89,32 @@ body {
     color: indigo
 }
 
-.header-color{
-    color:white; 
+.header-color {
+    color: white;
     background-color: #1e686dfa;
     cursor: pointer;
-}  
-
-.header-color b {
-  color:white;
 }
 
-.rate-btn{
-    float: right; 
-    background-color: white; 
+#b button:hover{
+    transform: scale(1.1);
+}
+
+#view-reviews{
+    color: blue;
+    cursor: pointer;
+}
+
+#b .accordion-button:hover{
+    transform: scale(1);
+}
+
+.header-color b{
+    color: white;
+}
+
+.rate-btn {
+    float: right;
+    background-color: white;
     color: #1e686dfa;
 }
 
@@ -75,7 +133,7 @@ body {
     cursor: pointer;
 }
 
-.add-cart, .add-wishlist{
+.add-cart {
     background: #41878c9e;
     color: #194346fa;
     font-family: Okra, Helvetica, sans-serif;
@@ -83,6 +141,7 @@ body {
     cursor: pointer;
     border-color: #1e686dfa;
 }
+
 .colorbutton {
 
     color: #000;
@@ -125,6 +184,7 @@ body {
     font-size: 30px;
     margin-top: 5px;
     margin-left: 5px;
+    margin-right: 10px;
     color: rgb(212, 209, 209);
     transition: all 0.5s;
 }
@@ -136,7 +196,7 @@ body {
 .share-options {
     position: absolute;
     top: 15%;
-    right: 11%;
+    right: 14%;
     width: auto;
     max-width: 260px;
     height: auto;

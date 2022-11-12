@@ -3,7 +3,7 @@ const reviewSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     userID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'profile_informations',
+        ref: 'user',
         required: true
     },
     sellerID: {
