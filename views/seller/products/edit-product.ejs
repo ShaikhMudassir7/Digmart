@@ -18,13 +18,9 @@
 
 <body>
     <div class="wrapper">
-        <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
-            <!-- end of sidebar component -->
             <div id="body" class="active">
-                <!-- navbar navigation component -->
                 <%- include('../navbar') %>
-                    <!-- end of navbar navigation -->
                     <div class="content">
                         <div class="container">
                             <div class="row">
@@ -409,25 +405,6 @@
                 subcat.options.add(newoption);
             }
         }
-
-        function calculate(val1, val2) {
-            var actualPrice = document.getElementById("actualPrice").value;
-            var discountPct = document.getElementById("discount").value;
-            var finalPriceField = document.getElementById("finalPrice");
-
-            var total = (actualPrice * discountPct) / 100;
-            var finalPrice = actualPrice - total;
-            finalPrice = parseInt(finalPrice);
-            finalPriceField.value = finalPrice;
-        }
-
-        function checkForm(form) {
-            if ($('form')[0].checkValidity()) {
-                form.submitData.disabled = true;
-                form.submitData.innerText = "Please Wait";
-                return true;
-            }
-        }
     </script>
 
     <script>
@@ -591,6 +568,7 @@
     <script src="/js/form-validator.js"></script>
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/seller/productCalc.js"></script>
 </body>
 
 </html>

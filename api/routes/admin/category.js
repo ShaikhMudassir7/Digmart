@@ -22,6 +22,7 @@ router.get('/', checkAuth, async(req, res) => {
     res.render('./admin/category/category', { categoryData: docs, userType: req.session.type, userName: req.session.name })
 })
 
+<<<<<<< HEAD
 router.get('/add-category', checkAuth, async(req, res, next) => {
     const documents = await Category.find().exec()
     res.render("./admin/category/add", { catData: documents, userType: req.session.type, userName: req.session.name })
@@ -44,10 +45,42 @@ router.post("/add-category", [checkAuth, catUpload], async(req, res) => {
         })
     } catch (err) {
         console.log(err);
+=======
+router.get('/add-category', checkAuth, async (req, res, next) => {
+    const documents = await Category.find().select().exec()
+    res.render("./admin/category/add", { catData: documents, userType: req.session.type, userName: req.session.name })
+})
+
+router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
+
+    const doc = await Category.find({ catName: req.body.catName }).select().exec()
+    if (doc.length > 0) {
+        res.send({ catNameExists: true })
+    }
+    else {
+        try {
+            var catFile = req.files.catImage[0]
+            const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
+            await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
+            var url = await imageRef.getDownloadURL()
+            var categoryData = new Category({
+                _id: mongoose.Types.ObjectId(),
+                catImage: url,
+                catName: req.body.catName,
+                sub_category: req.body.sub_category,
+                variant: req.body.variant
+            })
+            categoryData.save().then((result) => {
+                res.redirect("/admin/category")
+            })
+        } catch (err) {
+            console.log(err);
+        }
+>>>>>>> c4c6eced382131ef90abbcba912ca4f21da1368a
     }
 })
 
-router.get('/edit-category/:catID', [checkAuth, catUpload], async(req, res, next) => {
+router.get('/edit-category/:catID', [checkAuth, catUpload], async (req, res, next) => {
     const id = req.params.catID
     const documents = await Category.find().select().exec()
 

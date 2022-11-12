@@ -16,13 +16,9 @@
 
 <body>
     <div class="wrapper">
-        <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
-            <!-- end of sidebar component -->
             <div id="body" class="active">
-                <!-- navbar navigation component -->
                 <%- include('../navbar') %>
-                    <!-- end of navbar navigation -->
                     <div class="content">
                         <div class="container">
                             <div class="row">
@@ -33,7 +29,12 @@
                                             <form action="/admin/category/add-category" method="post" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="catImage" class="form-label">Category Image</label>
+<<<<<<< HEAD
                                                     <input type="file" name="catImage" class="form-control" id="catImage" accept="image/*" required>
+=======
+                                                    <input type="file" name="catImage" class="form-control"
+                                                        id="catImage" accept="image/*" required>
+>>>>>>> c4c6eced382131ef90abbcba912ca4f21da1368a
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="catName" class="form-label">Category Name</label>

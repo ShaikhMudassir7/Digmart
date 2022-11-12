@@ -31,7 +31,7 @@
 
                                             <form action="/seller/products/variant/add-variant/<%=id %>"
                                                 enctype="multipart/form-data" id="addVariantForm" method="post"
-                                                onsubmit="return checkForm(this);" class="needs-validation" novalidate
+                                                onsubmit="return checkFormVariant(this);" class="needs-validation" novalidate
                                                 accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
@@ -204,9 +204,9 @@
 
     <script>
         function moreItems(counter) {
-            var moreItems =
-                `<div class="row g-2" id="itemsRow` + counter + `">
-        <div class="mb-3 col-md-2">
+        var moreItems =
+        `<div class="row g-2" id="itemsRow` + counter + `">
+            <div class="mb-3 col-md-2">
             <% if(productData.category == "Boys Wear" || productData.category == "Girls Wear"){%>
                 <select name="sizes[]" class="form-select" required>
                     <option value="">
@@ -315,69 +315,6 @@
                 })
             });
         });
-
-        var checkSizes = [];
-        $(document).on('click', '#submitVariantData', function (e) {
-            var sizesElements = document.getElementsByName("sizes[]");
-            var noEmptyElement = true
-            for (var i = 0; i < sizesElements.length; i++) {
-                checkSizes.push(sizesElements[i].value)
-            }
-            if (checkSizes.includes("")) {
-                noEmptyElement = false
-            }
-            var hasDuplicateSizes = hasDuplicates(checkSizes);
-            if (hasDuplicateSizes && noEmptyElement) {
-                e.preventDefault();
-                swal({
-                    title: "You cannot insert duplicate sizes.",
-                    icon: "warning",
-                    dangerMode: true,
-                })
-            }
-            checkSizes = [];
-        });
-
-        function hasDuplicates(checkSizes) {
-            if (checkSizes.length != new Set(checkSizes).size) {
-                return true;
-            }
-            return false;
-        }
-    </script>
-
-    <script>
-        function calculateMoreFields(val1, val2, counter) {
-            var actualPrice = document.getElementById("actualPrice" + counter).value;
-            var discountPct = document.getElementById("discount" + counter).value;
-            var finalPriceField = document.getElementById("finalPrice" + counter);
-
-            var total = (actualPrice * discountPct) / 100;
-            var finalPrice = actualPrice - total;
-            finalPrice = parseInt(finalPrice);
-            finalPriceField.value = finalPrice;
-        }
-
-        function calculate(val1, val2) {
-            var actualPrice = document.getElementById("actualPrice").value;
-            var discountPct = document.getElementById("discount").value;
-            var finalPriceField = document.getElementById("finalPrice");
-
-            var total = (actualPrice * discountPct) / 100;
-            var finalPrice = actualPrice - total;
-            if (!Number.isInteger(finalPrice)) {
-                finalPrice = finalPrice.toFixed(2)
-            }
-            finalPriceField.value = finalPrice;
-        }
-        
-        function checkForm(form) {
-            if ($('form')[0].checkValidity()) {
-                form.submitVariantData.disabled = true;
-                form.submitVariantData.innerText = "Please Wait";
-                return true;
-            }
-        }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -385,6 +322,8 @@
     <script src="/js/form-validator.js"></script>
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/seller/productCalc.js"></script>
+    <script src="/js/seller/variantCalc.js"></script>
 
 </body>
 
