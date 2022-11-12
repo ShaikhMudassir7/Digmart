@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/addresses', checkAuth, async (req, res) => {
-    var docs = await Address.find().select().exec()
+    var docs = await Address.find({ userID: req.session.userID }).select().exec();
     res.render('./user/account-addresses', { addressData: docs, user: req.session.userID, noSearch: true })
 })
 

@@ -10,7 +10,7 @@ router.get('/view-product/(:id)', async (req, res) => {
     var element = await Products.findOne({ slugID: slugid })
     await Products.updateOne({ _id: element._id }, { $inc: { "views": 1 } })
     var docs = await Variants.find({ prodID: element._id })
-    var review = await Review.find({productID: element._id})
+    var review = await Review.find({productID: element._id}).sort({"rating": -1}).populate('userID')
     if(review.length != 0){
         var rat1 = await Review.find({rating : '1',productID: element._id})
         var rat2 = await Review.find({rating : '2',productID: element._id})
@@ -32,7 +32,7 @@ router.get('/variant/(:variantslugID)', async(req, res) => {
     var element = await Products.findOne({ _id: varelement.prodID })
     await Products.updateOne({ _id: element._id }, { $inc: { "views": 1 } })
     var vd = await Variants.find({ prodID: varelement.prodID })
-    var review = await Review.find({productID:varelement.prodID})
+    var review = await Review.find({productID:varelement.prodID}).sort({"rating": -1}).populate('userID')
     if(review.length != 0){
         var rat1 = await Review.find({rating : '1',productID:varelement.prodID})
         var rat2 = await Review.find({rating : '2',productID:varelement.prodID})

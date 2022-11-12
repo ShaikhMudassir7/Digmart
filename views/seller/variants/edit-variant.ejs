@@ -34,7 +34,7 @@
                                         <div class="card-header fw-bold bg-dark text-light">EDIT VARIANT</div>
                                         <div class="card-body">
                                             <form enctype="multipart/form-data" id="editVariantForm"
-                                                onsubmit="return checkForm(this);" method="post"
+                                                onsubmit="return checkFormVariant(this);" method="post"
                                                 class="needs-validation" novalidate accept-charset="utf-8">
                                                 <div class="row g-2">
                                                     <div class="mb-3 col-md-12">
@@ -152,20 +152,45 @@
                                                     <% for (let i in variantData.sizes){ %>
                                                         <div class="row g-2">
                                                             <div class="mb-3 col-md-2">
-                                                                <select name="sizes[]" class="form-select sizes"
-                                                                    required>
-                                                                    <option value="">---Choose Size---</option>
-                                                                    <option value="<%=variantData.sizes[i].sizes %>"
-                                                                        selected>
-                                                                        <%=variantData.sizes[i].sizes %>
-                                                                    </option>
-                                                                    <option value="XS">XS</option>
-                                                                    <option value="S">S</option>
-                                                                    <option value="M">M</option>
-                                                                    <option value="L">L</option>
-                                                                    <option value="XL">XL</option>
-                                                                    <option value="XXL">XXL</option>
-                                                                </select>
+                                                                <select name="sizes[]" class="form-select" required>
+                                                                <% if(productData.category=="Boys Wear" ||
+                                                                productData.category=="Girls Wear" ){%>
+                                                                        <option value="">
+                                                                            ---Choose Size---
+                                                                        </option>
+                                                                        <option value="<%=variantData.sizes[i].sizes %>"
+                                                                            selected>
+                                                                            <%=variantData.sizes[i].sizes %>
+                                                                        </option>
+                                                                        <option value="1 - 2 Years">1 - 2 Years</option>
+                                                                        <option value="2 - 3 Years">2 - 3 Years</option>
+                                                                        <option value="3 - 4 Years">3 - 4 Years</option>
+                                                                        <option value="4 - 5 Years">4 - 5 Years</option>
+                                                                        <option value="5 - 6 Years">5 - 6 Years</option>
+                                                                        <option value="6 - 7 Years">6 - 7 Years</option>
+                                                                        <option value="7 - 8 Years">7 - 8 Years</option>
+                                                                        <option value="8 - 9 Years">8 - 9 Years</option>
+                                                                        <option value="9 - 10 Years">9 - 10 Years</option>
+                                                                        <option value="10 - 11 Years">10 - 11 Years</option>
+                                                                        <option value="11 - 12 Years">11 - 12 Years</option>
+                                                                        <option value="12 - 13 Years">12 - 13 Years</option>
+                                                                    </select>
+                                                                    <% } else { %>
+                                                                            <option value="">
+                                                                                ---Choose Size---
+                                                                            </option>
+                                                                            <option value="<%=variantData.sizes[i].sizes %>"
+                                                                                selected>
+                                                                                <%=variantData.sizes[i].sizes %>
+                                                                            </option>
+                                                                            <option value="XS">XS</option>
+                                                                            <option value="S">S</option>
+                                                                            <option value="M">M</option>
+                                                                            <option value="L">L</option>
+                                                                            <option value="XL">XL</option>
+                                                                            <option value="XXL">XXL</option>
+                                                                        </select>
+                                                                        <% } %>
                                                             </div>
 
                                                             <div class="mb-3 col-md-2">
@@ -396,66 +421,6 @@
                 dangerMode: true,
             })
         }
-
-        var checkSizes = [];
-        $(document).on('click', '#submitVariantData', function (e) {
-            var sizesElements = document.getElementsByName("sizes[]");
-            var noEmptyElement = true
-            for (var i = 0; i < sizesElements.length; i++) {
-                checkSizes.push(sizesElements[i].value)
-            }
-            if (checkSizes.includes("")) {
-                noEmptyElement = false
-            }
-            var hasDuplicateSizes = hasDuplicates(checkSizes);
-            if (hasDuplicateSizes && noEmptyElement) {
-                e.preventDefault();
-                swal({
-                    title: "You cannot insert duplicate sizes.",
-                    icon: "warning",
-                    dangerMode: true,
-                })
-            }
-            checkSizes = [];
-        });
-
-        function hasDuplicates(checkSizes) {
-            if (checkSizes.length != new Set(checkSizes).size) {
-                return true;
-            }
-            return false;
-        }
-    </script>
-
-    <script>
-        function calculateMoreFields(val1, val2, counter) {
-            var actualPrice = document.getElementById("actualPrice" + counter).value;
-            var discountPct = document.getElementById("discount" + counter).value;
-            var finalPriceField = document.getElementById("finalPrice" + counter);
-
-            var total = (actualPrice * discountPct) / 100;
-            var finalPrice = actualPrice - total;
-            finalPriceField.value = finalPrice;
-        }
-
-        function calculate(val1, val2) {
-            var actualPrice = document.getElementById("actualPrice").value;
-            var discountPct = document.getElementById("discount").value;
-            var finalPriceField = document.getElementById("finalPrice");
-
-            var total = (actualPrice * discountPct) / 100;
-            var finalPrice = actualPrice - total;
-            finalPrice = parseInt(finalPrice);
-            finalPriceField.value = finalPrice;
-        }
-
-        function checkForm(form) {
-            if ($('form')[0].checkValidity()) {
-                form.submitVariantData.disabled = true;
-                form.submitVariantData.innerText = "Please Wait";
-                return true;
-            }
-        }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -463,6 +428,8 @@
     <script src="/js/form-validator.js"></script>
     <script src="/js/initiate-datatables.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/seller/productCalc.js"></script>
+    <script src="/js/seller/variantCalc.js"></script>
 </body>
 
 </html>

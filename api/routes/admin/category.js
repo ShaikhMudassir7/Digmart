@@ -30,15 +30,19 @@ router.get('/', checkAuth, (req, res) => {
         })
 })
 
-router.get('/add-category', checkAuth, async(req, res, next) => {
+router.get('/add-category', checkAuth, async (req, res, next) => {
     const documents = await Category.find().select().exec()
     res.render("./admin/category/add", { catData: documents, userType: req.session.type, userName: req.session.name })
 })
 
 router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
-    const { catName } = req.body;
 
-    try {
+    const doc = await Category.find({ catName: req.body.catName }).select().exec()
+    if (doc.length > 0) {
+        res.send({ catNameExists: true })
+    }
+    else {
+        try {
             var catFile = req.files.catImage[0]
             const imageRef = storage.child("/categories/" + (catFile.fieldname + '-' + Date.now() + catFile.originalname));
             await imageRef.put(catFile.buffer, { contentType: catFile.mimetype })
@@ -53,19 +57,20 @@ router.post("/add-category", [checkAuth, catUpload], async (req, res) => {
             categoryData.save().then((result) => {
                 res.redirect("/admin/category")
             })
-    } catch (err) {
-        console.log(err);
+        } catch (err) {
+            console.log(err);
+        }
     }
 })
 
-router.get('/edit-category/:catID', [checkAuth, catUpload], async(req, res, next) => {
+router.get('/edit-category/:catID', [checkAuth, catUpload], async (req, res, next) => {
     const id = req.params.catID
     const documents = await Category.find().select().exec()
 
     Category.findById(id,
         (err, doc) => {
             if (!err) {
-                res.render('./admin/category/edit', {catData: documents, categoryData: doc, userType: req.session.type, userName: req.session.name })
+                res.render('./admin/category/edit', { catData: documents, categoryData: doc, userType: req.session.type, userName: req.session.name })
             } else {
                 res.send('try-again')
             }

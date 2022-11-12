@@ -6,6 +6,7 @@ const multer = require("multer");
 const Review = require('../../models/user/reviews');
 const User = require('../../models/user/user');
 const Products = require('../../models/seller/product');
+const OrderItem = require('../../models/user/order_item')
 
 const firebase = require("../../utils/firebase");
 const storage = firebase.storage().ref();
@@ -14,7 +15,7 @@ var upload = multer({ storage: store });
 
 var imgUpload = upload.fields([{ name: "images", maxCount: 4 }]);
 
-router.post('/', [imgUpload] , async (req, res) => {
+router.post('/', [imgUpload], async (req, res) => {
     var user = await User.findById(req.session.userID).select('fullName')
     var prod = await Products.findById(req.body.productID).select('slugID')
     var rawSS = req.files.images;
@@ -44,7 +45,7 @@ router.post('/', [imgUpload] , async (req, res) => {
         })
 
         await reviewdata.save()
-        res.redirect('/product/view-product/'+prod.slugID);
+        res.redirect('/product/view-product/' + prod.slugID);
     }
     else {
         var reviewdata = new Review({
@@ -52,27 +53,38 @@ router.post('/', [imgUpload] , async (req, res) => {
             userID: req.session.userID,
             sellerID: req.body.sellerID,
             productID: req.body.productID,
-            rating: req.body.rating,
+            rating: req.body.btnradio,
             date: currentDate,
             reviewHeadline: req.body.reviewHeadline,
             reviewText: req.body.reviewText
         })
 
         await reviewdata.save()
-        res.redirect('/product/view-product/'+prod.slugID);
+        res.redirect('/product/view-product/' + prod.slugID);
     }
 })
 
-router.post('/checkprof' , async (req, res) => {
-    if(req.session.userID){
+router.post('/checkprof', async (req, res) => {
+    if (req.session.userID) {
         var user = await User.findById(req.session.userID).select('fullName')
-        if(user.fullName){
-            res.json({ status: true });
+        if (user.fullName) {
+            var order = await OrderItem.find({ userID: req.session.userID, productID: req.body.productID })
+            if (order.length != 0) {
+                var prod = await Review.find({ userID: req.session.userID, productID: req.body.productID })
+                if (prod.length != 0) {
+                    res.json({ status: "Reviewed" });
+                } else {
+                    res.json({ status: true });
+                }
+            } else {
+                res.json({ status: "noOrders" });
+            }
+
         }
-        else{
+        else {
             res.json({ status: false });
         }
-    }else{
+    } else {
         res.json({ status: "login" });
     }
 })

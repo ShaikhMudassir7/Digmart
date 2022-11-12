@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="/img/favicon.png">
-    <title>Add Categroy</title>
+    <title>Add Category</title>
     <link href="/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -16,13 +16,9 @@
 
 <body>
     <div class="wrapper">
-        <!-- sidebar navigation component -->
         <%- include('../sidebar') %>
-            <!-- end of sidebar component -->
             <div id="body" class="active">
-                <!-- navbar navigation component -->
                 <%- include('../navbar') %>
-                    <!-- end of navbar navigation -->
                     <div class="content">
                         <div class="container">
                             <div class="row">
@@ -34,8 +30,8 @@
                                                 enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="catImage" class="form-label">Category Image</label>
-                                                    <input type="file" name="catImage" class="form-control" id="catImage"
-                                                        accept="image/*" required>
+                                                    <input type="file" name="catImage" class="form-control"
+                                                        id="catImage" accept="image/*" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="catName" class="form-label">Category Name</label>
