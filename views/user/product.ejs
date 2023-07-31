@@ -140,7 +140,7 @@
                                                             <strong>Color</strong><br>
                                                             <div class="btn-group mb-3" role="group" aria-label="Basic mixed styles example">
                                                                 <%var i=0; variantsData.forEach(function(data){ %>
-                                                                    <button type="button" id="<%= i%>color" onclick="window.location.href='/product/variant/<%=data.slugID %>'" name="<%=data.colours %>" style="background-color: <%=data.colours %> ;" class="color-btn btn border border-dark"></button>
+                                                                    <button type="button" id="<%= i%>color" onclick="window.location.href='/product/variant/<%=data.slugID %>'" name="<%=data.colours %>" style="background-color: '<%=data.colours %>'" class="color-btn btn border border-dark"></button>
                                                                     <% i++;}) %>
                                                             </div><br>
 
