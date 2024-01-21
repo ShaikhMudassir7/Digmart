@@ -50,7 +50,7 @@ router.post('/add-seller', middleware, async (req, res) => {
     var busname = req.body.busName;
     var slugId = busname.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
     console.log("Mobile = " + mobileOtp + "\nEmail = " + emailOtp)
-    var excepArr = ['9324326404', '8898413414', '9137242482', '9821474946']
+    var excepArr = ['7738408767']
     if (!excepArr.includes(req.body.busMobile)) {
         await sendMobileOtp({ mobile: req.body.busMobile, otp: mobileOtp })
         await sendEmail({ email: req.body.busEmail, subj: 'DigMart - Email Authentication', msg: "Your OTP for Email Authentication is " + emailOtp })
@@ -138,7 +138,7 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/sendOtp', async (req, res) => {
-    var excepArr = ['dsouzaglen30@gmail.com', 'hatimsb11@gmail.com', 'hawaiza27@gmail.com', '9324326404', '8898413414', '9137242482', '9821474946']
+    var excepArr = ['send2mudassir@gmail.com','7738408767']
     var query = {}
     query[req.body.toFind] = req.body.val
     var seller = await Seller.find(query)

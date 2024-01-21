@@ -43,14 +43,18 @@ app.use(
     })
 );
 
-mongoose.connect(
-    "mongodb+srv://entwicklera:" +
-    process.env.MONGO_PASS +
-    "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }
-);
+// mongoose.connect(
+//     "mongodb+srv://entwicklera:" +
+//     process.env.MONGO_PASS +
+//     "@cluster0.ns4yy5i.mongodb.net/?retryWrites=true&w=majority", {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//     }
+// );
+mongoose.connect(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -22,28 +22,42 @@ router.post('/login', async(req, res) => {
             message: "Admin Not found",
         });
     } else {
-        bcrypt.compare(req.body.pass, user[0].pass, (err, result) => {
-            if (err) {
-                res.send({
-                    message: err,
-                });
-            }
-            if (result) {
-                req.session.name = user[0].name;
-                req.session.email = user[0].email;
-                req.session.type = user[0].type;
-                req.session.admin_id = user[0]._id;
-                const token = jwt.sign({
-                    "id": user[0]._id
-                }, process.env.JWT_KEY, {}, );
-                req.session.jwttoken = token;
-                res.redirect('dashboard');
-            } else {
-                res.send({
-                    message: "Wrong Password",
-                });
-            }
-        });
+        
+        // bcrypt.compare(req.body.pass, user[0].pass, (err, result) => {
+        //     if (err) {
+        //         // res.send({
+        //         //     message: err,
+        //         // });
+        //         console.log( user[0].pass+" "+req.body.pass);
+        //     }
+        //     if (result) {
+        //         req.session.name = user[0].name;
+        //         req.session.email = user[0].email;
+        //         req.session.type = user[0].type;
+        //         req.session.admin_id = user[0]._id;
+        //         const token = jwt.sign({
+        //             "id": user[0]._id
+        //         }, process.env.JWT_KEY, {}, );
+        //         req.session.jwttoken = token;
+        //         res.redirect('dashboard');
+        //     } else {
+        //         res.send({
+        //             message: "Wrong Password",
+        //         });
+        //     }
+        // }
+        if (req.body.pass === user[0].pass) {
+            // Passwords match, proceed with login logic
+            req.session.name = user[0].name;
+            req.session.email = user[0].email;
+            req.session.type = user[0].type;
+            req.session.admin_id = user[0]._id;
+            const token = jwt.sign({ "id": user[0]._id }, process.env.JWT_KEY, {}, );
+            req.session.jwttoken = token;
+            res.redirect('dashboard');
+          } else {
+            res.send({ message: "Wrong Password" });
+          }
     }
 })
 
